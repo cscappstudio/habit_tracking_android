@@ -1,13 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:id="@+id/frame"
-        android:layout_width="match_parent"
-        android:background="@color/black"
-        android:layout_height="match_parent"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--    <androidx.appcompat.widget.AppCompatImageView-->
+        <!--        android:id="@+id/appCompatImageView"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:background="@drawable/bg_header_today"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--    <TextView-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:text="Today"-->
+        <!--        android:textSize="@dimen/_15ssp"-->
+        <!--        android:fontFamily="@font/montserratalternates_bold"-->
+        <!--        android:layout_marginBottom="@dimen/_25sdp"-->
+        <!--        android:textColor="@color/white"-->
+        <!--        app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vp_week">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/llPremium"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_39sdp"
+                    android:background="@drawable/bg_white_corner_20"
+                    android:elevation="@dimen/_20sdp"
+                    android:outlineSpotShadowColor="#33000000"
+                    android:weightSum="2"
+                    app:layout_constraintDimensionRatio="2.725"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="26dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_18sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_weight="0.9"
+                        android:fontFamily="@font/montserratalternates_bold"
+                        android:text="We will help make your life better"
+                        android:textSize="@dimen/_11ssp" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:elevation="@dimen/_21sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_home_1"
+                    app:layout_constraintBottom_toBottomOf="@+id/llPremium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.4" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ll_mooth"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_11sdp"
+                    android:background="@drawable/bg_white_corner_20"
+                    android:elevation="@dimen/_20sdp"
+                    android:outlineSpotShadowColor="#33000000"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_12sdp"
+                    app:layout_constraintEnd_toEndOf="@id/llPremium"
+                    app:layout_constraintStart_toStartOf="@id/llPremium"
+                    app:layout_constraintTop_toBottomOf="@id/llPremium"
+                    tools:layout_editor_absoluteX="26dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_19sdp"
+                        android:fontFamily="@font/montserratalternates_bold"
+                        android:text="Are you feeling great today?"
+                        android:textColor="@color/shadow_gray"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintEnd_toStartOf="@id/iv_home_2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:fontFamily="@font/montserratalternates_medium"
+                        android:text="Customize your mood today"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/textView"
+                        app:layout_constraintStart_toStartOf="@+id/textView"
+                        app:layout_constraintTop_toBottomOf="@id/textView" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_home_2"
+                        android:layout_width="@dimen/_65sdp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bg_home_2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv__arrow_right"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv__arrow_right"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_13sdp"
+                        android:src="@drawable/nav_arrow_right"
+                        android:tint="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <HorizontalScrollView
+                    android:id="@+id/svButtonGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_22sdp"
+                    android:fillViewport="true"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toBottomOf="@id/ll_mooth">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipgroup_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:selectionRequired="true"
+                        app:singleLine="true"
+                        app:singleSelection="true">
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </HorizontalScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

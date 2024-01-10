@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid
 import androidx.annotation.Keep
 import com.cscmobi.habittrackingandroid.presentation.di.repositoryModule
 import com.cscmobi.habittrackingandroid.presentation.di.viewModelModule
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.ninenox.kotlinlocalemanager.ApplicationLocale
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,5 +18,7 @@ class MyApplication: ApplicationLocale() {
             androidContext(this@MyApplication)
             modules(listOf( viewModelModule,repositoryModule))
         }
+
+        AndroidThreeTen.init(this)
     }
 }

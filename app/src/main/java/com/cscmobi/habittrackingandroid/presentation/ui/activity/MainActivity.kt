@@ -7,6 +7,7 @@ import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.threeten.bp.LocalDate
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -21,6 +22,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initView() {
+
+
 
         initFragments()
         showFragment(fragment1)
