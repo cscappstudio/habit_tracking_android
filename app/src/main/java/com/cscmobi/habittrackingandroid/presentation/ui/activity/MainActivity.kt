@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.cscmobi.habittrackingandroid.R
@@ -24,37 +25,42 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initView() {
 
 
-
         initFragments()
         showFragment(fragment1)
 
-           val listener =  BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.page_1 -> {
-                        showFragment(fragment1)
-                        return@OnNavigationItemSelectedListener true
-                    }
-
-                    R.id.page_2 -> {
-                        showFragment(fragment2)
-                        return@OnNavigationItemSelectedListener true
-                    }
-
-                    R.id.page_3 -> {
-                        showFragment(fragment3)
-                        return@OnNavigationItemSelectedListener true
-                    }
-
-                    R.id.page_4 -> {
-                        showFragment(fragment4)
-                        return@OnNavigationItemSelectedListener true
-                    }
+        val listener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.page_1 -> {
+                    showFragment(fragment1)
+                    return@OnNavigationItemSelectedListener true
                 }
-                false
+
+                R.id.page_2 -> {
+                    showFragment(fragment2)
+                    return@OnNavigationItemSelectedListener true
+                }
+
+                R.id.page_3 -> {
+                    showFragment(fragment3)
+                    return@OnNavigationItemSelectedListener true
+                }
+
+                R.id.page_4 -> {
+                    showFragment(fragment4)
+                    return@OnNavigationItemSelectedListener true
+                }
             }
+            false
+        }
 
         binding.bottomNav.setOnNavigationItemSelectedListener(listener);
 
+    }
+
+    override fun setEvent() {
+        binding.ivFloatAdd.setOnClickListener {
+            startActivity(Intent(this, NewHabitActivity::class.java))
+        }
     }
 
     fun showFragment(fmShow: Fragment?) {
@@ -80,10 +86,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun initFragments() {
-        addFragment(R.id.frame_container,fragment1,"fragment1")
-        addFragment(R.id.frame_container,fragment2,"fragment2")
-        addFragment(R.id.frame_container,fragment3,"fragment3")
-        addFragment(R.id.frame_container,fragment4,"fragment4")
+        addFragment(R.id.frame_container, fragment1, "fragment1")
+        addFragment(R.id.frame_container, fragment2, "fragment2")
+        addFragment(R.id.frame_container, fragment3, "fragment3")
+        addFragment(R.id.frame_container, fragment4, "fragment4")
 
     }
 

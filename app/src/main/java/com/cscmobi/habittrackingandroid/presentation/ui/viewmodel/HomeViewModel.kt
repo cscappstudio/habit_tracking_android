@@ -13,8 +13,7 @@ import java.util.Date
 class HomeViewModel(private val repository: HomeRepository): BaseViewModel() {
     var  listWeekData = arrayListOf<LocalDate>()
     var currentWeekPos = -1
-    init {
-    }
+
 
     fun initDateWeek() {
         listWeekData.clear()

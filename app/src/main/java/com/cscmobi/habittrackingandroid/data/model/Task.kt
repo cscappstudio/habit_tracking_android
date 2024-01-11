@@ -1,11 +1,13 @@
 package com.cscmobi.habittrackingandroid.data.model
 
+import com.cscmobi.habittrackingandroid.R
+
 data class Task (
     val name: String,
     val icon: Int,
-    val color: Int,
-    val goal: Goal,
-    val tag: String
+    val color: Int = R.color.white,
+    val goal: Goal = Goal(),
+    val tag: String = ""
 )
 
 
@@ -21,7 +23,7 @@ enum class TypeGoal {
 }
 
 data class Goal(
-    val statusTask: StatusTask,
-    val typeGoal: TypeGoal,
-    val progress: Int
+    val statusTask: StatusTask? = null,
+    val typeGoal: TypeGoal? = null,
+    val progress: Int = 0
 )

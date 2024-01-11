@@ -22,9 +22,11 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutRes()) as VB
         initView()
+        setEvent()
     }
 
     abstract fun initView()
+    abstract fun setEvent()
 
     protected fun addFragment(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
         supportFragmentManager.beginTransaction()
@@ -33,11 +35,16 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
             .hide(fragment)
             .commit()
     }
-
+    protected fun addFragmentNotHide(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
+        supportFragmentManager.beginTransaction()
+            .add(containerViewId,fragment,fragmentTag)
+//              .addToBackStack(fragmentTag)
+            .commit()
+    }
     protected fun replaceFragment(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
         supportFragmentManager.beginTransaction()
             .replace(containerViewId,fragment,fragmentTag)
-//            .addToBackStack(fragmentTag)
+           .addToBackStack(fragmentTag)
             .commit()
     }
 
