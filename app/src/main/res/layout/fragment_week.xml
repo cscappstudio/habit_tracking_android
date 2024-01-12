@@ -64,7 +64,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/_9sdp"
             android:layout_marginEnd="@dimen/_1sdp"
-            android:fontFamily="@font/montserratalternates_extrabold"
+            android:fontFamily="@font/montserratalternates_semibold"
             android:text="Today"
             android:textColor="@color/dark_green"
             android:textSize="@dimen/_10ssp" />

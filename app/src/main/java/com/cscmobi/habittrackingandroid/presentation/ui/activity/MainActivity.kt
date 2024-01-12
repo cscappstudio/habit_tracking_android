@@ -53,14 +53,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             false
         }
 
-        binding.bottomNav.setOnNavigationItemSelectedListener(listener);
+        binding.bottomNav.setOnMenuItemClickListener {
+            when(it.itemId) {
+                 R.id.page_1 -> showFragment(fragment1)
+            }
+            false
+        }
+
+//        binding.bottomNav.setOnNavigationItemSelectedListener(listener);
 
     }
 
     override fun setEvent() {
-        binding.ivFloatAdd.setOnClickListener {
-            startActivity(Intent(this, NewHabitActivity::class.java))
-        }
+//        binding.ivFloatAdd.setOnClickListener {
+//            startActivity(Intent(this, NewHabitActivity::class.java))
+//        }
     }
 
     fun showFragment(fmShow: Fragment?) {

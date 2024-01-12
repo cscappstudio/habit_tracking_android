@@ -8,4 +8,5 @@ sealed class CollectionState {
 
     data object Loading: CollectionState()
     data class Collections(val collection: List<HabitCollection>): CollectionState()
+    data class Collection(val data: HabitCollection): CollectionState()
 }

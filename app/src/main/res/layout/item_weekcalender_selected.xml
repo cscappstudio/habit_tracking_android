@@ -10,7 +10,7 @@
         android:id="@+id/txt_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserratalternates_extrabold"
+        android:fontFamily="@font/montserratalternates_semibold"
         android:text="Fri"
         android:layout_marginBottom="@dimen/_3sdp"
         android:textColor="@color/forest_green"

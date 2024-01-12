@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
+import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.repository.CollectionRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
@@ -24,12 +25,15 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
     init {
         handleIntent()
     }
+    fun setUp(){}
 
     private fun handleIntent() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect{
                 when(it) {
                     is CollectionIntent.FetchCollection -> fetchCollections()
+                    is CollectionIntent.PassItemCollection -> passCollectionItem(it.data)
+                    else -> {}
                 }
             }
         }
@@ -43,6 +47,10 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
                 CollectionState.Collections(mutableListOf())
             }
         }
+    }
+
+    fun passCollectionItem(data: HabitCollection) {
+        _state.value = CollectionState.Collection(data)
     }
 
 }

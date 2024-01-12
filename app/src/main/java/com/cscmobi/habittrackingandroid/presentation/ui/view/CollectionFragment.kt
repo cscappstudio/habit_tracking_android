@@ -1,11 +1,10 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.content.res.ColorStateList
-import android.graphics.Typeface
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
@@ -21,7 +20,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CollectionFragment :
     BaseFragment<FragmentCollectionBinding>(FragmentCollectionBinding::inflate) {
-    private val collectionViewModel: CollectionViewModel by viewModel()
+//    private val collectionViewModel: CollectionViewModel by viewModel()
+   private val collectionViewModel  by activityViewModels<CollectionViewModel>()
     private lateinit var collectionAdapter: CollectionAdapter
     override fun initView(view: View) {
 
@@ -29,8 +29,14 @@ class CollectionFragment :
         collectionAdapter = CollectionAdapter(object : OnItemClickPositionListener {
             override fun onItemClick(position: Int) {
                 if(position == 0 ){
+                    (requireActivity() as NewHabitActivity).let {
+                        it.replaceFragment(it.createCollectionFragment,CreateCollectionFragment.TAG)
+                    }
 
                 } else {
+                    lifecycleScope.launch {
+                        collectionViewModel.userIntent.send(CollectionIntent.PassItemCollection(collectionAdapter.currentList[position]))
+                    }
                     (requireActivity() as NewHabitActivity).replaceFragment(DetailCollectionFragment(),"Test")
                 }
             }
@@ -68,6 +74,12 @@ class CollectionFragment :
         binding.btnAll.setOnClickListener {
             changeStateCollectionButton(false)
         }
+
+        binding.btnCreate.setOnClickListener {
+            (requireActivity() as NewHabitActivity)?.let {
+                it.replaceFragment(it.newHabitFragment,NewHabitFragment.TAG)
+            }
+        }
     }
 
     private fun changeStateCollectionButton(isChanged: Boolean) {
@@ -86,7 +98,7 @@ class CollectionFragment :
 
             binding.btnCollection.elevation = 20f
             binding.btnAll.elevation = 0f
-            binding.btnCollection.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_extrabold)
+            binding.btnCollection.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
             binding.btnAll.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
 
             binding.btnAll.setTextColor(
@@ -117,7 +129,7 @@ class CollectionFragment :
 
             binding.btnAll.elevation = 20f
             binding.btnCollection.elevation = 0f
-            binding.btnAll.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_extrabold)
+            binding.btnAll.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
             binding.btnCollection.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
 
             binding.btnCollection.setTextColor(
