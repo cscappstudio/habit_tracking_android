@@ -52,13 +52,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             false
         }
+//        binding.bottomAppBar.background = null
+//        binding.bottomAppBar.menu.getItem(2).isEnabled = false
 
-        binding.bottomNav.setOnMenuItemClickListener {
+        binding.bottomAppBar.setOnMenuItemClickListener {
             when(it.itemId) {
                  R.id.page_1 -> showFragment(fragment1)
+                 R.id.page_2 -> showFragment(fragment1)
+                 R.id.page_3 -> showFragment(fragment1)
+                 R.id.page_4 -> showFragment(fragment1)
             }
             false
         }
+        binding.fab.setOnClickListener {
+            startActivity(Intent(this, NewHabitActivity::class.java))
+        }
+
+        binding.bottomAppBar.background = null
+        binding.bottomAppBar.menu.getItem(2).isEnabled = false
 
 //        binding.bottomNav.setOnNavigationItemSelectedListener(listener);
 
