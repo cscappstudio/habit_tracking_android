@@ -70,7 +70,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         transaction.hide(fragment4)
 
         fmShow?.let {
-
             transaction.show(it)
         }
         transaction.commit()
