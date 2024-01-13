@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.graphics.Rect
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
@@ -14,13 +15,20 @@ import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
 import java.util.Locale
 
-class WeekFragment(val startOfWeek: LocalDate) :
+class WeekFragment() :
     BaseFragment<FragmentWeekBinding>(FragmentWeekBinding::inflate) {
     private lateinit var adapter: WeekAdapter
     private var data = arrayListOf<WeekCalenderItem>()
     private var date = arrayListOf<LocalDate>()
     private var c = Helper.currentDate
-    var actionClickToday: (() -> Unit)? = null
+    var actionClickItem: ((date: LocalDate) -> Unit)? = null
+    lateinit var startOfWeek: LocalDate
+
+    constructor(startOfWeek: LocalDate) : this() {
+        this.startOfWeek = startOfWeek
+    }
+
+
     fun getDatesofWeek() {
         date.clear()
         data.clear()
@@ -52,16 +60,17 @@ class WeekFragment(val startOfWeek: LocalDate) :
 
     override fun initView(view: View) {
         addDecoration()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
-
         getDatesofWeek()
         adapter = WeekAdapter(object : OnItemClickPositionListener {
             override fun onItemClick(position: Int) {
                 data.forEachIndexed { index, item ->
                     item.isSelected = position == index
                 }
-                binding.txtTitle.text = if (date[position] == c)  " Today" else  date[position].format(formatter)
-                binding.llToday.visibility = if(date[position] == c) View.INVISIBLE else View.VISIBLE
+
+
+                actionClickItem?.invoke(date[position])
+//                binding.txtTitle.text = if (date[position] == c)  " Today" else  date[position].format(formatter)
+//                binding.llToday.visibility = if(date[position] == c) View.INVISIBLE else View.VISIBLE
                 adapter.notifyDataSetChanged()
             }
 
@@ -69,21 +78,32 @@ class WeekFragment(val startOfWeek: LocalDate) :
         adapter.submitList(data)
         binding.adapter = adapter
 
-        binding.txtTitle.text = "Today"
-
     }
 
-    override fun setEvent() {
-        binding.llToday.setOnClickListener {
-            actionClickToday?.invoke()
-            val indexToday = data.indexOfFirst { it.date == c.dayOfMonth }
+    override fun onResume() {
+        super.onResume()
+        if (HomeFragment.isSetCurrentDate) {
             data.forEach {
                 it.isSelected = it.date == c.dayOfMonth
             }
             adapter.notifyDataSetChanged()
-            binding.llToday.visibility = View.INVISIBLE
-
+            HomeFragment.isSetCurrentDate = false
         }
+
+
+    }
+
+    override fun setEvent() {
+//        binding.llToday.setOnClickListener {
+//            actionClickToday?.invoke()
+//            val indexToday = data.indexOfFirst { it.date == c.dayOfMonth }
+//            data.forEach {
+//                it.isSelected = it.date == c.dayOfMonth
+//            }
+//            adapter.notifyDataSetChanged()
+//           binding.llToday.visibility = View.INVISIBLE
+//
+//        }
     }
 
 
@@ -117,11 +137,7 @@ class WeekFragment(val startOfWeek: LocalDate) :
             state: RecyclerView.State
         ) {
             val position = parent.getChildAdapterPosition(view)
-            if (position == 0) {
-                outRect.left = -spaceWidth
-            } else {
-                outRect.left = spaceWidth
-            }
+            outRect.left = -55
         }
     }
 }

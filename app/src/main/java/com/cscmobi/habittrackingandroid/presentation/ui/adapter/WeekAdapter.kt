@@ -9,6 +9,7 @@ import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.ItemWeekcalenderBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemWeekcalenderSelectedBinding
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
+import kotlin.random.Random
 
 class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAdapter<WeekCalenderItem, RecyclerView.ViewHolder>(WeekAdapter.DIFF_CALLBACK()){
 
@@ -34,9 +35,8 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
     class ViewHolderItemUnSelect constructor(val binding: ItemWeekcalenderBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: WeekCalenderItem,  onItemClickAdapter: OnItemClickPositionListener) {
-            binding.txtDate.text = item.date.toString()
             binding.root.setOnClickListener {
-                onItemClickAdapter.onItemClick(adapterPosition)
+                    onItemClickAdapter.onItemClick(adapterPosition)
             }
         }
 

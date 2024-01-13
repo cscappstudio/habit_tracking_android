@@ -6,6 +6,5 @@ sealed class HomeState {
     object Empty: HomeState()
     object Loading: HomeState()
 
-    data class Tasks(val task: List<Task>): HomeState()
-    data class Categories(val category: List<String>): HomeState()
+    data class Tasks(val tasks: List<Task>): HomeState()
 }

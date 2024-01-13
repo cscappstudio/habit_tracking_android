@@ -1,68 +1,120 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekPagerAdapter
+import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
+import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
+import com.cscmobi.habittrackingandroid.utils.Helper
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.Locale
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private val homeViewModel: HomeViewModel by viewModel()
+    private lateinit var weekPagerAdapter: WeekPagerAdapter
 
     override fun initView(view: View) {
+        lifecycleScope.launch {
+            homeViewModel.userIntent.send(HomeIntent.FetchTasks)
+        }
+
+        observeState()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
+
         homeViewModel.initDateWeek()
-        binding.vpWeek.adapter = WeekPagerAdapter(this).apply {
+        weekPagerAdapter = WeekPagerAdapter(this).apply {
             this.listWeekData = homeViewModel.listWeekData
             this.doActionviewPager = {
-                setCurrentWeekinViewPager()
 
+//                binding.txtDate.text =  if (it == Helper.currentDate)  " Today" else  it.format(formatter)
+
+                if (it.isBefore(Helper.currentDate)) {
+                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
+
+                } else {
+                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
+                }
             }
+
         }
+
+
+        binding.vpWeek.adapter = weekPagerAdapter
 
         setCurrentWeekinViewPager()
 
 
     }
 
+
+    private fun observeState() {
+        lifecycleScope.launch {
+            homeViewModel.state.collect{ state ->
+                when(state) {
+
+                    is HomeState.Tasks -> {
+                        initChips(state.tasks.map { it.tag }.distinct())
+
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        }
+
+    }
     private fun setCurrentWeekinViewPager() {
         if (homeViewModel.currentWeekPos != -1)
             binding.vpWeek.currentItem = homeViewModel.currentWeekPos
+
+        isSetCurrentDate = true
     }
 
-//    private fun initChips() {
-//        val chip = Chip(requireContext())
-//        chip.isCheckable = true
-//        chip.text = it
-//        chip.tag = it
-//        chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.allura_regular);
-//        chip.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(com.intuit.ssp.R.dimen._12ssp))
-//
-//        changeChipState(false, chip)
-//
-//        chip.setOnCheckedChangeListener { compoundButton, b ->
+
+
+    private fun initChips(tags: List<String>) {
+        tags.forEach {
+        homeViewModel.listWeekData
+        val chip = Chip(requireContext())
+        chip.isCheckable = true
+        chip.text = it
+        chip.tag = it
+        chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_bold);
+        chip.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(com.intuit.ssp.R.dimen._12ssp))
+
+      //  changeChipState(false, chip)
+
+        chip.setOnCheckedChangeListener { compoundButton, b ->
 //
 //            if (chip.isChecked) {
-//                viewModel.initTemplateImage(chip.tag.toString())
+////                viewModel.initTemplateImage(chip.tag.toString())
 //                changeChipState(true, chip)
 //
 //            } else {
 //                changeChipState(false, chip)
 //
 //            }
-//        }
-//
-//        binding.chipgroupCategory.addView(chip)
-//    }
-//
+        }
+
+        binding.chipgroupCategory.addView(chip)
+        }
+    }
+
 //    fun changeChipState(isChanged: Boolean, chip: Chip) {
 //        chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.nunito_fontweight500);
 //
@@ -86,7 +138,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 //    }
 
     override fun setEvent() {
+            binding.txtDate.setOnClickListener {
+                setCurrentWeekinViewPager()
+            }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    companion object {
+        var isSetCurrentDate = false
     }
 
 }

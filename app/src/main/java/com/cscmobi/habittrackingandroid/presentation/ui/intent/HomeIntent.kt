@@ -1,6 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.intent
 
 sealed class HomeIntent {
-    object FetchTasks: HomeIntent()
-    object FetchCategory: HomeIntent()
+    data object FetchTasks: HomeIntent()
+    data class FetchTasksbyCategory(val tag: String): HomeIntent()
 }

@@ -6,13 +6,13 @@ import com.cscmobi.habittrackingandroid.data.model.Task
 
 class CollectionRepositoryImpl : CollectionRepository {
     private val nightTimeTasks = mutableListOf<Task>(
-        Task("Practice affirmations", R.drawable.ic_calendar),
-        Task("Practice visualization", R.drawable.ic_calendar),
-        Task("Practice visualization", R.drawable.ic_calendar),
-        Task("Practice visualization", R.drawable.ic_calendar),
-        Task("Practice visualization", R.drawable.ic_calendar),
-        Task("Practice visualization", R.drawable.ic_calendar),
-        Task("Practice visualization", R.drawable.ic_calendar),
+        Task("Practice affirmations", R.drawable.ic_golf),
+        Task("Practice visualization", R.drawable.ic_golf),
+        Task("Practice visualization", R.drawable.ic_golf),
+        Task("Practice visualization", R.drawable.ic_golf),
+        Task("Practice visualization", R.drawable.ic_golf),
+        Task("Practice visualization", R.drawable.ic_golf),
+        Task("Practice visualization", R.drawable.ic_golf),
     )
 
     private var localCollection: MutableList<HabitCollection> = mutableListOf(
