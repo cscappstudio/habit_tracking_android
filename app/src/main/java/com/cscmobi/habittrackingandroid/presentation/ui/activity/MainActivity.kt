@@ -55,6 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     fun showFragment(fmShow: Fragment?) {
+
 //        transaction.setCustomAnimations(
 //            R.anim.bottom_up,
 //            R.anim.bottom_down
