@@ -6,13 +6,14 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
+import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val fragment1 = HomeFragment()
-    private val fragment2 = HomeFragment()
+    private val fragment2 = ProgressFragment()
     private val fragment3 = HomeFragment()
     private val fragment4 = HomeFragment()
 
