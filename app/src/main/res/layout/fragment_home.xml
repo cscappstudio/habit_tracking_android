@@ -62,9 +62,6 @@
 
 
 
-
-
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/llPremium"
                     android:layout_width="match_parent"
@@ -186,6 +183,14 @@
                     </com.google.android.material.chip.ChipGroup>
 
                 </HorizontalScrollView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcv_tasks"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 

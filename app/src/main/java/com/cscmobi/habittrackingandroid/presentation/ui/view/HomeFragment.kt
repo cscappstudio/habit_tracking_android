@@ -2,15 +2,15 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.util.TypedValue
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager2.widget.ViewPager2
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
+import com.cscmobi.habittrackingandroid.data.model.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
+import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
+import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
+import com.cscmobi.habittrackingandroid.presentation.ui.adapter.TaskAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekPagerAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
@@ -26,6 +26,7 @@ import java.util.Locale
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var weekPagerAdapter: WeekPagerAdapter
+    private lateinit var taskAdapter: TaskAdapter
 
     override fun initView(view: View) {
         lifecycleScope.launch {
@@ -68,7 +69,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     is HomeState.Tasks -> {
                         initChips(state.tasks.map { it.tag }.distinct())
-
+                        initTaskAdapter(state.tasks)
                     }
                     else -> {
 
@@ -83,6 +84,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             binding.vpWeek.currentItem = homeViewModel.currentWeekPos
 
         isSetCurrentDate = true
+    }
+
+    private fun initTaskAdapter(list: List<Task>) {
+        taskAdapter = TaskAdapter(object : ItemWithPostionListener<Task> {
+            override fun onItemClicked(item: Task, p: Int) {
+
+            }
+
+        })
+        binding.rcvTasks.adapter = taskAdapter
+        taskAdapter.submitList(list)
+        taskAdapter.notifyDataSetChanged()
+
     }
 
 

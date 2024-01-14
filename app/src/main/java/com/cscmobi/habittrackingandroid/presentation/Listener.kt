@@ -6,14 +6,20 @@ interface OnItemClickPositionListener {
     fun onItemClick(position: Int)
 }
 
-interface ItemListener<T> :  BaseBindingAdapter.BaseBindingListener {
+interface ItemWithPostionListener<T> {
+    fun onItemClicked(item: T, p: Int)
+
+}
+
+
+interface ItemBaseListener<T> :  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(item: T)
 }
 
-interface ItemPosistionListener :  BaseBindingAdapter.BaseBindingListener {
+interface ItemBasePosistionListener :  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(p: Int)
 }
 
-interface ItemWithPostitionListenr<T>:  BaseBindingAdapter.BaseBindingListener {
+interface ItemBaseWithPostitionListener<T>:  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(item: T, p: Int)
 }

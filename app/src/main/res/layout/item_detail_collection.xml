@@ -6,7 +6,7 @@
             type="com.cscmobi.habittrackingandroid.data.model.Task" />
         <variable
             name="listener"
-            type="com.cscmobi.habittrackingandroid.presentation.ItemWithPostitionListenr" />
+            type="com.cscmobi.habittrackingandroid.presentation.ItemBaseWithPostitionListener" />
     </data>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
