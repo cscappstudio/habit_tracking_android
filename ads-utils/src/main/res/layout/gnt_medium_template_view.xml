@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/native_ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="262dp"
+        android:background="@drawable/gnt_outline_shape_top_round"
+        android:backgroundTint="#C4EAE5">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/media_view_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginStart="@dimen/gnt_margin_left_parent"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/gnt_margin_right_parent"
+                    android:background="@drawable/gnt_shape_shimmer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RelativeLayout
+                    android:id="@+id/header_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/cta_shimmer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/media_view_shimmer">
+
+                    <View
+                        android:id="@+id/icon_shimmer"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="@dimen/gnt_margin_left_parent"
+                        android:background="@drawable/gnt_shape_shimmer" />
+
+                    <View
+                        android:id="@+id/primary_shimmer"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="120dp"
+                        android:layout_toEndOf="@id/icon_shimmer"
+                        android:background="@drawable/gnt_shape_shimmer" />
+
+                    <View
+                        android:id="@+id/body_shimmer"
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+                        android:layout_below="@id/primary_shimmer"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_toEndOf="@id/icon_shimmer"
+                        android:background="@drawable/gnt_shape_shimmer" />
+                </RelativeLayout>
+
+
+                <View
+                    android:id="@+id/cta_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="@dimen/gnt_margin_left_parent"
+                    android:layout_marginEnd="@dimen/gnt_margin_right_parent"
+                    android:background="@drawable/gnt_shape_shimmer"
+                    android:lines="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/header_shimmer" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.gms.ads.nativead.MediaView
+                android:id="@+id/media_view"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/cta"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/media_view">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24dp"
+                    android:scaleType="fitCenter"
+                    app:shapeAppearanceOverlay="@style/gnt_roundedImageView4" />
+
+                <TextView
+                    android:id="@+id/primary"
+                    style="@style/Text_White_700"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/icon"
+                    android:paddingEnd="24dp"
+                    android:textColor="@color/gnt_headline_color"
+                    android:textSize="15sp"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+
+                    android:id="@+id/body"
+                    style="@style/Text_White_700"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/primary"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toEndOf="@id/icon"
+                    android:autoSizeMaxTextSize="13sp"
+                    android:autoSizeMinTextSize="11sp"
+                    android:autoSizeTextType="uniform"
+                    android:maxLines="2"
+                    android:paddingEnd="24dp"
+                    android:textColor="@color/gnt_headline_color"
+                    android:textFontWeight="400"
+                    android:textSize="13sp"
+                    tools:ignore="RtlSymmetry"
+                    tools:targetApi="p" />
+            </RelativeLayout>
+
+            <com.google.android.gms.ads.nativead.AdChoicesView
+                android:id="@+id/ad_choice_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ad_notification_view"
+                android:layout_width="@dimen/gnt_ad_indicator_width"
+                android:layout_height="@dimen/gnt_ad_indicator_height"
+                android:background="@drawable/gnt_bg_indicator_ad"
+                android:gravity="center"
+                android:text="Ad"
+                android:textColor="@color/gnt_headline_color"
+                android:textSize="@dimen/gnt_ad_indicator_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cta"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/gnt_bg_cta_button"
+                android:gravity="center"
+                android:lines="1"
+                android:textColor="@color/gnt_headline_color"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.gms.ads.nativead.NativeAdView>
+</merge>

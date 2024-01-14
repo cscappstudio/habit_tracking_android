@@ -1,0 +1,92 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+
+android {
+    compileSdk 34
+    namespace 'com.thanhlv.ads.lib'
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 34
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pgcfg'
+            consumerProguardFiles 'proguard-rules.pgcfg'
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.databinding:databinding-runtime:8.2.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'com.google.android.material:material:1.11.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'com.google.android.gms:play-services-ads:22.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.errorprone:error_prone_annotations:2.18.0'
+
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //billing
+    implementation 'com.android.billingclient:billing-ktx:6.1.0'
+    implementation "com.android.billingclient:billing:6.1.0"
+    api('com.google.api-client:google-api-client-android:1.26.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:32.6.0')
+    implementation 'com.google.firebase:firebase-config'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.firebase:firebase-messaging:23.4.0'
+
+    //fb sdk
+    implementation 'com.facebook.android:facebook-android-sdk:16.3.0'
+
+    //mediation Admod
+    implementation  'com.google.ads.mediation:adcolony:4.8.0.2'
+    implementation  'com.google.ads.mediation:applovin:12.1.0.0'
+    implementation  'com.google.ads.mediation:inmobi:10.6.2.0'
+    implementation  'com.google.ads.mediation:ironsource:7.6.1.0'
+    implementation  'com.google.ads.mediation:facebook:6.16.0.0'
+    implementation  'com.google.ads.mediation:mintegral:16.5.91.0'
+    implementation  'com.google.ads.mediation:pangle:5.7.0.1.0'
+    implementation  'com.unity3d.ads:unity-ads:4.9.2'
+    implementation  'com.google.ads.mediation:unity:4.9.2.0'
+
+    //Adjust
+    implementation 'com.adjust.sdk:adjust-android:4.33.5'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+}

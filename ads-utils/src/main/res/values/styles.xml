@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="gnt_roundedImageView4" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+
+    <style name="Widget.AppTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.AppTheme.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="Text_White_700">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">700</item>
+    </style>
+
+    <style name="Text_White_600">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">600</item>
+    </style>
+
+    <style name="Text_White_400">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">400</item>
+    </style>
+
+
+    <style name="Text_White_300">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/nunito_regular</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">300</item>
+    </style>
+
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_down</item>
+        <item name="android:windowExitAnimation">@anim/slide_up</item>
+    </style>
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+    </style>
+
+    <style name="CustomBottomSheetStyle2" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">?colorSurface</item>
+        <item name="android:colorBackground">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+    </style>
+
+    <style name="roundedImageView12" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="roundedImageView14" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">14dp</item>
+    </style>
+
+    <style name="roundedImageView18" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
+
+    <style name="roundedImageView20" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+    <style name="CustomBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/white</item>
+        <item name="itemTextColor">@color/white</item>
+        <item name="itemTextAppearanceActive">@style/CustomBottomNavigationView.TextAppearance</item>
+        <item name="itemTextAppearanceInactive">@style/CustomBottomNavigationView.TextAppearance</item>
+    </style>
+
+    <style name="CustomBottomNavigationView.TextAppearance" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">300</item>
+    </style>
+
+<!--    <style name="RatingBar" parent="@android:style/Widget.RatingBar">-->
+<!--        <item name="android:progressDrawable">@drawable/rating_bar</item>-->
+<!--        <item name="android:minHeight">48dp</item>-->
+<!--        <item name="android:maxHeight">48dp</item>-->
+<!--    </style>-->
+</resources>
