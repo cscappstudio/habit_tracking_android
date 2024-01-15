@@ -109,7 +109,7 @@
                     style="@style/Text_700_Bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="18dp"
                     android:text="JANUARY 2024"
                     android:textColor="#54BA8F"
                     android:textSize="20sp"
@@ -140,105 +140,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_month" />
 
-                <LinearLayout
-                    android:id="@+id/title_day_of_week"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginEnd="12dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/tv_month">
-
-                    <TextView
-                        android:id="@+id/tv_mon"
-                        style="@style/Text_700_Bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Mon"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_tue"
-                        style="@style/Text_700_Bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Tue"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_wed"
-                        style="@style/Text_700_Bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Wed"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_thu"
-                        style="@style/Text_700_Bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Thu"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_fri"
-                        style="@style/Text_700_Bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Fri"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_sat"
-                        style="@style/Text_700_Bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Sat"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_sun"
-                        style="@style/Text_700_Bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Sun"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_month"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="20dp"
-                    app:layout_constraintTop_toTopOf="@id/title_day_of_week" />
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_month" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -295,7 +204,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_yearly_stats"
-                tools:ignore="UnusedAttribute" >
+                tools:ignore="UnusedAttribute">
+
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_year"
                     android:layout_width="match_parent"

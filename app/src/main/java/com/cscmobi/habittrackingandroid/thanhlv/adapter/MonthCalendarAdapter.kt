@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.databinding.ItemMonthCalendarBinding
@@ -37,6 +38,13 @@ class MonthCalendarAdapter(private var mContext: Context, private var callback: 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ovulationCalendarModel = mList[position]
         holder.binding.tvDay.text = ovulationCalendarModel.getDay()
+        if (position == 10 || position == 17|| position == 30) {
+            holder.binding.tvDay.visibility = View.GONE
+            holder.binding.imgMood.visibility = View.VISIBLE
+        } else {
+            holder.binding.tvDay.visibility = View.VISIBLE
+            holder.binding.imgMood.visibility = View.GONE
+        }
 //        holder.binding.root.setOnClickListener {
 //            callback.onClickDayCalendar(ovulationCalendarModel)
 //        }

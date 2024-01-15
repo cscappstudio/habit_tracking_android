@@ -1,11 +1,13 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
+import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -29,7 +31,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
            val listener =  BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.page_1 -> {
-                        showFragment(fragment1)
+//                        showFragment(fragment1)
+                        startActivity(Intent(this@MainActivity, MoodActivity::class.java))
                         return@OnNavigationItemSelectedListener true
                     }
 
