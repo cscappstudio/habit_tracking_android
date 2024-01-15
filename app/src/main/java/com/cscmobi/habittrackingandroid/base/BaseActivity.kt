@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.ninenox.kotlinlocalemanager.AppCompatActivityBase
+import com.thanhlv.fw.helper.MyUtils
 import javax.inject.Inject
 
 abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
@@ -22,6 +23,11 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutRes()) as VB
         initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MyUtils.hideStatusBar(this)
     }
 
     abstract fun initView()

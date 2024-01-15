@@ -130,7 +130,7 @@
 
                 <TextView
                     android:id="@+id/primary"
-                    style="@style/Text_White_700"
+                    style="@style/Text_700"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -143,7 +143,7 @@
                 <TextView
 
                     android:id="@+id/body"
-                    style="@style/Text_White_700"
+                    style="@style/Text_700"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/primary"
