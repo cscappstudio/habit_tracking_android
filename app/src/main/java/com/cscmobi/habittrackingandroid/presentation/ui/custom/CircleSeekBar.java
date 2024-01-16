@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -14,8 +15,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.cscmobi.habittrackingandroid.R;
+
+import java.lang.reflect.Type;
 
 
 public class CircleSeekBar extends View {
@@ -106,6 +110,9 @@ public class CircleSeekBar extends View {
     private Boolean touchEnable = false;
 
     private OnSeekBarChangedListener mOnSeekBarChangeListener;
+    private Integer mTextFontType = 0;
+    private String mText = "";
+    private boolean isShowImage;
 
 
     public CircleSeekBar(Context context) {
@@ -211,12 +218,17 @@ public class CircleSeekBar extends View {
             mMax = typedArray.getInteger(R.styleable.CircleSeekBar_csb_max, mMax);
             mStep = typedArray.getInteger(R.styleable.CircleSeekBar_csb_step, mStep);
 
+            mTextFontType = typedArray.getInteger(R.styleable.CircleSeekBar_csb_fontType,mTextFontType);
+            mText = typedArray.getString(R.styleable.CircleSeekBar_csb_text);
+
+
 
             mTextSize = (int) typedArray.getDimension(R.styleable.CircleSeekBar_csb_textSize, mTextSize);
             textColor = typedArray.getColor(R.styleable.CircleSeekBar_csb_textColor, textColor);
             mIsShowText = typedArray.getBoolean(R.styleable.CircleSeekBar_csb_isShowText, mIsShowText);
             thumbVisible = typedArray.getBoolean(R.styleable.CircleSeekBar_csb_isShowThumb, thumbVisible);
             touchEnable = typedArray.getBoolean(R.styleable.CircleSeekBar_csb_touchEnable, touchEnable);
+            isShowImage = typedArray.getBoolean(R.styleable.CircleSeekBar_csb_isShowIv, isShowImage);
 
             mProgressWidth = (int) typedArray.getDimension(R.styleable.CircleSeekBar_csb_progressWidth, mProgressWidth);
             progressColor = typedArray.getColor(R.styleable.CircleSeekBar_csb_progressColor, progressColor);
@@ -265,6 +277,16 @@ public class CircleSeekBar extends View {
         mTextPaint.setAntiAlias(true);
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setTextSize(mTextSize);
+
+        Typeface mTextTypeface = ResourcesCompat.getFont(context,R.font.worksans_semibold);
+
+        switch (mTextFontType){
+            case  0 : mTextTypeface = ResourcesCompat.getFont(context,R.font.worksans_medium);
+            case  1 : mTextTypeface = ResourcesCompat.getFont(context,R.font.worksans_semibold);
+
+        }
+
+        mTextPaint.setTypeface(mTextTypeface);
     }
 
     @Override
@@ -300,21 +322,35 @@ public class CircleSeekBar extends View {
         canvas.drawCircle(mCenterX, mCenterY, mCircleRadius, strokePaint);
         if(mIsShowText) {
             // draw the text
-            String textPoint = String.valueOf(mProgressDisplay);
-            mTextPaint.getTextBounds(textPoint, 0, textPoint.length(), mTextRect);
-            // center the text
-            int xPos = canvas.getWidth() / 2 - mTextRect.width() / 2;
-            int yPos = (int) ((mArcRect.centerY()) - ((mTextPaint.descent() + mTextPaint.ascent()) / 2));
-            canvas.drawText(String.valueOf(mProgressDisplay), xPos, yPos, mTextPaint);
-        } else  {
-            int imageWidth = mImage.getIntrinsicWidth() /4;
-            int imageHeight = mImage.getIntrinsicHeight() / 4;
-            int imageXPos = canvas.getWidth() / 2 - imageWidth / 2;
-            int imageYPos = (int) (mArcRect.centerY() - imageHeight / 2);
+            if (mProgressDisplay == mMax && isShowImage) {
+                int imageWidth = mImage.getIntrinsicWidth() /4;
+                int imageHeight = mImage.getIntrinsicHeight() / 4;
+                int imageXPos = canvas.getWidth() / 2 - imageWidth / 2;
+                int imageYPos = (int) (mArcRect.centerY() - imageHeight / 2);
 
-            // Draw the image
-            mImage.setBounds(imageXPos, imageYPos, imageXPos + imageWidth, imageYPos + imageHeight);
-            mImage.draw(canvas);
+                // Draw the image
+                mImage.setBounds(imageXPos, imageYPos, imageXPos + imageWidth, imageYPos + imageHeight);
+                mImage.draw(canvas);
+            }
+            else {
+                String textPoint = String.valueOf(mProgressDisplay);
+                if (!mText.isEmpty()) textPoint = mText;
+                mTextPaint.getTextBounds(textPoint, 0, textPoint.length(), mTextRect);
+                // center the text
+                int xPos = canvas.getWidth() / 2 - mTextRect.width() / 2;
+                int yPos = (int) ((mArcRect.centerY()) - ((mTextPaint.descent() + mTextPaint.ascent()) / 2));
+                canvas.drawText(textPoint, xPos, yPos, mTextPaint);
+            }
+        }
+        else  {
+//            int imageWidth = mImage.getIntrinsicWidth() /4;
+//            int imageHeight = mImage.getIntrinsicHeight() / 4;
+//            int imageXPos = canvas.getWidth() / 2 - imageWidth / 2;
+//            int imageYPos = (int) (mArcRect.centerY() - imageHeight / 2);
+//
+//            // Draw the image
+//            mImage.setBounds(imageXPos, imageYPos, imageXPos + imageWidth, imageYPos + imageHeight);
+//            mImage.draw(canvas);
         }
 
         canvas.drawArc(mArcRect, ANGLE_OFFSET, mProgressSweep, false, mProgressPaint);

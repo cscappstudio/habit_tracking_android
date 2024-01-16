@@ -138,6 +138,11 @@ class WeekFragment() :
         ) {
             val position = parent.getChildAdapterPosition(view)
             outRect.left = -55
+
+            if (data[position].isSelected && position == 0) {
+                outRect.left = -30
+
+            }
         }
     }
 }

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="frequencyType"
+            type="Integer" />
+        <import type="android.view.View"/>
+        
+        <variable
+            name="isRepeatEdit"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_corner_20"
+        android:backgroundTint="@color/silver"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_5sdp">
+
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/worksans_semibold"
+            android:text="Repeat"
+            android:textColor="@color/shadow_gray"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_daily"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/bg_white_corner_20"
+            android:gravity="center"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
+            android:text="Daily"
+            app:layout_constraintEnd_toStartOf="@+id/txt_weekly"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <TextView
+            android:id="@+id/txt_weekly"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/bg_white_corner_20"
+            android:gravity="center"
+            android:text="Weekly"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
+
+            android:layout_marginHorizontal="@dimen/_3sdp"
+            app:layout_constraintEnd_toStartOf="@+id/txt_monthly"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_daily"
+            app:layout_constraintTop_toBottomOf="@id/txt"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <TextView
+            android:id="@+id/txt_monthly"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/bg_white_corner_20"
+            android:gravity="center"
+            android:text="Monthly"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txt_weekly"
+            app:layout_constraintTop_toBottomOf="@id/txt"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <FrameLayout
+            android:id="@+id/fr_content"
+            app:layout_constraintTop_toBottomOf="@id/txt_daily"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
+
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_weekly"
+                android:layout_width="match_parent"
+                android:visibility="@{frequencyType == 1 ? View.VISIBLE : View.GONE}"
+                android:orientation="horizontal"
+                android:weightSum="7"
+
+                android:layout_height="@dimen/_50sdp">
+
+                <TextView
+                    android:id="@+id/txt_mon"
+                    android:text="Mon"
+                    style="@style/TextDay"
+                    android:layout_marginHorizontal="1dp"
+                    />
+                <TextView
+                    android:id="@+id/txt_tue"
+                    android:text="Tue"
+                    style="@style/TextDay"
+                    android:layout_marginHorizontal="1dp"
+                    />
+                <TextView
+                    android:id="@+id/txt_wed"
+                    android:text="Wed"
+                    style="@style/TextDay"
+                    android:layout_marginHorizontal="1dp"
+
+                    />
+                <TextView
+                    android:id="@+id/txt_thu"
+
+                    android:text="Thu"
+                    style="@style/TextDay"
+                    android:layout_marginHorizontal="1dp"
+
+                    />
+                <TextView
+                    android:id="@+id/txt_fri"
+
+                    android:text="Fri"
+                    style="@style/TextDay"
+                    android:layout_marginHorizontal="1dp"
+
+                    />
+                <TextView
+                    android:id="@+id/txt_sat"
+                    android:text="Sat"
+                    style="@style/TextDay"
+                    android:layout_marginHorizontal="1dp"
+                    />
+                <TextView
+                    android:id="@+id/txt_sun"
+
+                    android:text="Sun"
+                    style="@style/TextDay"
+                    android:layout_marginHorizontal="1dp"
+
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <GridView
+                android:paddingVertical="@dimen/_5sdp"
+                android:background="@drawable/bg_white_corner_12"
+                android:id="@+id/calendar_gridview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{frequencyType == 2 ? View.VISIBLE : View.GONE}"
+
+                android:horizontalSpacing="@dimen/_1sdp"
+                android:numColumns="7"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/_1sdp"
+              />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_22sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
+
+            android:fontFamily="@font/worksans_semibold"
+            android:text="Frequency"
+            android:textColor="@color/shadow_gray"
+            android:textFontWeight="600"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fr_content" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_frequency"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView4"
+            android:background="@drawable/bg_white_corner_20"
+           >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:ellipsize="end"
+                android:fontFamily="@font/worksans_medium"
+                android:text="Every 1 week"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatImageView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/nav_arrow_down"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/txtCategory"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        
+       
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

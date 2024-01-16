@@ -35,6 +35,13 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
     class ViewHolderItemUnSelect constructor(val binding: ItemWeekcalenderBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: WeekCalenderItem,  onItemClickAdapter: OnItemClickPositionListener) {
+            var test = Random.nextBoolean()
+
+            if (test) {
+                binding.sbWeek.setProgressDisplayAndInvalidate(binding.sbWeek.max)
+
+            }
+
             binding.root.setOnClickListener {
                     onItemClickAdapter.onItemClick(adapterPosition)
             }

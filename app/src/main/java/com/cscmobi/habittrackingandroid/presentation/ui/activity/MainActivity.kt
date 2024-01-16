@@ -8,7 +8,10 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
+import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import org.threeten.bp.LocalDate
 
 
@@ -54,9 +57,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
             false
+
+
         }
 
-
+        val shapeDrawable: MaterialShapeDrawable = binding.bottomAppBar.background as MaterialShapeDrawable
+        shapeDrawable.shapeAppearanceModel = shapeDrawable.shapeAppearanceModel
+            .toBuilder()
+            .setTopLeftCorner(CornerFamily.ROUNDED, Utils.dpToPx(20f,this).toFloat())
+            .setTopRightCorner(CornerFamily.ROUNDED, Utils.dpToPx(20f,this).toFloat())
+//            .setBottomRightCorner(CornerFamily.ROUNDED, DisplayUtils.dpToPx(30f).toFloat())
+//            .setBottomLeftCorner(CornerFamily.ROUNDED, DisplayUtils.dpToPx(30f).toFloat())
+            .build()
 
 
 

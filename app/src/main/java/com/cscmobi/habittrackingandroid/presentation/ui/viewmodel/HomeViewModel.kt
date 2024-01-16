@@ -38,7 +38,10 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
             userIntent.consumeAsFlow().collect {
                 when (it) {
                     is HomeIntent.FetchTasks -> fetchTasks()
-                    is HomeIntent.FetchTasksbyCategory -> {fetchTasksbyCategory(it.tag)}
+                    is HomeIntent.FetchTasksbyCategory -> {
+                        fetchTasksbyCategory(it.tag)
+                    }
+
                     else -> {}
                 }
             }
@@ -48,7 +51,9 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
     private fun fetchTasksbyCategory(tag: String) {
         viewModelScope.launch {
             _state.value = try {
-                HomeState.Tasks(repository.getListTask().filter { it.tag == tag })
+                if (tag == "All") HomeState.Tasks(repository.getListTask())
+                else
+                    HomeState.Tasks(repository.getListTask().filter { it.tag == tag })
 
             } catch (e: Exception) {
                 HomeState.Tasks(arrayListOf())
@@ -59,14 +64,13 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
     private fun fetchTasks() {
         viewModelScope.launch {
             _state.value = try {
-                HomeState.Tasks(repository.getListTask())
+               HomeState.Tasks(repository.getListTask())
 
             } catch (e: Exception) {
                 HomeState.Tasks(arrayListOf())
             }
         }
     }
-
 
 
     fun initDateWeek() {

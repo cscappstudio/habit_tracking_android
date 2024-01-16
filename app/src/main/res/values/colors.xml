@@ -14,6 +14,7 @@
     <color name="dark_green">#166851</color>
     <color name="shadow_gray">#393E3C</color>
     <color name="tangerine">#EDCA15</color>
+    <color name="tangerine_25_percent">#40EDCA15</color>
     <color name="gray">#B5B5B5</color>
     <color name="white_smoke">#F5F5F5</color>
     <color name="blue">#B6D6DD</color>
@@ -25,5 +26,10 @@
     <color name="teal_green">#54BA8F</color>
     <color name="jade_black">#01100C</color>
     <color name="greeny">#52B89C</color>
+    <color name="baby_pink">#FF9DAE</color>
+    <color name="coral_red">#FB7950</color>
+    <color name="dark_gray">#636463</color>
+    <color name="grey">#909090</color>
+    <color name="silver_gray">#9B9797</color>
 
 </resources>

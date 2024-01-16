@@ -1,15 +1,23 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.os.Build
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.View
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
+import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
-import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.TaskAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekPagerAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
@@ -33,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.userIntent.send(HomeIntent.FetchTasks)
         }
 
+        binding.isTasksEmpty = true
         observeState()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
 
@@ -55,8 +64,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
         binding.vpWeek.adapter = weekPagerAdapter
-
         setCurrentWeekinViewPager()
+
+        binding.txtProgress1.setSpanTextView(R.color.forest_green)
+        binding.txtProgress2.setSpanTextView(R.color.forest_green)
 
 
     }
@@ -64,13 +75,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun observeState() {
         lifecycleScope.launch {
-            homeViewModel.state.collect{ state ->
-                when(state) {
+            homeViewModel.state.collect { state ->
+                when (state) {
 
                     is HomeState.Tasks -> {
-                        initChips(state.tasks.map { it.tag }.distinct())
-                        initTaskAdapter(state.tasks)
+                        val categories = arrayListOf<String>()
+                        categories.add("All")
+                        categories.addAll(state.tasks.map { it.tag }.distinct())
+                        initChips(categories)
+
+                        if (state.tasks.isEmpty()) {
+                            binding.isTasksEmpty = true
+                        } else {
+                            initTaskAdapter(state.tasks)
+                            binding.isTasksEmpty = false
+
+                        }
                     }
+
                     else -> {
 
                     }
@@ -79,6 +101,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
     }
+
     private fun setCurrentWeekinViewPager() {
         if (homeViewModel.currentWeekPos != -1)
             binding.vpWeek.currentItem = homeViewModel.currentWeekPos
@@ -87,9 +110,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun initTaskAdapter(list: List<Task>) {
-        taskAdapter = TaskAdapter(object : ItemWithPostionListener<Task> {
+        taskAdapter = TaskAdapter(object : ItemTaskWithEdit<Task> {
             override fun onItemClicked(item: Task, p: Int) {
 
+            }
+
+            override fun skip(item: Task, p: Int) {
+
+            }
+
+            override fun edit(item: Task, p: Int) {
+            }
+
+            override fun delete(item: Task, p: Int) {
             }
 
         })
@@ -100,61 +133,85 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
 
-
     private fun initChips(tags: List<String>) {
         tags.forEach {
-        homeViewModel.listWeekData
-        val chip = Chip(requireContext())
-        chip.isCheckable = true
-        chip.text = it
-        chip.tag = it
-        chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_bold);
-        chip.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(com.intuit.ssp.R.dimen._12ssp))
+            homeViewModel.listWeekData
+            val chip = Chip(requireContext())
+            chip.isCheckable = true
+            chip.text = it
+            chip.checkedIcon = null
+            chip.tag = it
+            chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_bold);
+            chip.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                resources.getDimension(com.intuit.ssp.R.dimen._12ssp)
+            )
 
-      //  changeChipState(false, chip)
+            changeChipState(false, chip)
 
-        chip.setOnCheckedChangeListener { compoundButton, b ->
-//
-//            if (chip.isChecked) {
-////                viewModel.initTemplateImage(chip.tag.toString())
-//                changeChipState(true, chip)
-//
-//            } else {
-//                changeChipState(false, chip)
-//
-//            }
-        }
+            chip.setOnCheckedChangeListener { compoundButton, b ->
 
-        binding.chipgroupCategory.addView(chip)
+                if (chip.isChecked) {
+                    lifecycleScope.launch {
+                        homeViewModel.userIntent.send(HomeIntent.FetchTasksbyCategory(chip.tag.toString()))
+                    }
+                    changeChipState(true, chip)
+
+                } else {
+                    changeChipState(false, chip)
+
+                }
+            }
+
+            binding.chipgroupCategory.addView(chip)
         }
     }
 
-//    fun changeChipState(isChanged: Boolean, chip: Chip) {
-//        chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.nunito_fontweight500);
-//
-//        if (isChanged) {
-//            chip.chipBackgroundColor = ColorStateList.valueOf(resources.getColor(R.color.darkpurple,null))
-//            chip.setTextColor(ColorStateList.valueOf(Color.WHITE));
-//            chip.chipStrokeColor = ColorStateList.valueOf(Color.TRANSPARENT)
-//
-//
-//        } else {
-//            chip.chipBackgroundColor = ColorStateList.valueOf(Color.WHITE)
-//            chip.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.darkpurple,null)));
-//            chip.chipStrokeColor = ColorStateList.valueOf(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.lightpurple
-//                )
-//            )
-//
-//        }
-//    }
+
+    private fun TextView.setSpanTextView(colorSpan: Int) {
+        val firstText = this.text.split("/")
+
+        val spannableString = SpannableString(this.text)
+        val foregroundColorSpan =
+            ForegroundColorSpan(ContextCompat.getColor(this.context, colorSpan))
+        spannableString.setSpan(
+            foregroundColorSpan,
+            0,
+            firstText[0].length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        this.text = spannableString
+
+    }
+
+    fun changeChipState(isChanged: Boolean, chip: Chip) {
+        chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_regular);
+
+        if (isChanged) {
+            chip.chipBackgroundColor =
+                ColorStateList.valueOf(resources.getColor(R.color.tangerine, null))
+            chip.setTextColor(ColorStateList.valueOf(Color.WHITE));
+            chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_semibold)
+            chip.elevation = 15f
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                chip.outlineSpotShadowColor = resources.getColor(R.color.tangerine, null)
+            }
+
+
+        } else {
+            chip.chipBackgroundColor =
+                ColorStateList.valueOf(resources.getColor(R.color.white_smoke, null))
+            chip.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.gray, null)));
+            chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_regular);
+            chip.elevation = 0f
+
+        }
+    }
 
     override fun setEvent() {
-            binding.txtDate.setOnClickListener {
-                setCurrentWeekinViewPager()
-            }
+        binding.txtDate.setOnClickListener {
+            setCurrentWeekinViewPager()
+        }
     }
 
     override fun onDestroy() {
