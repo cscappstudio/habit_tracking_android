@@ -2,17 +2,20 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentMonthCalendarBinding
+import com.cscmobi.habittrackingandroid.databinding.FragmentYearCalendarBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.MonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.YearCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import java.util.Calendar
 
 class YearCalendarFragment :
-    BaseFragment<FragmentMonthCalendarBinding>(FragmentMonthCalendarBinding::inflate) {
+    BaseFragment<FragmentYearCalendarBinding>(FragmentYearCalendarBinding::inflate) {
     private var adapter: YearCalendarAdapter? = null
     private var mYear = 2024
 
@@ -25,10 +28,15 @@ class YearCalendarFragment :
     }
 
     override fun initView(view: View) {
-        recyclerView()
+        binding.loadingView.visibility = View.VISIBLE
         if (arguments != null) {
             mYear = arguments!!.getInt("YEAR_KEY")
-            adapter?.updateData(getDataList(mYear))
+            Handler(Looper.getMainLooper()).postDelayed({
+                recyclerView()
+                adapter?.updateData(getDataList(mYear))
+                binding.loadingView.visibility = View.GONE
+            }, 1000)
+
         }
         initListener()
     }

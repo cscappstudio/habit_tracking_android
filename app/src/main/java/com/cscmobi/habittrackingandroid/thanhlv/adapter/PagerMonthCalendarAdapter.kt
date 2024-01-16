@@ -17,6 +17,10 @@ class PagerMonthCalendarAdapter(fragmentActivity: FragmentActivity) :
         notifyDataSetChanged()
     }
 
+    fun getList(): MutableList<MonthCalendarModel> {
+        return this.mList
+    }
+
     override fun getItemCount(): Int {
         return mList.size
     }

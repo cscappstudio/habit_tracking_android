@@ -186,4 +186,6 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     //noinspection KaptUsageInsteadOfKsp
     kapt("androidx.room:room-compiler:$room_version")
+
+    implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'
 }

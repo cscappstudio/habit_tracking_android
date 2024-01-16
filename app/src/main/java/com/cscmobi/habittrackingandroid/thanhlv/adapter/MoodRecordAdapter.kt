@@ -15,7 +15,15 @@ class MoodRecordAdapter(private var mContext: Context) :
     class ViewHolder(var binding: ItemMoodRecordBinding) : RecyclerView.ViewHolder(binding.root)
 
     private var mList = mutableListOf<DayCalendarModel>()
+    private var mCallBack : MoodRecordCallback? = null
 
+    interface MoodRecordCallback{
+        fun onClickItem(pos: Int)
+    }
+
+    fun setCallBack(callback: MoodRecordCallback) {
+        this.mCallBack = callback
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -29,6 +37,9 @@ class MoodRecordAdapter(private var mContext: Context) :
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding.root.setOnClickListener {
+            mCallBack?.onClickItem(position)
+        }
     }
 
     override fun getItemCount(): Int {
