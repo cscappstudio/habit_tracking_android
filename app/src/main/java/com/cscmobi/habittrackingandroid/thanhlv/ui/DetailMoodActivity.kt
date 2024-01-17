@@ -15,18 +15,21 @@ import java.util.*
 
 class DetailMoodActivity : BaseActivity2() {
     private lateinit var binding: ActivityDetailMoodBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun setupScreen() {
         binding = ActivityDetailMoodBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        MyUtils.hideStatusBar(this)
         configKeyboardBelowEditText(this)
-        viewPager2()
-        controller()
     }
 
+    override fun loadData() {
+    }
 
-    private fun controller() {
+    override fun initView() {
+        viewPager2()
+    }
+
+    override fun controllerView() {
         binding.btnBackHeader.setOnClickListener {
             onBackPressed()
         }
@@ -37,15 +40,4 @@ class DetailMoodActivity : BaseActivity2() {
         binding.rcFeeling.layoutManager = LinearLayoutManager(this)
     }
 
-
-    private fun getDataForMonth(): MutableList<MonthCalendarModel> {
-        val list = mutableListOf<MonthCalendarModel>()
-        list.add(MonthCalendarModel(10, 2023))
-        list.add(MonthCalendarModel(11, 2023))
-        list.add(MonthCalendarModel(12, 2023))
-        list.add(MonthCalendarModel(1, 2024))
-        list.add(MonthCalendarModel(2, 2024))
-        list.add(MonthCalendarModel(3, 2024))
-        return list
-    }
 }

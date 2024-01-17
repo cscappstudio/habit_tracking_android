@@ -28,17 +28,29 @@ import java.util.*
 
 class TodayMood4Activity : BaseActivity2() {
     private lateinit var binding: ActivityMoodToday3Binding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setupScreen() {
         binding = ActivityMoodToday3Binding.inflate(layoutInflater)
         setContentView(binding.root)
-        MyUtils.hideStatusBar(this)
+        MyUtils.configKeyboardBelowEditText(this)
+    }
 
+    override fun loadData() {
+    }
+
+    override fun initView() {
         binding.tvQuestion.text = "What’s making you feel great?"
         binding.bgNote.visibility = View.VISIBLE
         recyclerView()
+    }
 
-        controller()
+    override fun controllerView() {
+        binding.btnBackHeader.setOnClickListener {
+            onBackPressed()
+        }
+        binding.btnNext.setOnClickListener {
+            startActivity(Intent(this, MoodActivity::class.java))
+            finish()
+        }
     }
 
     private var adapter: FeelingTagAdapter? = null
@@ -88,16 +100,6 @@ class TodayMood4Activity : BaseActivity2() {
         list.add(FeelingTagModel("abc", false))
         list.add(FeelingTagModel("abc", false))
         return list
-    }
-
-    private fun controller() {
-        binding.btnBackHeader.setOnClickListener {
-            onBackPressed()
-        }
-        binding.btnNext.setOnClickListener {
-            startActivity(Intent(this, MoodActivity::class.java))
-            finish()
-        }
     }
 
 }

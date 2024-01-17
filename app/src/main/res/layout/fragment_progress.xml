@@ -42,8 +42,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/bg_current_streak"
+            <View
+                android:id="@+id/bb_current_streak"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_marginStart="24dp"
@@ -53,12 +53,21 @@
                 android:outlineSpotShadowColor="@color/black_12"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_progress"
-                tools:ignore="UnusedAttribute">
+                tools:ignore="UnusedAttribute"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/bg_completion_rate_2"
+            <TextView
+                style="@style/Text_700_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
+                android:text="Progress"
+                android:textSize="24sp"
+                android:elevation="20dp"
+                app:layout_constraintStart_toStartOf="@id/bb_current_streak"
+                app:layout_constraintEnd_toEndOf="@id/bb_current_streak"
+                app:layout_constraintTop_toTopOf="@id/bb_current_streak" />
+            <View
+                android:id="@+id/bb_completion_rate"
                 android:layout_width="105dp"
                 android:layout_height="105dp"
                 android:layout_marginStart="96dp"
@@ -66,12 +75,9 @@
                 android:background="@drawable/shape_circle_gradient_3"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
-                app:layout_constraintStart_toStartOf="@id/bg_current_streak"
-                app:layout_constraintTop_toBottomOf="@id/bg_current_streak"
-                tools:ignore="UnusedAttribute">
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="@id/bb_current_streak"
+                app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
+                tools:ignore="UnusedAttribute"/>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,9 +88,9 @@
                 android:background="@drawable/shape_circle_gradient_2"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
-                app:layout_constraintBottom_toBottomOf="@id/bg_current_streak"
+                app:layout_constraintBottom_toBottomOf="@id/bb_current_streak"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bg_current_streak"
+                app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
                 tools:ignore="UnusedAttribute">
 
 

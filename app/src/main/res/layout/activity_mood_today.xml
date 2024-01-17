@@ -65,12 +65,12 @@
         tools:ignore="UnusedAttribute" />
 
     <ImageView
-        android:id="@+id/ic_mood_great"
+        android:id="@+id/btn_mood_great"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="12dp"
         android:src="@drawable/ic_mood_1"
-        app:layout_constraintEnd_toStartOf="@id/ic_mood_good"
+        app:layout_constraintEnd_toStartOf="@id/btn_mood_good"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_des" />
@@ -87,21 +87,21 @@
         android:maxLines="1"
         android:text="Great"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@id/ic_mood_great"
-        app:layout_constraintStart_toStartOf="@id/ic_mood_great"
-        app:layout_constraintTop_toBottomOf="@id/ic_mood_great"
+        app:layout_constraintEnd_toEndOf="@id/btn_mood_great"
+        app:layout_constraintStart_toStartOf="@id/btn_mood_great"
+        app:layout_constraintTop_toBottomOf="@id/btn_mood_great"
         tools:ignore="UnusedAttribute" />
 
     <ImageView
-        android:id="@+id/ic_mood_good"
+        android:id="@+id/btn_mood_good"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_mood_1"
-        app:layout_constraintEnd_toStartOf="@id/ic_mood_neutral"
-        app:layout_constraintStart_toEndOf="@id/ic_mood_great"
+        app:layout_constraintEnd_toStartOf="@id/btn_mood_neutral"
+        app:layout_constraintStart_toEndOf="@id/btn_mood_great"
         app:layout_constraintTop_toBottomOf="@id/tv_des" />
 
     <TextView
@@ -116,19 +116,19 @@
         android:maxLines="1"
         android:text="Good"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@id/ic_mood_good"
-        app:layout_constraintStart_toStartOf="@id/ic_mood_good"
-        app:layout_constraintTop_toBottomOf="@id/ic_mood_good"
+        app:layout_constraintEnd_toEndOf="@id/btn_mood_good"
+        app:layout_constraintStart_toStartOf="@id/btn_mood_good"
+        app:layout_constraintTop_toBottomOf="@id/btn_mood_good"
         tools:ignore="UnusedAttribute" />
 
     <ImageView
-        android:id="@+id/ic_mood_neutral"
+        android:id="@+id/btn_mood_neutral"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="12dp"
         android:src="@drawable/ic_mood_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ic_mood_good"
+        app:layout_constraintStart_toEndOf="@id/btn_mood_good"
         app:layout_constraintTop_toBottomOf="@id/tv_des" />
 
     <TextView
@@ -143,19 +143,19 @@
         android:maxLines="1"
         android:text="Neutral"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@id/ic_mood_neutral"
-        app:layout_constraintStart_toStartOf="@id/ic_mood_neutral"
-        app:layout_constraintTop_toBottomOf="@id/ic_mood_neutral"
+        app:layout_constraintEnd_toEndOf="@id/btn_mood_neutral"
+        app:layout_constraintStart_toStartOf="@id/btn_mood_neutral"
+        app:layout_constraintTop_toBottomOf="@id/btn_mood_neutral"
         tools:ignore="UnusedAttribute" />
 
 
     <ImageView
-        android:id="@+id/ic_mood_not_great"
+        android:id="@+id/btn_mood_not_great"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_mood_1"
-        app:layout_constraintEnd_toStartOf="@id/ic_mood_bad"
+        app:layout_constraintEnd_toStartOf="@id/btn_mood_bad"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_great" />
@@ -172,20 +172,20 @@
         android:maxLines="1"
         android:text="Not great"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@id/ic_mood_not_great"
-        app:layout_constraintStart_toStartOf="@id/ic_mood_not_great"
-        app:layout_constraintTop_toBottomOf="@id/ic_mood_not_great"
+        app:layout_constraintEnd_toEndOf="@id/btn_mood_not_great"
+        app:layout_constraintStart_toStartOf="@id/btn_mood_not_great"
+        app:layout_constraintTop_toBottomOf="@id/btn_mood_not_great"
         tools:ignore="UnusedAttribute" />
 
     <ImageView
-        android:id="@+id/ic_mood_bad"
+        android:id="@+id/btn_mood_bad"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_mood_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ic_mood_not_great"
+        app:layout_constraintStart_toEndOf="@id/btn_mood_not_great"
         app:layout_constraintTop_toBottomOf="@id/tv_great" />
 
     <TextView
@@ -200,9 +200,9 @@
         android:maxLines="1"
         android:text="Bad"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@id/ic_mood_bad"
-        app:layout_constraintStart_toStartOf="@id/ic_mood_bad"
-        app:layout_constraintTop_toBottomOf="@id/ic_mood_bad"
+        app:layout_constraintEnd_toEndOf="@id/btn_mood_bad"
+        app:layout_constraintStart_toStartOf="@id/btn_mood_bad"
+        app:layout_constraintTop_toBottomOf="@id/btn_mood_bad"
         tools:ignore="UnusedAttribute" />
 
 <!--    <androidx.constraintlayout.widget.ConstraintLayout-->

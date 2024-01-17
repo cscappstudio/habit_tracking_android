@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">habittrackingandroidAndroid</string>
+
+    <string name="hindi" translatable="false">हिन्दी</string>
+    <string name="german" translatable="false">Deutsch</string>
+    <string name="united_states" translatable="false">English</string>
+    <string name="portuguese" translatable="false">Português</string>
+    <string name="filipino" translatable="false">Filipino</string>
+    <string name="thailand" translatable="false">ไทย</string>
+    <string name="french" translatable="false">Français</string>
+    <string name="spanish" translatable="false">Español</string>
+    <string name="vietnamese" translatable="false">Tiếng Việt</string>
+
 </resources>

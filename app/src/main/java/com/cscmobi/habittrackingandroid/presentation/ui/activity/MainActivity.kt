@@ -9,6 +9,7 @@ import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
+import com.cscmobi.habittrackingandroid.thanhlv.ui.ProfileFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.TodayMood3Activity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,7 +20,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val fragment1 = HomeFragment()
     private val fragment2 = ProgressFragment()
     private val fragment3 = ChallengeFragment()
-    private val fragment4 = HomeFragment()
+    private val fragment4 = ProfileFragment()
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_main
@@ -49,8 +50,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
 
                     R.id.page_4 -> {
-//                        showFragment(fragment4)
-                        startActivity(Intent(this@MainActivity, TodayMood3Activity::class.java))
+                        showFragment(fragment4)
+//                        startActivity(Intent(this@MainActivity, TodayMood3Activity::class.java))
                         return@OnNavigationItemSelectedListener true
                     }
                 }

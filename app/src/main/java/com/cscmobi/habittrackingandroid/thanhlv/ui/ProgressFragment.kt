@@ -1,8 +1,6 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.viewpager2.widget.ViewPager2
@@ -24,20 +22,12 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     private var pagerYearAdapter: PagerYearCalendarAdapter? = null
 
     override fun initView(view: View) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.bgCurrentStreak.startAnimation(
-                AnimationUtils.loadAnimation(
-                    requireContext(),
-                    R.anim.pulse
-                )
-            )
-            binding.bgCompletionRate2.startAnimation(
-                AnimationUtils.loadAnimation(
-                    requireContext(),
-                    R.anim.pulse
-                )
-            )
-        }, 1000)
+
+        binding.bbCurrentStreak
+            .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
+        binding.bbCompletionRate
+            .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
+
         viewPager2()
         val aaChartModel: AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)

@@ -67,7 +67,7 @@
         tools:ignore="UnusedAttribute" />
 
     <ImageView
-        android:id="@+id/ic_mood_great"
+        android:id="@+id/img_mood"
         android:layout_width="260dp"
         android:layout_height="260dp"
         android:layout_marginTop="12dp"
@@ -88,9 +88,9 @@
         android:maxLines="1"
         android:text="Great"
         android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@id/ic_mood_great"
-        app:layout_constraintStart_toStartOf="@id/ic_mood_great"
-        app:layout_constraintTop_toBottomOf="@id/ic_mood_great"
+        app:layout_constraintEnd_toEndOf="@id/img_mood"
+        app:layout_constraintStart_toStartOf="@id/img_mood"
+        app:layout_constraintTop_toBottomOf="@id/img_mood"
         tools:ignore="UnusedAttribute" />
 
 

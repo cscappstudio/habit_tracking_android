@@ -28,16 +28,25 @@ import java.util.*
 
 class TodayMood3Activity : BaseActivity2() {
     private lateinit var binding: ActivityMoodToday3Binding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun setupScreen() {
         binding = ActivityMoodToday3Binding.inflate(layoutInflater)
         setContentView(binding.root)
-        MyUtils.hideStatusBar(this)
+    }
 
+    override fun loadData() {
+    }
 
-        recyclerView()
+    override fun initView() { recyclerView()
+    }
 
-        controller()
+    override fun controllerView() {
+        binding.btnBackHeader.setOnClickListener {
+            onBackPressed()
+        }
+        binding.btnNext.setOnClickListener {
+            startActivity(Intent(this, TodayMood4Activity::class.java))
+        }
     }
 
     private var adapter: FeelingTagAdapter? = null
@@ -90,13 +99,5 @@ class TodayMood3Activity : BaseActivity2() {
         return list
     }
 
-    private fun controller() {
-        binding.btnBackHeader.setOnClickListener {
-            onBackPressed()
-        }
-        binding.btnNext.setOnClickListener {
-            startActivity(Intent(this, TodayMood4Activity::class.java))
-        }
-    }
 
 }

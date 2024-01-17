@@ -18,24 +18,24 @@ import java.util.*
 
 class MoodActivity : BaseActivity2() {
     private lateinit var binding: ActivityMoodBinding
-
     private var pagerMonthAdapter: PagerMonthCalendarAdapter? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun setupScreen() {
         binding = ActivityMoodBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        MyUtils.hideStatusBar(this)
-
-
-        viewPager2()
-        controller()
     }
 
-    private fun controller() {
+    override fun loadData() {
+    }
+
+    override fun initView() {
+        viewPager2()
+    }
+
+    override fun controllerView() {
         binding.btnBackHeader.setOnClickListener {
             onBackPressed()
         }
-
 
         binding.btnAddMood.setOnClickListener {
             startActivity(Intent(this, TodayMoodActivity::class.java))
