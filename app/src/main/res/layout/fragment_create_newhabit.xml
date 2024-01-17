@@ -268,6 +268,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
+        <include
+            android:id="@+id/layout_end_date"
+            layout="@layout/layout_end_date"
+            android:layout_marginTop="@dimen/_9sdp"
+            app:layout_constraintStart_toStartOf="@id/ctl_goal"
+            app:layout_constraintEnd_toEndOf="@id/ctl_goal"
+            app:layout_constraintTop_toBottomOf="@id/layout_repeate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

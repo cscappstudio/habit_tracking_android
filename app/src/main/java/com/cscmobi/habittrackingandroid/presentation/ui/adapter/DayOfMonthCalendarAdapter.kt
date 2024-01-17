@@ -2,8 +2,6 @@ package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Typeface
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.cscmobi.habittrackingandroid.R
-import java.text.SimpleDateFormat
-import java.util.*
 
 class DayOfMonthCalendarAdapter(private val context: Context, private val days: List<Day>) : BaseAdapter() {
 
@@ -35,9 +30,9 @@ class DayOfMonthCalendarAdapter(private val context: Context, private val days: 
 
         val inflater = LayoutInflater.from(context)
         val view = convertView ?: inflater.inflate(R.layout.item_text_dayofmonth, parent, false)
+        val frameContainer = view.findViewById<FrameLayout>(R.id.fr_container)
 
         val textView = view.findViewById<TextView>(R.id.txt_day)
-        val frameContainer = view.findViewById<FrameLayout>(R.id.fr_container)
 
         textView.text = day.date.toString()
 //        textView.layoutParams = ViewGroup.LayoutParams(

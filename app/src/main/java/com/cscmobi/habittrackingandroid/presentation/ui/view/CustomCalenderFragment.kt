@@ -1,12 +1,14 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.CalendarAdapter
+import com.cscmobi.habittrackingandroid.presentation.ui.adapter.CalenderData
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import org.threeten.bp.format.DateTimeFormatter
@@ -15,6 +17,7 @@ import org.threeten.bp.format.DateTimeFormatter
 class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCustomBinding::inflate) {
     private lateinit var selectedDate: LocalDate
     private var calendarAdapter: CalendarAdapter? = null
+    private var calenderData = arrayListOf<CalenderData>()
 
     override fun initView(view: View) {
         selectedDate = LocalDate.now();
@@ -33,23 +36,35 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
     }
 
     private fun setMonthView() {
+        calenderData.clear()
         val daysInMonth = daysInMonthArray(selectedDate)
         binding.monthYearTV.text = monthYearFromDate(selectedDate);
 
+        calenderData = daysInMonth.map { CalenderData(it) } as ArrayList<CalenderData>
+
         if (calendarAdapter == null) {
-            val calendarAdapter = CalendarAdapter(object : ItemWithPostionListener<String> {
-                override fun onItemClicked(item: String, p: Int) {
+            val layoutManager: RecyclerView.LayoutManager =
+                GridLayoutManager(requireContext(), 7)
+            binding.calendarRecyclerView.layoutManager = layoutManager
+
+            val calendarAdapter = CalendarAdapter(object : ItemWithPostionListener<CalenderData> {
+                override fun onItemClicked(item: CalenderData, p: Int) {
+                    calenderData.forEach {
+                        it.isSelected = false
+                    }
+
+                    item.isSelected = true
 
                 }
 
             })
-            val layoutManager: RecyclerView.LayoutManager =
-                GridLayoutManager(requireContext(), 7)
-            binding.calendarRecyclerView.layoutManager = layoutManager
+
             binding.calendarRecyclerView.adapter = calendarAdapter
+            calendarAdapter.submitList(calenderData)
+
         }
 
-        calendarAdapter?.submitList(daysInMonth)
+        calendarAdapter?.submitList(calenderData)
         calendarAdapter?.notifyDataSetChanged()
 
     }

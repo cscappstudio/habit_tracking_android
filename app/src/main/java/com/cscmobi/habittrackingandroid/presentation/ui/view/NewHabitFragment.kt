@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.FragmentTransaction
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentCreateNewhabitBinding
@@ -37,6 +38,10 @@ class NewHabitFragment :
         setUpUnitPicker()
         setUpTimePicker()
         setUpDayofMonthCalender()
+
+        val childFragment: CustomCalenderFragment = CustomCalenderFragment()
+        val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
+        transaction.replace(binding.layoutEndDate.childFragmentContainer.id, childFragment).commit()
     }
 
     private fun setUpDayofMonthCalender() {
