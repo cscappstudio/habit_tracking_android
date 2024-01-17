@@ -38,10 +38,13 @@ class NewHabitFragment :
         setUpUnitPicker()
         setUpTimePicker()
         setUpDayofMonthCalender()
+        setUpReminder()
 
         val childFragment: CustomCalenderFragment = CustomCalenderFragment()
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
         transaction.replace(binding.layoutEndDate.childFragmentContainer.id, childFragment).commit()
+
+
     }
 
     private fun setUpDayofMonthCalender() {
@@ -84,6 +87,25 @@ class NewHabitFragment :
         )
     }
 
+    private fun setUpReminder() {
+        val fontTypetext=  ResourcesCompat.getFont(context!!, R.font.worksans_medium);
+        val fontTypetextSelected=   ResourcesCompat.getFont(context!!, R.font.worksans_semibold)
+
+        val days = arrayListOf("AM","PM")
+        binding.layoutReminder.unitDay.maxValue = days.size;
+        binding.layoutReminder.unitDay.displayedValues = days.toTypedArray()
+        binding.layoutReminder.unitDay.isFadingEdgeEnabled = true
+
+        binding.layoutReminder.unitDay.typeface = fontTypetext
+        binding.layoutReminder.unitDay.setSelectedTypeface(fontTypetextSelected)
+
+        binding.layoutReminder.unitHour.typeface = fontTypetext
+        binding.layoutReminder.unitHour.setSelectedTypeface(fontTypetextSelected)
+
+        binding.layoutReminder.unitMinute.typeface = fontTypetext
+        binding.layoutReminder.unitMinute.setSelectedTypeface(fontTypetextSelected)
+    }
+
 
     override fun setEvent() {
         binding.ivClose.setOnClickListener {
@@ -98,6 +120,11 @@ class NewHabitFragment :
 
         binding.layoutRepeate.swRepeat.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.layoutRepeate.isRepeatEdit = isChecked
+        }
+
+        binding.layoutReminder.swRemind.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.layoutReminder.isRenindEdit =
+                isChecked
         }
 
         binding.layoutRepeate.txtDaily.setOnClickListener {
@@ -119,7 +146,7 @@ class NewHabitFragment :
         val childCount = binding.layoutRepeate.llWeekly.childCount
         if (childCount != 0) {
             for (i in 0 until childCount) {
-                var txt : View? =   binding.layoutRepeate.llWeekly.getChildAt(i)
+                var txt: View? = binding.layoutRepeate.llWeekly.getChildAt(i)
                 txt?.let {
                     if (txt is TextView) {
                         txt.setOnClickListener {
@@ -138,7 +165,7 @@ class NewHabitFragment :
         val childCount = binding.layoutRepeate.llWeekly.childCount
         if (childCount != 0) {
             for (i in 0 until childCount) {
-                var txt : View? =   binding.layoutRepeate.llWeekly.getChildAt(i)
+                var txt: View? = binding.layoutRepeate.llWeekly.getChildAt(i)
                 txt?.let {
                     if (txt is TextView) {
                         txt.changeBackgroundText(false)

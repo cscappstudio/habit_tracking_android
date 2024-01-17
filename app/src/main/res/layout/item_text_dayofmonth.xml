@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.7"
-        app:layout_constraintDimensionRatio="24:26"
+        app:layout_constraintDimensionRatio="26:26"
         android:layout_height="0dp">
 
     <TextView

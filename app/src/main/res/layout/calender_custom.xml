@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="@dimen/_15sdp"
+    android:background="@drawable/bg_white_corner_20"
+    android:outlineSpotShadowColor="#33000000"
     android:paddingTop="@dimen/_19sdp"
     android:paddingHorizontal="@dimen/_16sdp"
+    android:layout_margin="@dimen/_10sdp"
     android:paddingBottom="@dimen/_10sdp"
     android:orientation="vertical"
-    >
+    tools:targetApi="p">
 
     <LinearLayout
         android:layout_width="match_parent"

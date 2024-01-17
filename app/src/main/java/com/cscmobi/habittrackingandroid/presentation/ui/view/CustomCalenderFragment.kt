@@ -47,14 +47,15 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
                 GridLayoutManager(requireContext(), 7)
             binding.calendarRecyclerView.layoutManager = layoutManager
 
-            val calendarAdapter = CalendarAdapter(object : ItemWithPostionListener<CalenderData> {
+            val calendarAdapter = CalendarAdapter()
+            calendarAdapter.setListener(object : ItemWithPostionListener<CalenderData>{
                 override fun onItemClicked(item: CalenderData, p: Int) {
                     calenderData.forEach {
                         it.isSelected = false
                     }
 
                     item.isSelected = true
-
+                    calendarAdapter?.notifyDataSetChanged()
                 }
 
             })

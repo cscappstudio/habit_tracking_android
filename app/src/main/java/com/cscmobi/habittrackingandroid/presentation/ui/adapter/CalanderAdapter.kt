@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.CalendarCellBinding
+import com.cscmobi.habittrackingandroid.databinding.ItemCreateCollectionBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemTextDayofmonthBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.google.android.material.animation.AnimatableView.Listener
 import java.util.Calendar
 
 
@@ -28,12 +30,17 @@ class CalendarAdapter :
         }
     }) {
     private var onItemListener: ItemWithPostionListener<CalenderData>? = null
-    fun setListener() {
-
+    fun setListener(listener: ItemWithPostionListener<CalenderData>) {
+        onItemListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
-        return CalendarViewHolder.onBind(parent)
+        val view = ItemTextDayofmonthBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return CalendarViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
@@ -82,7 +89,7 @@ class CalendarAdapter :
 
                 binding.root.setOnClickListener {
 
-                    onItemClickAdapter.onItemClicked(item, adapterPosition)
+                    onItemListener?.onItemClicked(item, adapterPosition)
                 }
             }
             }

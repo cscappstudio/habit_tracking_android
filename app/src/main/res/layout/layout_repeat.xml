@@ -165,7 +165,9 @@
                 android:background="@drawable/bg_white_corner_12"
                 android:id="@+id/calendar_gridview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_130sdp"
+                android:minHeight="130dp"
+
                 android:visibility="@{frequencyType == 2 ? View.VISIBLE : View.GONE}"
 
                 android:horizontalSpacing="@dimen/_1sdp"
