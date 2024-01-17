@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/tv_mon"
-            style="@style/Text_700_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/tv_tue"
-            style="@style/Text_700_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -41,7 +41,7 @@
 
         <TextView
             android:id="@+id/tv_wed"
-            style="@style/Text_700_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/tv_thu"
-            style="@style/Text_700_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,7 +63,7 @@
 
         <TextView
             android:id="@+id/tv_fri"
-            style="@style/Text_700_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -74,7 +74,7 @@
 
         <TextView
             android:id="@+id/tv_sat"
-            style="@style/Text_700_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -85,7 +85,7 @@
 
         <TextView
             android:id="@+id/tv_sun"
-            style="@style/Text_700_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

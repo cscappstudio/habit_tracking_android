@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,8 +36,8 @@
             style="@style/Text_600_Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:text="Great"
             android:textColor="#1F005F"
@@ -53,17 +52,17 @@
             style="@style/Text_600"
             android:layout_width="70dp"
             android:layout_height="24dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="6dp"
-            android:gravity="center"
-            android:text="Great"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/gnt_fill_shape_round_20"
             android:backgroundTint="#33EDCA15"
+            android:gravity="center"
+            android:text="Great"
             android:textColor="#EDCA15"
             android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_max="76dp"
             app:layout_constraintStart_toEndOf="@id/ava_alarm"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:targetApi="p" />
 
         <TextView
@@ -71,17 +70,17 @@
             style="@style/Text_600"
             android:layout_width="70dp"
             android:layout_height="24dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="6dp"
-            android:gravity="center"
-            android:text="Great"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/gnt_fill_shape_round_20"
             android:backgroundTint="#33EDCA15"
+            android:gravity="center"
+            android:text="Great"
             android:textColor="#EDCA15"
             android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_max="76dp"
             app:layout_constraintStart_toEndOf="@id/tv_feeling"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:targetApi="p" />
 
         <TextView
@@ -89,15 +88,15 @@
             style="@style/Text_600"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="..."
             android:textColor="#EDCA15"
             android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_max="76dp"
             app:layout_constraintStart_toEndOf="@id/tv_because"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:targetApi="p" />
 
 

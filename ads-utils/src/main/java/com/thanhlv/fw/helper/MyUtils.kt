@@ -141,6 +141,17 @@ class MyUtils {
                     ?: return
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+        fun configKeyboardBelowEditText(activity: Activity) {
+            val window = activity.window
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+            )
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+                WindowManager.LayoutParams.TYPE_STATUS_BAR
+            )
+        }
 
         @SuppressLint("DefaultLocale")
         fun parseLongToTime(durationInMillis: Long): String? {

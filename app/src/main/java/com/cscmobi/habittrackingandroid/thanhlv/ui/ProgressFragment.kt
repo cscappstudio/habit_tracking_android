@@ -1,21 +1,20 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.viewpager2.widget.ViewPager2
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentProgressBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerYearCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
-import com.github.aachartmodel.aainfographics.aachartcreator.AAChartLineDashStyleType
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AADataLabels
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAMarker
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAZonesElement
 import com.thanhlv.fw.helper.RunUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,18 +24,61 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     private var pagerYearAdapter: PagerYearCalendarAdapter? = null
 
     override fun initView(view: View) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.bgCurrentStreak.startAnimation(
+                AnimationUtils.loadAnimation(
+                    requireContext(),
+                    R.anim.pulse
+                )
+            )
+            binding.bgCompletionRate2.startAnimation(
+                AnimationUtils.loadAnimation(
+                    requireContext(),
+                    R.anim.pulse
+                )
+            )
+        }, 1000)
         viewPager2()
-
-        val aaChartModel : AAChartModel = AAChartModel()
+        val aaChartModel: AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)
             .backgroundColor("#00000000")
-            .series(arrayOf(
-                AASeriesElement()
-                    .data(arrayOf(15, 30, 55, 120, 80, 30, 60,15, 30, 55, 120, 80, 30, 60,15, 30, 55, 120, 80, 30, 60,15, 30, 55, 120, 80))
-                    .enableMouseTracking(false)
-                    .step(5)
-                    .showInLegend(true)
-            )
+            .series(
+                arrayOf(
+                    AASeriesElement()
+                        .data(
+                            arrayOf(
+                                15,
+                                30,
+                                55,
+                                120,
+                                80,
+                                30,
+                                60,
+                                15,
+                                30,
+                                55,
+                                120,
+                                80,
+                                30,
+                                60,
+                                15,
+                                30,
+                                55,
+                                120,
+                                80,
+                                30,
+                                60,
+                                15,
+                                30,
+                                55,
+                                120,
+                                80
+                            )
+                        )
+                        .enableMouseTracking(false)
+                        .step(5)
+                        .showInLegend(true)
+                )
             )
 //            .categories(arrayOf("1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15", "16", "17","18", "19", "20", "21", "22", "23", "24", "25", "26", "27","28", "29", "30"))
             .yAxisMax(120)
@@ -90,7 +132,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         val monthYearString = SimpleDateFormat("MMMM yyyy").format(calendar.time)
         if (isAdded && !isDetached)
             RunUtils.runOnUI {
-                binding.tvMonth.text = monthYearString
+                binding.tvMonth.text = monthYearString.uppercase()
             }
     }
 

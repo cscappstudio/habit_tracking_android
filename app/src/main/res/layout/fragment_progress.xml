@@ -42,15 +42,64 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bg_current_streak"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_circle_gradient_1"
+                android:elevation="20dp"
+                android:outlineSpotShadowColor="@color/black_12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_progress"
+                tools:ignore="UnusedAttribute">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bg_completion_rate_2"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_gradient_3"
+                android:elevation="20dp"
+                android:outlineSpotShadowColor="@color/black_12"
+                app:layout_constraintStart_toStartOf="@id/bg_current_streak"
+                app:layout_constraintTop_toBottomOf="@id/bg_current_streak"
+                tools:ignore="UnusedAttribute">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bg_longest_streak"
+                android:layout_width="98dp"
+                android:layout_height="98dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/shape_circle_gradient_2"
+                android:elevation="20dp"
+                android:outlineSpotShadowColor="@color/black_12"
+                app:layout_constraintBottom_toBottomOf="@id/bg_current_streak"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bg_current_streak"
+                tools:ignore="UnusedAttribute">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <ImageView
                 android:id="@+id/bg_circles"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-50dp"
-                android:layout_marginTop="88dp"
-                android:layout_marginEnd="-50dp"
+                android:layout_marginStart="-40dp"
+                android:layout_marginTop="78dp"
+                android:layout_marginEnd="-40dp"
                 android:adjustViewBounds="true"
+                android:elevation="20dp"
                 android:src="@drawable/bg_circles_transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -119,10 +168,10 @@
 
                 <ImageView
                     android:id="@+id/btn_previous_month"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_marginStart="12dp"
-                    android:padding="10dp"
+                    android:padding="9dp"
                     android:src="@drawable/ic_arrow_left_circle_green"
                     app:layout_constraintBottom_toBottomOf="@id/tv_month"
                     app:layout_constraintStart_toStartOf="parent"
@@ -130,10 +179,10 @@
 
                 <ImageView
                     android:id="@+id/btn_next_month"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_marginEnd="12dp"
-                    android:padding="10dp"
+                    android:padding="9dp"
                     android:rotation="180"
                     android:src="@drawable/ic_arrow_left_circle_green"
                     app:layout_constraintBottom_toBottomOf="@id/tv_month"
@@ -163,10 +212,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bg_calendar" />
 
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bg_completion_rate"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="24dp"
@@ -177,20 +226,137 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_completion_rate"
-                tools:ignore="UnusedAttribute" />
+                tools:ignore="UnusedAttribute">
 
-            <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
-                android:id="@+id/aa_chart_view"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="12dp"
-                android:elevation="20dp"
-                app:layout_constraintBottom_toBottomOf="@id/bg_completion_rate"
-                app:layout_constraintEnd_toEndOf="@id/bg_completion_rate"
-                app:layout_constraintStart_toStartOf="@id/bg_completion_rate"
-                app:layout_constraintTop_toTopOf="@id/bg_completion_rate">
+                <View
+                    android:id="@+id/bg_type"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/bg_white_round_20"
+                    android:backgroundTint="#F5F5F5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </com.github.aachartmodel.aainfographics.aachartcreator.AAChartView>
+                <TextView
+                    android:id="@+id/btn_week"
+                    style="@style/Text_600"
+                    android:layout_width="86dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_white_round_20"
+                    android:backgroundTint="#EDCA15"
+                    android:gravity="center"
+                    android:text="Week"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/bg_type"
+                    app:layout_constraintEnd_toStartOf="@id/btn_month"
+                    app:layout_constraintStart_toStartOf="@id/bg_type"
+                    app:layout_constraintTop_toTopOf="@id/bg_type" />
+
+                <TextView
+                    android:id="@+id/btn_month"
+                    style="@style/Text_600"
+                    android:layout_width="86dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_white_round_20"
+                    android:backgroundTint="#EDCA15"
+                    android:gravity="center"
+                    android:text="Month"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/bg_type"
+                    app:layout_constraintEnd_toStartOf="@id/btn_year"
+                    app:layout_constraintStart_toEndOf="@id/btn_week"
+                    app:layout_constraintTop_toTopOf="@id/bg_type" />
+
+                <TextView
+                    android:id="@+id/btn_year"
+                    style="@style/Text_600"
+                    android:layout_width="86dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_white_round_20"
+                    android:backgroundTint="#EDCA15"
+                    android:gravity="center"
+                    android:text="Year"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/bg_type"
+                    app:layout_constraintEnd_toEndOf="@id/bg_type"
+                    app:layout_constraintStart_toEndOf="@id/btn_month"
+                    app:layout_constraintTop_toTopOf="@id/bg_type" />
+
+                <TextView
+                    android:id="@+id/tv_period"
+                    style="@style/Text_600_Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:textColor="#393E3C"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bg_type" />
+
+                <TextView
+                    android:id="@+id/tv_period_year"
+                    style="@style/Text_600_Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#b5b5b5"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_period" />
+
+                <ImageView
+                    android:id="@+id/btn_previous_period"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="4dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_nav_arrow_left_black"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_period_year"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_period" />
+
+                <ImageView
+                    android:id="@+id/btn_next_period"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="4dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_nav_arrow_right_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_period_year"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_period" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="200dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#f5f5f5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_period_year" />
+
+                <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
+                    android:id="@+id/aa_chart_view"
+                    android:layout_width="0dp"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="-6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/line" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/tv_yearly_stats"
@@ -230,6 +396,28 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/btn_previous_year"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="4dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_nav_arrow_left_black"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_year"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_year" />
+
+                <ImageView
+                    android:id="@+id/btn_next_year"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="4dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_nav_arrow_right_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_year"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_year" />
 
                 <TextView
                     android:id="@+id/tv_note_complete"
@@ -278,27 +466,6 @@
                     app:layout_constraintStart_toStartOf="@id/tv_note_uncomplete"
                     app:layout_constraintTop_toTopOf="@id/tv_note_uncomplete" />
 
-                <ImageView
-                    android:id="@+id/btn_previous_year"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:layout_marginStart="4dp"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_nav_arrow_left_black"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_year"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_year" />
-
-                <ImageView
-                    android:id="@+id/btn_next_year"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:layout_marginEnd="4dp"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_nav_arrow_right_gray"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_year"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_year" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_year"

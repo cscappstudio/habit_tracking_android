@@ -35,6 +35,11 @@ class MoodActivity : BaseActivity2() {
         binding.btnBackHeader.setOnClickListener {
             onBackPressed()
         }
+
+
+        binding.btnAddMood.setOnClickListener {
+            startActivity(Intent(this, TodayMoodActivity::class.java))
+        }
     }
 
     private fun viewPager2() {
@@ -72,7 +77,7 @@ class MoodActivity : BaseActivity2() {
         val monthYearString = SimpleDateFormat("MMMM yyyy").format(calendar.time)
         if (!isFinishing)
             RunUtils.runOnUI {
-                binding.tvMonth.text = monthYearString
+                binding.tvMonth.text = monthYearString.uppercase()
             }
     }
 

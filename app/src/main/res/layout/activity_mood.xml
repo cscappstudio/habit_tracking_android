@@ -42,7 +42,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btn_add_mood"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="62dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="24dp"
@@ -55,51 +55,31 @@
         app:layout_constraintTop_toBottomOf="@id/tv_mood"
         tools:ignore="UnusedAttribute">
 
-
         <TextView
             android:id="@+id/tv_question"
-            style="@style/Text_600_Bold"
+            style="@style/Text_700_Med"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:autoSizeMaxTextSize="15sp"
             android:autoSizeMinTextSize="12sp"
             android:autoSizeTextType="uniform"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="Tell us how you feel today?"
             android:textColor="#166851"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_des"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ic_add_mood"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
 
-        <TextView
-            android:id="@+id/tv_des"
-            style="@style/Text_400"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="2dp"
-            android:autoSizeMaxTextSize="12sp"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeTextType="uniform"
-            android:maxLines="1"
-            android:text="Are you having a good day today"
-            android:textColor="#5A766E"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ic_add_mood"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_question" />
 
         <ImageView
             android:id="@+id/ic_add_mood"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
             android:layout_marginEnd="-4dp"
             android:src="@drawable/ic_mood_1"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -187,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="JANUARY 2024"
-            android:textColor="#09392D"
+            android:textColor="#54BA8F"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -195,28 +175,26 @@
 
         <ImageView
             android:id="@+id/btn_previous_month"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_marginStart="12dp"
-            android:padding="10dp"
+            android:padding="9dp"
             android:src="@drawable/ic_arrow_left_circle_green"
             app:layout_constraintBottom_toBottomOf="@id/tv_month"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_month"
-            app:tint="#09392D" />
+            app:layout_constraintTop_toTopOf="@id/tv_month" />
 
         <ImageView
             android:id="@+id/btn_next_month"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_marginEnd="12dp"
-            android:padding="10dp"
+            android:padding="9dp"
             android:rotation="180"
             android:src="@drawable/ic_arrow_left_circle_green"
             app:layout_constraintBottom_toBottomOf="@id/tv_month"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_month"
-            app:tint="#09392D" />
+            app:layout_constraintTop_toTopOf="@id/tv_month" />
 
 
         <androidx.viewpager2.widget.ViewPager2
