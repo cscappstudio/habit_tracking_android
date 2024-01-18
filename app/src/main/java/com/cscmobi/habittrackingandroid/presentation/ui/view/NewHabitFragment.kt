@@ -2,29 +2,40 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.content.res.ColorStateList
 import android.view.View
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
+import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentCreateNewhabitBinding
+import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.Day
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DayOfMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.FrequencyTextAdapter
+import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
+import com.cscmobi.habittrackingandroid.utils.onDone
+import com.cscmobi.habittrackingandroid.utils.setMargins
 
 
 class NewHabitFragment :
     BaseFragment<FragmentCreateNewhabitBinding>(FragmentCreateNewhabitBinding::inflate) {
+    private var selectRepeatUnit = ""
     private val unit = listOf("time", "minute", "glass", "km", "page", "hour")
     private val time = listOf("perday", "perweek", "permonth")
     private val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
     private var frequencyTextAdapter: FrequencyTextAdapter? = null
-    private val frequency = listOf("111111111111", "2222", "3333")
     private val date = (1..31).toList()
     private var listDay = mutableListOf<Day>()
+    private val bottomSheetFragment = BottomsheetNewHabitFragment()
+    private var numberRepeat = 1
+    private var subTasks = mutableListOf<String>()
 
     companion object {
         val TAG = "NewHabitFragment"
@@ -37,6 +48,20 @@ class NewHabitFragment :
         setUpDayofMonthCalender()
         setUpReminder()
         setUpTag()
+        setUpCheckList()
+
+        bottomSheetFragment.setListener(object : BottomsheetNewHabitFragment.BottomListener {
+            override fun saveUnitNumberRepeat(number: Int) {
+                numberRepeat = number
+                binding.layoutRepeate.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
+            }
+
+            override fun createTag(name: String) {
+                binding.layoutTag.addIvVisible = name == "No tag"
+                binding.layoutTag.txtTag.text = name
+            }
+
+        })
 
         val childFragment: CustomCalenderFragment = CustomCalenderFragment()
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
@@ -86,10 +111,10 @@ class NewHabitFragment :
     }
 
     private fun setUpReminder() {
-        val fontTypetext=  ResourcesCompat.getFont(context!!, R.font.worksans_medium);
-        val fontTypetextSelected=   ResourcesCompat.getFont(context!!, R.font.worksans_semibold)
+        val fontTypetext = ResourcesCompat.getFont(context!!, R.font.worksans_medium);
+        val fontTypetextSelected = ResourcesCompat.getFont(context!!, R.font.worksans_semibold)
 
-        val days = arrayListOf("AM","PM")
+        val days = arrayListOf("AM", "PM")
         binding.layoutReminder.unitDay.maxValue = days.size;
         binding.layoutReminder.unitDay.displayedValues = days.toTypedArray()
         binding.layoutReminder.unitDay.isFadingEdgeEnabled = true
@@ -107,10 +132,68 @@ class NewHabitFragment :
     private fun setUpTag() {
         binding.layoutTag.addIvVisible = binding.layoutTag.txtTag.text.isNullOrEmpty()
         binding.layoutTag.ivAdd.setOnClickListener {
-            val bottomSheetFragment = BottomsheetNewHabitFragment()
-
+            bottomSheetFragment.caseType = 0
+            bottomSheetFragment.tagSelect = ""
             bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
         }
+
+        binding.layoutTag.txtTag.setOnClickListener {
+            bottomSheetFragment.caseType = 0
+            bottomSheetFragment.tagSelect = binding.layoutTag.txtTag.text.toString()
+            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+
+        }
+    }
+
+    private fun setUpCheckList() {
+        var subTaskAdapter = BaseBindingAdapter<String>(
+            R.layout.item_subtask,
+            layoutInflater,
+            object : DiffUtil.ItemCallback<String>() {
+                override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+                    return oldItem == newItem
+                }
+
+                override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+                    return oldItem == newItem
+                }
+
+            })
+        subTaskAdapter.submitList(subTasks)
+
+        subTaskAdapter.setListener(object : ItemBasePosistionListener{
+            override fun onItemClicked(p: Int) {
+                subTasks.removeAt(p)
+                subTaskAdapter.notifyItemRemoved(p)
+
+            }
+
+        })
+
+
+        binding.layoutChecklist.rcvSubtask.adapter = subTaskAdapter
+
+        binding.layoutChecklist.edtAdd.onDone {
+            binding.layoutChecklist.edtAdd.visibility = View.GONE
+            if (!binding.layoutChecklist.edtAdd.text.isNullOrEmpty()) {
+                subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
+                subTaskAdapter.notifyItemInserted(subTasks.size-1)
+            }
+            hideKeyboardFrom(requireContext(),binding.layoutChecklist.edtAdd)
+
+        }
+
+        binding.layoutChecklist.ivAdd.setOnClickListener {
+            binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
+            showKeyboardOnView( binding.layoutChecklist.edtAdd)
+            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+                binding.nestScroll.post {
+                    binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
+                }
+            })
+        }
+
+
     }
 
     override fun setEvent() {
@@ -150,24 +233,45 @@ class NewHabitFragment :
             setStateTextRepeat(2)
         }
 
+        binding.layoutRepeate.ctlFrequency.setOnClickListener {
+
+
+            binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
+            bottomSheetFragment.caseType = 1
+            bottomSheetFragment.unitSelect = selectRepeatUnit
+            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+        }
+
         setListenerListDay()
-        
+
         binding.layoutReminder.unitHour.setOnClickListener {
-            setStateBackgroundUnitReminder(binding.layoutReminder.frHour,binding.layoutReminder.frMinute,binding.layoutReminder.frDay)
+            setStateBackgroundUnitReminder(
+                binding.layoutReminder.frHour,
+                binding.layoutReminder.frMinute,
+                binding.layoutReminder.frDay
+            )
         }
 
         binding.layoutReminder.unitMinute.setOnClickListener {
-            setStateBackgroundUnitReminder(binding.layoutReminder.frMinute,binding.layoutReminder.frHour,binding.layoutReminder.frDay)
+            setStateBackgroundUnitReminder(
+                binding.layoutReminder.frMinute,
+                binding.layoutReminder.frHour,
+                binding.layoutReminder.frDay
+            )
 
         }
 
         binding.layoutReminder.unitDay.setOnClickListener {
-            setStateBackgroundUnitReminder(binding.layoutReminder.frDay,binding.layoutReminder.frHour,binding.layoutReminder.frMinute)
+            setStateBackgroundUnitReminder(
+                binding.layoutReminder.frDay,
+                binding.layoutReminder.frHour,
+                binding.layoutReminder.frMinute
+            )
 
         }
     }
 
-    private fun setStateBackgroundUnitReminder(fr: FrameLayout,vararg lstFr: FrameLayout) {
+    private fun setStateBackgroundUnitReminder(fr: FrameLayout, vararg lstFr: FrameLayout) {
         lstFr.forEach {
             it.setBackgroundResource(R.drawable.bg_white_corner_12)
         }
@@ -211,6 +315,13 @@ class NewHabitFragment :
 
     private fun setStateTextRepeat(frequencyType: Int) {
         binding.layoutRepeate.frequencyType = frequencyType
+        selectRepeatUnit = when (binding.layoutRepeate.frequencyType) {
+            0 -> "Day"
+            1 -> "Week"
+            2 -> "Month"
+            else -> "Week"
+        }
+        binding.layoutRepeate.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
 
         when (frequencyType) {
             0 -> {

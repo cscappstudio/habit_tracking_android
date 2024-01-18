@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
+import com.cscmobi.habittrackingandroid.data.model.Tag
 import com.cscmobi.habittrackingandroid.data.repository.CollectionRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
@@ -51,6 +52,18 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
 
     fun passCollectionItem(data: HabitCollection) {
         _state.value = CollectionState.Collection(data)
+    }
+
+    fun tag(): MutableList<Tag> {
+        return  mutableListOf(
+            Tag("No tag"),
+            Tag("Workout"),
+            Tag("Clean room"),
+            Tag("Morning routine"),
+            Tag("Healthy lifestyle"),
+            Tag("Relationship"),
+            Tag("Sleep better"),
+        )
     }
 
 }

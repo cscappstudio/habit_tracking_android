@@ -30,7 +30,7 @@ data class Goal(
 )
 
 
-data class Tag(val name: String, val isSelected: Boolean)
+data class Tag(val name: String, var isSelected: Boolean = false)
 
 
 
