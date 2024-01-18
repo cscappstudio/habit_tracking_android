@@ -17,6 +17,7 @@ class BaseBindingAdapter<T>(
     ListAdapter<T, BaseBindingAdapter.BaseBindingHolder>(diffUtil) {
     private var listener: BaseBindingListener? = null
     private var param: ViewGroup.LayoutParams? = null
+
     fun setData(data: ArrayList<T>) {
         this.submitList(data)
         notifyDataSetChanged()
@@ -44,8 +45,9 @@ class BaseBindingAdapter<T>(
     override fun onBindViewHolder(holder: BaseBindingHolder, position: Int) {
 
         val t =  getItem(position)
+
         holder.binding.setVariable(BR.item, t)
-//        holder.binding.setVariable(BR.position, position)
+        holder.binding.setVariable(BR.position, position)
         if (listener != null) {
             holder.binding.setVariable(BR.listener, listener)
         }

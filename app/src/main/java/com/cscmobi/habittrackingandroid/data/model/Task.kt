@@ -28,3 +28,10 @@ data class Goal(
     val typeGoal: TypeGoal? = null,
     val progress: Int = 0
 )
+
+
+data class Tag(val name: String, val isSelected: Boolean)
+
+
+
+

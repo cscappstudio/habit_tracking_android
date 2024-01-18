@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.databinding.ActivityNewhabitBinding
+import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomsheetNewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CollectionFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CreateCollectionFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
@@ -19,13 +20,22 @@ class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>() {
     val collectionFragment = CollectionFragment()
     val newHabitFragment = NewHabitFragment()
     val createCollectionFragment = CreateCollectionFragment()
+    val bottomsheetNewHabitFragment = BottomsheetNewHabitFragment()
+
     override fun initView() {
         collectionViewModel.setUp()
         addFragmentNotHide(R.id.fr_container,collectionFragment,"collectionFragment")
+        addFragment(R.id.fr_container,bottomsheetNewHabitFragment,BottomsheetNewHabitFragment.tag)
+
     }
 
     fun replaceFragment(fr: Fragment,tagFragment: String) {
         replaceFragment(R.id.fr_container,fr, tagFragment)
+    }
+
+    fun showBottomSheetFragment(caseBottomSheet: Int) {
+        bottomsheetNewHabitFragment.case = caseBottomSheet
+        supportFragmentManager.beginTransaction().show(bottomsheetNewHabitFragment).commit()
     }
 
     override fun setEvent() {

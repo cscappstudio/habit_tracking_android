@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.view.View
 import android.widget.AdapterView
 import android.widget.CalendarView
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentCreateNewhabitBinding
+import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.Day
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DayOfMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.FrequencyTextAdapter
@@ -39,6 +41,7 @@ class NewHabitFragment :
         setUpTimePicker()
         setUpDayofMonthCalender()
         setUpReminder()
+        setUpTag()
 
         val childFragment: CustomCalenderFragment = CustomCalenderFragment()
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
@@ -106,6 +109,12 @@ class NewHabitFragment :
         binding.layoutReminder.unitMinute.setSelectedTypeface(fontTypetextSelected)
     }
 
+    private fun setUpTag() {
+        binding.layoutTag.addIvVisible = binding.layoutTag.txtTag.text.isNullOrEmpty()
+        binding.layoutTag.ivAdd.setOnClickListener {
+            (requireActivity() as NewHabitActivity).showBottomSheetFragment(1)
+        }
+    }
 
     override fun setEvent() {
         binding.ivClose.setOnClickListener {
@@ -127,6 +136,11 @@ class NewHabitFragment :
                 isChecked
         }
 
+        binding.layoutEndDate.swEndDate.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            binding.layoutEndDate.isEndDateEdit = isChecked
+        }
+
         binding.layoutRepeate.txtDaily.setOnClickListener {
             setStateTextRepeat(0)
         }
@@ -140,6 +154,29 @@ class NewHabitFragment :
         }
 
         setListenerListDay()
+        
+        binding.layoutReminder.unitHour.setOnClickListener {
+            setStateBackgroundUnitReminder(binding.layoutReminder.frHour,binding.layoutReminder.frMinute,binding.layoutReminder.frDay)
+        }
+
+        binding.layoutReminder.unitMinute.setOnClickListener {
+            setStateBackgroundUnitReminder(binding.layoutReminder.frMinute,binding.layoutReminder.frHour,binding.layoutReminder.frDay)
+
+        }
+
+        binding.layoutReminder.unitDay.setOnClickListener {
+            setStateBackgroundUnitReminder(binding.layoutReminder.frDay,binding.layoutReminder.frHour,binding.layoutReminder.frMinute)
+
+        }
+    }
+
+    private fun setStateBackgroundUnitReminder(fr: FrameLayout,vararg lstFr: FrameLayout) {
+        lstFr.forEach {
+            it.setBackgroundResource(R.drawable.bg_white_corner_12)
+        }
+
+        fr.setBackgroundResource(R.drawable.bg_white_border_corner_12)
+
     }
 
     private fun setListenerListDay() {
