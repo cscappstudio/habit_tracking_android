@@ -35,7 +35,7 @@ class YearCalendarFragment :
                 recyclerView()
                 adapter?.updateData(getDataList(mYear))
                 binding.loadingView.visibility = View.GONE
-            }, 1000)
+            }, 400)
 
         }
         initListener()

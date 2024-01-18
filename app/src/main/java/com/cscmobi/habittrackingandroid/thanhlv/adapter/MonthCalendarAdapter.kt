@@ -5,7 +5,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ItemMonthCalendarBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 
@@ -41,6 +43,8 @@ class MonthCalendarAdapter(private var mContext: Context, private var callback: 
         if (position == 10 || position == 17|| position == 30) {
             holder.binding.tvDay.visibility = View.GONE
             holder.binding.imgMood.visibility = View.VISIBLE
+
+            holder.binding.imgMood.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.pulse2))
         } else {
             holder.binding.tvDay.visibility = View.VISIBLE
             holder.binding.imgMood.visibility = View.GONE

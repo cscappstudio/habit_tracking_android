@@ -529,5 +529,51 @@ class MyUtils {
             val interval = RemoteConfigs.instance.getConfigValue(AdsConfigs.KEY_AD_FULL_INTERVAL_TIME).asLong()
             return cur - adFullShowTime >= interval
         }
+
+
+
+        open fun shareApp(context: Context) {
+//        DogApp.ignoreOpenAd = true
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                RemoteConfigs.instance.appConfigs.shareText + "\n"
+                        + String.format("https://play.google.com/store/apps/details?id=%s", context.packageName)
+            )
+            sendIntent.type = "text/plain"
+            context.startActivity(Intent.createChooser(sendIntent, "Share to"))
+        }
+        fun showMoreApp(context: Context) {
+//        DogApp.ignoreOpenAd = true
+            try {
+               context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(RemoteConfigs.instance.appConfigs.moreAppURL)
+                    )
+                )
+            } catch (e: ActivityNotFoundException) {
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(RemoteConfigs.instance.appConfigs.moreAppURL)
+                    )
+                )
+            }
+        }
+
+        fun openDeeplink(context: Context, url: String?) {
+            if (url.isNullOrEmpty()) return
+//        DogApp.ignoreOpenAd = true
+            try {
+                val i = Intent(Intent.ACTION_VIEW)
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    i.data = Uri.parse(url)
+                } else i.data = Uri.parse("http://$url")
+                context.startActivity(i)
+            } catch (ignored: java.lang.Exception) {
+            }
+        }
+
     }
 }

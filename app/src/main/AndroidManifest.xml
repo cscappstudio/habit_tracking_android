@@ -67,19 +67,6 @@
             android:theme="@style/FullScreenTheme" />
 
         <activity
-            android:name=".thanhlv.ui.TodayMood2Activity"
-            android:exported="true"
-            android:theme="@style/FullScreenTheme" />
-
-        <activity
-            android:name=".thanhlv.ui.TodayMood3Activity"
-            android:exported="true"
-            android:theme="@style/FullScreenTheme" />
-        <activity
-            android:name=".thanhlv.ui.TodayMood4Activity"
-            android:exported="true"
-            android:theme="@style/FullScreenTheme" />
-        <activity
             android:name=".thanhlv.ui.ChangeLanguageActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />

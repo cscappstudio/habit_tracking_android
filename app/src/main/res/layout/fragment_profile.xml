@@ -38,9 +38,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_settings" />
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="15dp"
+                android:src="@drawable/ic_plus_circle_small"
+                app:layout_constraintBottom_toBottomOf="@id/img_profile"
+                app:layout_constraintEnd_toEndOf="@id/img_profile" />
+
             <TextView
                 android:id="@+id/tv_change_ava"
-                style="@style/Text_600"
+                style="@style/Text_500"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -55,7 +64,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_settings_subs"
                 app:layout_constraintBottom_toBottomOf="@id/btn_subscription"
                 app:layout_constraintStart_toStartOf="@id/btn_subscription"
                 app:layout_constraintTop_toTopOf="@id/btn_subscription" />
@@ -77,6 +86,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="24dp"
+
+
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="Subscription"
@@ -89,7 +100,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_settings_notification"
                 app:layout_constraintBottom_toBottomOf="@id/btn_notification"
                 app:layout_constraintStart_toStartOf="@id/btn_notification"
                 app:layout_constraintTop_toTopOf="@id/btn_notification" />
@@ -111,6 +122,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+
+
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="Notification"
@@ -123,7 +136,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_settings_language"
                 app:layout_constraintBottom_toBottomOf="@id/btn_language"
                 app:layout_constraintStart_toStartOf="@id/btn_language"
                 app:layout_constraintTop_toTopOf="@id/btn_language" />
@@ -138,6 +151,22 @@
                 app:layout_constraintTop_toTopOf="@id/btn_language" />
 
             <TextView
+                android:id="@+id/tv_language"
+                style="@style/Text_500"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_marginEnd="50dp"
+                android:gravity="center_vertical"
+                android:paddingStart="58dp"
+                android:text="English"
+                android:textColor="#b5b5b5"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_language"
+                app:layout_constraintEnd_toEndOf="@id/btn_language"
+                app:layout_constraintTop_toTopOf="@id/btn_language" />
+
+
+            <TextView
                 android:id="@+id/btn_language"
                 style="@style/Text_600"
                 android:layout_width="0dp"
@@ -145,6 +174,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+
+
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="Language"
@@ -158,7 +189,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_settings_share_app"
                 app:layout_constraintBottom_toBottomOf="@id/btn_share_app"
                 app:layout_constraintStart_toStartOf="@id/btn_share_app"
                 app:layout_constraintTop_toTopOf="@id/btn_share_app" />
@@ -192,7 +223,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_settings_privacy"
                 app:layout_constraintBottom_toBottomOf="@id/btn_privacy"
                 app:layout_constraintStart_toStartOf="@id/btn_privacy"
                 app:layout_constraintTop_toTopOf="@id/btn_privacy" />
@@ -214,6 +245,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+
+
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="Privacy"
@@ -226,7 +259,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_settings_rate"
                 app:layout_constraintBottom_toBottomOf="@id/btn_rate"
                 app:layout_constraintStart_toStartOf="@id/btn_rate"
                 app:layout_constraintTop_toTopOf="@id/btn_rate" />
@@ -248,6 +281,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+
+
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="Rate"
@@ -260,7 +295,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_settings_term"
                 app:layout_constraintBottom_toBottomOf="@id/btn_about"
                 app:layout_constraintStart_toStartOf="@id/btn_about"
                 app:layout_constraintTop_toTopOf="@id/btn_about" />
@@ -274,6 +309,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/btn_about" />
 
+
+            <TextView
+                android:id="@+id/tv_version"
+                style="@style/Text_500"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_marginEnd="50dp"
+                android:gravity="center_vertical"
+                android:paddingStart="58dp"
+                android:text="v1.0.0"
+                android:textColor="#b5b5b5"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_about"
+                app:layout_constraintEnd_toEndOf="@id/btn_about"
+                app:layout_constraintTop_toTopOf="@id/btn_about" />
+
             <TextView
                 android:id="@+id/btn_about"
                 style="@style/Text_600"
@@ -282,6 +333,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+
+
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="About"

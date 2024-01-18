@@ -39,7 +39,7 @@ class MonthCalendarFragment :
                 recyclerView()
                 adapter?.updateData(getDataList(mMonth, mYear))
                 binding.loadingView.visibility = View.GONE
-            }, 800)
+            }, 400)
         }
         initListener()
     }

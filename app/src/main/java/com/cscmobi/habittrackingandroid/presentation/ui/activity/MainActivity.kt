@@ -11,7 +11,6 @@ import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProfileFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
-import com.cscmobi.habittrackingandroid.thanhlv.ui.TodayMood3Activity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -51,7 +50,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
                     R.id.page_4 -> {
                         showFragment(fragment4)
-//                        startActivity(Intent(this@MainActivity, TodayMood3Activity::class.java))
                         return@OnNavigationItemSelectedListener true
                     }
                 }

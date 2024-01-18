@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import com.cscmobi.habittrackingandroid.databinding.ActivityLanguageBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
+import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.spf.SPF
 
 class ChangeLanguageActivity : BaseActivity2() {
@@ -42,6 +43,16 @@ class ChangeLanguageActivity : BaseActivity2() {
         listLanguage.add(binding.checkThailand)
         listLanguage.add(binding.checkVietnam)
         listLanguage.add(binding.checkPortuguese)
+
+        binding.tvUsa.rippleEffect()
+        binding.tvGermany.rippleEffect()
+        binding.tvPortuguese.rippleEffect()
+        binding.tvFilipino.rippleEffect()
+        binding.tvFrench.rippleEffect()
+        binding.tvHindi.rippleEffect()
+        binding.tvThailand.rippleEffect()
+        binding.tvVietnam.rippleEffect()
+        binding.tvSpanish.rippleEffect()
 
         if (SPF.getLanguage(this) != null) currentLanguage = SPF.getLanguage(this)!!
         toggleItemLanguage()
