@@ -18,7 +18,7 @@
             android:layout_width="@dimen/_67sdp"
             android:layout_height="@dimen/_59sdp"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
             android:layout_marginBottom="@dimen/_70sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_icon_add" />
