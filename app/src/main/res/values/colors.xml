@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">#00000000 </color>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green_cyan">#7DB6A7</color>
+    <color name="light_gray">#E1ECEC</color>
+    <color name="bottle_green">#09392D</color>
+    <color name="forest_green">#125A47</color>
+    <color name="silver">#F5F5F5</color>
+    <color name="dark_green">#166851</color>
+    <color name="shadow_gray">#393E3C</color>
+    <color name="tangerine">#EDCA15</color>
+    <color name="tangerine_25_percent">#40EDCA15</color>
+    <color name="gray">#B5B5B5</color>
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="blue">#B6D6DD</color>
+    <color name="pink">#EBB2BD</color>
+    <color name="orange">#EEC9AA</color>
+    <color name="green">#BEE4B8</color>
+    <color name="purple">#BEB3D5</color>
+    <color name="dim_gray">#5B5B5B</color>
+    <color name="teal_green">#54BA8F</color>
+    <color name="jade_black">#01100C</color>
+    <color name="greeny">#52B89C</color>
+    <color name="baby_pink">#FF9DAE</color>
+    <color name="coral_red">#FB7950</color>
+    <color name="dark_gray">#636463</color>
+    <color name="grey">#909090</color>
+    <color name="silver_gray">#9B9797</color>
+    <color name="greenish_blue_20_percent">#33DCF1EB</color>
+
 </resources>

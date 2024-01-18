@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:dragEdge="right"
+    android:id="@+id/swipe_layout"
+    app:mode="same_level"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_marginHorizontal="@dimen/_20sdp"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/fr_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_skip"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_skip"
+                android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_edit"
+                android:layout_width="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:src="@drawable/ic_edit"
+                android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivv_delete"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ct_task"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_51sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_corner_30"
+                android:elevation="@dimen/_10sdp"
+                android:maxHeight="80dp"
+                android:outlineSpotShadowColor="#33000000"
+                android:paddingHorizontal="@dimen/_15sdp"
+                tools:ignore="UnusedAttribute">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView"
+                    android:layout_width="@dimen/_31sdp"
+                    android:layout_height="@dimen/_31sdp"
+                    android:background="@color/greeny"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_golf"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circle" />
+
+                <TextView
+                    android:id="@+id/txt_name_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_11sdp"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:text="Drink water"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txt_goal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/worksans_medium"
+                    android:text="2/3"
+                    android:textColor="@color/dark_gray"
+                    android:textFontWeight="700"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/txt_unit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/txt_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/worksans_regular"
+                    android:text="glasses"
+                    android:textColor="@color/grey"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_goal" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/rd_check"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:button="@drawable/custom_checkbox"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </FrameLayout>
+
+
+</com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout>

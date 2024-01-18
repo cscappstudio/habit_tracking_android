@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/jade_black</item>
+        <item name="colorPrimaryVariant">@color/jade_black</item>
+        <item name="colorOnPrimary">@color/gray</item>
+    </style>
+
+    <style name="circle">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <declare-styleable name="SwipeRevealLayout">
+        <attr name="dragEdge">
+            <flag name="left" value="1" />
+            <flag name="right" value="2" />
+            <flag name="top" value="4" />
+            <flag name="bottom" value="8" />
+        </attr>
+
+        <attr name="mode">
+            <enum name="normal" value="0" />
+            <enum name="same_level"   value="1" />
+        </attr>
+
+        <attr name="flingVelocity" format="integer" />
+
+        <attr name="minDistRequestDisallowParent" format="dimension" />
+    </declare-styleable>
+
+
+    <style name="ChipCustomStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="checkedIconEnabled">false</item>
+        <item name="checkedIcon">@null</item>
+    </style>
+
+
+    <style name="TextDay">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:background">@drawable/bg_white_corner_20</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+    </style>
+
+    <style name="TextDaySelect">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_white_corner_20</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTint">@color/blue</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+    </style>
+</resources>

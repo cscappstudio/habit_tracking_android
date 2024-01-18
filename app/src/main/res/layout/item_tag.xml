@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.cscmobi.habittrackingandroid.data.model.Tag" />
+        <variable
+            name="listener"
+            type="com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener" />
+        <variable
+            name="position"
+            type="Integer" />
+        <import type="android.view.View"/>
+    </data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:background="@drawable/bg_white_corner_20"
+    android:onClick="@{v -> listener.onItemClicked(position)}"
+    android:backgroundTint="@{item.selected ? @color/greenish_blue_20_percent :@color/silver}"
+    android:paddingHorizontal="@dimen/_20sdp"
+    android:layout_height="@dimen/_44sdp">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="No tag"
+        android:textColor="@{item.selected ? @color/greeny :@color/shadow_gray}"
+        android:textSize="15sp"
+        android:fontFamily="@font/worksans_medium"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_tag_selected"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:visibility="@{item.selected ? View.VISIBLE : View.GONE}"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+</layout>

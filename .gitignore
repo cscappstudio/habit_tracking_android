@@ -1,5 +1,6 @@
 *.iml
 /local.properties
+.gradleh
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -12,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+.gradle/8.0
+.idea/shelf
+.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml
+.idea
+.idea/misc.xml
