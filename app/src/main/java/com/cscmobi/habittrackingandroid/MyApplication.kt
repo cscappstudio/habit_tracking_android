@@ -21,4 +21,8 @@ class MyApplication: ApplicationLocale() {
 
         AndroidThreeTen.init(this)
     }
+
+    companion object {
+        var ignoreOpenAd = false
+    }
 }
