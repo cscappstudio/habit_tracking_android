@@ -3,25 +3,26 @@
     <item
         android:id="@+id/page_1"
         android:enabled="true"
-        android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:icon="@drawable/ic_tab_home"
+        android:title="Home" />
     <item
         android:id="@+id/page_2"
         android:enabled="true"
-        android:icon="@drawable/ic_golf"
-        android:title="Progress"/>
+        android:icon="@drawable/ic_tab_progress"
+        android:title="Progress" />
 
     <item
         android:id="@+id/placeholder"
-        android:title="" />
+        android:enabled="false"
+        android:title="@null" />
     <item
         android:id="@+id/page_3"
         android:enabled="true"
-        android:icon="@drawable/ic_boxing_glove"
-        android:title="Challenge"/>
+        android:icon="@drawable/ic_tab_challenge"
+        android:title="Challenge" />
     <item
         android:id="@+id/page_4"
         android:enabled="true"
-        android:icon="@drawable/ic_star"
-        android:title="Profile"/>
+        android:icon="@drawable/ic_tab_profile_circle"
+        android:title="Profile" />
 </menu>

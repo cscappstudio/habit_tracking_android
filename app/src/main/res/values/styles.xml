@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/jade_black</item>
         <item name="colorPrimaryVariant">@color/jade_black</item>
@@ -20,7 +21,7 @@
 
         <attr name="mode">
             <enum name="normal" value="0" />
-            <enum name="same_level"   value="1" />
+            <enum name="same_level" value="1" />
         </attr>
 
         <attr name="flingVelocity" format="integer" />
@@ -57,4 +58,12 @@
         <item name="android:layout_height">match_parent</item>
         <item name="fontFamily">@font/worksans_medium</item>
     </style>
+
+
+    <style name="BottomNavigationView" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/jade_black</item>
+        <item name="fontFamily">@font/worksans_medium</item>
+    </style>
+
 </resources>
