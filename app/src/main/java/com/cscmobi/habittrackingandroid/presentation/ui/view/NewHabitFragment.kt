@@ -2,8 +2,6 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.content.res.ColorStateList
 import android.view.View
-import android.widget.AdapterView
-import android.widget.CalendarView
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -13,12 +11,9 @@ import androidx.fragment.app.FragmentTransaction
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentCreateNewhabitBinding
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.Day
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DayOfMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.FrequencyTextAdapter
-import java.util.Calendar
-import java.util.Date
 
 
 class NewHabitFragment :
@@ -112,7 +107,9 @@ class NewHabitFragment :
     private fun setUpTag() {
         binding.layoutTag.addIvVisible = binding.layoutTag.txtTag.text.isNullOrEmpty()
         binding.layoutTag.ivAdd.setOnClickListener {
-            (requireActivity() as NewHabitActivity).showBottomSheetFragment(1)
+            val bottomSheetFragment = BottomsheetNewHabitFragment()
+
+            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
         }
     }
 

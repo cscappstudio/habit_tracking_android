@@ -20,12 +20,12 @@ class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>() {
     val collectionFragment = CollectionFragment()
     val newHabitFragment = NewHabitFragment()
     val createCollectionFragment = CreateCollectionFragment()
-    val bottomsheetNewHabitFragment = BottomsheetNewHabitFragment()
+//    val bottomsheetNewHabitFragment = BottomsheetNewHabitFragment()
 
     override fun initView() {
         collectionViewModel.setUp()
         addFragmentNotHide(R.id.fr_container,collectionFragment,"collectionFragment")
-        addFragment(R.id.fr_container,bottomsheetNewHabitFragment,BottomsheetNewHabitFragment.tag)
+     //   addFragment(R.id.fr_container,bottomsheetNewHabitFragment,BottomsheetNewHabitFragment.tag)
 
     }
 
@@ -33,10 +33,10 @@ class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>() {
         replaceFragment(R.id.fr_container,fr, tagFragment)
     }
 
-    fun showBottomSheetFragment(caseBottomSheet: Int) {
-        bottomsheetNewHabitFragment.case = caseBottomSheet
-        supportFragmentManager.beginTransaction().show(bottomsheetNewHabitFragment).commit()
-    }
+//    fun showBottomSheetFragment(caseBottomSheet: Int) {
+//        bottomsheetNewHabitFragment.case = caseBottomSheet
+//        supportFragmentManager.beginTransaction().show(bottomsheetNewHabitFragment).commit()
+//    }
 
     override fun setEvent() {
 
