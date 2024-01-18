@@ -8,6 +8,9 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
+import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
+import com.cscmobi.habittrackingandroid.thanhlv.ui.ProfileFragment
+import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.CornerFamily
@@ -18,9 +21,9 @@ import org.threeten.bp.LocalDate
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val fragment1 = HomeFragment()
-    private val fragment2 = HomeFragment()
-    private val fragment3 = HomeFragment()
-    private val fragment4 = HomeFragment()
+    private val fragment2 = ProgressFragment()
+    private val fragment3 = ChallengeFragment()
+    private val fragment4 = ProfileFragment()
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_main
@@ -29,7 +32,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initView() {
 
         binding.bottomNavigationView.background = null
-        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
+//        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
         initFragments()
         showFragment(fragment1)

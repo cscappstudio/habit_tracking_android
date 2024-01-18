@@ -14,26 +14,27 @@
     <!--    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>-->
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MyApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
             android:name=".presentation.ui.activity.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.ui.activity.NewHabitActivity"/>
+        <activity android:name=".presentation.ui.activity.NewHabitActivity" />
         <!--        <service-->
         <!--            android:name=".utils.notification.MyFirebaseMessagingService"-->
         <!--            android:exported="false">-->
@@ -44,6 +45,33 @@
         <!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
         <!--            </intent-filter>-->
         <!--        </service>-->
+
+        <activity
+            android:name=".thanhlv.ui.MoodActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+
+        <activity
+            android:name=".thanhlv.ui.DetailMoodActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <activity
+            android:name=".thanhlv.ui.TodayMoodActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+
+        <activity
+            android:name=".thanhlv.ui.ChangeLanguageActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/app_id" />
+
     </application>
 
 </manifest>
