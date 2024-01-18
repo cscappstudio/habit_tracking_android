@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="186dp"
+    android:backgroundTint="#B2E0CC"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/img_target"
+            android:layout_width="175dp"
+            android:layout_height="195dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="-50dp"
+            android:layout_marginBottom="-40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_target"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/Text_700_Med"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="54dp"
+            android:lineSpacingMultiplier="1.25"
+            android:maxLines="2"
+            android:text="Many challenges waiting for you ahead"
+            android:textColor="#166851"
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_des"
+            style="@style/Text_500"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="8dp"
+            android:lineSpacingMultiplier="1.5"
+            android:maxLines="2"
+            android:text="Become a premium member to conquer all challenges."
+            android:textColor="#5A766E"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/img_target"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+
+        <TextView
+            android:id="@+id/btn_try_premium"
+            style="@style/Text_700"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="14dp"
+            android:autoSizeMaxTextSize="12sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/bg_white_round_20"
+            android:backgroundTint="#09392D"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="1dp"
+            android:text="Try Premium now"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_max="160dp"
+            tools:ignore="UnusedAttribute" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
