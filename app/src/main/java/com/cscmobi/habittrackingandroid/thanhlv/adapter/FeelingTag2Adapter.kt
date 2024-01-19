@@ -13,17 +13,15 @@ import com.cscmobi.habittrackingandroid.databinding.ItemAllChallengeBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemMonthCalendarBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemMoodRecordBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemMyChallengeBinding
+import com.cscmobi.habittrackingandroid.databinding.ItemTextTag2Binding
 import com.cscmobi.habittrackingandroid.databinding.ItemTextTagBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 
-class FeelingTagAdapter(private var mContext: Context) :
-    RecyclerView.Adapter<FeelingTagAdapter.ViewHolder>() {
-    class ViewHolder(var binding: ItemTextTagBinding) : RecyclerView.ViewHolder(binding.root)
-
+class FeelingTag2Adapter(private var mContext: Context) :
+    RecyclerView.Adapter<FeelingTag2Adapter.ViewHolder>() {
+    class ViewHolder(var binding: ItemTextTag2Binding) : RecyclerView.ViewHolder(binding.root)
     private var mList = mutableListOf<FeelingTagModel>()
-    private var mCallBack: FeelingTagCallback? = null
-
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(list: MutableList<FeelingTagModel>) {
@@ -31,17 +29,9 @@ class FeelingTagAdapter(private var mContext: Context) :
         notifyDataSetChanged()
     }
 
-    interface FeelingTagCallback {
-        fun onClickItem(pos: Int)
-    }
-
-    fun setCallBack(callback: FeelingTagCallback) {
-        this.mCallBack = callback
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemTextTagBinding.inflate(
+            ItemTextTag2Binding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -51,27 +41,6 @@ class FeelingTagAdapter(private var mContext: Context) :
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (mList.isEmpty()) return
-        val item = mList[position]
-        holder.binding.root.setOnClickListener {
-            item.selected = !item.selected
-
-            it.backgroundTintList =
-                if (item.selected) ColorStateList.valueOf(Color.parseColor("#EDCA15"))
-                else ColorStateList.valueOf(Color.parseColor("#FEFAE8"))
-
-            (it as TextView).setTextColor(
-                if (item.selected) Color.parseColor("#ffffff")
-                else Color.parseColor("#EDCA15")
-            )
-
-
-            mCallBack?.onClickItem(position)
-        }
-    }
-
-    private fun toggleItemView(view: View, selected: Boolean) {
-        view.visibility = if (selected) View.VISIBLE else View.GONE
     }
 
     override fun getItemCount(): Int {
