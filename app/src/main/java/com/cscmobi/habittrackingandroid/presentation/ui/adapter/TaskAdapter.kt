@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.data.model.Task
+import com.cscmobi.habittrackingandroid.data.dto.entities.Task
 import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout

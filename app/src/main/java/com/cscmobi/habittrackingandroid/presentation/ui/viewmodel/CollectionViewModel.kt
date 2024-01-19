@@ -34,11 +34,20 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
                 when(it) {
                     is CollectionIntent.FetchCollection -> fetchCollections()
                     is CollectionIntent.PassItemCollection -> passCollectionItem(it.data)
+                    is CollectionIntent.NotCreateCollection -> _state.value = CollectionState.IdleCreateCollection
+                    is CollectionIntent.CreateCollection -> createCollection(it.data)
                     else -> {}
                 }
             }
         }
     }
+
+     fun createCollection(data: HabitCollection) {
+         viewModelScope.launch {
+             _state.value = CollectionState.CreateCollection(data)
+         }
+    }
+
     private fun fetchCollections() {
         viewModelScope.launch {
             _state.value = CollectionState.Loading

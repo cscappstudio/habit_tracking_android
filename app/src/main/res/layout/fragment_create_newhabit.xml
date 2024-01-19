@@ -11,6 +11,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:fillViewport="true"
+        android:background="@color/white"
+        android:focusable="true"
         android:id="@+id/nest_scroll"
         android:paddingBottom="@dimen/_25sdp"
         android:layout_height="match_parent">
@@ -80,9 +82,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_color"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:background="@drawable/bg_white_corner_20"
             android:backgroundTint="@color/silver"
+            android:foregroundGravity="center_horizontal"
             android:layout_height="wrap_content"
             android:padding="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
@@ -317,6 +320,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_21sdp"
+            android:visibility="gone"
+            android:layout_marginHorizontal="@dimen/_24sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_checklist"
+            />
+
+        <include
+            android:id="@+id/layout_add_routine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/layout_btn_add_routine"
+            android:layout_marginTop="@dimen/_21sdp"
+            android:visibility="gone"
+
             android:layout_marginHorizontal="@dimen/_24sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_checklist"

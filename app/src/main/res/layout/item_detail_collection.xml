@@ -3,7 +3,7 @@
     <data>
         <variable
             name="item"
-            type="com.cscmobi.habittrackingandroid.data.model.Task" />
+            type="com.cscmobi.habittrackingandroid.data.dto.entities.Task" />
         <variable
             name="listener"
             type="com.cscmobi.habittrackingandroid.presentation.ItemBaseWithPostitionListener" />

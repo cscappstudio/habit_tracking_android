@@ -29,6 +29,9 @@ class CalendarAdapter :
             return oldItem == newItem
         }
     }) {
+
+    var colorSelect: Int = -1
+
     private var onItemListener: ItemWithPostionListener<CalenderData>? = null
     fun setListener(listener: ItemWithPostionListener<CalenderData>) {
         onItemListener = listener
@@ -71,6 +74,7 @@ class CalendarAdapter :
                     )
                     binding.frContainer.setBackgroundResource(R.drawable.bg_circle)
                     binding.frContainer.backgroundTintList = ColorStateList.valueOf(
+                        if (colorSelect != -1) colorSelect else
                         ContextCompat.getColor(
                             binding.root.context,
                             R.color.orange

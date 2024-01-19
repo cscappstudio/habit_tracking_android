@@ -19,6 +19,10 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
     private var calendarAdapter: CalendarAdapter? = null
     private var calenderData = arrayListOf<CalenderData>()
 
+    fun resetColorTask( color: Int) {
+        calendarAdapter?.colorSelect = color
+    }
+
     override fun initView(view: View) {
         selectedDate = LocalDate.now();
         setMonthView()

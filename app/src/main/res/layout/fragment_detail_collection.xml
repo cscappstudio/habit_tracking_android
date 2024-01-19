@@ -3,7 +3,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.cscmobi.habittrackingandroid.base.BaseBindingAdapter&lt;com.cscmobi.habittrackingandroid.data.model.Task>" />
+            type="com.cscmobi.habittrackingandroid.base.BaseBindingAdapter&lt;com.cscmobi.habittrackingandroid.data.dto.entities.Task>" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

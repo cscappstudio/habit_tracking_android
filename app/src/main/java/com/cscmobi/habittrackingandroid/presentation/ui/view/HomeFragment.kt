@@ -14,7 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.data.model.Task
+import com.cscmobi.habittrackingandroid.data.dto.entities.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
@@ -77,11 +77,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         lifecycleScope.launch {
             homeViewModel.state.collect { state ->
                 when (state) {
-
                     is HomeState.Tasks -> {
+
                         val categories = arrayListOf<String>()
                         categories.add("All")
-                        categories.addAll(state.tasks.map { it.tag }.distinct())
+                        categories.addAll(  state.tasks.map { it.tag }.distinct())
                         initChips(categories)
 
                         if (state.tasks.isEmpty()) {
