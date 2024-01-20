@@ -13,8 +13,6 @@ import java.util.Date
 //
 //    )
 
-
-
 enum class StatusTask(status: Int) {
     NOTDO(-1),
     DOING(0),
