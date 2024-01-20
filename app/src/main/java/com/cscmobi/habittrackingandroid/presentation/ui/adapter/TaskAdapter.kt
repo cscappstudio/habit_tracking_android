@@ -63,7 +63,7 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>): ListA
                  onItemClickAdapter.delete(item,adapterPosition)
              }
              
-             binding.root.setOnClickListener {
+             binding.frRoot.setOnClickListener {
                  onItemClickAdapter.onItemClicked(item,adapterPosition)
              }
          }

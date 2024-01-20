@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -63,9 +64,10 @@ class CalendarAdapter :
             if (item.day.toInt() <  Helper.currentDate.dayOfMonth) {
 
                 binding.txtDay.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray))
+                binding.frContainer.background = null
             }
             else {
-                if (item.isSelected) {
+                if (item.isSelected ) {
                     binding.txtDay.setTextColor(
                         ContextCompat.getColor(
                             binding.root.context,
@@ -93,9 +95,13 @@ class CalendarAdapter :
 
                 binding.root.setOnClickListener {
 
+                    if (adapterPosition in 1..31)
                     onItemListener?.onItemClicked(item, adapterPosition)
                 }
             }
+            } else {
+                binding.frContainer.background = null
+
             }
         }
 

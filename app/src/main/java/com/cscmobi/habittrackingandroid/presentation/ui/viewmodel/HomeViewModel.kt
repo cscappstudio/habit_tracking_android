@@ -64,7 +64,7 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
     private fun fetchTasks() {
         viewModelScope.launch {
             _state.value = try {
-               HomeState.Tasks(repository.getListTask())
+                HomeState.Tasks(repository.getListTask())
 
             } catch (e: Exception) {
                 HomeState.Tasks(arrayListOf())
@@ -78,16 +78,23 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
 
         val c = LocalDate.now()
         val weekRange = 12L
+
         for (i in -weekRange until weekRange) {
             val startOfWeek =
                 c.plusWeeks(i).with(DayOfWeek.MONDAY) // Set to the first day of the week (Monday)
-            listWeekData.add(startOfWeek)
+
+            // Add all days of the week manually
+            for (day in 0 until DayOfWeek.values().size) {
+                val currentDay = startOfWeek.plusDays(day.toLong())
+                listWeekData.add(currentDay)
+            }
         }
 
-        currentWeekPos = listWeekData.indexOfFirst { it == c.with(DayOfWeek.MONDAY) }
-        println("chaulq____________${currentWeekPos}")
+
+        currentWeekPos = listWeekData.indexOfFirst { it == c }
+        // Print the list of LocalDate objects
+        println("chaulq___________${listWeekData[currentWeekPos]}")
 
     }
-
 
 }

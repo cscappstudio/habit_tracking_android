@@ -1,7 +1,10 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Build
 import android.text.SpannableString
 import android.text.Spanned
@@ -9,16 +12,24 @@ import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
+import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
+import com.cscmobi.habittrackingandroid.presentation.ui.activity.DetailTaskActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.TaskAdapter
+import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekPagerAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
@@ -27,7 +38,9 @@ import com.cscmobi.habittrackingandroid.utils.Helper
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.TextStyle
 import java.util.Locale
 
 
@@ -36,6 +49,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private lateinit var weekPagerAdapter: WeekPagerAdapter
     private lateinit var taskAdapter: TaskAdapter
 
+
+    private lateinit var weekAdapter: WeekAdapter
+    private var data = arrayListOf<WeekCalenderItem>()
+    private var date = arrayListOf<LocalDate>()
+    private var c = Helper.currentDate
+    lateinit var startOfWeek: LocalDate
+
     override fun initView(view: View) {
         lifecycleScope.launch {
             homeViewModel.userIntent.send(HomeIntent.FetchTasks)
@@ -43,28 +63,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         binding.isTasksEmpty = true
         observeState()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
 
         homeViewModel.initDateWeek()
-        weekPagerAdapter = WeekPagerAdapter(this).apply {
-            this.listWeekData = homeViewModel.listWeekData
-            this.doActionviewPager = {
+//        weekPagerAdapter = WeekPagerAdapter(this).apply {
+//            this.listWeekData = homeViewModel.listWeekData
+//            this.doActionviewPager = {
+//
+//                if (it.isBefore(Helper.currentDate)) {
+//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
+//
+//                } else {
+//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
+//                }
+//            }
+//
+//        }
 
-//                binding.txtDate.text =  if (it == Helper.currentDate)  " Today" else  it.format(formatter)
-
-                if (it.isBefore(Helper.currentDate)) {
-                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
-
-                } else {
-                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
-                }
-            }
-
-        }
-
-
-        binding.vpWeek.adapter = weekPagerAdapter
-        setCurrentWeekinViewPager()
+        initWeekApdater()
 
         binding.txtProgress1.setSpanTextView(R.color.forest_green)
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
@@ -72,6 +87,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    fun getDatesofWeek() {
+
+
+        date.clear()
+        data.clear()
+
+        for (day in  homeViewModel.listWeekData) {
+            date.add(day)
+            if (day == c)
+                data.add(
+                    WeekCalenderItem(
+                        day.dayOfWeek.getDisplayName(
+                            TextStyle.SHORT,
+                            Locale.ENGLISH
+                        ), day.dayOfMonth, true
+                    )
+                )
+            else data.add(
+                WeekCalenderItem(
+                    day.dayOfWeek.getDisplayName(
+                        TextStyle.SHORT,
+                        Locale.ENGLISH
+                    ), day.dayOfMonth
+                )
+            )
+
+
+        }
+    }
 
     private fun observeState() {
         lifecycleScope.launch {
@@ -102,16 +146,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    private fun setCurrentWeekinViewPager() {
-        if (homeViewModel.currentWeekPos != -1)
-            binding.vpWeek.currentItem = homeViewModel.currentWeekPos
-
-        isSetCurrentDate = true
-    }
 
     private fun initTaskAdapter(list: List<Task>) {
         taskAdapter = TaskAdapter(object : ItemTaskWithEdit<Task> {
             override fun onItemClicked(item: Task, p: Int) {
+                Intent(requireActivity(),DetailTaskActivity::class.java).apply {
+                    startActivity(this)
+                }
 
             }
 
@@ -209,13 +250,127 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     override fun setEvent() {
-        binding.txtDate.setOnClickListener {
-            setCurrentWeekinViewPager()
+        binding.llToday.setOnClickListener {
+            binding.llToday.visibility = View.GONE
+            scrollToPositionWithCentering(homeViewModel.currentWeekPos)
+            for ( i in (homeViewModel.currentWeekPos -3)..(homeViewModel.currentWeekPos +3) ) {
+                data[i].isSelected = false
+            }
+            data[homeViewModel.currentWeekPos].isSelected = true
+            weekAdapter.notifyItemChanged(homeViewModel.currentWeekPos)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+   private fun initWeekApdater() {
+       val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
+
+
+       addDecoration()
+       getDatesofWeek()
+       weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
+           override fun onItemClick(position: Int) {
+               data.forEachIndexed { index, item ->
+                   item.isSelected = position == index
+               }
+
+               if (date[position] == c) {
+                   binding.llToday.visibility = View.GONE
+                   binding.txtDate.text = "Today"
+               }
+               else {
+                   binding.llToday.visibility = View.VISIBLE
+                   binding.txtDate.text = date[position].format(formatter)
+
+               }
+
+                binding.llToday.visibility = if(date[position] == c) View.INVISIBLE else View.VISIBLE
+                if (date[position].isBefore(Helper.currentDate)) {
+                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
+
+                } else {
+                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
+                }
+
+               weekAdapter.notifyDataSetChanged()
+
+               binding.rcvWeek.postDelayed(Runnable {
+                   scrollToPositionWithCentering(position)
+               }, 200L)
+           }
+
+       })
+       weekAdapter.submitList(data)
+       binding.rcvWeek.adapter = weekAdapter
+
+
+       binding.rcvWeek.postDelayed(Runnable {
+
+           scrollToPositionWithCentering(homeViewModel.currentWeekPos)
+               // give a delay of one second
+           }, 1_000)
+
+
+   }
+
+    fun scrollToPositionWithCentering(position: Int) {
+        val layoutManager = binding.rcvWeek.layoutManager as LinearLayoutManager
+        val smoothScroller = CenterSmoothScroller(binding.rcvWeek.context)
+        smoothScroller.targetPosition = position
+        layoutManager.startSmoothScroll(smoothScroller)
+
+    }
+
+    // Custom SmoothScroller to scroll to the center of the target item
+    class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
+        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int {
+            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+        }
+
+        override fun getVerticalSnapPreference(): Int {
+            return SNAP_TO_START
+        }
+
+        override fun getHorizontalSnapPreference(): Int {
+            return SNAP_TO_START
+        }
+    }
+    private fun addDecoration() {
+        if (!hasDecoration(binding.rcvWeek, HorizontalItemDecoration::class.java)) {
+            val spaceWidth = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._3sdp)
+            binding.rcvWeek.addItemDecoration(HorizontalItemDecoration(spaceWidth))
+        }
+    }
+
+    fun hasDecoration(
+        recyclerView: RecyclerView,
+        decorationClass: Class<out RecyclerView.ItemDecoration>
+    ): Boolean {
+        for (i in 0 until recyclerView.itemDecorationCount) {
+            val itemDecoration = recyclerView.getItemDecorationAt(i)
+            if (decorationClass.isInstance(itemDecoration)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    inner class HorizontalItemDecoration(private val spaceWidth: Int) :
+        RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            outRect.left = -55
+
+            if (data[position].isSelected && position == 0) {
+                outRect.left = -30
+
+            }
+        }
     }
 
     companion object {

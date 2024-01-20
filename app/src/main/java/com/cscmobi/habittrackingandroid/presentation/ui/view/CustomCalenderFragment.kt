@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
@@ -24,6 +25,11 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
     }
 
     override fun initView(view: View) {
+//        binding.vRoot.elevation = 0f
+//        binding.vRoot.setBackgroundResource(R.drawable.bg_calender1)
+
+
+
         selectedDate = LocalDate.now();
         setMonthView()
 
@@ -58,7 +64,7 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
                         it.isSelected = false
                     }
 
-                    item.isSelected = true
+                    calenderData[p].isSelected = true
                     calendarAdapter?.notifyDataSetChanged()
                 }
 
@@ -80,7 +86,7 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
         val daysInMonth: Int = yearMonth.lengthOfMonth()
         val firstOfMonth = selectedDate.withDayOfMonth(1)
         val dayOfWeek = firstOfMonth.dayOfWeek.value
-        for (i in 1..42) {
+        for (i in 1..35) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
                 daysInMonthArray.add("")
             } else {

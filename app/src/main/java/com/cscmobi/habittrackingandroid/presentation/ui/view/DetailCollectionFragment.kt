@@ -26,8 +26,8 @@ class DetailCollectionFragment :
                 when (it) {
                     is CollectionState.Collection -> {
                         binding.txtCollection.text = it.data.name
-                        binding.txtNumberTask.text = "${it.data.task.size.toString()} habits"
-                        binding.ivCollection.setImageResource(it.data.image)
+                        binding.txtNumberTask.text = "${it.data.task!!.size.toString()} habits"
+                        binding.ivCollection.setImageResource(it.data.image!!)
                         initAdapter(it.data.task as ArrayList<Task>)
 
                     }
