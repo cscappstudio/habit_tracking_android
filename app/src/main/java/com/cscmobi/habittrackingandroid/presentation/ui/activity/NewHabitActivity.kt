@@ -27,7 +27,7 @@ class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>(),
 
     override fun initView() {
         collectionViewModel.setUp()
-        addFragmentNotHide(R.id.fr_container,collectionFragment,"collectionFragment")
+        addFragment(R.id.fr_container,collectionFragment,"collectionFragment")
      //   addFragment(R.id.fr_container,bottomsheetNewHabitFragment,BottomsheetNewHabitFragment.tag)
 
     }

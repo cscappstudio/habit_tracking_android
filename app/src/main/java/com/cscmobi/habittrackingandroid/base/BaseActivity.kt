@@ -57,8 +57,6 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
     protected fun addFragment(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
         supportFragmentManager.beginTransaction()
             .add(containerViewId,fragment,fragmentTag)
-//                .addToBackStack(fragmentTag)
-            .hide(fragment)
             .commit()
     }
     protected fun addFragmentNotHide(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {

@@ -18,6 +18,7 @@
         android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_root"
+        android:layout_marginBottom="@dimen/_15sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -124,6 +125,9 @@
                     android:drawableEnd="@drawable/edit_pencil"
                     android:layout_width="match_parent"
                     android:drawableTint="@color/gray"
+                    android:textSize="14sp"
+                    android:paddingVertical="@dimen/_2sdp"
+                    android:paddingStart="@dimen/_7sdp"
                     android:background="@drawable/bg_white_corner_20"
                     android:layout_height="@dimen/_34sdp"/>
 
@@ -160,6 +164,8 @@
                 android:id="@+id/sw_goal"
                 android:layout_width="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:thumbTint="@drawable/switch_thumb_selector"
+                app:trackTint="@drawable/switch_track_selector"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_height="wrap_content"/>
 
@@ -333,7 +339,6 @@
             layout="@layout/layout_btn_add_routine"
             android:layout_marginTop="@dimen/_21sdp"
             android:visibility="gone"
-
             android:layout_marginHorizontal="@dimen/_24sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_checklist"

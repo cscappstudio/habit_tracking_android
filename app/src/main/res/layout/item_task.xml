@@ -6,7 +6,6 @@
     app:dragEdge="right"
     android:id="@+id/swipe_layout"
     app:mode="same_level"
-    android:layout_marginBottom="@dimen/_5sdp"
     android:layout_marginHorizontal="@dimen/_20sdp"
     android:layout_height="wrap_content">
 
@@ -47,20 +46,21 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_minus5sdp"
             android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ct_task"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_51sdp"
-                android:layout_margin="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:layout_margin="@dimen/_5sdp"
                 android:background="@drawable/bg_white_corner_30"
                 android:elevation="@dimen/_10sdp"
                 android:maxHeight="80dp"
-                android:outlineSpotShadowColor="#33000000"
+                android:outlineSpotShadowColor="#B3000000"
                 android:paddingHorizontal="@dimen/_15sdp"
-                tools:ignore="UnusedAttribute">
+                tools:targetApi="p">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView"

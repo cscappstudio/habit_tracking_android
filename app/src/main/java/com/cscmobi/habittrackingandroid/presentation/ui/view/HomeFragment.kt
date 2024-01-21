@@ -45,8 +45,8 @@ import java.util.Locale
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+    private var hasInitChip = false
     private val homeViewModel: HomeViewModel by viewModel()
-    private lateinit var weekPagerAdapter: WeekPagerAdapter
     private lateinit var taskAdapter: TaskAdapter
 
 
@@ -122,11 +122,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.state.collect { state ->
                 when (state) {
                     is HomeState.Tasks -> {
+                        if (!hasInitChip) {
 
-                        val categories = arrayListOf<String>()
-                        categories.add("All")
-                        categories.addAll(  state.tasks.map { it.tag }.distinct())
-                        initChips(categories)
+                            val categories = arrayListOf<String>()
+                            categories.add("All")
+                            categories.addAll(state.tasks.map { it.tag }.distinct())
+                            initChips(categories)
+
+                            hasInitChip = true
+                        }
 
                         if (state.tasks.isEmpty()) {
                             binding.isTasksEmpty = true
@@ -175,6 +179,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
     private fun initChips(tags: List<String>) {
+
         tags.forEach {
             homeViewModel.listWeekData
             val chip = Chip(requireContext())

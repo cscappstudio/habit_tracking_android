@@ -61,5 +61,8 @@ class DetailCollectionFragment :
     }
 
     override fun setEvent() {
+        binding.layoutHeader.ivBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 }

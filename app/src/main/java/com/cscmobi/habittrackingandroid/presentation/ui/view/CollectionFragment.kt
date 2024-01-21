@@ -82,6 +82,10 @@ class CollectionFragment :
                 it.replaceFragment(it.newHabitFragment,NewHabitFragment.TAG)
             }
         }
+
+        binding.layoutHeader.ivBack.setOnClickListener {
+            requireActivity().finish()
+        }
     }
 
     private fun changeStateCollectionButton(isChanged: Boolean) {

@@ -216,7 +216,6 @@
                     android:id="@+id/svButtonGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fillViewport="true"
                     android:scrollbars="none"
@@ -267,6 +266,14 @@
                         android:layout_height="wrap_content"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_67sdp"
+            android:layout_height="@dimen/_59sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/_70sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_icon_add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
