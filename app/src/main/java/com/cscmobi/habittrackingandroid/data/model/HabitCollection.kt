@@ -1,6 +1,6 @@
 package com.cscmobi.habittrackingandroid.data.model
 
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 
 data class HabitCollection(
     var image: Int? = null,

@@ -16,10 +16,11 @@ import com.cscmobi.habittrackingandroid.databinding.ItemTextDayofmonthBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.google.android.material.animation.AnimatableView.Listener
+import org.threeten.bp.LocalDate
 import java.util.Calendar
 
 
-class CalendarAdapter :
+class CalendarAdapter(val currentDate: LocalDate) :
     ListAdapter<CalenderData, CalendarAdapter.CalendarViewHolder?>(object :
         DiffUtil.ItemCallback<CalenderData>() {
         override fun areItemsTheSame(oldItem: CalenderData, newItem: CalenderData): Boolean {
@@ -30,6 +31,8 @@ class CalendarAdapter :
             return oldItem == newItem
         }
     }) {
+
+    var _currentDate: LocalDate = currentDate
 
     var colorSelect: Int = -1
 
@@ -56,12 +59,11 @@ class CalendarAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CalenderData) {
 
-//            val layoutParams: ViewGroup.LayoutParams = binding.root.layoutParams
-//            layoutParams.height = ((binding.root.height * 0.166666666).toInt())
-
             binding.txtDay.text = item.day
-            if (item.day.isNotEmpty()) {
-            if (item.day.toInt() <  Helper.currentDate.dayOfMonth) {
+            if (item.day.isNotEmpty() && !_currentDate.isBefore(Helper.currentDate)) {
+
+
+            if ( _currentDate.withDayOfMonth(item.day.toInt()) <= Helper.currentDate) {
 
                 binding.txtDay.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray))
                 binding.frContainer.background = null
@@ -95,11 +97,12 @@ class CalendarAdapter :
 
                 binding.root.setOnClickListener {
 
-                    if (adapterPosition in 1..31)
-                    onItemListener?.onItemClicked(item, adapterPosition)
+                    if (item.day.toInt() in 1..31) {
+                    onItemListener?.onItemClicked(item, layoutPosition)}
                 }
             }
             } else {
+                binding.txtDay.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray))
                 binding.frContainer.background = null
 
             }

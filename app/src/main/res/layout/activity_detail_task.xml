@@ -270,7 +270,7 @@
                       android:textSize="20sp"
                       app:layout_constraintStart_toStartOf="parent"
                       app:layout_constraintEnd_toEndOf="parent"
-                      android:layout_marginBottom="@dimen/_18sdp"
+                      android:layout_marginBottom="@dimen/_4sdp"
                       app:layout_constraintBottom_toBottomOf="parent"
                       android:layout_height="wrap_content"
                       tools:targetApi="p" />
@@ -330,38 +330,8 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/_16sdp"
                     android:layout_height="500dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:text="Calendar"
-                        android:textSize="16sp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:fontFamily="@font/worksans_bold"
-                        android:textColor="@color/bottle_green"
-                        android:layout_height="wrap_content"/>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginEnd="@dimen/_20sdp"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:text="2024"
-                            android:textSize="12sp"
-                            android:fontFamily="@font/worksans_medium"
-                            android:textColor="@color/bottle_green"
-                            android:layout_marginEnd="@dimen/_2sdp"
-                            android:layout_height="wrap_content"/>
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:src="@drawable/greeb_nav_arrow_down"
-                            android:layout_height="wrap_content"/>
-
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
                     <FrameLayout
                         android:layout_marginTop="@dimen/_40sdp"
                         android:layout_width="match_parent"

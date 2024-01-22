@@ -18,4 +18,11 @@ fun setResDrawalbe(iv: AppCompatImageView, res: Int) {
     iv.setImageResource(res)
 }
 
+@BindingAdapter("app:setDrawableString")
+fun setDrawableString(iv: AppCompatImageView, path: String) {
+    val iconResourceId = iv.context.resources.getIdentifier(path, "drawable", iv.context.packageName)
+
+    iv.setImageResource(iconResourceId)
+}
+
 

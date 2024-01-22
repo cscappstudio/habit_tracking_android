@@ -5,6 +5,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +17,8 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 
 fun Activity.hideStatusBar() {
@@ -135,4 +140,21 @@ fun View.setMargins( left: Int, top: Int, right: Int, bottom: Int) {
         p.setMargins(left, top, right, bottom)
         this.requestLayout()
     }
+}
+
+
+fun TextView.setSpanTextView(colorSpan: Int) {
+    val firstText = this.text.split("/")
+
+    val spannableString = SpannableString(this.text)
+    val foregroundColorSpan =
+        ForegroundColorSpan(ContextCompat.getColor(this.context, colorSpan))
+    spannableString.setSpan(
+        foregroundColorSpan,
+        0,
+        firstText[0].length,
+        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    this.text = spannableString
+
 }

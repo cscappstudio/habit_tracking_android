@@ -1,8 +1,10 @@
 package com.cscmobi.habittrackingandroid
 
 import androidx.annotation.Keep
+import com.cscmobi.habittrackingandroid.presentation.di.databaseModule
 import com.cscmobi.habittrackingandroid.presentation.di.repositoryModule
 import com.cscmobi.habittrackingandroid.presentation.di.viewModelModule
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.ninenox.kotlinlocalemanager.ApplicationLocale
 import org.koin.android.ext.koin.androidContext
@@ -11,12 +13,13 @@ import org.koin.core.context.GlobalContext.startKoin
 
 @Keep
 class MyApplication: ApplicationLocale() {
+
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger()
             androidContext(this@MyApplication)
-            modules(listOf( viewModelModule,repositoryModule))
+            modules(listOf( viewModelModule,repositoryModule,databaseModule))
         }
 
         AndroidThreeTen.init(this)

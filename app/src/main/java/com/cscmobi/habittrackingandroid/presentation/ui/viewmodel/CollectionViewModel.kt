@@ -1,12 +1,15 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.Tag
 import com.cscmobi.habittrackingandroid.data.repository.CollectionRepository
+import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +17,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CollectionViewModel constructor(private val repository: CollectionRepository) :
+class CollectionViewModel constructor(private val repository: CollectionRepository,private val databaseRepository: DatabaseRepository) :
     BaseViewModel() {
 
     val userIntent = Channel<CollectionIntent>(Channel.UNLIMITED)
@@ -36,6 +39,7 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
                     is CollectionIntent.PassItemCollection -> passCollectionItem(it.data)
                     is CollectionIntent.NotCreateCollection -> _state.value = CollectionState.IdleCreateCollection
                     is CollectionIntent.CreateCollection -> createCollection(it.data)
+                    is CollectionIntent.CreateTaskToRoutine -> insertTask(it.task)
                     else -> {}
                 }
             }
@@ -46,6 +50,18 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
          viewModelScope.launch {
              _state.value = CollectionState.CreateCollection(data)
          }
+    }
+
+    fun insertTask(task: Task) = viewModelScope.launch {
+            try {
+               databaseRepository.insertTask(task)
+                _state.value = CollectionState.CreateTaskRoutineSuccess(true)
+
+            } catch (e: Exception) {
+                Log.d("ERRRR", e.message.toString())
+
+                _state.value = CollectionState.CreateTaskRoutineSuccess(false)
+            }
     }
 
     private fun fetchCollections() {

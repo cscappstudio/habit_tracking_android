@@ -1,10 +1,38 @@
 package com.cscmobi.habittrackingandroid.thanhlv.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.cscmobi.habittrackingandroid.R
+import com.cscmobi.habittrackingandroid.data.model.CheckList
+import com.cscmobi.habittrackingandroid.data.model.EndDate
+import com.cscmobi.habittrackingandroid.data.model.Goal
+import com.cscmobi.habittrackingandroid.data.model.History
+import com.cscmobi.habittrackingandroid.data.model.RemindTask
+import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
+import java.util.Date
+
 
 @Entity
-data class Task(var name: String) {
-    @PrimaryKey(true)
-    var id: Int = 0
-}
+data class Task(
+    @PrimaryKey(true) var id: Int = 0,
+    @ColumnInfo(name = "name") var name: String? = "New Task",
+    @ColumnInfo(name = "color") var color: String? = "#B6D6DD",
+    @ColumnInfo(name = "ava") var ava: String? ="",
+    @ColumnInfo(name = "note") var note: String? = "",
+    @ColumnInfo(name = "tag") var tag: String = "",
+    @ColumnInfo(name = "collection") var collection: String? = "",
+
+    @ColumnInfo(name = "goal")
+    var goal: Goal? = Goal(),
+
+    @ColumnInfo(name = "repeate")
+    var repeate: TaskRepeat? = TaskRepeat(),
+
+    @ColumnInfo(name = "startDate") var startDate: Date? =null,
+    @ColumnInfo(name = "endDate") var endDate: EndDate? = EndDate(),
+    @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
+    @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,
+    @ColumnInfo(name = "history") var history: List<History>? = null
+)
+

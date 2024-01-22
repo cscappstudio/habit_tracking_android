@@ -1,6 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.viewstate
 
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 
 
 sealed class HomeState {

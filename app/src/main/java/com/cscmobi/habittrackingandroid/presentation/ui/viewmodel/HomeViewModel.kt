@@ -1,11 +1,14 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
+import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,13 +18,14 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
 
-class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
+class HomeViewModel(private val repository: HomeRepository,private val databaseRepository: DatabaseRepository) : BaseViewModel() {
     var listWeekData = arrayListOf<LocalDate>()
     var currentWeekPos = -1
 
     val userIntent = Channel<HomeIntent>(Channel.UNLIMITED)
 
     private val _state = MutableStateFlow<HomeState>(HomeState.Empty)
+    private var tasks = mutableListOf<Task>()
     val state: StateFlow<HomeState>
         get() = _state
 //    private val _categoryState = MutableStateFlow(mutableListOf<String>())
@@ -31,6 +35,15 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
 
     init {
         handleIntent()
+//        test()
+
+    }
+
+    fun test() = viewModelScope.launch {
+      databaseRepository.getAllTask().collect{
+
+
+       }
     }
 
     private fun handleIntent() {
@@ -51,9 +64,9 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
     private fun fetchTasksbyCategory(tag: String) {
         viewModelScope.launch {
             _state.value = try {
-                if (tag == "All") HomeState.Tasks(repository.getListTask())
+                if (tag == "All") HomeState.Tasks(tasks)
                 else
-                    HomeState.Tasks(repository.getListTask().filter { it.tag == tag })
+                    HomeState.Tasks(tasks.filter { it.tag == tag })
 
             } catch (e: Exception) {
                 HomeState.Tasks(arrayListOf())
@@ -63,14 +76,24 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
 
     private fun fetchTasks() {
         viewModelScope.launch {
-            _state.value = try {
-                HomeState.Tasks(repository.getListTask())
+            tasks.clear()
 
-            } catch (e: Exception) {
-                HomeState.Tasks(arrayListOf())
+            databaseRepository.getAllTask().collect{
+                try {
+                tasks = it.toMutableList()
+                _state.value =
+                    HomeState.Tasks(it)
+                } catch (e: Exception) {
+                    HomeState.Tasks(arrayListOf())
+                }
+
+
             }
+
         }
     }
+
+
 
 
     fun initDateWeek() {

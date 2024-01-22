@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentDetailCollectionBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState

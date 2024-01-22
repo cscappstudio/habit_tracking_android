@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.databinding.FragmentCreateCollectionBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBaseWithPostitionListener
@@ -20,7 +20,6 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionView
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.utils.Helper
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class CreateCollectionFragment: BaseFragment<FragmentCreateCollectionBinding>(FragmentCreateCollectionBinding::inflate) {
 

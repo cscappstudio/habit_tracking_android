@@ -1,8 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
@@ -10,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
@@ -61,7 +59,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
         checklistAdapter.setListener(object : ItemBasePosistionListener {
             override fun onItemClicked(p: Int) {
-                checkList[p].status = !  checkList[p].status
+                checkList[p].status = !checkList[p].status
             }
         }
         )
@@ -93,6 +91,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             finish()
 
         }
+
     }
 
 }

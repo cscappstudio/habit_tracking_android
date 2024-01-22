@@ -4,9 +4,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.ActivityNewhabitBinding
-import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomsheetNewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CollectionFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CreateCollectionFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment

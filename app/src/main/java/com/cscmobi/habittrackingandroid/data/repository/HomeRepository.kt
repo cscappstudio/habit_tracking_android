@@ -1,6 +1,6 @@
 package com.cscmobi.habittrackingandroid.data.repository
 
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 
 
 interface HomeRepository {

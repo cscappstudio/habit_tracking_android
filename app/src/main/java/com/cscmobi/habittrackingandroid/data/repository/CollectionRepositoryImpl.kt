@@ -1,18 +1,40 @@
 package com.cscmobi.habittrackingandroid.data.repository
 
+import android.content.Context
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.data.dto.entities.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 
-class CollectionRepositoryImpl : CollectionRepository {
+class CollectionRepositoryImpl(val context: Context) : CollectionRepository {
     private val nightTimeTasks = mutableListOf<Task>(
-        Task(name = "Practice affirmations", ava = R.drawable.ic_golf),
-        Task(name = "Practice visualization", ava = R.drawable.ic_golf),
-        Task(name = "Practice visualization", ava = R.drawable.ic_golf),
-        Task(name = "Practice visualization", ava = R.drawable.ic_golf),
-        Task(name = "Practice visualization", ava = R.drawable.ic_golf),
-        Task(name = "Practice visualization", ava = R.drawable.ic_golf),
-        Task(name = "Practice visualization", ava = R.drawable.ic_golf),
+        Task(
+            name = "Practice affirmations",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
     )
 
     private var localCollection: MutableList<HabitCollection> = mutableListOf(
