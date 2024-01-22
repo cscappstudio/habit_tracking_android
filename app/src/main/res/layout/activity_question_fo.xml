@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_question"
+        style="@style/Text_700_Med"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="24dp"
+        android:autoSizeMaxTextSize="20sp"
+        android:autoSizeMinTextSize="16sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="What reasons hinder you from being organized?"
+        android:textColor="#09392D"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/btn_answer_1"
+        style="@style/Text_500_Med"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#DCF1EB"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:text="Lack of motivation"
+        android:textColor="#54BA8F"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_question"
+        tools:ignore="UnusedAttribute" />
+
+
+    <TextView
+        android:id="@+id/btn_answer_2"
+        style="@style/Text_500_Med"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#DCF1EB"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:text="Lack of motivation"
+        android:textColor="#54BA8F"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_answer_1"
+        tools:ignore="UnusedAttribute" />
+
+
+    <TextView
+        android:id="@+id/btn_answer_3"
+        style="@style/Text_500_Med"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#DCF1EB"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:text="Lack of motivation"
+        android:textColor="#54BA8F"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_answer_2"
+        tools:ignore="UnusedAttribute" />
+
+
+    <TextView
+        android:id="@+id/btn_answer_4"
+        style="@style/Text_500_Med"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#DCF1EB"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:text="Lack of motivation"
+        android:textColor="#54BA8F"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_answer_3"
+        tools:ignore="UnusedAttribute" />
+
+
+    <TextView
+        android:id="@+id/btn_answer_5"
+        style="@style/Text_500_Med"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#DCF1EB"
+        android:gravity="center_vertical"
+        android:paddingStart="24dp"
+        android:text="Lack of motivation"
+        android:textColor="#54BA8F"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_answer_4"
+        tools:ignore="UnusedAttribute" />
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="48dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_question_fo"
+        app:layout_constraintDimensionRatio="23:11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_answer_5"
+        app:layout_constraintWidth_max="300dp"
+        tools:ignore="UnusedAttribute" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
