@@ -3,29 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="110dp">
+    android:layout_height="104dp">
 
     <ImageView
         android:id="@+id/ava_day"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="36dp"
+        android:layout_height="0dp"
         android:layout_marginStart="12dp"
-        app:layout_constraintDimensionRatio="36:96"
+        app:layout_constraintDimensionRatio="36:104"
         android:scaleType="fitXY"
-        android:src="@drawable/node_skip_done"
+        android:src="@drawable/node_short_done"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="82dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/bg_white_round_20"
-        android:elevation="20dp"
-        android:outlineSpotShadowColor="@color/black_12"
+        android:elevation="12dp"
+        android:outlineSpotShadowColor="@color/gnt_black_30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ava_day"
         app:layout_constraintTop_toTopOf="parent"
@@ -105,7 +106,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="@dimen/_10sdp"
-            android:layout_marginStart="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_mood_1"
             app:layout_constraintBottom_toBottomOf="parent"
