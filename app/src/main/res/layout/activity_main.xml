@@ -14,14 +14,14 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_67sdp"
-            android:layout_height="@dimen/_59sdp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_70sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_icon_add" />
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:layout_width="@dimen/_67sdp"-->
+<!--            android:layout_height="@dimen/_59sdp"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            android:layout_marginEnd="@dimen/_6sdp"-->
+<!--            android:layout_marginBottom="@dimen/_70sdp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/ic_icon_add" />-->
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"

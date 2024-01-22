@@ -25,7 +25,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.activity.MainActivity"
+            android:name=".thanhlv.ui.OnboardActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
@@ -64,6 +64,18 @@
 
         <activity
             android:name=".thanhlv.ui.ChangeLanguageActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".thanhlv.ui.DetailChallengeActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".presentation.ui.activity.MainActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".thanhlv.ui.QuestionFOActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
 

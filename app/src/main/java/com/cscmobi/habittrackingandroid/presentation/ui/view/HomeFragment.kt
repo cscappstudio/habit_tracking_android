@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
@@ -23,6 +24,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekPagerAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
+import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
@@ -212,6 +214,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.txtDate.setOnClickListener {
             setCurrentWeekinViewPager()
         }
+
+
+        binding.btnAddMood.setOnClickListener {
+            startActivity(Intent(requireContext(), MoodActivity::class.java))
+        }
+
     }
 
     override fun onDestroy() {

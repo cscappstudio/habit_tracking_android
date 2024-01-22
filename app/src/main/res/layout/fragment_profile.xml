@@ -17,26 +17,15 @@
             android:paddingBottom="80dp">
 
 
-            <TextView
-                android:id="@+id/tv_settings"
-                style="@style/Text_700_Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="38dp"
-                android:text="Settings"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/img_profile"
                 android:layout_width="168dp"
                 android:layout_height="168dp"
+                android:layout_marginTop="76dp"
                 android:src="@drawable/ava_top_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_settings" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="30dp"
@@ -346,5 +335,23 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/shape_gradient_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_settings"
+        style="@style/Text_700_Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="38dp"
+        android:text="Settings"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
