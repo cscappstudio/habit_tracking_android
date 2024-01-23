@@ -28,7 +28,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".thanhlv.ui.OnboardActivity"
+            android:name=".presentation.ui.activity.MainActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
@@ -75,10 +75,10 @@
             android:name=".thanhlv.ui.DetailChallengeActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
-        <activity
-            android:name=".presentation.ui.activity.MainActivity"
-            android:exported="true"
-            android:theme="@style/FullScreenTheme" />
+<!--        <activity-->
+<!--            android:name=".presentation.ui.activity.MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:theme="@style/FullScreenTheme" />-->
         <activity
             android:name=".thanhlv.ui.QuestionFOActivity"
             android:exported="true"

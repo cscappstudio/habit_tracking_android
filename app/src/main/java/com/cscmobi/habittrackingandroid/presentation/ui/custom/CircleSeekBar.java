@@ -395,7 +395,14 @@ public class CircleSeekBar extends View {
         if (mProgressSweep < 0) mProgressSweep += 360;
         int progress = Math.round(mProgressSweep * valuePerDegree());
         updateProgress(progress, true);
+
+
+        if(mOnSeekBarChangeListener != null) {
+            mOnSeekBarChangeListener.onTrackingChanging(progress);
+        }
     }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -524,6 +531,9 @@ public class CircleSeekBar extends View {
             }
             invalidate();
         }
+
+
+
     }
 
     public void setSeekBarChangeListener(OnSeekBarChangedListener seekBarChangeListener) {
@@ -544,5 +554,7 @@ public class CircleSeekBar extends View {
         void onStartTrackingTouch(CircleSeekBar circleSeekBar);
 
         void onStopTrackingTouch(CircleSeekBar circleSeekBar);
+
+        void onTrackingChanging(int progress);
     }
 }
