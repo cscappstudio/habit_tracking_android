@@ -36,5 +36,9 @@
     <color name="hex6A6A6A">#6A6A6A</color>
 
 
+    <color name="bg_color_onboard_1">#EEC9AA</color>
+    <color name="bg_color_onboard_2">#B6D6DD</color>
+    <color name="bg_color_onboard_3">#EBB2BD</color>
+    <color name="bg_color_onboard_4">#BEE4B8</color>
 
 </resources>

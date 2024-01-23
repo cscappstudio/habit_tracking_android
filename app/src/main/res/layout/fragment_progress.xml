@@ -29,43 +29,19 @@
             android:layout_height="match_parent"
             android:paddingBottom="80dp">
 
-
-            <TextView
-                android:id="@+id/tv_progress"
-                style="@style/Text_700_Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="38dp"
-                android:text="Progress"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <View
                 android:id="@+id/bb_current_streak"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="96dp"
                 android:background="@drawable/shape_circle_gradient_1"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_progress"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="UnusedAttribute"/>
 
-            <TextView
-                style="@style/Text_700_Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
-                android:text="Progress"
-                android:textSize="24sp"
-                android:elevation="20dp"
-                app:layout_constraintStart_toStartOf="@id/bb_current_streak"
-                app:layout_constraintEnd_toEndOf="@id/bb_current_streak"
-                app:layout_constraintTop_toTopOf="@id/bb_current_streak" />
             <View
                 android:id="@+id/bb_completion_rate"
                 android:layout_width="105dp"
@@ -491,6 +467,27 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/shape_gradient_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <TextView
+        android:id="@+id/tv_progress"
+        style="@style/Text_700_Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="38dp"
+        android:text="Progress"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

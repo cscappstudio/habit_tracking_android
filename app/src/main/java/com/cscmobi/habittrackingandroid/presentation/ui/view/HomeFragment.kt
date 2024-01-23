@@ -1,41 +1,26 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
-import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Rect
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
-import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.DetailTaskActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.TaskAdapter
-import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
-import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Helper
-import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import com.google.android.material.chip.Chip
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.TextStyle
 import java.util.Locale
 
 
@@ -274,6 +259,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             data[homeViewModel.currentWeekPos].isSelected = true
             weekAdapter.notifyItemChanged(homeViewModel.currentWeekPos)
         }
+
+
+        binding.btnAddMood.setOnClickListener {
+            startActivity(Intent(requireContext(), MoodActivity::class.java))
+        }
+
     }
 
    private fun initWeekApdater() {
