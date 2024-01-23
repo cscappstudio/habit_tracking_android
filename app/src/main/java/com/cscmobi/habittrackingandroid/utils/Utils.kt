@@ -33,6 +33,29 @@ object Utils {
         gradientDrawable.cornerRadius = cornerRadius
         return gradientDrawable
     }
+
+
+    fun mapNumbersToDayNames(numbers: IntArray): Array<String> {
+
+        val dayNames = arrayOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+
+        return numbers.map { dayNames[it - 1] }.toTypedArray()
+    }
+
+
+    fun addOrdinalSuffixToDays(numbers: IntArray): Array<String> {
+        return numbers.map { day -> "$day${getOrdinalSuffix(day)}" }.toTypedArray()
+    }
+
+    fun getOrdinalSuffix(day: Int): String {
+        return when {
+            day in 11..13 -> "th" // Special case for 11th, 12th, 13th
+            day % 10 == 1 -> "st"
+            day % 10 == 2 -> "nd"
+            day % 10 == 3 -> "rd"
+            else -> "th"
+        }
+    }
 }
 
 

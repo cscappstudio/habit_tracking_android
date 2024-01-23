@@ -63,6 +63,7 @@
                 android:orientation="vertical">
 
                 <FrameLayout
+                    android:id="@+id/fr_iv_task"
                     android:layout_width="@dimen/_49sdp"
                     android:layout_gravity="center_horizontal"
                     android:padding="@dimen/_8sdp"
@@ -70,6 +71,7 @@
                     android:backgroundTint="#33EBB2BD"
                     android:layout_height="@dimen/_49sdp">
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_task"
                         android:layout_width="match_parent"
                         android:src="@drawable/ic_item_collection2"
                         android:tint="@color/pink"
@@ -174,6 +176,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_progress_goal"
                     android:layout_width="match_parent"
                     android:layout_marginHorizontal="@dimen/_20sdp"
 
@@ -194,12 +197,10 @@
                         android:id="@+id/sb_progress"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:padding="@dimen/_36sdp"
-                        app:csb_max="100"
                         android:layout_marginHorizontal="@dimen/_20sdp"
                         app:layout_constraintStart_toEndOf="@id/iv_minus"
                         app:csb_min="0"
                         android:layout_gravity="center"
-                        app:csb_progress="20"
                         app:layout_constraintEnd_toStartOf="@id/iv_plus"
                         app:csb_arcColor="#33EBB2BD"
                         app:csb_thumbDrawable="@drawable/ic_thumbseekbar_goal"
@@ -208,6 +209,7 @@
                         app:csb_progressWidth="@dimen/_18sdp"
                         app:csb_step="5"
                         app:csb_fontType="1"
+                        app:csb_touchEnable="true"
                         app:csb_text="aaaa"
                         app:csb_textColor="@color/tangerine"
                         app:csb_textSize="@dimen/_18ssp"
@@ -229,6 +231,7 @@
 
 
                     <TextView
+                        android:id="@+id/txt_finish"
                         android:layout_width="wrap_content"
                         android:text="Finish"
                         android:fontFamily="@font/montserratalternates_semibold"
@@ -260,10 +263,22 @@
                   android:layout_height="@dimen/_95sdp">
 
                   <TextView
+                      android:layout_width="wrap_content"
+                      android:text="Current Streak"
+                      android:textSize="14sp"
+                      android:fontFamily="@font/worksans_semibold"
+                      android:textColor="@color/white"
+                      app:layout_constraintStart_toStartOf="@id/txt_streak"
+                      app:layout_constraintEnd_toEndOf="@id/txt_streak"
+                      app:layout_constraintBottom_toTopOf="@id/txt_streak"
+                      android:layout_height="wrap_content"/>
+
+                  <TextView
+                      android:id="@+id/txt_streak"
                       android:layout_width="0dp"
                       app:layout_constraintWidth_percent="0.6"
                       android:gravity="center_horizontal"
-                      android:text="Streak: 3 days"
+                      android:text="3 days"
                       android:textColor="@color/white"
                       android:fontFamily="@font/montserratalternates_bold"
                       android:textFontWeight="800"

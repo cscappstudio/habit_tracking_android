@@ -6,13 +6,8 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.View
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +15,6 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
@@ -31,9 +25,12 @@ import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
@@ -139,6 +136,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         if (state.tasks.isEmpty()) {
                             binding.isTasksEmpty = true
                         } else {
+
                             initTaskAdapter(state.tasks)
                             binding.isTasksEmpty = false
 
@@ -156,9 +154,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
     private fun initTaskAdapter(list: List<Task>) {
+//         val goalTargets = homeViewModel.tasks.map { it.goal?.target }
+//         val goalProgress = homeViewModel.tasks.map { it.goal?.currentProgress }
         taskAdapter = TaskAdapter(object : ItemTaskWithEdit<Task> {
             override fun onItemClicked(item: Task, p: Int) {
                 Intent(requireActivity(),DetailTaskActivity::class.java).apply {
+                    putExtra(Constant.task_id, item.id)
                     startActivity(this)
                 }
 
@@ -174,10 +175,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun delete(item: Task, p: Int) {
             }
 
-            override fun onItemChange(p: Int, isChange: Boolean) {
+            override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
                 if (isChange) {
+                   item.goal?.currentProgress = item.goal?.target
 
                 }
+                else {
+                    item.goal?.currentProgress =  0
+                }
+         taskAdapter.notifyDataSetChanged()
+                lifecycleScope.launch {
+                    homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
+                    delay(500L)
+                }
+
             }
 
         })

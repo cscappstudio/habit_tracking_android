@@ -18,7 +18,9 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.databinding.BindingAdapter
 
 
 fun Activity.hideStatusBar() {
@@ -157,4 +159,20 @@ fun TextView.setSpanTextView(colorSpan: Int) {
     )
     this.text = spannableString
 
+}
+
+
+fun AppCompatImageView.setDrawableString( path: String) {
+    val iconResourceId = this.context.resources.getIdentifier(path, "drawable", this.context.packageName)
+
+    this.setImageResource(iconResourceId)
+}
+
+fun View.setBackgroundApla(hexColor: String, alphaPercentage: Int) {
+
+    val alphaValue = (255 * alphaPercentage) / 100
+
+    // Set the background color of the view with alpha
+    this.setBackgroundColor(Color.argb(alphaValue, Color.red(Color.parseColor(hexColor)),
+        Color.green(Color.parseColor(hexColor)), Color.blue(Color.parseColor(hexColor))))
 }

@@ -17,5 +17,15 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         }
     }
 
+    override suspend fun updateTask(task: Task) {
+        dao.update(task)
+    }
+
+    override suspend fun getTaskById(id: Int): Flow<Task> {
+        return  flow {
+            emit(dao.findById(id))
+        }
+    }
+
 
 }

@@ -7,4 +7,8 @@ interface DatabaseRepository {
     suspend fun insertTask(task: Task)
 
     suspend fun getAllTask(): Flow<List<Task>>
+
+    suspend fun updateTask(task: Task)
+
+    suspend  fun getTaskById(id: Int) : Flow<Task>
 }

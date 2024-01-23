@@ -31,6 +31,8 @@ interface Dao {
     @Query("SELECT * FROM task WHERE name LIKE :name")
     suspend fun findByName(name: String): Task
 
+    @Query("SELECT * FROM task WHERE id=:id")
+    suspend fun findById(id: Int): Task
     @Insert
     suspend fun insertAll(vararg users: Task)
 

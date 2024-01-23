@@ -10,6 +10,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -25,9 +26,10 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
     val userIntent = Channel<HomeIntent>(Channel.UNLIMITED)
 
     private val _state = MutableStateFlow<HomeState>(HomeState.Empty)
-    private var tasks = mutableListOf<Task>()
+    var tasks = mutableListOf<Task>()
     val state: StateFlow<HomeState>
         get() = _state
+
 //    private val _categoryState = MutableStateFlow(mutableListOf<String>())
 //
 //    val categoryState: StateFlow<MutableList<String>> = _categoryState
@@ -55,9 +57,19 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
                         fetchTasksbyCategory(it.tag)
                     }
 
+                    is HomeIntent.UpdateTask -> updateTask(it.task)
+
                     else -> {}
                 }
             }
+        }
+    }
+
+    private fun updateTask(task: Task) = viewModelScope.launch {
+        try {
+            databaseRepository.updateTask(task)
+        }catch (e: Exception){
+
         }
     }
 

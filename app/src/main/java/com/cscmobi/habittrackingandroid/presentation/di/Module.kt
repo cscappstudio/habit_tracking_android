@@ -8,6 +8,7 @@ import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepositoryImpl
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepository
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepositoryImpl
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
+import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.DetailTaskViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.database.Dao
@@ -23,7 +24,10 @@ val viewModelModule = module {
 
     viewModel {
         CollectionViewModel(get(),get())
+    }
 
+    viewModel {
+        DetailTaskViewModel(get())
     }
 }
 

@@ -16,7 +16,7 @@ interface EditItemTask<T> {
     fun edit(item: T, p: Int)
     fun delete(item: T, p: Int)
 
-    fun onItemChange(p: Int, isChange: Boolean)
+    fun onItemChange(p: Int, item: T,isChange: Boolean)
 }
 
 interface ItemTaskWithEdit<T>: ItemWithPostionListener<T>, EditItemTask<T>

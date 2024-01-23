@@ -23,8 +23,11 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
     private var calenderData = arrayListOf<CalenderData>()
     private var dayDate: LocalDate? = null
 
-    fun resetColorTask( color: Int) {
-        calendarAdapter?.colorSelect = color
+    fun resetColorTask( color: Int?) {
+        color?.let {
+            calendarAdapter?.colorSelect = it
+
+        }
     }
 
     fun getDateSelected(): Date? {
