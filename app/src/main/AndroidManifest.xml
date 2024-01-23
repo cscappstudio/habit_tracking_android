@@ -28,7 +28,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".thanhlv.ui.OnboardActivity"
+            android:name=".thanhlv.ui.SplashActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
@@ -81,6 +81,10 @@
             android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".thanhlv.ui.QuestionFOActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".thanhlv.ui.OnboardActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
 

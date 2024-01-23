@@ -12,6 +12,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.LogLevel
+import com.cscmobi.habittrackingandroid.presentation.di.databaseModule
 import com.cscmobi.habittrackingandroid.presentation.di.repositoryModule
 import com.cscmobi.habittrackingandroid.presentation.di.viewModelModule
 import com.cscmobi.habittrackingandroid.thanhlv.consent.GoogleMobileAdsConsentManager
@@ -45,7 +46,7 @@ class MyApplication : ApplicationLocale(), Application.ActivityLifecycleCallback
         startKoin {
             androidLogger()
             androidContext(this@MyApplication)
-            modules(listOf(viewModelModule, repositoryModule))
+            modules(listOf(viewModelModule, repositoryModule, databaseModule))
         }
 
         AndroidThreeTen.init(this)

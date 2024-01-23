@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-//    id ("com.google.gms.google-services")
+    id ("com.google.gms.google-services")
     id ("kotlin-kapt")
-//   id ("com.google.firebase.crashlytics")
+    id ("com.google.firebase.crashlytics")
     id 'kotlinx-serialization'
 }
 
@@ -127,7 +127,7 @@ dependencies {
     implementation ("androidx.work:work-runtime-ktx:2.8.1")
 
     // Admob ads
-//    implementation ("com.google.android.gms:play-services-ads:22.4.0")
+    implementation ("com.google.android.gms:play-services-ads:22.6.0")
 
     //adjust sdk
     implementation ("com.adjust.sdk:adjust-android:4.33.5")
