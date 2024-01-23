@@ -1,12 +1,8 @@
 *.iml
+.gradle
+/.gradle
 /local.properties
-.gradleh
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+/.idea
 .DS_Store
 /build
 /captures
@@ -14,12 +10,3 @@
 .cxx
 local.properties
 
-.gradle/8.0
-.idea/shelf
-.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml
-.idea
-.idea/misc.xml
-
-.gradle/buildOutputCleanup/buildOutputCleanup.lock
-.gradle/buildOutputCleanup
-.gradle
