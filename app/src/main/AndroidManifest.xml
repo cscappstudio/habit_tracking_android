@@ -35,6 +35,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
         </provider>
+
+
+
+
         <activity
             android:name=".thanhlv.ui.SplashActivity"
             android:exported="true"
@@ -94,7 +98,6 @@
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
 
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
@@ -105,8 +108,6 @@
         <meta-data
             android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
             android:value="true" />
-
-
     </application>
 
 </manifest>
