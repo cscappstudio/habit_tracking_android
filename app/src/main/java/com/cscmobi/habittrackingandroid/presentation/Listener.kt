@@ -15,6 +15,8 @@ interface EditItemTask<T> {
     fun skip(item: T, p: Int)
     fun edit(item: T, p: Int)
     fun delete(item: T, p: Int)
+
+    fun onItemChange(p: Int, isChange: Boolean)
 }
 
 interface ItemTaskWithEdit<T>: ItemWithPostionListener<T>, EditItemTask<T>

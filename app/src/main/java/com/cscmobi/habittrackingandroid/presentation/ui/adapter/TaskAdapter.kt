@@ -24,7 +24,7 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
     ListAdapter<Task, TaskAdapter.ViewHolder>(DIFF_CALLBACK()) {
     private val binderHelper = ViewBinderHelper()
 
-    class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
+   inner  class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
 
             val iconResourceId = binding.root.context.resources.getIdentifier(
@@ -49,6 +49,9 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
                         binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
                         binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                        binding.line.visibility = View.VISIBLE
+                        binding.txtUnit.setTextColor(Color.WHITE)
+
                     } else {
                         binding.txtGoal.setSpanTextView(R.color.coral_red)
                         binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
@@ -61,6 +64,7 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
                         binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.parseColor(item.color))
                         binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                        binding.line.visibility = View.INVISIBLE
 
                     }
                 }
@@ -102,18 +106,23 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
             binding.frRoot.setOnClickListener {
                 onItemClickAdapter.onItemClicked(item, layoutPosition)
             }
-        }
 
-        companion object {
-            fun onBind(parent: ViewGroup): ViewHolder {
-                val view = ItemTaskBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                return ViewHolder(view)
+            binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
+                onItemClickAdapter.onItemChange(layoutPosition,isChecked)
             }
         }
+
+
+
+    }
+
+    fun onBind(parent: ViewGroup): ViewHolder {
+        val view = ItemTaskBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(view)
     }
 
     fun saveStates(outState: Bundle?) {
@@ -146,7 +155,7 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.onBind(parent)
+        return onBind(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

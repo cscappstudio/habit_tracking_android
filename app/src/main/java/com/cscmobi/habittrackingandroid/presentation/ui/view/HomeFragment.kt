@@ -174,6 +174,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun delete(item: Task, p: Int) {
             }
 
+            override fun onItemChange(p: Int, isChange: Boolean) {
+                if (isChange) {
+
+                }
+            }
+
         })
         binding.rcvTasks.adapter = taskAdapter
         taskAdapter.submitList(list)
