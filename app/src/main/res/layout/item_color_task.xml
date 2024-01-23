@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="item"
+            type="com.cscmobi.habittrackingandroid.data.model.ColorTask" />
+
+        <variable
+            name="listener"
+            type="com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener" />
+
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+<com.google.android.material.imageview.ShapeableImageView
+    android:layout_width="@dimen/_32sdp"
+    app:shapeAppearanceOverlay="@style/circle"
+    android:padding="@dimen/_2sdp"
+    android:layout_marginHorizontal="@dimen/_8sdp"
+    android:background="@color/coral_red"
+    app:setbackgroundColorShapeIV="@{item.resId}"
+    android:onClick="@{v -> listener.onItemClicked(position)}"
+    app:strokeColor="@{item.selected ? @color/teal_green : @color/transparent}"
+    app:strokeWidth="@dimen/_1sdp"
+    android:layout_height="@dimen/_32sdp">
+
+</com.google.android.material.imageview.ShapeableImageView>
+</layout>

@@ -28,7 +28,7 @@
     <TextView
         android:id="@+id/txt_subtask"
         android:layout_width="wrap_content"
-        android:text="First glass of water in the mornig"
+        android:text="@{item}"
         android:textSize="14sp"
         android:textColor="@color/shadow_gray"
         android:lines="1"

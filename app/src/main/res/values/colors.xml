@@ -32,6 +32,10 @@
     <color name="grey">#909090</color>
     <color name="silver_gray">#9B9797</color>
     <color name="greenish_blue_20_percent">#33DCF1EB</color>
+    <color name="dove_gray">#707070</color>
+    <color name="hex6A6A6A">#6A6A6A</color>
+
+
     <color name="bg_color_onboard_1">#EEC9AA</color>
     <color name="bg_color_onboard_2">#B6D6DD</color>
     <color name="bg_color_onboard_3">#EBB2BD</color>

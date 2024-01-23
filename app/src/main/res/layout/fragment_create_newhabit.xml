@@ -11,9 +11,14 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:fillViewport="true"
+        android:background="@color/white"
+        android:focusable="true"
+        android:id="@+id/nest_scroll"
         android:paddingBottom="@dimen/_25sdp"
         android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_root"
+        android:layout_marginBottom="@dimen/_15sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -52,14 +57,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_new_habit" />
 
-        <TextView
-            android:id="@+id/textView"
+        <EditText
+            android:id="@+id/edt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/worksans_medium"
-            android:text="Practice affirmations"
+            android:hint="New Task"
             android:textColor="@color/shadow_gray"
             android:textSize="@dimen/_11ssp"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:background="@null"
             app:layout_constraintEnd_toStartOf="@+id/appCompatImageView3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -73,14 +81,15 @@
             android:src="@drawable/edit_pencil"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintStart_toEndOf="@+id/edt_name"
             app:layout_constraintTop_toBottomOf="@+id/iv_habit" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_color"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:background="@drawable/bg_white_corner_20"
             android:backgroundTint="@color/silver"
+            android:foregroundGravity="center_horizontal"
             android:layout_height="wrap_content"
             android:padding="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
@@ -89,7 +98,7 @@
             android:layout_marginTop="@dimen/_18sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_name" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_note"
@@ -115,10 +124,16 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:id="@+id/edt_note"
                     android:paddingEnd="@dimen/_15sdp"
                     android:drawableEnd="@drawable/edit_pencil"
                     android:layout_width="match_parent"
                     android:drawableTint="@color/gray"
+                    android:textSize="14sp"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingVertical="@dimen/_2sdp"
+                    android:paddingStart="@dimen/_7sdp"
                     android:background="@drawable/bg_white_corner_20"
                     android:layout_height="@dimen/_34sdp"/>
 
@@ -155,11 +170,13 @@
                 android:id="@+id/sw_goal"
                 android:layout_width="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:thumbTint="@drawable/switch_thumb_selector"
+                app:trackTint="@drawable/switch_track_selector"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/edt_target_goal"
                 android:layout_width="@dimen/_72sdp"
                 android:layout_height="@dimen/_41sdp"
                 android:background="@drawable/bg_edittext"
@@ -187,7 +204,7 @@
                 app:layout_constraintTop_toTopOf="@+id/unit_picker" />
             <com.shawnlin.numberpicker.NumberPicker
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/editText"
+                app:layout_constraintStart_toEndOf="@id/edt_target_goal"
                 android:id="@+id/unit_picker"
                 android:layout_width="@dimen/_72sdp"
                 android:layout_height="@dimen/_123sdp"
@@ -309,15 +326,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
-        <include layout="@layout/btn_save"
+        <include
+            android:id="@+id/layout_btn_save"
+            layout="@layout/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="@dimen/_21sdp"
+            android:visibility="gone"
             android:layout_marginHorizontal="@dimen/_24sdp"
-
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_checklist"
             />
+
+        <include
+            android:id="@+id/layout_add_routine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/layout_btn_add_routine"
+            android:layout_marginTop="@dimen/_21sdp"
+            android:visibility="gone"
+            android:layout_marginHorizontal="@dimen/_24sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_checklist"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

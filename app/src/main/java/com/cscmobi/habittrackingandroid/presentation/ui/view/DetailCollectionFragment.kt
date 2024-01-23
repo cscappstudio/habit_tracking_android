@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.data.model.Task
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentDetailCollectionBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
@@ -26,8 +26,8 @@ class DetailCollectionFragment :
                 when (it) {
                     is CollectionState.Collection -> {
                         binding.txtCollection.text = it.data.name
-                        binding.txtNumberTask.text = "${it.data.task.size.toString()} habits"
-                        binding.ivCollection.setImageResource(it.data.image)
+                        binding.txtNumberTask.text = "${it.data.task!!.size.toString()} habits"
+                        binding.ivCollection.setImageResource(it.data.image!!)
                         initAdapter(it.data.task as ArrayList<Task>)
 
                     }
@@ -61,5 +61,8 @@ class DetailCollectionFragment :
     }
 
     override fun setEvent() {
+        binding.layoutHeader.ivBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 }
