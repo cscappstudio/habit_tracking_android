@@ -38,10 +38,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".presentation.ui.activity.MainActivity"
-            android:exported="false"
-            />
+
         <activity android:name=".presentation.ui.activity.NewHabitActivity" />
         <!--        <service-->
         <!--            android:name=".utils.notification.MyFirebaseMessagingService"-->

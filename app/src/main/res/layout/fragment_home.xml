@@ -267,6 +267,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_add_mood"
             android:layout_width="@dimen/_67sdp"
             android:layout_height="@dimen/_59sdp"
             android:layout_marginEnd="@dimen/_10sdp"
