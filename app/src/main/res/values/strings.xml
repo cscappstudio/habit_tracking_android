@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name" translatable="false">Habit</string>
-    <string name="full_app_name" translatable="false">Habit Goals</string>
+    <string name="app_name" translatable="false">Habit Goals</string>
+    <string name="full_app_name" translatable="false">Habit Goals: Habit Tracker</string>
 
     <string name="worksans_semibold">worksans_semibold</string>
 
