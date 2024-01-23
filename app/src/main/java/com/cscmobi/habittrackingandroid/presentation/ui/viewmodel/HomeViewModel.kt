@@ -1,12 +1,16 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
+import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -15,15 +19,17 @@ import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
 
-class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
+class HomeViewModel(private val repository: HomeRepository,private val databaseRepository: DatabaseRepository) : BaseViewModel() {
     var listWeekData = arrayListOf<LocalDate>()
     var currentWeekPos = -1
 
     val userIntent = Channel<HomeIntent>(Channel.UNLIMITED)
 
     private val _state = MutableStateFlow<HomeState>(HomeState.Empty)
+    var tasks = mutableListOf<Task>()
     val state: StateFlow<HomeState>
         get() = _state
+
 //    private val _categoryState = MutableStateFlow(mutableListOf<String>())
 //
 //    val categoryState: StateFlow<MutableList<String>> = _categoryState
@@ -31,6 +37,15 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
 
     init {
         handleIntent()
+//        test()
+
+    }
+
+    fun test() = viewModelScope.launch {
+      databaseRepository.getAllTask().collect{
+
+
+       }
     }
 
     private fun handleIntent() {
@@ -42,18 +57,28 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
                         fetchTasksbyCategory(it.tag)
                     }
 
+                    is HomeIntent.UpdateTask -> updateTask(it.task)
+
                     else -> {}
                 }
             }
         }
     }
 
+    private fun updateTask(task: Task) = viewModelScope.launch {
+        try {
+            databaseRepository.updateTask(task)
+        }catch (e: Exception){
+
+        }
+    }
+
     private fun fetchTasksbyCategory(tag: String) {
         viewModelScope.launch {
             _state.value = try {
-                if (tag == "All") HomeState.Tasks(repository.getListTask())
+                if (tag == "All") HomeState.Tasks(tasks)
                 else
-                    HomeState.Tasks(repository.getListTask().filter { it.tag == tag })
+                    HomeState.Tasks(tasks.filter { it.tag == tag })
 
             } catch (e: Exception) {
                 HomeState.Tasks(arrayListOf())
@@ -63,14 +88,24 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
 
     private fun fetchTasks() {
         viewModelScope.launch {
-            _state.value = try {
-               HomeState.Tasks(repository.getListTask())
+            tasks.clear()
 
-            } catch (e: Exception) {
-                HomeState.Tasks(arrayListOf())
+            databaseRepository.getAllTask().collect{
+                try {
+                tasks = it.toMutableList()
+                _state.value =
+                    HomeState.Tasks(it)
+                } catch (e: Exception) {
+                    HomeState.Tasks(arrayListOf())
+                }
+
+
             }
+
         }
     }
+
+
 
 
     fun initDateWeek() {
@@ -78,16 +113,23 @@ class HomeViewModel(private val repository: HomeRepository) : BaseViewModel() {
 
         val c = LocalDate.now()
         val weekRange = 12L
+
         for (i in -weekRange until weekRange) {
             val startOfWeek =
                 c.plusWeeks(i).with(DayOfWeek.MONDAY) // Set to the first day of the week (Monday)
-            listWeekData.add(startOfWeek)
+
+            // Add all days of the week manually
+            for (day in 0 until DayOfWeek.values().size) {
+                val currentDay = startOfWeek.plusDays(day.toLong())
+                listWeekData.add(currentDay)
+            }
         }
 
-        currentWeekPos = listWeekData.indexOfFirst { it == c.with(DayOfWeek.MONDAY) }
-        println("chaulq____________${currentWeekPos}")
+
+        currentWeekPos = listWeekData.indexOfFirst { it == c }
+        // Print the list of LocalDate objects
+        println("chaulq___________${listWeekData[currentWeekPos]}")
 
     }
-
 
 }

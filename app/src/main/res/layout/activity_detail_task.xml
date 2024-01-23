@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.activity.DetailTaskActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:src="@drawable/ic_back_btn"
+            android:layout_marginStart="@dimen/_20sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_green_delete"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/ic_green_skip"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintEnd_toStartOf="@id/iv_delete"
+            app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/ic_green_edit"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"
+            app:layout_constraintEnd_toStartOf="@id/iv_skip"
+            app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_26sdp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_back">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/fr_iv_task"
+                    android:layout_width="@dimen/_49sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="@dimen/_8sdp"
+                    android:background="@drawable/bg_white_border_corner_12"
+                    android:backgroundTint="#33EBB2BD"
+                    android:layout_height="@dimen/_49sdp">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_task"
+                        android:layout_width="match_parent"
+                        android:src="@drawable/ic_item_collection2"
+                        android:tint="@color/pink"
+                        android:layout_height="match_parent"/>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Drink water"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/worksans_bold"
+                    android:textColor="@color/jade_black"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Stay hydrated and flush out toxins"
+                    android:fontFamily="@font/worksans_regular"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_105sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/bg_white_corner_20"
+                    android:backgroundTint="@color/white_smoke"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:minHeight="125dp"
+                    android:paddingHorizontal="@dimen/_20sdp"
+                    android:paddingVertical="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/txt_basic_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserratalternates_semibold"
+                        android:text="Basic info"
+                        android:textColor="@color/shadow_gray"
+                        android:textFontWeight="700"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@+id/iv_repeat"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:targetApi="p" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_repeat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_wrap_text"
+                        app:layout_constraintBottom_toTopOf="@+id/iv_remind"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_basic_info" />
+
+
+                    <TextView
+                        android:id="@+id/txt_repeat"
+                        app:layout_constraintTop_toTopOf="@id/iv_repeat"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_repeat"
+                        app:layout_constraintStart_toEndOf="@id/iv_repeat"
+                        android:layout_marginStart="@dimen/_11sdp"
+                        android:layout_width="wrap_content"
+                        android:text="Repeat: every 1 week on Su, Mo, Tu,..."
+                        android:maxLines="1"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/worksans_medium"
+                        android:textColor="@color/shadow_gray"
+                        android:layout_height="wrap_content"/>
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_remind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_bell"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_repeat" />
+
+
+
+                    <TextView
+                        android:id="@+id/txt_remind"
+                        app:layout_constraintTop_toTopOf="@id/iv_remind"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_remind"
+                        app:layout_constraintStart_toEndOf="@id/iv_remind"
+                        android:layout_marginStart="@dimen/_11sdp"
+                        android:layout_width="wrap_content"
+                        android:text="Remind 08:30 AM"
+                        android:maxLines="1"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/worksans_medium"
+                        android:textColor="@color/shadow_gray"
+                        android:layout_height="wrap_content"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_progress_goal"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_minus"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/minus_circle"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:tint="@color/bottle_green"
+                        android:layout_height="wrap_content"/>
+
+                    <com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
+                        android:id="@+id/sb_progress"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:padding="@dimen/_36sdp"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        app:layout_constraintStart_toEndOf="@id/iv_minus"
+                        app:csb_min="0"
+                        android:layout_gravity="center"
+                        app:layout_constraintEnd_toStartOf="@id/iv_plus"
+                        app:csb_arcColor="#33EBB2BD"
+                        app:csb_thumbDrawable="@drawable/ic_thumbseekbar_goal"
+                        app:csb_isShowThumb="true"
+                        app:csb_progressColor="@color/pink"
+                        app:csb_progressWidth="@dimen/_18sdp"
+                        app:csb_step="5"
+                        app:csb_fontType="1"
+                        app:csb_touchEnable="true"
+                        app:csb_text="aaaa"
+                        app:csb_textColor="@color/tangerine"
+                        app:csb_textSize="@dimen/_18ssp"
+                        app:csb_thumbSize="@dimen/_24sdp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_plus"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/plus_circle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:tint="@color/bottle_green"
+                        android:layout_height="wrap_content"/>
+
+
+                    <TextView
+                        android:id="@+id/txt_finish"
+                        android:layout_width="wrap_content"
+                        android:text="Finish"
+                        android:fontFamily="@font/montserratalternates_semibold"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:paddingHorizontal="@dimen/_18sdp"
+                        app:layout_constraintTop_toBottomOf="@id/sb_progress"
+                        android:backgroundTint="@color/greeny"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@drawable/bg_white_corner_30"
+                        android:layout_height="wrap_content"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+              <include layout="@layout/layout_checklist"
+                  android:id="@+id/layout_checklist"
+                  android:layout_marginHorizontal="@dimen/_20sdp"
+
+                  android:layout_marginTop="@dimen/_11sdp"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  />
+
+              <androidx.constraintlayout.widget.ConstraintLayout
+                  android:layout_width="@dimen/_200sdp"
+                  android:background="@drawable/bg_steak"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_height="@dimen/_95sdp">
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:text="Current Streak"
+                      android:textSize="14sp"
+                      android:fontFamily="@font/worksans_semibold"
+                      android:textColor="@color/white"
+                      app:layout_constraintStart_toStartOf="@id/txt_streak"
+                      app:layout_constraintEnd_toEndOf="@id/txt_streak"
+                      app:layout_constraintBottom_toTopOf="@id/txt_streak"
+                      android:layout_height="wrap_content"/>
+
+                  <TextView
+                      android:id="@+id/txt_streak"
+                      android:layout_width="0dp"
+                      app:layout_constraintWidth_percent="0.6"
+                      android:gravity="center_horizontal"
+                      android:text="3 days"
+                      android:textColor="@color/white"
+                      android:fontFamily="@font/montserratalternates_bold"
+                      android:textFontWeight="800"
+                      android:textSize="20sp"
+                      app:layout_constraintStart_toStartOf="parent"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      android:layout_marginBottom="@dimen/_4sdp"
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      android:layout_height="wrap_content"
+                      tools:targetApi="p" />
+
+              </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_26sdp"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/layout_infor_steak"
+                        android:id="@+id/layout_steak1"
+                        android:layout_width="0dp"
+                        app:layout_constraintWidth_percent="0.47"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                    <include layout="@layout/layout_infor_steak"
+                        android:layout_width="0dp"
+                        android:id="@+id/layout_steak2"
+
+                        app:layout_constraintWidth_percent="0.47"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                    <include layout="@layout/layout_infor_steak"
+                        android:layout_width="0dp"
+                        android:id="@+id/layout_steak3"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:layout_constraintTop_toBottomOf="@id/layout_steak1"
+                        app:layout_constraintWidth_percent="0.47"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                    <include layout="@layout/layout_infor_steak"
+                        android:layout_width="0dp"
+                        android:id="@+id/layout_steak4"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:layout_constraintTop_toBottomOf="@id/layout_steak1"
+                        app:layout_constraintWidth_percent="0.47"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp">
+
+                    <FrameLayout
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:layout_width="match_parent"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_height="@dimen/_290sdp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_gravity="bottom"
+                            app:layout_constraintBottom_toBottomOf="@id/frag_container"
+                            app:cardElevation="@dimen/_10sdp"
+                            android:outlineSpotShadowColor="#33000000"
+                            app:cardCornerRadius="@dimen/_16sdp"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            android:layout_marginBottom="@dimen/_30sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            tools:targetApi="p" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_gravity="bottom"
+                            app:layout_constraintBottom_toBottomOf="@id/frag_container"
+                            app:cardElevation="@dimen/_9sdp"
+                            android:outlineSpotShadowColor="#33000000"
+
+                            app:cardCornerRadius="@dimen/_16sdp"
+                            android:layout_marginHorizontal="@dimen/_30sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            tools:targetApi="p" />
+
+                        <androidx.fragment.app.FragmentContainerView
+                            android:id="@+id/frag_container"
+                            android:elevation="@dimen/_11sdp"
+                            android:layout_gravity="top"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                    </FrameLayout>
+
+                </FrameLayout>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

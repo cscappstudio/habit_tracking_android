@@ -25,6 +25,7 @@ class CollectionFragment :
     private lateinit var collectionAdapter: CollectionAdapter
     override fun initView(view: View) {
 
+
         binding.layoutHeader.ivSearch.visibility = View.VISIBLE
         collectionAdapter = CollectionAdapter(object : OnItemClickPositionListener {
             override fun onItemClick(position: Int) {
@@ -75,10 +76,15 @@ class CollectionFragment :
             changeStateCollectionButton(false)
         }
 
-        binding.btnCreate.setOnClickListener {
-            (requireActivity() as NewHabitActivity)?.let {
+        binding.llCreateTask.setOnClickListener {
+            (requireActivity() as NewHabitActivity).let {
+                it.newHabitFragment.newHabitFragmentState = NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
                 it.replaceFragment(it.newHabitFragment,NewHabitFragment.TAG)
             }
+        }
+
+        binding.layoutHeader.ivBack.setOnClickListener {
+            requireActivity().finish()
         }
     }
 

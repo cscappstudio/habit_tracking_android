@@ -1,18 +1,40 @@
 package com.cscmobi.habittrackingandroid.data.repository
 
+import android.content.Context
 import com.cscmobi.habittrackingandroid.R
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
-import com.cscmobi.habittrackingandroid.data.model.Task
 
-class CollectionRepositoryImpl : CollectionRepository {
+class CollectionRepositoryImpl(val context: Context) : CollectionRepository {
     private val nightTimeTasks = mutableListOf<Task>(
-        Task("Practice affirmations", R.drawable.ic_golf),
-        Task("Practice visualization", R.drawable.ic_golf),
-        Task("Practice visualization", R.drawable.ic_golf),
-        Task("Practice visualization", R.drawable.ic_golf),
-        Task("Practice visualization", R.drawable.ic_golf),
-        Task("Practice visualization", R.drawable.ic_golf),
-        Task("Practice visualization", R.drawable.ic_golf),
+        Task(
+            name = "Practice affirmations",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
+        Task(
+            name = "Practice visualization",
+            ava = context.resources.getResourceEntryName(R.drawable.ic_golf)
+        ),
     )
 
     private var localCollection: MutableList<HabitCollection> = mutableListOf(
@@ -23,7 +45,7 @@ class CollectionRepositoryImpl : CollectionRepository {
             R.drawable.bg_collection2, "Morning Routine", nightTimeTasks, R.color.pink
         ),
         HabitCollection(
-            R.drawable.bg_collection3, "Heathy lifestyle", nightTimeTasks,  R.color.orange
+            R.drawable.bg_collection3, "Heathy lifestyle", nightTimeTasks, R.color.orange
         ),
         HabitCollection(
             R.drawable.bg_collection4, "Daily Chores", nightTimeTasks, R.color.green
@@ -38,7 +60,7 @@ class CollectionRepositoryImpl : CollectionRepository {
             R.drawable.bg_collection7, "Personal finance", nightTimeTasks, R.color.pink
         ),
         HabitCollection(
-            R.drawable.bg_collection8, "Staying fit", nightTimeTasks,  R.color.orange
+            R.drawable.bg_collection8, "Staying fit", nightTimeTasks, R.color.orange
         ),
         HabitCollection(
             R.drawable.bg_collection9, "Hit the Gym", nightTimeTasks, R.color.green
@@ -49,10 +71,10 @@ class CollectionRepositoryImpl : CollectionRepository {
     )
 
     override fun getListLocalCollection(): List<HabitCollection> {
-            return  localCollection
+        return localCollection
     }
 
     override fun getListRemoteCollection(): List<HabitCollection> {
-        return  mutableListOf()
+        return mutableListOf()
     }
 }

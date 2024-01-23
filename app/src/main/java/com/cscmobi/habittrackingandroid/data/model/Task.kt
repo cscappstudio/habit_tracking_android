@@ -1,16 +1,18 @@
 package com.cscmobi.habittrackingandroid.data.model
+import androidx.annotation.Keep
+import kotlinx.serialization.Contextual
+import java.util.Date
+import kotlinx.serialization.Serializable
 
-import com.cscmobi.habittrackingandroid.R
-
-data class Task (
-    val name: String,
-    val icon: Int,
-    val color: Int = R.color.white,
-    val goal: Goal = Goal(),
-    val tag: String = ""
-)
-
-
+//data class Task (
+//    val name: String,
+//    val icon: Int,
+//    val color: Int = R.color.white,
+//    val goal: Goal = Goal(),
+//    val tag: String = "",
+//    var id: Int = 0,
+//
+//    )
 
 enum class StatusTask(status: Int) {
     NOTDO(-1),
@@ -23,14 +25,56 @@ enum class TypeGoal {
     TypebyTimes()
 }
 
+
+@Keep
+@Serializable
 data class Goal(
-    val statusTask: StatusTask? = null,
-    val typeGoal: TypeGoal? = null,
-    val progress: Int = 0
+    var isOn: Boolean? = false,
+    var unit: String? = "",
+    var target: Int? = 0,
+    var period: String? = "",
+    var currentProgress: Int? = 0,
 )
 
 
-data class Tag(val name: String, val isSelected: Boolean)
+@Keep
+@Serializable
+data class EndDate(
+    var isOpen:Boolean? = false,
+    @Contextual var endDate: Date? =null
+
+)
+
+
+@Keep
+@Serializable
+data class RemindTask (
+    var isOpen: Boolean? = false,
+    var hour: Int? = 0,
+    var minute: Int? = 0,
+    var unit: String? = "AM"
+)
+
+
+@Keep
+@Serializable
+data class CheckList(var status: Boolean = false, var title: String)
+
+
+@Keep
+@Serializable
+data class TaskRepeat(var isOn: Boolean? = false,var type: String? = "", var frequency: Int? = 0, var days: List<Int>? = emptyList())
+data class Tag(val name: String, var isSelected: Boolean = false)
+
+data class ColorTask(val resId: Int, var isSelected: Boolean = false)
+
+
+@Keep
+@Serializable
+data class History(@Contextual val time: Date, var pause: Int, var progress: Int)
+
+
+
 
 
 

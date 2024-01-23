@@ -46,6 +46,12 @@ public class CircleSeekBar extends View {
      */
     private int mMax = MAX;
 
+    public void setMax(int max) {
+        mMax = max;
+        invalidate();
+
+    }
+
     /**
      * The increment/decrement value for each movement of progress.
      */

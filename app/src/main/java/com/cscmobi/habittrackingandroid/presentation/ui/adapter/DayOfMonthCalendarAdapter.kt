@@ -13,6 +13,7 @@ import com.cscmobi.habittrackingandroid.R
 
 class DayOfMonthCalendarAdapter(private val context: Context, private val days: List<Day>) : BaseAdapter() {
 
+    var colorSelect: Int = -1
     override fun getCount(): Int {
         return days.size
     }
@@ -49,7 +50,7 @@ class DayOfMonthCalendarAdapter(private val context: Context, private val days: 
             if (day.isSelected) {
                 textView.setTextColor(ContextCompat.getColor(context, R.color.white))
                 frameContainer.setBackgroundResource(R.drawable.bg_circle)
-                frameContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.orange))
+                frameContainer.backgroundTintList = if (colorSelect != -1) ColorStateList.valueOf(colorSelect) else ColorStateList.valueOf(ContextCompat.getColor(context, R.color.orange))
 
             }
             else {

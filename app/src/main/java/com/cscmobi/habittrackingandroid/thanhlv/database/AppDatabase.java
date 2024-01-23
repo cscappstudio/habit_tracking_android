@@ -5,11 +5,14 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task;
 
 
 @Database(entities = {Task.class}, version = 1, exportSchema = false)
+@TypeConverters(Converters.class)
+
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "data.db";
     private static AppDatabase instance;

@@ -6,13 +6,14 @@
     app:dragEdge="right"
     android:id="@+id/swipe_layout"
     app:mode="same_level"
-    android:layout_marginBottom="@dimen/_5sdp"
     android:layout_marginHorizontal="@dimen/_20sdp"
     android:layout_height="wrap_content">
 
     <FrameLayout
         android:id="@+id/fr_menu"
         android:layout_width="wrap_content"
+        android:visibility="invisible"
+        android:translationX="@dimen/_minus30sdp"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -40,6 +41,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/fr_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -52,14 +54,14 @@
                 android:id="@+id/ct_task"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_51sdp"
-                android:layout_margin="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:layout_margin="@dimen/_5sdp"
                 android:background="@drawable/bg_white_corner_30"
                 android:elevation="@dimen/_10sdp"
                 android:maxHeight="80dp"
-                android:outlineSpotShadowColor="#33000000"
+                android:outlineSpotShadowColor="#B3000000"
                 android:paddingHorizontal="@dimen/_15sdp"
-                tools:ignore="UnusedAttribute">
+                tools:targetApi="p">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView"
@@ -86,6 +88,17 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/line"
+                    android:background="@color/white"
+                    android:layout_width="0dp"
+                    android:visibility="invisible"
+                    app:layout_constraintTop_toTopOf="@id/txt_name_task"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_name_task"
+                    app:layout_constraintStart_toStartOf="@id/txt_name_task"
+                    app:layout_constraintEnd_toEndOf="@id/txt_name_task"
+                    android:layout_height="@dimen/_1sdp"/>
 
                 <TextView
                     android:id="@+id/txt_goal"

@@ -1,7 +1,7 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.base.BaseFragment
@@ -9,17 +9,45 @@ import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.CalendarAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.CalenderData
+import io.ktor.util.reflect.instanceOf
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 
 class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCustomBinding::inflate) {
     private lateinit var selectedDate: LocalDate
     private var calendarAdapter: CalendarAdapter? = null
     private var calenderData = arrayListOf<CalenderData>()
+    private var dayDate: LocalDate? = null
+
+    fun resetColorTask( color: Int?) {
+        color?.let {
+            calendarAdapter?.colorSelect = it
+
+        }
+    }
+
+    fun getDateSelected(): Date? {
+
+        if (dayDate != null) {
+            val calendar = Calendar.getInstance()
+            calendar.set(dayDate!!.year, dayDate!!.monthValue - 1, dayDate!!.dayOfMonth)
+            return calendar.time
+        }
+
+        return  null
+
+    }
 
     override fun initView(view: View) {
+//        binding.vRoot.elevation = 0f
+//        binding.vRoot.setBackgroundResource(R.drawable.bg_calender1)
+
+
+
         selectedDate = LocalDate.now();
         setMonthView()
 
@@ -47,26 +75,37 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
                 GridLayoutManager(requireContext(), 7)
             binding.calendarRecyclerView.layoutManager = layoutManager
 
-            val calendarAdapter = CalendarAdapter()
+            val calendarAdapter = CalendarAdapter(selectedDate)
             calendarAdapter.setListener(object : ItemWithPostionListener<CalenderData>{
                 override fun onItemClicked(item: CalenderData, p: Int) {
                     calenderData.forEach {
                         it.isSelected = false
                     }
 
-                    item.isSelected = true
+                    calenderData[p].isSelected = true
+
+                    val selectedDayInt = item.day.toIntOrNull()
+
+                   if (selectedDayInt != null)
+                       dayDate = selectedDate.withDayOfMonth(selectedDayInt)
+
+
                     calendarAdapter?.notifyDataSetChanged()
+
                 }
 
             })
 
+
             binding.calendarRecyclerView.adapter = calendarAdapter
             calendarAdapter.submitList(calenderData)
-
+        }
+        else {
+            calendarAdapter?._currentDate = selectedDate
+            calendarAdapter?.submitList(calenderData)
+            calendarAdapter?.notifyDataSetChanged()
         }
 
-        calendarAdapter?.submitList(calenderData)
-        calendarAdapter?.notifyDataSetChanged()
 
     }
 
@@ -76,7 +115,7 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
         val daysInMonth: Int = yearMonth.lengthOfMonth()
         val firstOfMonth = selectedDate.withDayOfMonth(1)
         val dayOfWeek = firstOfMonth.dayOfWeek.value
-        for (i in 1..42) {
+        for (i in 1..35) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
                 daysInMonthArray.add("")
             } else {
