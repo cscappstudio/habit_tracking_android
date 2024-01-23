@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "665262738123",
+    "project_id": "a18-ruler-camera123",
+    "storage_bucket": "a18-ruler-camera.appspot.com123"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665262738603:android:7c6b2c76580e4d85557bee",
+        "android_client_info": {
+          "package_name": "com.cscmobi.habittrackingandroid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR2-iDNgjBZV60WeDIdtbyfqc6s1dXG10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -66,4 +66,15 @@
         <item name="fontFamily">@font/worksans_medium</item>
     </style>
 
+
+    <style name="ThemeAniDialogUpDown" parent="@android:style/Theme.Panel">
+        <item name="android:windowAnimationStyle">@style/MyAnimation.Window.Up.Down</item>
+    </style>
+
+    <style name="MyAnimation.Window.Up.Down" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/ani_slide_up</item>
+        <item name="android:windowExitAnimation">@anim/ani_slide_down</item>
+    </style>
+
+
 </resources>
