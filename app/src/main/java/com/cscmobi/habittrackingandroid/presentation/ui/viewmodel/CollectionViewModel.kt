@@ -40,6 +40,7 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
                     is CollectionIntent.NotCreateCollection -> _state.value = CollectionState.IdleCreateCollection
                     is CollectionIntent.CreateCollection -> createCollection(it.data)
                     is CollectionIntent.CreateTaskToRoutine -> insertTask(it.task)
+                    is CollectionIntent.PassTaskfromCollection -> _state.value = CollectionState.GetTask(it.task)
                     else -> {}
                 }
             }

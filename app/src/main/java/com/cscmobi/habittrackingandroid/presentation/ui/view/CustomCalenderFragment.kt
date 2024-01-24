@@ -1,7 +1,8 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
-import android.util.Log
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.base.BaseFragment
@@ -9,12 +10,16 @@ import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.CalendarAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.CalenderData
-import io.ktor.util.reflect.instanceOf
+import com.google.api.client.util.DateTime
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-import java.util.*
+import java.text.DateFormat
+import java.time.temporal.TemporalAccessor
+import java.util.Calendar
+import java.util.Date
 
 
 class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCustomBinding::inflate) {
@@ -28,6 +33,18 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
             calendarAdapter?.colorSelect = it
 
         }
+    }
+
+//    fun convertDateToLocalDate(date: Date): LocalDate? {
+//    }
+
+    fun setSelectDate(date: Date) {
+
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        selectedDate =  LocalDate.of(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH))
+        setMonthView()
+
     }
 
     fun getDateSelected(): Date? {
