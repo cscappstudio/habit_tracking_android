@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.cscmobi.habittrackingandroid.databinding.ItemMonthCalendarBinding
-import com.cscmobi.habittrackingandroid.databinding.ItemMoodRecordBinding
-import com.cscmobi.habittrackingandroid.databinding.ItemTaskTimelineBinding
+import com.cscmobi.habittrackingandroid.databinding.ItemTaskTimelineFullBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 
 class DetailChallengeAdapter(private var mContext: Context) :
     RecyclerView.Adapter<DetailChallengeAdapter.ViewHolder>() {
-    class ViewHolder(var binding: ItemTaskTimelineBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(var binding: ItemTaskTimelineFullBinding) : RecyclerView.ViewHolder(binding.root)
 
     private var mList = mutableListOf<DayCalendarModel>()
     private var mCallBack : MoodRecordCallback? = null
@@ -28,7 +26,7 @@ class DetailChallengeAdapter(private var mContext: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemTaskTimelineBinding.inflate(
+            ItemTaskTimelineFullBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

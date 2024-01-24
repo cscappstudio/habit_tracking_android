@@ -6,8 +6,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- <uses-permission android:name="com.android.vending.BILLING" /> &lt;!&ndash; Include this permission any time your app needs location information. &ndash;&gt; -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="com.android.vending.BILLING" /> &lt;!&ndash; Include this permission any time your app needs location information. &ndash;&gt; -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!--    fb adjust-->
@@ -29,7 +28,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".thanhlv.ui.OnboardActivity"
+            android:name=".thanhlv.ui.SplashActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
@@ -38,6 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity android:name=".presentation.ui.activity.NewHabitActivity" />
         <!--        <service-->
         <!--            android:name=".utils.notification.MyFirebaseMessagingService"-->
@@ -82,21 +83,16 @@
             android:name=".thanhlv.ui.QuestionFOActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
-<!--        <activity-->
-<!--            android:name=".thanhlv.ui.OnboardActivity"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@style/FullScreenTheme" />-->
+        <activity
+            android:name=".thanhlv.ui.OnboardActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
-        <meta-data
-            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
-            android:value="true" />
 
-        <meta-data
-            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
-            android:value="true" />
     </application>
 
 </manifest>

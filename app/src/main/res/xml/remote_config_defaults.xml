@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+    <entry>
+        <key>android_pass_review_app</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>android_banner_protractor</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_show_weekly_plan</key>
+        <value>false</value>
+    </entry>
+
+    <entry>
+        <!--     native/banner/null   -->
+        <key>android_ad_setup_ruler</key>
+        <value>native</value>
+    </entry>
+
+    <entry>
+        <!--     native/banner/null   -->
+        <key>android_ad_ar_ruler</key>
+        <value>null</value>
+    </entry>
+    <entry>
+        <key>android_ad_show_capture</key>
+        <value>banner</value>
+    </entry>
+    <entry>
+        <key>android_inter_ar_ruler</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_inter_physical_ruler</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_inter_show_capture</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_onboard</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_language</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_ad_open_app</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_showBestOfferAfterAR</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_manual</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_list_image</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_home</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_settings</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_banner_home</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_banner_select_tools</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_banner_select_unit</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_grant_permission</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_flash_sale_duration</key>
+        <value>60</value>
+    </entry>
+    <entry>
+        <key>android_flash_sale_push_time</key>
+        <value>30</value>
+    </entry>
+    <entry>
+        <key>android_show_subs_in_home_max</key>
+        <value>3</value>
+    </entry>
+    <entry>
+        <key>android_show_best_offer_after_ar_max</key>
+        <value>1</value>
+    </entry>
+    <entry>
+        <key>android_try_tool_max</key>
+        <value>1</value>
+    </entry>
+    <entry>
+        <key>android_appConfigs</key>
+        <value>{
+            "emailSupport": "support@cscmobi.com",
+            "shareText":"Ruler Camera - AR Tape Measure",
+            "termsURL":"https://cscmobi.com/privacy-policy/",
+            "privacyURL":"https://cscmobi.com/privacy-policy/",
+            "moreAppURL":"https://play.google.com/store/apps/dev?id=9128344770332001884",
+            "adsPlatform": "admod",
+            "lastVersion": "1.0.1",
+            "updateMessage": "Update for new features and best performance",
+            "updateURL": "https://play.google.com/store/apps/details?id=%s",
+            "showUpdate ": false,
+            "forceUpdate": false,
+            "subscription": "[{\"name\": \"month\", \"keyID\":
+            \"com.cscmobi.rulercamera.monthly\"},{\"name\": \"week\", \"keyID\":
+            \"com.cscmobi.rulercamera.weekly\"},{\"name\": \"year\", \"keyID\":
+            \"com.cscmobi.rulercamera.yearly\"},{\"name\": \"yearsale\", \"keyID\":
+            \"com.cscmobi.rulercamera.yearlysale\"},{\"name\": \"lifetime\", \"keyID\":
+            \"com.cscmobi.rulercamera.lifetime\"}]"
+            }
+        </value>
+    </entry>
+
+
+</defaults>

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import com.cscmobi.habittrackingandroid.databinding.ActivityLanguageBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
+import com.thanhlv.fw.constant.AppConfigs.Companion.CHANGE_LANGUAGE
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.spf.SPF
 
@@ -68,11 +69,11 @@ class ChangeLanguageActivity : BaseActivity2() {
         binding.btnDone.setOnClickListener {
             if (SPF.isFirstOpenApp(this)) {
                 SPF.setLanguage(this, currentLanguage)
-//                gotoOnBoard()
+                gotoOnBoard()
             } else {
                 if (currentLanguage != SPF.getLanguage(this)) {
                     SPF.setLanguage(this, currentLanguage)
-//                    setResult(CHANGE_LANGUAGE_CODE, null)
+                    setResult(CHANGE_LANGUAGE, null)
                     val i = Intent(this, MainActivity::class.java)
                     i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(i)
@@ -151,10 +152,10 @@ class ChangeLanguageActivity : BaseActivity2() {
     }
 
 
-    ////////////////////////////////////////////////////////
-    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
+//    ////////////////////////////////////////////////////////
+//    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+//    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+//        override fun onReceive(context: Context, intent: Intent) {
 //            if (!SPF.isProApp(context)
 //                && RemoteConfigs.instance.getConfigValue(AdsConfigs.KEY_AD_NATIVE_CHANGE_LANGUAGE)
 //                    .asBoolean()
@@ -162,16 +163,16 @@ class ChangeLanguageActivity : BaseActivity2() {
 //                binding.adView.visibility = View.VISIBLE
 //                createNativeAd(context, BuildConfig.ad_native_full, binding.adView, null)
 //            } else binding.adView.visibility = View.GONE
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        registerReceiver(mReceiver, mIntentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(mReceiver)
-    }
+//        }
+//    }
+//
+//    override fun onStart() {
+//        super.onStart()
+//        registerReceiver(mReceiver, mIntentFilter)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        unregisterReceiver(mReceiver)
+//    }
 }

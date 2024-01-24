@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">habittrackingandroidAndroid</string>
+
+    <string name="app_name" translatable="false">Habit Goals</string>
+    <string name="full_app_name" translatable="false">Habit Goals: Habit Tracker</string>
+
     <string name="worksans_semibold">worksans_semibold</string>
 
     <string name="hindi" translatable="false">हिन्दी</string>
@@ -11,4 +14,8 @@
     <string name="french" translatable="false">Français</string>
     <string name="spanish" translatable="false">Español</string>
     <string name="vietnamese" translatable="false">Tiếng Việt</string>
+
+
+    <string name="latest_version">Latest version</string>
+    <string name="please_update">Please update</string>
 </resources>

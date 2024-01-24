@@ -8,7 +8,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.MyApplication
-import com.cscmobi.habittrackingandroid.thanhlv.constant.Constant.Static.Companion.CURRENT_LANG
+import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
@@ -49,13 +49,12 @@ abstract class BaseActivity2 : AppCompatActivity() {
         super.attachBaseContext(base)
     }
 
-//    fun gotoHomeActivity() {
-//        startActivity(Intent(this, HomeActivity::class.java))
-//    }
-//
-//    fun gotoOnBoard() {
-//        startActivity(Intent(this, OnboardActivity::class.java))
-//    }
+    fun gotoHomeActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+    fun gotoOnBoard() {
+        startActivity(Intent(this, OnboardActivity::class.java))
+    }
 
     open fun shareApp() {
         MyApplication.ignoreOpenAd = true

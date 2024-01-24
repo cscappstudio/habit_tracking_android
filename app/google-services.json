@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "334853291805",
+    "project_id": "a30-habit-goals",
+    "storage_bucket": "a30-habit-goals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334853291805:android:050902b529b3f183246bf4",
+        "android_client_info": {
+          "package_name": "com.cscmobi.habittrackingandroid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmQXGxR7LJ_KEPPXiDqeDnTU9zSw7of1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
