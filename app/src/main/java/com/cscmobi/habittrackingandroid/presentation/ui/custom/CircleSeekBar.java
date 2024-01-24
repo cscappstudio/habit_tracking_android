@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -119,6 +120,7 @@ public class CircleSeekBar extends View {
     private Integer mTextFontType = 0;
     private String mText = "";
     private boolean isShowImage;
+    private int bgColor = Color.WHITE;
 
 
     public CircleSeekBar(Context context) {
@@ -166,7 +168,7 @@ public class CircleSeekBar extends View {
 
     public void setProgressDisplayAndInvalidate(int progressDisplay) {
         setProgressDisplay(progressDisplay);
-        if(mOnSeekBarChangeListener != null) {
+        if (mOnSeekBarChangeListener != null) {
             mOnSeekBarChangeListener.onPointsChanged(this, mProgressDisplay, false);
         }
         invalidate();
@@ -195,13 +197,14 @@ public class CircleSeekBar extends View {
     public double getAngle() {
         return mAngle;
     }
-
+    int textColor = Color.BLACK;
     private void init(Context context, AttributeSet attrs) {
 
         final float density = context.getResources().getDisplayMetrics().density;
         int progressColor = ContextCompat.getColor(context, R.color.black);
         int arcColor = ContextCompat.getColor(context, R.color.white);
-        int textColor = ContextCompat.getColor(context, com.google.android.material.R.color.material_on_primary_emphasis_medium);
+
+         textColor = ContextCompat.getColor(context, com.google.android.material.R.color.material_on_primary_emphasis_medium);
         mProgressWidth = (int) (density * mProgressWidth);
         mArcWidth = (int) (density * mArcWidth);
         mTextSize = (int) (density * mTextSize);
@@ -224,9 +227,8 @@ public class CircleSeekBar extends View {
             mMax = typedArray.getInteger(R.styleable.CircleSeekBar_csb_max, mMax);
             mStep = typedArray.getInteger(R.styleable.CircleSeekBar_csb_step, mStep);
 
-            mTextFontType = typedArray.getInteger(R.styleable.CircleSeekBar_csb_fontType,mTextFontType);
+            mTextFontType = typedArray.getInteger(R.styleable.CircleSeekBar_csb_fontType, mTextFontType);
             mText = typedArray.getString(R.styleable.CircleSeekBar_csb_text);
-
 
 
             mTextSize = (int) typedArray.getDimension(R.styleable.CircleSeekBar_csb_textSize, mTextSize);
@@ -260,7 +262,7 @@ public class CircleSeekBar extends View {
         mCurrentProgress = Math.round(mProgressSweep * valuePerDegree());
 
         mArcPaint = new Paint();
-        mArcPaint.setColor(Color.WHITE);
+        mArcPaint.setColor(bgColor);
         mArcPaint.setAntiAlias(true);
         mArcPaint.setStyle(Paint.Style.FILL);
 
@@ -284,20 +286,36 @@ public class CircleSeekBar extends View {
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setTextSize(mTextSize);
 
-        Typeface mTextTypeface = ResourcesCompat.getFont(context,R.font.worksans_semibold);
+        Typeface mTextTypeface = ResourcesCompat.getFont(context, R.font.worksans_semibold);
 
-        switch (mTextFontType){
-            case  0 : mTextTypeface = ResourcesCompat.getFont(context,R.font.worksans_medium);
-            case  1 : mTextTypeface = ResourcesCompat.getFont(context,R.font.worksans_semibold);
+        switch (mTextFontType) {
+            case 0:
+                mTextTypeface = ResourcesCompat.getFont(context, R.font.worksans_medium);
+            case 1:
+                mTextTypeface = ResourcesCompat.getFont(context, R.font.worksans_semibold);
 
         }
 
         mTextPaint.setTypeface(mTextTypeface);
     }
 
+
+    public void resetBgColorWhenProgressIs0(int color , int txtcolor, boolean isChange) {
+        if (isChange) {
+            mArcPaint.setColor(color);
+            mTextPaint.setColor(txtcolor);
+        } else  {
+            mArcPaint.setColor(Color.WHITE);
+            mTextPaint.setColor(textColor);
+        }
+        invalidate();
+
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         final int min = Math.min(w, h);
+
 
         // find circle's rectangle points
         int alignLeft = (w - min) / 2;
@@ -321,15 +339,13 @@ public class CircleSeekBar extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-
         // draw the arc and progress
         canvas.drawCircle(mCenterX, mCenterY, mCircleRadius, mArcPaint);
         canvas.drawCircle(mCenterX, mCenterY, mCircleRadius, strokePaint);
-        if(mIsShowText) {
+        if (mIsShowText) {
             // draw the text
             if (mProgressDisplay == mMax && isShowImage) {
-                int imageWidth = mImage.getIntrinsicWidth() /4;
+                int imageWidth = mImage.getIntrinsicWidth() / 4;
                 int imageHeight = mImage.getIntrinsicHeight() / 4;
                 int imageXPos = canvas.getWidth() / 2 - imageWidth / 2;
                 int imageYPos = (int) (mArcRect.centerY() - imageHeight / 2);
@@ -337,8 +353,7 @@ public class CircleSeekBar extends View {
                 // Draw the image
                 mImage.setBounds(imageXPos, imageYPos, imageXPos + imageWidth, imageYPos + imageHeight);
                 mImage.draw(canvas);
-            }
-            else {
+            } else {
                 String textPoint = String.valueOf(mProgressDisplay);
                 if (!mText.isEmpty()) textPoint = mText;
                 mTextPaint.getTextBounds(textPoint, 0, textPoint.length(), mTextRect);
@@ -347,8 +362,7 @@ public class CircleSeekBar extends View {
                 int yPos = (int) ((mArcRect.centerY()) - ((mTextPaint.descent() + mTextPaint.ascent()) / 2));
                 canvas.drawText(textPoint, xPos, yPos, mTextPaint);
             }
-        }
-        else  {
+        } else {
 //            int imageWidth = mImage.getIntrinsicWidth() /4;
 //            int imageHeight = mImage.getIntrinsicHeight() / 4;
 //            int imageXPos = canvas.getWidth() / 2 - imageWidth / 2;
@@ -365,9 +379,9 @@ public class CircleSeekBar extends View {
         mThumbX = (int) (mCenterX + mCircleRadius * Math.cos(mAngle));
         mThumbY = (int) (mCenterY - mCircleRadius * Math.sin(mAngle));
 
-        if(thumbVisible) {
-            mThumbDrawable.setBounds(mThumbX - mThumbSize , mThumbY - mThumbSize ,
-                    mThumbX + mThumbSize , mThumbY + mThumbSize );
+        if (thumbVisible) {
+            mThumbDrawable.setBounds(mThumbX - mThumbSize, mThumbY - mThumbSize,
+                    mThumbX + mThumbSize, mThumbY + mThumbSize);
             mThumbDrawable.draw(canvas);
         }
     }
@@ -397,11 +411,10 @@ public class CircleSeekBar extends View {
         updateProgress(progress, true);
 
 
-        if(mOnSeekBarChangeListener != null) {
+        if (mOnSeekBarChangeListener != null) {
             mOnSeekBarChangeListener.onTrackingChanging(progress);
         }
     }
-
 
 
     @Override
@@ -416,7 +429,7 @@ public class CircleSeekBar extends View {
                     getParent().requestDisallowInterceptTouchEvent(true);
                     mIsThumbSelected = true;
                     updateProgressState(x, y);
-                    if(mOnSeekBarChangeListener != null) {
+                    if (mOnSeekBarChangeListener != null) {
                         mOnSeekBarChangeListener.onStartTrackingTouch(this);
                     }
                 }
@@ -424,6 +437,9 @@ public class CircleSeekBar extends View {
             }
 
             case MotionEvent.ACTION_MOVE: {
+                if (mProgressDisplay == mMin) {
+                }
+
                 // still moving the thumb (this is not the first touch)
                 if (mIsThumbSelected) {
                     int x = (int) event.getX();
@@ -437,7 +453,7 @@ public class CircleSeekBar extends View {
                 // finished moving (this is the last touch)
                 getParent().requestDisallowInterceptTouchEvent(false);
                 mIsThumbSelected = false;
-                if(mOnSeekBarChangeListener != null)
+                if (mOnSeekBarChangeListener != null)
                     mOnSeekBarChangeListener.onStopTrackingTouch(this);
                 break;
             }
@@ -531,7 +547,6 @@ public class CircleSeekBar extends View {
             }
             invalidate();
         }
-
 
 
     }

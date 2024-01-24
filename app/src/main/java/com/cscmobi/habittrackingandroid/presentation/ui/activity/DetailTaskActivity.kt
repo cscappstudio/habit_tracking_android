@@ -19,6 +19,7 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.data.model.CheckList
+import com.cscmobi.habittrackingandroid.data.model.History
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
@@ -35,6 +36,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 import java.util.Date
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
@@ -71,20 +74,35 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
     fun test() {
         binding.sbProgress.max = 5
-        binding.sbProgress.setProgressDisplayAndInvalidate(1)
+        binding.sbProgress.setProgressDisplayAndInvalidate(0)
 
         val calendar = Calendar.getInstance()
         calendar.time = Date() // Set the calendar's time to the current date
 
 // Add 3 months to the current date
-        calendar.add(Calendar.MONTH, 3)
 
 // Get the updated date
-        val updatedDate = calendar.time
-        //        binding.sbProgress.max = 5
-//        binding.sbProgress.setProgressDisplayAndInvalidate(1)
-        this.task.history = listOf(
-        )
+        var listHistory = arrayListOf<History>()
+        for (i in 0..10) {
+            listHistory.add(History(calendar.time,Random.nextInt(0,5),Random.nextInt(90,100)))
+            calendar.add(Calendar.MONTH, 1)
+
+        }
+        calendar.add(Calendar.MONTH, 1)
+
+        listHistory.add(History(calendar.time,Random.nextInt(0,5),100))
+
+        this.task.history = listHistory
+
+        Log.d("aaaaaa", (this.task.history as ArrayList<History>).joinToString(" "))
+
+    }
+
+    fun initStreak(histories: List<History>) {
+        
+        histories.forEach { _ ->
+
+        }
     }
 
     private fun observe() {
@@ -216,6 +234,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 points: Int,
                 fromUser: Boolean
             ) {
+
             }
 
             override fun onStartTrackingTouch(circleSeekBar: CircleSeekBar?) {

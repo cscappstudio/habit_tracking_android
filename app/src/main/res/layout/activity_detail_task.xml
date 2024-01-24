@@ -199,7 +199,7 @@
                         android:padding="@dimen/_36sdp"
                         android:layout_marginHorizontal="@dimen/_20sdp"
                         app:layout_constraintStart_toEndOf="@id/iv_minus"
-                        app:csb_min="0"
+                        app:csb_min="-1"
                         android:layout_gravity="center"
                         app:layout_constraintEnd_toStartOf="@id/iv_plus"
                         app:csb_arcColor="#33EBB2BD"

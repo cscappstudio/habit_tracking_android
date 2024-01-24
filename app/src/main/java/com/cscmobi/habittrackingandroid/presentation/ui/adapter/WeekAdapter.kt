@@ -2,13 +2,16 @@ package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.ItemWeekcalenderBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemWeekcalenderSelectedBinding
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
+import com.cscmobi.habittrackingandroid.utils.Helper
 import kotlin.random.Random
 
 class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAdapter<WeekCalenderItem, RecyclerView.ViewHolder>(WeekAdapter.DIFF_CALLBACK()){
@@ -37,13 +40,32 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
         fun bind(item: WeekCalenderItem,  onItemClickAdapter: OnItemClickPositionListener) {
             var test = Random.nextBoolean()
 
-            if (test) {
-                binding.sbWeek.setProgressDisplayAndInvalidate(binding.sbWeek.max)
+            if ((item.localDate ?: Helper.currentDate).isAfter(Helper.currentDate)) {
+                binding.sbWeek.setProgressDisplayAndInvalidate(binding.sbWeek.min)
+                binding.sbWeek.resetBgColorWhenProgressIs0(ContextCompat.getColor(binding.root.context,
+                    R.color.silver),ContextCompat.getColor(binding.root.context,
+                    R.color.hexD4D4D4),true)
 
+            } else {
+                binding.sbWeek.resetBgColorWhenProgressIs0(ContextCompat.getColor(binding.root.context,
+                    R.color.silver),ContextCompat.getColor(binding.root.context,
+                    R.color.hexD4D4D4),false)
+
+                if (test) {
+                    binding.sbWeek.setProgressDisplayAndInvalidate(binding.sbWeek.max)
+                } else {
+                    binding.sbWeek.setProgressDisplayAndInvalidate(50)
+
+                }
             }
 
+
+
+
+
+
             binding.root.setOnClickListener {
-                    onItemClickAdapter.onItemClick(adapterPosition)
+                    onItemClickAdapter.onItemClick(layoutPosition)
             }
         }
 

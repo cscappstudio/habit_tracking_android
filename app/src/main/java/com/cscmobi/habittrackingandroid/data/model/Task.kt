@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.data.model
 import androidx.annotation.Keep
+import com.cscmobi.habittrackingandroid.thanhlv.database.DateSerializer
 import kotlinx.serialization.Contextual
 import java.util.Date
 import kotlinx.serialization.Serializable
@@ -41,7 +42,7 @@ data class Goal(
 @Serializable
 data class EndDate(
     var isOpen:Boolean? = false,
-    @Contextual var endDate: Date? =null
+    @Contextual @Serializable(with = DateSerializer::class) var endDate: Date? =null
 
 )
 
