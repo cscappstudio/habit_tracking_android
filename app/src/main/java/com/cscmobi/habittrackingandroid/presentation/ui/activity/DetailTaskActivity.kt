@@ -63,7 +63,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 detailTaskViewModel.userIntent.send(DetailTaskIntent.FetchTaskbyId(taskId))
             }
         }
-        // observe()
+         observe()
         initCheckList()
 
 
@@ -130,7 +130,9 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             binding.frIvTask.setBackgroundApla(it.color ?: "#33EBB2BD", 20)
             binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate)
             binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind)
+            binding.txtNameTask.text = it.name
 
+            binding.txtNoteTask.text = it.note
 
 
             if (it.goal != null && it.goal!!.isOn == true) {

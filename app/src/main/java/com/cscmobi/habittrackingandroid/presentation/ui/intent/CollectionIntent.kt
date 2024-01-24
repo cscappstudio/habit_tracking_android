@@ -11,5 +11,9 @@ sealed class CollectionIntent {
     data object NotCreateCollection: CollectionIntent()
     data class CreateCollection(val data: HabitCollection): CollectionIntent()
 
-    data class CreateTasToCollectionk(val task: Task): CollectionIntent()
-    data class CreateTaskToRoutine(val task: Task): CollectionIntent()}
+    data class CreateTaskToCollectionk(val task: Task): CollectionIntent()
+    data class CreateTaskToRoutine(val task: Task): CollectionIntent()
+
+    data class PassTaskfromCollection(val task: Task): CollectionIntent()
+}
+

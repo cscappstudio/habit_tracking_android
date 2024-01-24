@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -12,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,6 +40,8 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionStat
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
 import com.cscmobi.habittrackingandroid.utils.onDone
+import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
+import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -66,6 +70,7 @@ class NewHabitFragment :
     private var currentTask = Task()
     private var daysRepeat = mutableListOf<Int>()
     private var daysWeekRepeat = mutableListOf<DayWeekRepeat>()
+    private var subTaskAdapter: BaseBindingAdapter<String>? = null
 
     companion object {
         val TAG = "NewHabitFragment"
@@ -109,7 +114,7 @@ class NewHabitFragment :
             DayWeekRepeat(5),
             DayWeekRepeat(6),
             DayWeekRepeat(7),
-            DayWeekRepeat(8),
+            DayWeekRepeat(1),
         )
 
         setUpUnitPicker()
@@ -138,24 +143,117 @@ class NewHabitFragment :
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
         transaction.replace(binding.layoutEndDate.childFragmentContainer.id, childFragment).commit()
 
-        observe()
+    }
+
+    fun setDataTask(task: Task) {
+        currentTask = task
     }
 
     private fun observe() {
         lifecycleScope.launch {
             collectionViewModel.state.collect {
+                when(it) {
+                    is CollectionState.CreateTaskRoutineSuccess -> {
+                        if (it.isSuccess) {
+                            requireActivity().finish()
 
-                if (it is CollectionState.CreateTaskRoutineSuccess) {
-                    if (it.isSuccess) {
-                        requireActivity().finish()
-
-                    } else {
-                        Toast.makeText(requireContext(), "Error Create Task", Toast.LENGTH_SHORT)
-                            .show()
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Error Create Task",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
                     }
+
+                    is CollectionState.GetTask -> {
+                        currentTask = it.task
+                        setUpDataTask(currentTask)
+                    }
+
+                    else -> {}
                 }
+
+
             }
         }
+
+    }
+
+    private fun setUpDataTask(task: Task) {
+        task.ava?.let { binding.ivHabit.setDrawableString(it) }
+        Log.d("CAYVL", task.name.toString())
+        binding.edtName.setText(task.name.toString())
+
+        task.color?.let {
+            colorSelect = Color.parseColor(it)
+            binding.ivHabit.setBackgroundApla(it,20)
+        }
+        binding.edtNote.setText(task.note)
+        task.goal?.let {
+            binding.isGoalEdit = it.isOn
+            binding.edtTargetGoal.setText(it.target.toString())
+
+            binding.unitPicker.value =  unit.indexOf(it.unit)
+            if (!it.period.isNullOrEmpty())
+            binding.timePicker.value = time.indexOf(it.period)
+        }
+
+        task.repeate?.let {
+            var type = ""
+            when(it.type) {
+                "daily" -> {
+                    type = "Day"
+                    binding.layoutRepeate.txtDaily.performClick()
+                }
+                "monthly" -> {
+                    type = "Month"
+                    binding.layoutRepeate.txtMonthly.performClick()
+
+                }
+                "weekly" -> {
+                    type = "Week"
+                    binding.layoutRepeate.txtWeekly.performClick()
+
+                }
+                else -> {}
+            }
+
+            binding.layoutRepeate.txtCategory.text = "Every ${it.frequency} $type"
+            binding.layoutRepeate.isRepeatEdit = it.isOn
+
+        }
+
+        task.endDate?.let {
+            binding.layoutEndDate.isEndDateEdit = it.isOpen
+            it.endDate?.let { it1 -> childFragment.setSelectDate(it1) }
+        }
+
+        task.remind?.let {
+            var dayIndex = if (it.unit == "PM") 1 else 0
+
+            binding.layoutReminder.isRenindEdit = it.isOpen
+            binding.layoutReminder.unitHour.value = it.hour ?: 10
+            binding.layoutReminder.unitMinute.value = it.minute ?: 2
+            binding.layoutReminder.unitDay.value = dayIndex
+        }
+
+        if (task.tag.isNullOrEmpty()) {
+            binding.layoutTag.addIvVisible = true
+        } else {
+            binding.layoutTag.addIvVisible = false
+            binding.layoutTag.txtTag.text = task.tag
+        }
+
+        task.checklist?.forEach { _ ->
+                binding.layoutChecklist.rcvSubtask
+        }
+        task.checklist?.let { checkList ->
+            subTaskAdapter?.submitList(checkList.map { it.title })
+            subTaskAdapter?.notifyDataSetChanged()
+        }
+
 
     }
 
@@ -294,7 +392,7 @@ class NewHabitFragment :
     }
 
     private fun setUpCheckList() {
-        var subTaskAdapter = BaseBindingAdapter<String>(
+         subTaskAdapter = BaseBindingAdapter<String>(
             R.layout.item_subtask,
             layoutInflater,
             object : DiffUtil.ItemCallback<String>() {
@@ -307,12 +405,12 @@ class NewHabitFragment :
                 }
 
             })
-        subTaskAdapter.submitList(subTasks)
+        subTaskAdapter?.submitList(subTasks)
 
-        subTaskAdapter.setListener(object : ItemBasePosistionListener {
+        subTaskAdapter?.setListener(object : ItemBasePosistionListener {
             override fun onItemClicked(p: Int) {
                 subTasks.removeAt(p)
-                subTaskAdapter.notifyItemRemoved(p)
+                subTaskAdapter?.notifyItemRemoved(p)
 
             }
 
@@ -325,7 +423,7 @@ class NewHabitFragment :
             binding.layoutChecklist.edtAdd.visibility = View.GONE
             if (!binding.layoutChecklist.edtAdd.text.isNullOrEmpty()) {
                 subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
-                subTaskAdapter.notifyItemInserted(subTasks.size - 1)
+                subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
             }
             hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
 
@@ -356,6 +454,7 @@ class NewHabitFragment :
             isOn = binding.isGoalEdit,
             unit = binding.unitPicker.displayedValues[binding.unitPicker.value - 1],
             target = binding.edtTargetGoal.text.toString().toInt(),
+            period = binding.timePicker.displayedValues[binding.timePicker.value-1]
         )
 
 
@@ -408,7 +507,7 @@ class NewHabitFragment :
         }
 
         binding.edtNote.onDone {
-            hideKeyboardFrom(requireContext(), binding.edtName)
+            hideKeyboardFrom(requireContext(), binding.edtNote)
         }
 
 
@@ -503,6 +602,10 @@ class NewHabitFragment :
                 collectionViewModel.userIntent.send(CollectionIntent.CreateTaskToRoutine(currentTask))
             }
         }
+
+
+        observe()
+
     }
 
     private var gradientBgUnitReminder: GradientDrawable? = null

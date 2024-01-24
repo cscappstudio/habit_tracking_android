@@ -37,8 +37,13 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
             binding.shapeableImageView.setImageResource(iconResourceId)
             binding.txtNameTask.text = item.name
+
+            binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+
             item.goal?.let {
                 if (it.isOn == true) {
+                    binding.txtUnit.visibility = View.VISIBLE
+                    binding.txtGoal.visibility = View.VISIBLE
                     binding.txtUnit.text = it.unit
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
 
@@ -82,6 +87,9 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                 }
 
 
+                } else {
+                    binding.txtUnit.visibility = View.GONE
+                    binding.txtGoal.visibility = View.GONE
                 }
 
             }

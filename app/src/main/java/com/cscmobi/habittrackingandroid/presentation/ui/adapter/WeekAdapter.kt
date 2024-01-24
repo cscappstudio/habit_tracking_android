@@ -61,9 +61,6 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
 
 
 
-
-
-
             binding.root.setOnClickListener {
                     onItemClickAdapter.onItemClick(layoutPosition)
             }

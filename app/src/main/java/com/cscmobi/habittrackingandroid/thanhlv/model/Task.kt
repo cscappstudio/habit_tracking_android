@@ -30,13 +30,12 @@ data class Task(
     @ColumnInfo(name = "goal")
     var goal: Goal? = Goal(),
 
-    @ColumnInfo(name = "repeate")
+    @ColumnInfo(name = "repeat")
     var repeate: TaskRepeat? = TaskRepeat(),
 
     @ColumnInfo(name = "startDate")   @Contextual var startDate: Date? =null,
     @ColumnInfo(name = "endDate") var endDate: EndDate? = EndDate(),
     @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
     @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,
-    @ColumnInfo(name = "history") var history: List<History>? = null
 )
 

@@ -56,7 +56,7 @@ class CreateCollectionFragment: BaseFragment<FragmentCreateCollectionBinding>(Fr
                 binding.ivAddIv.visibility = View.GONE
                 binding.ivCollection.visibility = View.VISIBLE
                 binding.ivCollection.setImageResource(resDrawable)
-                collectionData.image = resDrawable
+                collectionData.image =   requireContext().resources.getResourceEntryName(resDrawable)
             }
 
         }
@@ -111,7 +111,7 @@ class CreateCollectionFragment: BaseFragment<FragmentCreateCollectionBinding>(Fr
             if (hadChangeState && !binding.edtCollection.text.isNullOrEmpty()) {
                 collectionData.name = binding.edtCollection.text.toString()
                 collectionData.task = newTasks
-                collectionData.colorBg = Helper.colorTask.random()
+                collectionData.resColorBg = Helper.colorTask.random()
 
                 Toast.makeText(requireContext(), "handle add collection to db", Toast.LENGTH_SHORT).show()
                 lifecycleScope.launch {
