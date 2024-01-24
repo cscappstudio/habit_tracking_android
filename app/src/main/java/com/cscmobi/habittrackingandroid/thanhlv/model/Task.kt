@@ -30,7 +30,7 @@ data class Task(
     @ColumnInfo(name = "goal")
     var goal: Goal? = Goal(),
 
-    @ColumnInfo(name = "repeate")
+    @ColumnInfo(name = "repeat")
     var repeate: TaskRepeat? = TaskRepeat(),
 
     @ColumnInfo(name = "startDate")   @Contextual var startDate: Date? =null,

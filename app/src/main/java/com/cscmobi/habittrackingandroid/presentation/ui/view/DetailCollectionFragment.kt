@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,8 +11,12 @@ import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentDetailCollectionBinding
+import com.cscmobi.habittrackingandroid.presentation.ItemBaseListener
+import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
+import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import kotlinx.coroutines.launch
 
 class DetailCollectionFragment :
@@ -27,7 +32,7 @@ class DetailCollectionFragment :
                     is CollectionState.Collection -> {
                         binding.txtCollection.text = it.data.name
                         binding.txtNumberTask.text = "${it.data.task!!.size.toString()} habits"
-                        binding.ivCollection.setImageResource(it.data.image!!)
+                        binding.ivCollection.setDrawableString(it.data.image!!)
                         initAdapter(it.data.task as ArrayList<Task>)
 
                     }
@@ -54,6 +59,20 @@ class DetailCollectionFragment :
                 }
             }
         )
+        detailCollectionAdapter.setListener(object: ItemBaseListener<Task> {
+            override fun onItemClicked(item: Task) {
+                (requireActivity() as NewHabitActivity).let {
+                    it.newHabitFragment.newHabitFragmentState = NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
+                    it.addFragmentNotHide(it.newHabitFragment,NewHabitFragment.TAG)
+                    lifecycleScope.launch {
+                        collectionViewModel.userIntent.send(CollectionIntent.PassTaskfromCollection(item))
+                        Log.d("WTFFF", item.name.toString())
+
+                    }
+                }
+            }
+
+        })
         binding.adapter = detailCollectionAdapter
 
         detailCollectionAdapter.setData(list)

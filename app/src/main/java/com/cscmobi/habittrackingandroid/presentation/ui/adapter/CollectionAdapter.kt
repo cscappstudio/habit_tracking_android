@@ -12,6 +12,7 @@ import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.databinding.ItemCollectionBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemCreateCollectionBinding
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
+import com.cscmobi.habittrackingandroid.utils.setDrawableString
 
 class CollectionAdapter(private val onItemClickAdapter: OnItemClickPositionListener) :
     ListAdapter<HabitCollection, RecyclerView.ViewHolder>(CollectionAdapter.DIFF_CALLBACK()) {
@@ -67,9 +68,9 @@ class CollectionAdapter(private val onItemClickAdapter: OnItemClickPositionListe
 
         fun bind(item: HabitCollection, onItemClickAdapter: OnItemClickPositionListener) {
 
-            binding.ivCollection.setImageResource(item.image!!)
+            binding.ivCollection.setDrawableString(item.image!!)
             binding.txtCollection.text = item.name
-            binding.llBg.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(binding.root.context,item.colorBg ?: R.color.blue))
+            binding.llBg.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(binding.root.context,item.resColorBg ?: R.color.blue))
 
             binding.root.setOnClickListener {
                 onItemClickAdapter.onItemClick(adapterPosition)
