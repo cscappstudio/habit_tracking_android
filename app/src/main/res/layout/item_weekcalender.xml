@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"    xmlns:android="http://schemas.android.com/apk/res/android">
     <FrameLayout
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="@dimen/_60sdp"
         android:layout_height="@dimen/_60sdp">
 <com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
@@ -10,8 +12,11 @@
     app:csb_arcColor="@color/silver"
     app:csb_max="100"
     app:csb_min="0"
+    android:clickable="false"
+    android:focusable="false"
     android:layout_gravity="center"
     app:csb_progress="50"
+    app:csb_touchEnable="false"
     app:csb_isShowIv="true"
     app:csb_progressColor="@color/greeny"
     app:csb_progressWidth="@dimen/_2sdp"

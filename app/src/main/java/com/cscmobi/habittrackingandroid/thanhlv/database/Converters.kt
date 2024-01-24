@@ -7,10 +7,18 @@ import com.cscmobi.habittrackingandroid.data.model.Goal
 import com.cscmobi.habittrackingandroid.data.model.History
 import com.cscmobi.habittrackingandroid.data.model.RemindTask
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class Converters {
 
@@ -89,5 +97,34 @@ class Converters {
     @TypeConverter
     fun toHistory(historyString: String): List<History> {
         return Json.decodeFromString(historyString)
+    }
+}
+
+
+@Serializer(forClass = Date::class)
+object DateSerializer : KSerializer<Date> {
+    private val dateFormat = ThreadLocal<SimpleDateFormat>()
+
+    private fun getDateFormat(): SimpleDateFormat {
+        var df = dateFormat.get()
+        if (df == null) {
+            df = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            dateFormat.set(df)
+        }
+        return df
+    }
+
+    override fun deserialize(decoder: Decoder): Date {
+        val dateString = decoder.decodeString()
+        try {
+            return getDateFormat().parse(dateString)
+        } catch (e: ParseException) {
+            throw IllegalArgumentException("Failed to parse date: $dateString", e)
+        }
+    }
+
+    override fun serialize(encoder: Encoder, value: Date) {
+        val dateString = getDateFormat().format(value)
+        encoder.encodeString(dateString)
     }
 }

@@ -103,7 +103,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         day.dayOfWeek.getDisplayName(
                             TextStyle.SHORT,
                             Locale.ENGLISH
-                        ), day.dayOfMonth, true
+                        ), day.dayOfMonth, true, localDate = day
                     )
                 )
             else data.add(
@@ -111,7 +111,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     day.dayOfWeek.getDisplayName(
                         TextStyle.SHORT,
                         Locale.ENGLISH
-                    ), day.dayOfMonth
+                    ), day.dayOfMonth, localDate = day
                 )
             )
 

@@ -3,6 +3,13 @@ package com.cscmobi.habittrackingandroid.presentation.ui.activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.BackgroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.TextAppearanceSpan
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
@@ -15,6 +22,7 @@ import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.History
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
+import com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.DetailTaskIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CustomCalenderFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
@@ -28,6 +36,9 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 import java.util.Date
+import kotlin.random.Random
+import kotlin.random.nextInt
+
 
 class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val detailTaskViewModel: DetailTaskViewModel by viewModel()
@@ -62,18 +73,36 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     }
 
     fun test() {
+        binding.sbProgress.max = 5
+        binding.sbProgress.setProgressDisplayAndInvalidate(0)
+
         val calendar = Calendar.getInstance()
         calendar.time = Date() // Set the calendar's time to the current date
 
 // Add 3 months to the current date
-        calendar.add(Calendar.MONTH, 3)
 
 // Get the updated date
-        val updatedDate = calendar.time
-        //        binding.sbProgress.max = 5
-//        binding.sbProgress.setProgressDisplayAndInvalidate(1)
-        this.task.history = listOf(
-        )
+        var listHistory = arrayListOf<History>()
+        for (i in 0..10) {
+            listHistory.add(History(calendar.time,Random.nextInt(0,5),Random.nextInt(90,100)))
+            calendar.add(Calendar.MONTH, 1)
+
+        }
+        calendar.add(Calendar.MONTH, 1)
+
+        listHistory.add(History(calendar.time,Random.nextInt(0,5),100))
+
+        this.task.history = listHistory
+
+        Log.d("aaaaaa", (this.task.history as ArrayList<History>).joinToString(" "))
+
+    }
+
+    fun initStreak(histories: List<History>) {
+        
+        histories.forEach { _ ->
+
+        }
     }
 
     private fun observe() {
@@ -108,6 +137,8 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 binding.sbProgress.max = it.goal!!.target ?: 5
                 binding.sbProgress.setProgressDisplayAndInvalidate(it.goal!!.currentProgress ?: 0)
                 binding.ctlProgressGoal.visibility = View.VISIBLE
+                binding.txtProgress.text = (it.goal!!.currentProgress ?:0).toString()
+                binding.txtGoalTarget.text = (it.goal!!.target ?: 5).toString()
                 //TODO need to do
 
             } else {
@@ -117,6 +148,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
         }
     }
+
 
     private fun initCheckList() {
         binding.layoutChecklist.edtAdd.visibility = View.GONE
@@ -173,21 +205,55 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
 
         binding.ivPlus.setOnClickListener {
-            this.task.goal?.currentProgress = this.task.goal?.currentProgress?.plus(1)
-            binding.sbProgress.setProgressDisplayAndInvalidate(this.task.goal?.currentProgress ?: 0)
+//            this.task.goal?.currentProgress = this.task.goal?.currentProgress?.plus(1)
+            binding.sbProgress.setProgressDisplayAndInvalidate(binding.sbProgress.progressDisplay + 1)
+            binding.txtProgress.text =  binding.sbProgress.progressDisplay.toString()
 
         }
 
         binding.ivMinus.setOnClickListener {
-            this.task.goal?.currentProgress = this.task.goal?.currentProgress?.minus(1)
-            binding.sbProgress.setProgressDisplayAndInvalidate(this.task.goal?.currentProgress ?: 0)
+//            binding.sbProgress.progressDisplay =  binding.sbProgress.progressDisplay++
+//            this.task.goal?.currentProgress = this.task.goal?.currentProgress?.minus(1)
+            binding.sbProgress.setProgressDisplayAndInvalidate( binding.sbProgress.progressDisplay - 1)
+            binding.txtProgress.text =  binding.sbProgress.progressDisplay.toString()
 
         }
 
         binding.txtFinish.setOnClickListener {
-            this.task.goal?.currentProgress = this.task.goal?.target
+//            this.task.goal?.currentProgress = this.task.goal?.target
             binding.sbProgress.setProgressDisplayAndInvalidate(binding.sbProgress.max)
+            binding.txtProgress.text = binding.sbProgress.progressDisplay.toString()
+
+
         }
+
+        binding.sbProgress.setSeekBarChangeListener(object :
+            CircleSeekBar.OnSeekBarChangedListener {
+            override fun onPointsChanged(
+                circleSeekBar: CircleSeekBar?,
+                points: Int,
+                fromUser: Boolean
+            ) {
+
+            }
+
+            override fun onStartTrackingTouch(circleSeekBar: CircleSeekBar?) {
+
+
+            }
+
+            override fun onStopTrackingTouch(circleSeekBar: CircleSeekBar?) {
+//                this@DetailTaskActivity.task.goal?.currentProgress = circleSeekBar!!.progressDisplay
+
+            }
+
+            override fun onTrackingChanging(progress: Int) {
+
+                binding.txtProgress.text = progress.toString()
+            }
+
+        })
+
 
     }
 
