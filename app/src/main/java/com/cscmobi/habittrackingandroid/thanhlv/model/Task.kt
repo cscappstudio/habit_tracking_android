@@ -3,14 +3,11 @@ package com.cscmobi.habittrackingandroid.thanhlv.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.Goal
-import com.cscmobi.habittrackingandroid.data.model.History
 import com.cscmobi.habittrackingandroid.data.model.RemindTask
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
-import com.cscmobi.habittrackingandroid.thanhlv.database.DateSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.util.Date

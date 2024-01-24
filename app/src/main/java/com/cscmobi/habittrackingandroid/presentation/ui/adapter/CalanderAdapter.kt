@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -81,7 +82,7 @@ class CalendarAdapter(val currentDate: LocalDate) :
                         if (colorSelect != -1) colorSelect else
                         ContextCompat.getColor(
                             binding.root.context,
-                            R.color.orange
+                            R.color.blue
                         )
                     )
 
@@ -113,5 +114,5 @@ class CalendarAdapter(val currentDate: LocalDate) :
 
 data class CalenderData(
     var day: String = "",
-    var isSelected: Boolean = false
+    var isSelected: Boolean = false,
 )

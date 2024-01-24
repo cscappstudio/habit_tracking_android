@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -178,6 +179,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
+
                 if (isChange) {
                    item.goal?.currentProgress = item.goal?.target
 

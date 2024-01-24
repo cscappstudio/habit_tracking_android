@@ -65,6 +65,7 @@ class NewHabitFragment :
     private var colorSelect = -1
     val childFragment: CustomCalenderFragment = CustomCalenderFragment()
     var newHabitFragmentState: NewHabitFragmentState = NewHabitFragmentState.ADDTOROUTINE
+    private val bottomSheetAvaFragment = BottomSheetAvaFragment()
 
     private var listener: INewHabitListener? = null
     private var currentTask = Task()
@@ -267,7 +268,7 @@ class NewHabitFragment :
         )
 
         var colorsTask = idColors.map { ColorTask(it) } as MutableList
-
+        colorsTask[0].isSelected = true
         val colorAdapter = BaseBindingAdapter<ColorTask>(
             R.layout.item_color_task,
             layoutInflater,
@@ -304,12 +305,19 @@ class NewHabitFragment :
 
     private fun resetColorTask() {
         dayOfMonthCalendarAdapter?.colorSelect = colorSelect
+        dayOfMonthCalendarAdapter?.notifyDataSetChanged()
+
         childFragment.resetColorTask(colorSelect)
         setStrokeBackgroundUnitRemind(
             binding.layoutReminder.frDay,
             binding.layoutReminder.frMinute,
             binding.layoutReminder.frHour
         )
+        binding.edtTargetGoal.background = Utils.createCustomDrawable(colorSelect)
+        setStateTextRepeat( binding.layoutRepeate.frequencyType?: 0)
+        childFragment.resetColorTask(colorSelect)
+        resetTextInListDay()
+
 
     }
 
@@ -453,10 +461,9 @@ class NewHabitFragment :
         currentTask.goal = Goal(
             isOn = binding.isGoalEdit,
             unit = binding.unitPicker.displayedValues[binding.unitPicker.value - 1],
-            target = binding.edtTargetGoal.text.toString().toInt(),
+            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) 1 else  binding.edtTargetGoal.text.toString().toInt(),
             period = binding.timePicker.displayedValues[binding.timePicker.value-1]
         )
-
 
         val hexColor = String.format("#%06X", 0xFFFFFF and colorSelect)
 
@@ -500,7 +507,13 @@ class NewHabitFragment :
 
     }
 
+
+
     override fun setEvent() {
+        binding.ivHabit.setOnClickListener {
+            bottomSheetAvaFragment.show(childFragmentManager, bottomSheetAvaFragment.tag)
+        }
+
         binding.edtName.onDone {
             hideKeyboardFrom(requireContext(), binding.edtName)
 
@@ -660,16 +673,12 @@ class NewHabitFragment :
 
     private fun resetTextInListDay() {
         val childCount = binding.layoutRepeate.llWeekly.childCount
-        if (childCount != 0) {
-            for (i in 0 until childCount) {
-                var txt: View? = binding.layoutRepeate.llWeekly.getChildAt(i)
-                txt?.let {
-                    if (txt is TextView) {
-                        txt.changeBackgroundText(false)
-                    }
-                }
+        daysWeekRepeat.forEachIndexed { index, dayWeekRepeat ->
+            if (dayWeekRepeat.isSelect) {
+                (binding.layoutRepeate.llWeekly.getChildAt(index) as TextView).changeBackgroundText(true)
             }
         }
+
     }
 
     private fun setStateTextRepeat(frequencyType: Int) {

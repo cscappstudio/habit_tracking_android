@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.Goal
-import com.cscmobi.habittrackingandroid.data.model.History
 import com.cscmobi.habittrackingandroid.data.model.RemindTask
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
 import kotlinx.serialization.KSerializer
@@ -89,15 +88,6 @@ class Converters {
         return Json.decodeFromString(checkListString)
     }
 
-    @TypeConverter
-    fun fromHistory(history: List<History>?): String {
-        return Json.encodeToString(history ?: emptyList())
-    }
-
-    @TypeConverter
-    fun toHistory(historyString: String): List<History> {
-        return Json.decodeFromString(historyString)
-    }
 }
 
 

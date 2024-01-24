@@ -183,7 +183,8 @@
                 android:fontFamily="@font/worksans_semibold"
                 android:gravity="center"
                 android:inputType="numberDecimal"
-                android:text="0"
+
+                android:hint="0"
                 android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_11ssp"

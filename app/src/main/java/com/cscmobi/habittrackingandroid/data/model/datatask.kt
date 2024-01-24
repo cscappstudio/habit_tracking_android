@@ -1,7 +1,6 @@
 package com.cscmobi.habittrackingandroid.data.model
 
 import androidx.annotation.Keep
-import androidx.room.ColumnInfo
 import com.cscmobi.habittrackingandroid.thanhlv.database.DateSerializer
 import kotlinx.serialization.Contextual
 import java.util.Date
@@ -34,7 +33,7 @@ enum class TypeGoal {
 data class Goal(
     var isOn: Boolean? = false,
     var unit: String? = "",
-    var target: Int? = 0,
+    var target: Int? = 1,
     var period: String? = "",
     var currentProgress: Int? = 0,
 )

@@ -1,10 +1,13 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.content.res.ColorStateList
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemWithPostionListener
@@ -30,8 +33,12 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
     fun resetColorTask( color: Int?) {
         color?.let {
-            calendarAdapter?.colorSelect = it
+            binding.ivPrevios.imageTintList = ColorStateList.valueOf(it)
+            binding.ivNext.imageTintList = ColorStateList.valueOf(it)
+            binding.monthYearTV.setTextColor(ColorStateList.valueOf(it))
 
+            calendarAdapter?.colorSelect = it
+            calendarAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -92,8 +99,8 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
                 GridLayoutManager(requireContext(), 7)
             binding.calendarRecyclerView.layoutManager = layoutManager
 
-            val calendarAdapter = CalendarAdapter(selectedDate)
-            calendarAdapter.setListener(object : ItemWithPostionListener<CalenderData>{
+             calendarAdapter = CalendarAdapter(selectedDate)
+            calendarAdapter?.setListener(object : ItemWithPostionListener<CalenderData>{
                 override fun onItemClicked(item: CalenderData, p: Int) {
                     calenderData.forEach {
                         it.isSelected = false
@@ -115,7 +122,7 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
 
             binding.calendarRecyclerView.adapter = calendarAdapter
-            calendarAdapter.submitList(calenderData)
+            calendarAdapter?.submitList(calenderData)
         }
         else {
             calendarAdapter?._currentDate = selectedDate
