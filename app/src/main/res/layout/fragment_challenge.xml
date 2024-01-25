@@ -48,42 +48,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="18dp"
                 android:text="My challenge"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bg_banner_pro" />
 
-            <FrameLayout
-                android:id="@+id/btn_detail_my_challenge"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/shape_circle_fill"
-                android:backgroundTint="#E1ECEC"
-                app:layout_constraintBottom_toBottomOf="@id/tv_my_challenge"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_my_challenge">
+<!--            <FrameLayout-->
+<!--                android:id="@+id/btn_detail_my_challenge"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                android:background="@drawable/shape_circle_fill"-->
+<!--                android:backgroundTint="#E1ECEC"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/tv_my_challenge"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@id/tv_my_challenge">-->
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:rotation="180"
-                    android:src="@drawable/ic_arrow_left"
-                    tools:ignore="ContentDescription" />
-            </FrameLayout>
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:rotation="180"-->
+<!--                    android:src="@drawable/ic_arrow_left"-->
+<!--                    tools:ignore="ContentDescription" />-->
+<!--            </FrameLayout>-->
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rc_my_challenge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:paddingStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_my_challenge" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/show_my_challenge"
+                app:constraint_referenced_ids="rc_my_challenge, tv_my_challenge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/tv_all_challenge"
@@ -91,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:text="All challenge"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -113,6 +118,7 @@
                 android:paddingStart="36dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="1dp"
+                android:layout_marginTop="4dp"
                 android:text="Create my own"
                 android:textColor="#fff"
                 android:textSize="13sp"

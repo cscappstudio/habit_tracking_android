@@ -103,7 +103,7 @@ class OnboardActivity : BaseActivity2() {
             override fun run() {
                 handler.post(runnable)
             }
-        }, 100, 1600)
+        }, 100, 500)
 
         binding.btnNext.setOnClickListener {
             startActivity(Intent(this, QuestionFOActivity::class.java))

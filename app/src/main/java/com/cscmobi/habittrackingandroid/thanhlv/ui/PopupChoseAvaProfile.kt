@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -8,6 +9,7 @@ import android.view.KeyEvent
 import android.view.View
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.PopupChoseAvaProfileLayoutBinding
+import com.thanhlv.fw.spf.SPF
 import java.util.*
 
 class PopupChoseAvaProfile(var callback: Callback?) :
@@ -27,7 +29,10 @@ class PopupChoseAvaProfile(var callback: Callback?) :
                     return@setOnKeyListener true // pretend we've processed it
                 } else return@setOnKeyListener false // pass on to be processed as normal
             }
-        dialog?.setCanceledOnTouchOutside(true)
+//        dialog?.setCanceledOnTouchOutside(true)
+        if (!SPF.getAvaProfile(requireContext()).isNullOrEmpty()) {
+            binding.imgAva.setImageResource(SPF.getAvaProfile(requireContext())!!.toInt())
+        } else binding.imgAva.setImageResource(R.drawable.ava_profile_1)
         controllerView()
     }
 
@@ -67,9 +72,15 @@ class PopupChoseAvaProfile(var callback: Callback?) :
             callback?.clickChange(avaProfileRes)
             dismissAllowingStateLoss()
         }
+
+        binding.rootView.setOnClickListener {
+            callback?.clickChange(avaProfileRes)
+            dismissAllowingStateLoss()
+        }
     }
 
 
+    @SuppressLint("PrivateResource")
     override fun getTheme(): Int {
         return com.google.android.material.R.style.Base_ThemeOverlay_MaterialComponents_Dialog
     }

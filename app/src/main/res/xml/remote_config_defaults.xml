@@ -117,7 +117,7 @@
             "privacyURL":"https://cscmobi.com/privacy-policy/",
             "moreAppURL":"https://play.google.com/store/apps/dev?id=9128344770332001884",
             "adsPlatform": "admod",
-            "lastVersion": "1.0.1",
+            "lastVersion": "0.0.1",
             "updateMessage": "Update for new features and best performance",
             "updateURL": "https://play.google.com/store/apps/details?id=%s",
             "showUpdate ": false,

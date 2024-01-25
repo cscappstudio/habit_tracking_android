@@ -7,7 +7,6 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.Goal
-import com.cscmobi.habittrackingandroid.data.model.History
 import com.cscmobi.habittrackingandroid.data.model.RemindTask
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
 import com.cscmobi.habittrackingandroid.thanhlv.database.DateSerializer
@@ -33,7 +32,7 @@ data class Task(
     @ColumnInfo(name = "repeat")
     var repeate: TaskRepeat? = TaskRepeat(),
 
-    @ColumnInfo(name = "startDate")   @Contextual var startDate: Date? =null,
+    @ColumnInfo(name = "startDate")   @Contextual var startDate: Date? = null,
     @ColumnInfo(name = "endDate") var endDate: EndDate? = EndDate(),
     @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
     @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,

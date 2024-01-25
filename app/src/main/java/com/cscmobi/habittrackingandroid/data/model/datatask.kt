@@ -1,7 +1,6 @@
 package com.cscmobi.habittrackingandroid.data.model
 
 import androidx.annotation.Keep
-import androidx.room.ColumnInfo
 import com.cscmobi.habittrackingandroid.thanhlv.database.DateSerializer
 import kotlinx.serialization.Contextual
 import java.util.Date
@@ -85,6 +84,13 @@ data class TaskInDay(
     var currentStreak: Int = 0,
     var longStreak: Int = 0
 )
+
+
+@Serializable
+data class Tasks(var name: String = "", var id: Int)
+
+@Serializable
+data class ChallengeJoinedHistory(@Contextual @Serializable (with = DateSerializer::class) var date: Date? =null, var finished: Boolean = false)
 
 
 

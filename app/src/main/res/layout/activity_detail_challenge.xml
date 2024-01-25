@@ -27,28 +27,50 @@
     </FrameLayout>
 
 
-
-
     <ImageView
-        android:id="@+id/ic_add_mood"
-        android:layout_width="200dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="10dp"
+        android:id="@+id/img_challenge"
+        android:layout_width="190dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="28dp"
         android:src="@drawable/img_challenge_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/btn_back_header" />
 
 
+
+
+    <FrameLayout
+        android:id="@+id/btn_option_top"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="gone"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/shape_circle_fill"
+        android:backgroundTint="#E1ECEC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_more_horiz"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+
     <TextView
         android:id="@+id/tv_title_challenge"
         style="@style/Text_700_Bold"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="6dp"
-        android:text="No sugar challenge"
         android:textSize="20sp"
+        android:maxLines="2"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_challenge"
         app:layout_constraintTop_toBottomOf="@id/btn_back_header" />
 
 
@@ -57,9 +79,8 @@
         style="@style/Text_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="6dp"
-        android:text="7 days"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="4dp"
         android:textColor="#B5B5B5"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="16dp"
         android:autoSizeMaxTextSize="12sp"
         android:autoSizeMinTextSize="10sp"
         android:autoSizeTextType="uniform"
@@ -87,7 +108,7 @@
         android:textColor="#fff"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_challenge"
+        app:layout_constraintBottom_toBottomOf="@id/img_challenge"
         app:layout_constraintWidth_max="110dp"
         tools:ignore="UnusedAttribute" />
 
@@ -95,18 +116,9 @@
         android:id="@+id/rc_tasks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_joined" />
-
-
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="120dp"-->
-<!--        android:background="@drawable/shape_bg_button_gradient"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/btn_start_challenge"-->
-<!--        app:layout_constraintTop_toTopOf="@id/btn_start_challenge"-->
-<!--        tools:ignore="UnusedAttribute" />-->
+        app:layout_constraintTop_toBottomOf="@id/img_challenge" />
 
     <TextView
         android:id="@+id/btn_start_challenge"
