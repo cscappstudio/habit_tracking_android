@@ -27,5 +27,9 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         }
     }
 
+    override suspend fun deleteTask(task: Task) {
+        dao.delete(task)
+    }
+
 
 }

@@ -86,6 +86,9 @@ data class TaskInDay(
 )
 
 
+data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long)
+
+
 
 
 

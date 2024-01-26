@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.utils.Utils
+import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.google.android.material.imageview.ShapeableImageView
 
 @BindingAdapter("app:setbackgroundColorShapeIV")
@@ -21,9 +22,14 @@ fun setResDrawalbe(iv: AppCompatImageView, res: Int) {
 
 @BindingAdapter("app:setDrawableString")
 fun setDrawableString(iv: AppCompatImageView, path: String) {
-    val iconResourceId = iv.context.resources.getIdentifier(path, "drawable", iv.context.packageName)
-
-    iv.setImageResource(iconResourceId)
+    if (Utils.isAssetImage(iv.context, path)) {
+        val drawable = Utils.loadImageFromAssets(iv.context,path)
+        iv.setImageDrawable(drawable)
+    } else {
+        val iconResourceId =
+            iv.context.resources.getIdentifier(path, "drawable", iv.context.packageName)
+        iv.setImageResource(iconResourceId)
+    }
 }
 
 @BindingAdapter("app:setDrawableAsset")

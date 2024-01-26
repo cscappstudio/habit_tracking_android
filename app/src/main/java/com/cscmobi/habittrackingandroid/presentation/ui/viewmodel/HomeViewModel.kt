@@ -48,6 +48,7 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
        }
     }
 
+
     private fun handleIntent() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
@@ -58,6 +59,7 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
                     }
 
                     is HomeIntent.UpdateTask -> updateTask(it.task)
+                    is HomeIntent.DeleteTask -> deleteTask(it.task,it.typeDelete)
 
                     else -> {}
                 }
@@ -69,6 +71,26 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
         try {
             databaseRepository.updateTask(task)
         }catch (e: Exception){
+
+        }
+    }
+
+
+    /**
+     * deleteType = 0 -> delete task in future -> update endDate of task
+     * deleteType = 1 -> delete task
+     * */
+    private fun deleteTask(task: Task,deleteType: Int) = viewModelScope.launch {
+        try {
+            if (deleteType == 0) {
+                databaseRepository.updateTask(task)
+            }
+            else if (deleteType == 1) {
+                databaseRepository.deleteTask(task)
+            }
+
+
+        } catch (e: Exception) {
 
         }
     }

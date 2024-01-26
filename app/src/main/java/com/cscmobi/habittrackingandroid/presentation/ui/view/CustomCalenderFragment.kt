@@ -31,7 +31,7 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
     private var calenderData = arrayListOf<CalenderData>()
     private var dayDate: LocalDate? = null
 
-    fun resetColorTask( color: Int?) {
+    fun resetColorTask(color: Int?) {
         color?.let {
             binding.ivPrevios.imageTintList = ColorStateList.valueOf(it)
             binding.ivNext.imageTintList = ColorStateList.valueOf(it)
@@ -49,8 +49,18 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
         val calendar = Calendar.getInstance()
         calendar.time = date
-        selectedDate =  LocalDate.of(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH))
+        selectedDate = LocalDate.of(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
         setMonthView()
+
+        val dayIndex = calenderData.indexOfFirst { it.day == selectedDate.dayOfMonth.toString() }
+        if (dayIndex != -1) {
+            calenderData[dayIndex].isSelected = true
+            calendarAdapter?.notifyDataSetChanged()
+        }
 
     }
 
@@ -62,27 +72,22 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
             return calendar.time
         }
 
-        return  null
+        return null
 
     }
 
     override fun initView(view: View) {
-//        binding.vRoot.elevation = 0f
-//        binding.vRoot.setBackgroundResource(R.drawable.bg_calender1)
-
-
-
         selectedDate = LocalDate.now();
         setMonthView()
 
     }
 
     override fun setEvent() {
-        binding.ivPrevios.setOnClickListener{
+        binding.ivPrevios.setOnClickListener {
             previousMonthAction(it)
         }
 
-        binding.ivNext.setOnClickListener{
+        binding.ivNext.setOnClickListener {
             nextMonthAction(it)
         }
     }
@@ -99,8 +104,8 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
                 GridLayoutManager(requireContext(), 7)
             binding.calendarRecyclerView.layoutManager = layoutManager
 
-             calendarAdapter = CalendarAdapter(selectedDate)
-            calendarAdapter?.setListener(object : ItemWithPostionListener<CalenderData>{
+            calendarAdapter = CalendarAdapter(selectedDate)
+            calendarAdapter?.setListener(object : ItemWithPostionListener<CalenderData> {
                 override fun onItemClicked(item: CalenderData, p: Int) {
                     calenderData.forEach {
                         it.isSelected = false
@@ -110,8 +115,8 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
                     val selectedDayInt = item.day.toIntOrNull()
 
-                   if (selectedDayInt != null)
-                       dayDate = selectedDate.withDayOfMonth(selectedDayInt)
+                    if (selectedDayInt != null)
+                        dayDate = selectedDate.withDayOfMonth(selectedDayInt)
 
 
                     calendarAdapter?.notifyDataSetChanged()
@@ -123,8 +128,7 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
             binding.calendarRecyclerView.adapter = calendarAdapter
             calendarAdapter?.submitList(calenderData)
-        }
-        else {
+        } else {
             calendarAdapter?._currentDate = selectedDate
             calendarAdapter?.submitList(calenderData)
             calendarAdapter?.notifyDataSetChanged()

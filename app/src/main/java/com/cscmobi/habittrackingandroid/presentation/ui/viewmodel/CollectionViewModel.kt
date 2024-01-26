@@ -41,6 +41,8 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
                     is CollectionIntent.CreateCollection -> createCollection(it.data)
                     is CollectionIntent.CreateTaskToRoutine -> insertTask(it.task)
                     is CollectionIntent.PassTaskfromCollection -> _state.value = CollectionState.GetTask(it.task)
+                    is CollectionIntent.EditTask -> _state.value = CollectionState.EditTask(it.task)
+                    is CollectionIntent.UpdateTask -> updateTask(it.task)
                     else -> {}
                 }
             }
@@ -63,6 +65,15 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
 
                 _state.value = CollectionState.CreateTaskRoutineSuccess(false)
             }
+    }
+
+    private fun updateTask(task: Task) = viewModelScope.launch {
+        try {
+            Log.d("UPDATETASK", task.toString())
+            databaseRepository.updateTask(task)
+        }catch (e: Exception){
+
+        }
     }
 
     private fun fetchCollections() {

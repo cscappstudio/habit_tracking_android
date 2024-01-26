@@ -15,5 +15,7 @@ sealed class CollectionIntent {
     data class CreateTaskToRoutine(val task: Task): CollectionIntent()
 
     data class PassTaskfromCollection(val task: Task): CollectionIntent()
+    data class EditTask(val task: Task): CollectionIntent()
+    data class UpdateTask(val task: Task): CollectionIntent()
 }
 

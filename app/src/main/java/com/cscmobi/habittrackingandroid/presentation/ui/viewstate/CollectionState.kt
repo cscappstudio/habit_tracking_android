@@ -17,6 +17,7 @@ sealed class CollectionState {
     data class CreateTaskRoutineSuccess(val isSuccess: Boolean) : CollectionState()
 
     data class GetTask(val task: Task): CollectionState()
+    data class EditTask(val task: Task): CollectionState()
 
 //    data class CreateTasToCollectionk(val task: Task): CollectionState()
 //    data class CreateTaskToRoutine(val task: Task): CollectionState()

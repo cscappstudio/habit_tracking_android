@@ -23,6 +23,8 @@ data class Task(
     @ColumnInfo(name = "note") var note: String? = "",
     @ColumnInfo(name = "tag") var tag: String = "",
     @ColumnInfo(name = "collection") var collection: String? = "",
+    @ColumnInfo(name = "pause") var pause: Int? = 0, // if pause = -1 mean it pause util turn on again
+    @ColumnInfo(name = "challenge") var challenge: String? = "",
 
     @ColumnInfo(name = "goal")
     var goal: Goal? = Goal(),
@@ -35,4 +37,3 @@ data class Task(
     @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
     @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,
 )
-

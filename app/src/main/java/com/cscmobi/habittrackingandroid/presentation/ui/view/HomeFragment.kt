@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
+import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -16,11 +17,13 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
+import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.DetailTaskActivity
+import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.TaskAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
@@ -29,7 +32,9 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
+import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.delay
@@ -38,6 +43,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
+import java.util.Calendar
 import java.util.Locale
 
 
@@ -45,49 +51,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var hasInitChip = false
     private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var taskAdapter: TaskAdapter
-
+    private var listTask = mutableListOf<Task>()
 
     private lateinit var weekAdapter: WeekAdapter
     private var data = arrayListOf<WeekCalenderItem>()
     private var date = arrayListOf<LocalDate>()
     private var c = Helper.currentDate
     lateinit var startOfWeek: LocalDate
+    private var totalTask = 0
+    private var taskDone = 0
+
+    private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
 
     override fun initView(view: View) {
-
-
         binding.isTasksEmpty = true
-        observeState()
 
         homeViewModel.initDateWeek()
-//        weekPagerAdapter = WeekPagerAdapter(this).apply {
-//            this.listWeekData = homeViewModel.listWeekData
-//            this.doActionviewPager = {
-//
-//                if (it.isBefore(Helper.currentDate)) {
-//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
-//
-//                } else {
-//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
-//                }
-//            }
-//
-//        }
-
         initWeekApdater()
 
         binding.txtProgress1.setSpanTextView(R.color.forest_green)
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
 
-
     }
 
     override fun onResume() {
         super.onResume()
-
         lifecycleScope.launch {
             homeViewModel.userIntent.send(HomeIntent.FetchTasks)
         }
+        observeState()
+
     }
 
     fun getDatesofWeek() {
@@ -96,7 +89,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         date.clear()
         data.clear()
 
-        for (day in  homeViewModel.listWeekData) {
+        for (day in homeViewModel.listWeekData) {
             date.add(day)
             if (day == c)
                 data.add(
@@ -126,7 +119,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 when (state) {
                     is HomeState.Tasks -> {
                         if (!hasInitChip) {
-
                             val categories = arrayListOf<String>()
                             categories.add("All")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
@@ -138,8 +130,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         if (state.tasks.isEmpty()) {
                             binding.isTasksEmpty = true
                         } else {
-
-                            initTaskAdapter(state.tasks)
+                            listTask.clear()
+                            listTask = state.tasks.toMutableList()
+                            initTaskAdapter()
+                            setUpView(listTask)
                             binding.isTasksEmpty = false
 
                         }
@@ -154,8 +148,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    private fun setUpView(task: MutableList<Task>) {
+        var taskFinishNumber = 0
+         val taskNotChallenge= task.filter { it.challenge.isNullOrEmpty() }
+        totalTask = taskNotChallenge.size
+        task.forEach {
+            it.goal?.let { goal ->
+                if (goal.currentProgress == goal.target) taskFinishNumber++
+            }
+        }
+        taskDone = taskFinishNumber
+        setUpProgress2Tasks()
+    }
 
-    private fun initTaskAdapter(list: List<Task>) {
+    private fun setUpProgress2Tasks() {
+        binding.txtProgress2.text = "$taskDone/$totalTask"
+    }
+
+
+    private fun initTaskAdapter() {
 //         val goalTargets = homeViewModel.tasks.map { it.goal?.target }
 //         val goalProgress = homeViewModel.tasks.map { it.goal?.currentProgress }
         taskAdapter = TaskAdapter(object : ItemTaskWithEdit<Task> {
@@ -168,26 +179,75 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun skip(item: Task, p: Int) {
+                bottomSheetPauseFragment.show(childFragmentManager, bottomSheetPauseFragment.tag)
+                bottomSheetPauseFragment.actionPause = {
+                    item.pause = it
+
+                    lifecycleScope.launch {
+                        homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
+
+                    }
+                    Toast.makeText(requireContext(), "Update success", Toast.LENGTH_SHORT).show()
+                }
 
             }
 
             override fun edit(item: Task, p: Int) {
+                Intent(requireActivity(),NewHabitActivity::class.java).apply {
+                    val bundle = Bundle()
+                    bundle.putBinder(Constant.EditTask,ObjectWrapperForBinder(item))
+                    this.putExtras(bundle)
+                    startActivity(this)
+                }
             }
 
             override fun delete(item: Task, p: Int) {
+                DialogUtils.showDeleteTaskDialog(requireContext(), {
+                    val c = Calendar.getInstance()
+                    c.add(Calendar.DAY_OF_MONTH, -1)
+
+                    if (item.endDate == null) item.endDate = EndDate(true, c.time)
+                    else {
+                        item.endDate?.endDate = c.time
+                        item.endDate?.isOpen = true
+                    }
+                    listTask.removeAt(p)
+                    taskAdapter?.notifyItemRemoved(p)
+                    Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
+
+                    lifecycleScope.launch {
+                        homeViewModel.userIntent.send(HomeIntent.DeleteTask(item,0))
+                    }
+                    //TODO xoa task id task nay  cua ngay hien tai trong  bang? history
+
+
+                }, {
+                    // delete all
+                    listTask.removeAt(p)
+                    taskAdapter?.notifyItemRemoved(p)
+                    Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
+
+                    lifecycleScope.launch {
+                        homeViewModel.userIntent.send(HomeIntent.DeleteTask(item,1))
+                    }
+                    //TODO xoa task id nay  trong bang? history
+
+                })
 
             }
 
             override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
 
                 if (isChange) {
-                   item.goal?.currentProgress = item.goal?.target
+                    item.goal?.currentProgress = item.goal?.target
 
+
+                } else {
+                    item.goal?.currentProgress = 0
                 }
-                else {
-                    item.goal?.currentProgress =  0
-                }
-         taskAdapter.notifyDataSetChanged()
+                taskAdapter.notifyDataSetChanged()
+
+                setUpView(listTask)
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
                     delay(500L)
@@ -197,13 +257,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         })
         binding.rcvTasks.adapter = taskAdapter
-        taskAdapter.submitList(list)
+        taskAdapter.submitList(listTask)
         taskAdapter.notifyDataSetChanged()
 
     }
 
 
     private fun initChips(tags: List<String>) {
+        binding.chipgroupCategory.removeAllViews()
 
         tags.forEach {
             if (it.isNotEmpty()) {
@@ -220,7 +281,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     resources.getDimension(com.intuit.ssp.R.dimen._12ssp)
                 )
 
-                changeChipState(false, chip)
+                if (it == "All") {
+                    changeChipState(true, chip)
+
+                } else {
+                    changeChipState(false, chip)
+
+                }
+
 
                 chip.setOnCheckedChangeListener { compoundButton, b ->
 
@@ -239,9 +307,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 binding.chipgroupCategory.addView(chip)
             }
         }
+
     }
-
-
 
 
     fun changeChipState(isChanged: Boolean, chip: Chip) {
@@ -272,7 +339,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.llToday.setOnClickListener {
             binding.llToday.visibility = View.GONE
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
-            for ( i in (homeViewModel.currentWeekPos -3)..(homeViewModel.currentWeekPos +3) ) {
+            for (i in (homeViewModel.currentWeekPos - 3)..(homeViewModel.currentWeekPos + 3)) {
                 data[i].isSelected = false
             }
             data[homeViewModel.currentWeekPos].isSelected = true
@@ -286,29 +353,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-   private fun initWeekApdater() {
-       val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
+    private fun initWeekApdater() {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
 
 
-       addDecoration()
-       getDatesofWeek()
-       weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
-           override fun onItemClick(position: Int) {
-               data.forEachIndexed { index, item ->
-                   item.isSelected = position == index
-               }
+        addDecoration()
+        getDatesofWeek()
+        weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
+            override fun onItemClick(position: Int) {
+                data.forEachIndexed { index, item ->
+                    item.isSelected = position == index
+                }
 
-               if (date[position] == c) {
-                   binding.llToday.visibility = View.GONE
-                   binding.txtDate.text = "Today"
-               }
-               else {
-                   binding.llToday.visibility = View.VISIBLE
-                   binding.txtDate.text = date[position].format(formatter)
+                if (date[position] == c) {
+                    binding.llToday.visibility = View.GONE
+                    binding.txtDate.text = "Today"
+                } else {
+                    binding.llToday.visibility = View.VISIBLE
+                    binding.txtDate.text = date[position].format(formatter)
 
-               }
+                }
 
-                binding.llToday.visibility = if(date[position] == c) View.INVISIBLE else View.VISIBLE
+                binding.llToday.visibility =
+                    if (date[position] == c) View.INVISIBLE else View.VISIBLE
                 if (date[position].isBefore(Helper.currentDate)) {
                     binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
 
@@ -316,26 +383,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
                 }
 
-               weekAdapter.notifyDataSetChanged()
+                weekAdapter.notifyDataSetChanged()
 
-               binding.rcvWeek.postDelayed(Runnable {
-                   scrollToPositionWithCentering(position)
-               }, 200L)
-           }
+                binding.rcvWeek.postDelayed(Runnable {
+                    scrollToPositionWithCentering(position)
+                }, 200L)
+            }
 
-       })
-       weekAdapter.submitList(data)
-       binding.rcvWeek.adapter = weekAdapter
-
-
-       binding.rcvWeek.postDelayed(Runnable {
-
-           scrollToPositionWithCentering(homeViewModel.currentWeekPos)
-               // give a delay of one second
-           }, 1_000)
+        })
+        weekAdapter.submitList(data)
+        binding.rcvWeek.adapter = weekAdapter
 
 
-   }
+        binding.rcvWeek.postDelayed(Runnable {
+
+            scrollToPositionWithCentering(homeViewModel.currentWeekPos)
+            // give a delay of one second
+        }, 1_000)
+
+
+    }
 
     fun scrollToPositionWithCentering(position: Int) {
         val layoutManager = binding.rcvWeek.layoutManager as LinearLayoutManager
@@ -347,7 +414,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     // Custom SmoothScroller to scroll to the center of the target item
     class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
-        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int {
+        override fun calculateDtToFit(
+            viewStart: Int,
+            viewEnd: Int,
+            boxStart: Int,
+            boxEnd: Int,
+            snapPreference: Int
+        ): Int {
             return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
         }
 
@@ -359,6 +432,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             return SNAP_TO_START
         }
     }
+
     private fun addDecoration() {
         if (!hasDecoration(binding.rcvWeek, HorizontalItemDecoration::class.java)) {
             val spaceWidth = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._3sdp)
@@ -396,6 +470,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             }
         }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        hasInitChip = false
     }
 
     companion object {

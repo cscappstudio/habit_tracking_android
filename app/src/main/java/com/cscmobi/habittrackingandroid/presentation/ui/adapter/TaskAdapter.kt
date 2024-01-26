@@ -18,6 +18,7 @@ import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
+import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import kotlin.random.Random
 
@@ -29,13 +30,13 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
    inner  class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
 
-            val iconResourceId = binding.root.context.resources.getIdentifier(
-                item.ava,
-                "drawable",
-                binding.root.context.packageName
-            )
+//            val iconResourceId = binding.root.context.resources.getIdentifier(
+//                item.ava,
+//                "drawable",
+//                binding.root.context.packageName
+//            )
 
-            binding.shapeableImageView.setImageResource(iconResourceId)
+            item.ava?.let { binding.shapeableImageView.setDrawableString(it) }
             binding.txtNameTask.text = item.name
 
             binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
@@ -119,9 +120,6 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
             binding.ivSkip.setOnClickListener {
                 onItemClickAdapter.skip(item, layoutPosition)
-
-                Toast.makeText(binding.root.context, "aaaa", Toast.LENGTH_SHORT).show()
-
             }
 
             binding.ivEdit.setOnClickListener {

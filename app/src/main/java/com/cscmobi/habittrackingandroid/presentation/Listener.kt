@@ -35,3 +35,10 @@ interface ItemBasePosistionListener :  BaseBindingAdapter.BaseBindingListener {
 interface ItemBaseWithPostitionListener<T>:  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(item: T, p: Int)
 }
+
+
+interface ItemChallengeHomeListener<T> :  BaseBindingAdapter.BaseBindingListener {
+    fun onItemClicked(item: T, p: Int)
+
+    fun onDone(item: T, p: Int)
+}

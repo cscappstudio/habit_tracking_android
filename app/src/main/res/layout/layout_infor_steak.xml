@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_info"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_margin="@dimen/_6sdp"
@@ -26,6 +27,7 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/txt_day"
         android:layout_width="wrap_content"
         android:text="3 days"
         android:textSize="16sp"
@@ -38,6 +40,8 @@
 
 
     <TextView
+        android:id="@+id/txt_info"
+
         android:layout_width="wrap_content"
         android:text="Finished"
         android:textSize="12sp"

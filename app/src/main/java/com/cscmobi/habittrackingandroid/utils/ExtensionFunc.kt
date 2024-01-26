@@ -96,7 +96,10 @@ fun ViewGroup.setVisibleforView(context: Context, activity: Activity) {
 
         } else {
             this.setMarginExtensionFunction(
-                margin, keypadHeight, margin, resources.getDimension(com.intuit.sdp.R.dimen._20sdp).toInt()
+                margin,
+                keypadHeight,
+                margin,
+                resources.getDimension(com.intuit.sdp.R.dimen._20sdp).toInt()
             )
 
         }
@@ -136,7 +139,7 @@ fun hideKeyboardFrom(context: Context, view: View) {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun View.setMargins( left: Int, top: Int, right: Int, bottom: Int) {
+fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
     if (this.layoutParams is MarginLayoutParams) {
         val p = this.layoutParams as MarginLayoutParams
         p.setMargins(left, top, right, bottom)
@@ -162,10 +165,15 @@ fun TextView.setSpanTextView(colorSpan: Int) {
 }
 
 
-fun AppCompatImageView.setDrawableString( path: String) {
-    val iconResourceId = this.context.resources.getIdentifier(path, "drawable", this.context.packageName)
-
-    this.setImageResource(iconResourceId)
+fun AppCompatImageView.setDrawableString(path: String) {
+    if (Utils.isAssetImage(this.context, path)) {
+            val drawable = Utils.loadImageFromAssets(this.context,path)
+        this.setImageDrawable(drawable)
+    } else {
+        val iconResourceId =
+            this.context.resources.getIdentifier(path, "drawable", this.context.packageName)
+        this.setImageResource(iconResourceId)
+    }
 }
 
 fun View.setBackgroundApla(hexColor: String, alphaPercentage: Int) {
@@ -173,6 +181,10 @@ fun View.setBackgroundApla(hexColor: String, alphaPercentage: Int) {
     val alphaValue = (255 * alphaPercentage) / 100
 
     // Set the background color of the view with alpha
-    this.setBackgroundColor(Color.argb(alphaValue, Color.red(Color.parseColor(hexColor)),
-        Color.green(Color.parseColor(hexColor)), Color.blue(Color.parseColor(hexColor))))
+    this.setBackgroundColor(
+        Color.argb(
+            alphaValue, Color.red(Color.parseColor(hexColor)),
+            Color.green(Color.parseColor(hexColor)), Color.blue(Color.parseColor(hexColor))
+        )
+    )
 }

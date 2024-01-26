@@ -11,4 +11,6 @@ interface DatabaseRepository {
     suspend fun updateTask(task: Task)
 
     suspend  fun getTaskById(id: Int) : Flow<Task>
+
+    suspend fun deleteTask(task: Task)
 }

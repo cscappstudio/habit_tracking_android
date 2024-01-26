@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
@@ -20,6 +21,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetAvaFragment : BottomSheetDialogFragment() {
     var icons =  mutableListOf<String>()
+
+
+    var actionGetIcon: ((String) -> Unit)? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,7 +43,8 @@ class BottomSheetAvaFragment : BottomSheetDialogFragment() {
         })
         adapter.setListener(object : ItemBaseListener<String>{
             override fun onItemClicked(item: String) {
-
+                actionGetIcon?.invoke(item)
+                this@BottomSheetAvaFragment.dismiss()
             }
 
         })
@@ -112,7 +118,5 @@ class BottomSheetAvaFragment : BottomSheetDialogFragment() {
             }
         }
     }
-    interface aa {
-        fun next(resDrawable: Int)
-    }
+
 }

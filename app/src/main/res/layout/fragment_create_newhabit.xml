@@ -46,13 +46,14 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_habit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:background="@drawable/bg_white_corner_12"
             android:backgroundTint="#33B6D6DD"
-            android:padding="@dimen/_10sdp"
+            android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_item_collection2"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_new_habit" />

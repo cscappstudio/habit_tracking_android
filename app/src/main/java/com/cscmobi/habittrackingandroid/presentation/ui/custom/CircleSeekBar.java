@@ -345,6 +345,7 @@ public class CircleSeekBar extends View {
         if (mIsShowText) {
             // draw the text
             if (mProgressDisplay == mMax && isShowImage) {
+
                 int imageWidth = mImage.getIntrinsicWidth() / 4;
                 int imageHeight = mImage.getIntrinsicHeight() / 4;
                 int imageXPos = canvas.getWidth() / 2 - imageWidth / 2;
@@ -422,6 +423,8 @@ public class CircleSeekBar extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 // start moving the thumb (this is the first touch)
+
+                if (!touchEnable) break;
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 if (x < mThumbX + mThumbSize && x > mThumbX - mThumbSize && y < mThumbY + mThumbSize
@@ -437,8 +440,8 @@ public class CircleSeekBar extends View {
             }
 
             case MotionEvent.ACTION_MOVE: {
-                if (mProgressDisplay == mMin) {
-                }
+                if (!touchEnable) break;
+
 
                 // still moving the thumb (this is not the first touch)
                 if (mIsThumbSelected) {
@@ -515,7 +518,6 @@ public class CircleSeekBar extends View {
                 isMin = true;
                 progress = mMin;
                 mProgressDisplay = mMin;
-                mProgressSweep = mMin / valuePerDegree();
                 if (mOnSeekBarChangeListener != null) {
                     mOnSeekBarChangeListener.onPointsChanged(this, progress, fromUser);
                 }
@@ -545,6 +547,8 @@ public class CircleSeekBar extends View {
 
                 mOnSeekBarChangeListener.onPointsChanged(this, progress, fromUser);
             }
+            mProgressSweep = mMin / valuePerDegree();
+
             invalidate();
         }
 

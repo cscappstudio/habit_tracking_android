@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.AssetManager
 import android.content.res.ColorStateList
 import android.content.res.Resources
@@ -8,9 +9,14 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.StateListDrawable
+import android.os.Build
+import android.os.Bundle
 import android.util.TypedValue
 import androidx.annotation.ColorInt
+import java.io.IOException
 import java.io.InputStream
+import java.io.Serializable
+
 
 object Utils {
 
@@ -96,6 +102,34 @@ object Utils {
         val assetManager: AssetManager = context.assets
         val inputStream: InputStream = assetManager.open(fileName)
         return Drawable.createFromStream(inputStream, null)
+    }
+
+    inline fun <reified T : Serializable> Bundle.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializable(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializable(key) as? T
+    }
+
+    inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
+    }
+
+
+    fun isAssetImage(context: Context, imagePath: String?): Boolean {
+        val assetManager = context.assets
+        try {
+            // Attempt to open the InputStream for the given asset
+            val inputStream = assetManager.open(imagePath!!)
+
+            // If successful, close the InputStream and return true
+            if (inputStream != null) {
+                inputStream.close()
+                return true
+            }
+        } catch (e: IOException) {
+            // If an exception occurs, the asset does not exist, return false
+        }
+        return false
     }
 }
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.cscmobi.habittrackingandroid.data.model.ChallengeHomeItem" />
+
+            <variable
+                name="listener"
+                type="com.cscmobi.habittrackingandroid.presentation.ItemChallengeHomeListener" />
+
+            <variable
+                name="position"
+                type="Integer" />
+
+            <import type="android.view.View"/>
+
+    </data>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="198dp"
+    android:layout_height="121dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="6dp"
+    android:layout_marginBottom="18dp"
+    android:outlineSpotShadowColor="@color/gnt_black_20"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="12dp"
+    tools:ignore="UnusedAttribute">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:onClick="@{v -> listener.onItemClicked(item,position)}"
+
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/img_target"
+            android:layout_width="120dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_home_challenge"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_note"
+            style="@style/Text_700_Med"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="30dp"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="2"
+            tools:text="Drink water when you wake up"
+            android:shadowColor="#40000000"
+            android:shadowDx="-0.8"
+            android:shadowDy="3.4"
+            android:shadowRadius="20"
+            android:text="@{item.note}"
+            android:textColor="@color/bottle_green"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/worksans_medium"
+            android:lineSpacingMultiplier="1.5"
+            android:maxLines="2"
+            tools:text="Morning glow "
+            android:textColor="#B5B5B5"
+            android:textSize="10sp"
+            android:text="@{item.name}"
+
+            app:layout_constraintBottom_toTopOf="@+id/btn_done"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_note"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+
+        <TextView
+            android:id="@+id/btn_done"
+            android:layout_width="0dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:autoSizeMaxTextSize="12sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/bg_white_corner_12"
+            android:backgroundTint="@color/jade_black"
+            android:fontFamily="@font/worksans_semibold"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="1dp"
+            android:text="Done"
+            android:onClick="@{v -> listener.onDone(item,position)}"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:visibility="@{item.stateDone ? View.INVISIBLE: View.VISIBLE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+            app:layout_constraintWidth_max="110dp"
+            tools:ignore="UnusedAttribute" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_done_check"
+            android:visibility="@{!item.stateDone ? View.INVISIBLE: View.VISIBLE"
+            app:layout_constraintStart_toStartOf="@id/btn_done"
+            app:layout_constraintTop_toTopOf="@id/btn_done" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+</layout>
