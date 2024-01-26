@@ -14,6 +14,7 @@ import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.thanhlv.fw.spf.SPF
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -111,6 +112,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         addFragment(R.id.frame_container, fragment3, "fragment3")
         addFragment(R.id.frame_container, fragment4, "fragment4")
 
+        if (SPF.isFirstOpenApp(this)) SPF.setFirstOpenApp(this, false)
     }
 
 

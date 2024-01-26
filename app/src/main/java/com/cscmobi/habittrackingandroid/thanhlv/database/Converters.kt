@@ -1,16 +1,11 @@
 package com.cscmobi.habittrackingandroid.thanhlv.database
 
 import androidx.room.TypeConverter
-import com.cscmobi.habittrackingandroid.data.model.CheckList
-import com.cscmobi.habittrackingandroid.data.model.EndDate
-import com.cscmobi.habittrackingandroid.data.model.Goal
-import com.cscmobi.habittrackingandroid.data.model.History
-import com.cscmobi.habittrackingandroid.data.model.RemindTask
-import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
+import com.cscmobi.habittrackingandroid.data.model.*
+import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -43,7 +38,8 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromDate(date: Date): Long {
+    fun fromDate(date: Date?): Long {
+        if (date == null) return Date().time
         return date.time
     }
 
@@ -59,7 +55,6 @@ class Converters {
     }
 
 
-
     @TypeConverter
     fun toEndDate(endDateString: String?): EndDate? {
         // Convert String to EndDate
@@ -73,12 +68,12 @@ class Converters {
     }
 
 
-
     @TypeConverter
     fun toRemindTask(remindString: String?): RemindTask? {
         // Convert String to EndDate
         return if (remindString.isNullOrBlank()) null else Json.decodeFromString(remindString)
     }
+
     @TypeConverter
     fun fromCheckList(checkList: List<CheckList>?): String {
         return Json.encodeToString(checkList ?: emptyList())
@@ -89,15 +84,58 @@ class Converters {
         return Json.decodeFromString(checkListString)
     }
 
+//    @TypeConverter
+//    fun fromHistory(history: List<History>?): String {
+//        return Json.encodeToString(history ?: emptyList())
+//    }
+//
+//    @TypeConverter
+//    fun toHistory(historyString: String): List<History> {
+//        return Json.decodeFromString(historyString)
+//    }
+
+
     @TypeConverter
-    fun fromHistory(history: List<History>?): String {
-        return Json.encodeToString(history ?: emptyList())
+    fun fromTaskInChallenge(tasks: List<Tasks>?): String {
+        return Json.encodeToString(tasks ?: emptyList())
     }
 
     @TypeConverter
-    fun toHistory(historyString: String): List<History> {
-        return Json.decodeFromString(historyString)
+    fun toTaskInChallenge(taskInChallenge: String): List<Tasks> {
+        return Json.decodeFromString(taskInChallenge)
     }
+
+    @TypeConverter
+    fun fromTaskInDay(tasks: List<TaskInDay>?): String {
+        return Json.encodeToString(tasks ?: emptyList())
+    }
+
+    @TypeConverter
+    fun toTaskInDay(tasks: String): List<TaskInDay> {
+        return Json.decodeFromString(tasks)
+    }
+
+    @TypeConverter
+    fun fromChallengeJoinedHistory(joinedHistory: List<ChallengeJoinedHistory>?): String {
+        return Json.encodeToString(joinedHistory ?: emptyList())
+    }
+
+    @TypeConverter
+    fun toChallengeJoinedHistory(joinedHistory: String): List<ChallengeJoinedHistory> {
+        return Json.decodeFromString(joinedHistory)
+    }
+
+
+    @TypeConverter
+    fun fromDescribeMood(describeMood: List<String>?): String {
+        return Json.encodeToString(describeMood ?: emptyList())
+    }
+
+    @TypeConverter
+    fun toDescribeMood(describeMood: String): List<String> {
+        return Json.decodeFromString(describeMood)
+    }
+
 }
 
 

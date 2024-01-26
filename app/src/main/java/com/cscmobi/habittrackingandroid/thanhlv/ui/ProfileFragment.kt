@@ -4,20 +4,22 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.databinding.FragmentChallengeBinding
+import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
 import com.cscmobi.habittrackingandroid.databinding.FragmentProfileBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
-import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase_Impl
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.thanhlv.fw.helper.MyClick
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
+import kotlinx.coroutines.runBlocking
+import java.util.*
 
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
@@ -27,6 +29,7 @@ class ProfileFragment :
 
     private var lastVer = ""
     private var latest = false
+    private var avaProfile: String? = ""
 
     @SuppressLint("SetTextI18n")
     override fun initView(view: View) {
@@ -56,19 +59,26 @@ class ProfileFragment :
             }
         }
 
+        if (SPF.getAvaProfile(requireContext()) != null) {
+            avaProfile = SPF.getAvaProfile(requireContext())
+        }
+        if (!avaProfile.isNullOrEmpty()) {
+            binding.imgProfile.setImageResource(avaProfile!!.toInt())
+        } else binding.imgProfile.setImageResource(R.drawable.ava_profile_1)
 
         binding.tvChangeAva.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
-                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback{
+                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
                     override fun clickChange(ava: Int) {
                         binding.imgProfile.setImageResource(ava)
+                        SPF.setAvaProfile(requireContext(), ava.toString())
                     }
                 }).show(childFragmentManager, "")
             }
         })
         binding.icPlusAva.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
-                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback{
+                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
                     override fun clickChange(ava: Int) {
                         binding.imgProfile.setImageResource(ava)
                     }
@@ -78,7 +88,8 @@ class ProfileFragment :
 
         binding.btnLanguage.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
-                startActivity(Intent(requireContext(), ChangeLanguageActivity::class.java))
+                val intent = Intent(requireContext(), ChangeLanguageActivity::class.java)
+                startActivity(intent)
             }
         })
 

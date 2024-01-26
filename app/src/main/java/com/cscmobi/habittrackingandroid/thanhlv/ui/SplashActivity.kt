@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivitySplashBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.consent.GoogleMobileAdsConsentManager
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.helper.NotificationHelper
 import com.google.android.gms.tasks.Task
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -26,6 +27,7 @@ import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.helper.RunUtils
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -55,6 +57,16 @@ class SplashActivity : BaseActivity2() {
 //            GSMUtil.login(this, null)
         }
 
+        RunUtils.runInBackground {
+            runBlocking {
+                runBlocking {
+                    ChallengeFragment.allChallenges =
+                        AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                    ChallengeFragment.myChallenges =
+                        AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
+                }
+            }
+        }
     }
 
     override fun initView() {
@@ -110,7 +122,7 @@ class SplashActivity : BaseActivity2() {
         RemoteConfigs.instance.config = config
         val settings = FirebaseRemoteConfigSettings.Builder() //3600
             .setMinimumFetchIntervalInSeconds(0)
-            .setFetchTimeoutInSeconds(10)
+            .setFetchTimeoutInSeconds(0)
             .build()
         config.setConfigSettingsAsync(settings)
         config.setDefaultsAsync(R.xml.remote_config_defaults)
@@ -155,7 +167,7 @@ class SplashActivity : BaseActivity2() {
 
     private fun createTimer() {
         onActive = true
-        countDownTimer = object : CountDownTimer(6900, 2500) {
+        countDownTimer = object : CountDownTimer(3900, 2500) {
             override fun onTick(millisUntilFinished: Long) {
                 println("thanhlv splassssss onTick ---- " + millisUntilFinished)
                 secondsRemaining = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1
@@ -183,7 +195,7 @@ class SplashActivity : BaseActivity2() {
                     countDownTimer = null
                     return
                 }
-                if (millisUntilFinished < 11000) {
+                if (millisUntilFinished < 13000) {
                     println("thanhlv continueApp onTick 99999999 ")
                     if (!network) {
                         afterCountDown = true

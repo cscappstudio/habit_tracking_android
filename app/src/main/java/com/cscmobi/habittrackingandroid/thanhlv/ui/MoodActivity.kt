@@ -9,9 +9,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.cscmobi.habittrackingandroid.databinding.ActivityMoodBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.MoodRecordAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.RunUtils
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +28,16 @@ class MoodActivity : BaseActivity2() {
     }
 
     override fun loadData() {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        runBlocking {
+            val moods = AppDatabase.getInstance(applicationContext).dao().getMood()
+            println("thanhlv override fun loadData() { ==== " + moods.size)
+        }
     }
 
     override fun initView() {

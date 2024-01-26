@@ -19,7 +19,6 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.data.model.CheckList
-import com.cscmobi.habittrackingandroid.data.model.History
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
@@ -28,6 +27,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.view.CustomCalenderFragm
 import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.DetailTaskViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
+import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
@@ -82,28 +82,28 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 // Add 3 months to the current date
 
 // Get the updated date
-        var listHistory = arrayListOf<History>()
-        for (i in 0..10) {
-            listHistory.add(History(calendar.time,Random.nextInt(0,5),Random.nextInt(90,100)))
-            calendar.add(Calendar.MONTH, 1)
-
-        }
-        calendar.add(Calendar.MONTH, 1)
-
-        listHistory.add(History(calendar.time,Random.nextInt(0,5),100))
-
-        this.task.history = listHistory
-
-        Log.d("aaaaaa", (this.task.history as ArrayList<History>).joinToString(" "))
+//        var listHistory = arrayListOf<History>()
+//        for (i in 0..10) {
+//            listHistory.add(History(calendar.time,Random.nextInt(0,5),Random.nextInt(90,100)))
+//            calendar.add(Calendar.MONTH, 1)
+//
+//        }
+//        calendar.add(Calendar.MONTH, 1)
+//
+//        listHistory.add(History(calendar.time,Random.nextInt(0,5),100))
+//
+//        this.task.history = listHistory
+//
+//        Log.d("aaaaaa", (this.task.history as ArrayList<History>).joinToString(" "))
 
     }
 
-    fun initStreak(histories: List<History>) {
-        
-        histories.forEach { _ ->
-
-        }
-    }
+//    fun initStreak(histories: List<History>) {
+//
+//        histories.forEach { _ ->
+//
+//        }
+//    }
 
     private fun observe() {
         lifecycleScope.launch {

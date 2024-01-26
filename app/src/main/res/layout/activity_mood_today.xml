@@ -211,11 +211,11 @@
         app:layout_constraintTop_toBottomOf="@id/tv_des">
 
         <ImageView
-            android:id="@+id/img_mood"
+            android:id="@+id/img_mood_large"
             android:layout_width="270dp"
             android:layout_height="260dp"
             android:layout_marginTop="12dp"
-            android:src="@drawable/ic_mood_neutral"
+            android:src="@drawable/ic_mood_great"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -232,9 +232,9 @@
             android:maxLines="1"
             android:text="Great"
             android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@id/img_mood"
-            app:layout_constraintStart_toStartOf="@id/img_mood"
-            app:layout_constraintTop_toBottomOf="@id/img_mood"
+            app:layout_constraintEnd_toEndOf="@id/img_mood_large"
+            app:layout_constraintStart_toStartOf="@id/img_mood_large"
+            app:layout_constraintTop_toBottomOf="@id/img_mood_large"
             tools:ignore="UnusedAttribute" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -290,7 +290,7 @@
                 tools:ignore="UnusedAttribute" />
 
             <EditText
-                android:id="@+id/edt_label"
+                android:id="@+id/edt_note"
                 style="@style/Text_600"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

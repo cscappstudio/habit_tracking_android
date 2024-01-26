@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
+import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 
 @Dao
@@ -44,4 +46,31 @@ interface Dao {
 
     @Delete
     suspend fun delete(user: Task)
+
+
+
+    @Query("SELECT * FROM Challenge")
+    suspend fun getAllChallenge(): List<Challenge>
+
+
+    @Query("SELECT * FROM Challenge WHERE joinedHistory != \"[]\"")
+    suspend fun getMyChallenge(): List<Challenge>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertChallenge(item: Challenge)
+
+
+    @Update
+    suspend fun updateChallenge(item: Challenge)
+
+
+
+
+    @Query("SELECT * FROM Mood")
+    suspend fun getMood(): List<Mood>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertMood(item: Mood)
+
+
 }

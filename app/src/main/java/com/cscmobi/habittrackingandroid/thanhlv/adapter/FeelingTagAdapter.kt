@@ -53,6 +53,7 @@ class FeelingTagAdapter(private var mContext: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (mList.isEmpty()) return
         val item = mList[position]
+        holder.binding.tvTitle.text = item.feeling
         holder.binding.root.setOnClickListener {
             item.selected = !item.selected
 

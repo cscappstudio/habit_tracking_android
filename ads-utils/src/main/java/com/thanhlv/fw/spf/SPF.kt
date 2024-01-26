@@ -20,6 +20,8 @@ class SPF {
         private const val SETTINGS_RETENTION_14_D = "SETTINGS_RETENTION_14_D"
         private const val SETTINGS_RETENTION_20_D = "SETTINGS_RETENTION_20_D"
         private const val SETTINGS_RETENTION_30_D = "SETTINGS_RETENTION_30_D"
+
+        private const val SETTINGS_AVA_PROFILE = "SETTINGS_AVA_PROFILE"
         private fun getSharedPreferences(context: Context): SharedPreferences {
             return context.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE)
         }
@@ -142,6 +144,16 @@ class SPF {
         fun setLanguage(context: Context, value: String?) {
             val editor = getSharedPreferences(context).edit()
             editor.putString(LANGUAGE_APP, value)
+            editor.apply()
+        }
+
+        fun getAvaProfile(context: Context): String? {
+            return getSharedPreferences(context).getString(SETTINGS_AVA_PROFILE, "")
+        }
+
+        fun setAvaProfile(context: Context, value: String?) {
+            val editor = getSharedPreferences(context).edit()
+            editor.putString(SETTINGS_AVA_PROFILE, value)
             editor.apply()
         }
 
