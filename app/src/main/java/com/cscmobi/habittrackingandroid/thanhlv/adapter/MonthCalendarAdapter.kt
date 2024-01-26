@@ -38,12 +38,19 @@ class MonthCalendarAdapter(private var mContext: Context, private var callback: 
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ovulationCalendarModel = mList[position]
-        holder.binding.tvDay.text = ovulationCalendarModel.getDay()
-        if (position == 10 || position == 17|| position == 30) {
+        if (mList.isEmpty()) return
+        val itemDay = mList[position]
+        holder.binding.tvDay.text = itemDay.getDay()
+        if (itemDay.mood > 0) {
             holder.binding.tvDay.visibility = View.GONE
             holder.binding.imgMood.visibility = View.VISIBLE
-
+            when (itemDay.mood) {
+                1-> {holder.binding.imgMood.setImageResource(R.drawable.ic_mood_great) }
+                2-> {holder.binding.imgMood.setImageResource(R.drawable.ic_mood_good) }
+                3-> {holder.binding.imgMood.setImageResource(R.drawable.ic_mood_neutral) }
+                4-> {holder.binding.imgMood.setImageResource(R.drawable.ic_mood_not_great) }
+                5-> {holder.binding.imgMood.setImageResource(R.drawable.ic_mood_bad) }
+            }
             holder.binding.imgMood.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.pulse2))
         } else {
             holder.binding.tvDay.visibility = View.VISIBLE

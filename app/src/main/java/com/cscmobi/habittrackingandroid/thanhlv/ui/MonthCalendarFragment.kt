@@ -4,13 +4,19 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentMonthCalendarBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.MonthCalendarAdapter
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
+import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
+import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity.Companion.mAllMoods
 import com.thanhlv.fw.helper.RunUtils
+import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 
 class MonthCalendarFragment :
@@ -31,19 +37,19 @@ class MonthCalendarFragment :
 
     override fun setEvent() {
     }
+
     override fun initView(view: View) {
         binding.loadingView.visibility = View.VISIBLE
 
         if (arguments != null) {
             mMonth = arguments!!.getInt("MONTH_KEY")
             mYear = arguments!!.getInt("YEAR_KEY")
-            Handler(Looper.getMainLooper()).postDelayed( {
+            Handler(Looper.getMainLooper()).postDelayed({
                 recyclerView()
                 adapter?.updateData(getDataList(mMonth, mYear))
                 binding.loadingView.visibility = View.GONE
-            }, 400)
+            }, 300)
         }
-        initListener()
     }
 
     override fun onResume() {
@@ -58,9 +64,6 @@ class MonthCalendarFragment :
         binding.recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
     }
 
-    private fun initListener() {
-
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(m: Int, y: Int) {
@@ -122,8 +125,18 @@ class MonthCalendarFragment :
             }
         }
         val numDays = calendar.getActualMaximum(Calendar.DATE)
+        val moods = getMoodsInMonth(month, year)
         for (i in 1..numDays) {
-            list.add(DayCalendarModel("$i/${month}/$year"))
+            val itemDay = DayCalendarModel("$i/${month}/$year")
+            moods.forEach {
+                val date = Calendar.getInstance()
+                date.timeInMillis = it.date
+                if (date[Calendar.DAY_OF_MONTH] == i) {
+                    itemDay.mood = it.state
+                    return@forEach
+                }
+            }
+            list.add(itemDay)
         }
 
         return list
@@ -133,5 +146,17 @@ class MonthCalendarFragment :
 
     }
 
+    private fun getMoodsInMonth(month: Int, year: Int): List<Mood> {
+        val moods = arrayListOf<Mood>()
+        mAllMoods.forEach {
+            val date = Calendar.getInstance()
+            date.timeInMillis = it.date
+            if (date[Calendar.MONTH] == month - 1 && date[Calendar.YEAR] == year) {
+                moods.add(it)
+            }
+        }
+
+        return moods
+    }
 
 }

@@ -13,6 +13,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.adapter.FeelingTagAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
+import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity.Companion.mAllMoods
 import com.thanhlv.fw.helper.MyUtils
 import kotlinx.coroutines.runBlocking
 import java.util.*
@@ -74,18 +75,40 @@ class TodayMoodActivity : BaseActivity2() {
         mListDescribe.forEach { if (it.selected) listDescribe.add(it.feeling) }
         val listBecause = ArrayList<String>()
         mListBecause.forEach { if (it.selected) listBecause.add(it.feeling) }
-        val newMood = Mood(
-            Date(),
-            currentMood,
-            listDescribe.toList(),
-            listBecause.toList(),
-            binding.edtNote.text.toString()
-        )
+
         runBlocking {
-            AppDatabase.getInstance(applicationContext).dao().insertMood(newMood)
-            println("thanhlv  AppDatabase.getInstance(applicationContext).dao().insertMood(newMood)")
+            val existTodayMood = existToday()
+            if (existTodayMood == null) {
+                val newMood = Mood(
+                    Date().time,
+                    currentMood,
+                    listDescribe.toList(),
+                    listBecause.toList(),
+                    binding.edtNote.text.toString()
+                )
+                AppDatabase.getInstance(applicationContext).dao().insertMood(newMood)
+            } else {
+                existTodayMood.state = currentMood
+                existTodayMood.describe = listDescribe.toList()
+                existTodayMood.becauseOf = listBecause.toList()
+                existTodayMood.note = binding.edtNote.text.toString()
+                AppDatabase.getInstance(applicationContext).dao().updateMood(existTodayMood)
+            }
         }
 
+    }
+
+    private fun existToday(): Mood ? {
+        mAllMoods.forEach {
+            val today = Calendar.getInstance()
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = it.date
+            if (calendar[Calendar.DAY_OF_MONTH] == today[Calendar.DAY_OF_MONTH]
+                && calendar[Calendar.MONTH] == today[Calendar.MONTH]
+                && calendar[Calendar.YEAR] == today[Calendar.YEAR]
+            ) return it
+        }
+        return null
     }
 
     override fun onBackPressed() {

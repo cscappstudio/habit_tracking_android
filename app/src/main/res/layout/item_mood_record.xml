@@ -43,12 +43,12 @@
             android:textColor="#1F005F"
             android:textSize="15sp"
             app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/ava_alarm"
+            app:layout_constraintStart_toEndOf="@id/ic_mood"
             app:layout_constraintTop_toTopOf="parent"
             tools:targetApi="p" />
 
         <TextView
-            android:id="@+id/tv_feeling"
+            android:id="@+id/tv_des"
             style="@style/Text_600"
             android:layout_width="70dp"
             android:layout_height="24dp"
@@ -62,7 +62,7 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/ava_alarm"
+            app:layout_constraintStart_toEndOf="@id/ic_mood"
             tools:targetApi="p" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/tv_feeling"
+            app:layout_constraintStart_toEndOf="@id/tv_des"
             tools:targetApi="p" />
 
         <TextView
@@ -92,6 +92,7 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="..."
+            android:visibility="gone"
             android:textColor="#EDCA15"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,7 +102,7 @@
 
 
         <ImageView
-            android:id="@+id/ava_alarm"
+            android:id="@+id/ic_mood"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"

@@ -53,6 +53,14 @@ class FeelingTagAdapter(private var mContext: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (mList.isEmpty()) return
         val item = mList[position]
+        holder.binding.root.backgroundTintList =
+            if (item.selected) ColorStateList.valueOf(Color.parseColor("#EDCA15"))
+            else ColorStateList.valueOf(Color.parseColor("#FEFAE8"))
+        holder.binding.tvTitle.setTextColor(
+            if (item.selected) Color.parseColor("#ffffff")
+            else Color.parseColor("#EDCA15")
+        )
+
         holder.binding.tvTitle.text = item.feeling
         holder.binding.root.setOnClickListener {
             item.selected = !item.selected
@@ -61,7 +69,7 @@ class FeelingTagAdapter(private var mContext: Context) :
                 if (item.selected) ColorStateList.valueOf(Color.parseColor("#EDCA15"))
                 else ColorStateList.valueOf(Color.parseColor("#FEFAE8"))
 
-            (it as TextView).setTextColor(
+            holder.binding.tvTitle.setTextColor(
                 if (item.selected) Color.parseColor("#ffffff")
                 else Color.parseColor("#EDCA15")
             )

@@ -9,7 +9,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity
 data class History(
-    @PrimaryKey(true) var date: Int,
+    @PrimaryKey(true) var id: Int,
+    @ColumnInfo(name = "date") var date: Long = 0,
     @ColumnInfo(name = "taskInDay") var taskInDay: List<TaskInDay>? = null,
     @ColumnInfo(name = "progressDay") var progressDay: Int = 0,
     @ColumnInfo(name = "currentStreakDay") var currentStreakDay: Int = 0,

@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat
 data class DayCalendarModel(var date: String) {
     var memo: String = ""
     var type: Int = TYPE_DEFAULT
+    var progress: Int = -1
+    var mood: Int = -1
 
     companion object {
         const val TYPE_DEFAULT = -1
