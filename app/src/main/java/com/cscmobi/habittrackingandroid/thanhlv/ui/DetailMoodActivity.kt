@@ -1,7 +1,9 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailMoodBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.FeelingTag2Adapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.FeelingTagAdapter
@@ -30,7 +32,36 @@ class DetailMoodActivity : BaseActivity2() {
 
     override fun initView() {
         recyclerView()
-        binding.textNote.text = mMood?.note
+        if (mMood?.note.isNullOrEmpty()) {
+            binding.showNote.visibility = View.GONE
+        } else {
+            binding.showNote.visibility = View.VISIBLE
+            binding.textNote.text = mMood?.note
+        }
+
+        when (mMood?.state) {
+            2 -> {
+                binding.tvMood.text = "To day was GOOD"
+                binding.icMood.setImageResource(R.drawable.ic_mood_good)
+            }
+            3 -> {
+                binding.tvMood.text = "To day was NEUTRAL"
+                binding.icMood.setImageResource(R.drawable.ic_mood_neutral)
+            }
+            4 -> {
+                binding.tvMood.text = "To day was NOT GREAT"
+                binding.icMood.setImageResource(R.drawable.ic_mood_not_great)
+            }
+            5 -> {
+                binding.tvMood.text = "To day was BAD"
+                binding.icMood.setImageResource(R.drawable.ic_mood_bad)
+            }
+            else -> {
+                binding.tvMood.text = "To day was GREAT"
+                binding.icMood.setImageResource(R.drawable.ic_mood_great)
+            }
+        }
+
     }
 
     override fun controllerView() {

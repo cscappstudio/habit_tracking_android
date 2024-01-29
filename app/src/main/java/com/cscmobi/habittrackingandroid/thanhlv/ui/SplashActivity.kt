@@ -44,10 +44,9 @@ class SplashActivity : BaseActivity2() {
         setContentView(binding.root)
 
     }
-
     override fun loadData() {
         if (SPF.getLanguage(this) != null)
-        CURRENT_LANG = SPF.getLanguage(this)!!
+            CURRENT_LANG = SPF.getLanguage(this)!!
 
         if (SPF.isFirstOpenApp(this)) SPF.setStartOpenTime(this, System.currentTimeMillis())
         RunUtils.runInBackground {

@@ -11,6 +11,7 @@ import com.cscmobi.habittrackingandroid.databinding.ItemMonthCalendarBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemMoodRecordBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
+import java.util.Calendar
 
 class MoodRecordAdapter(private var mContext: Context) :
     RecyclerView.Adapter<MoodRecordAdapter.ViewHolder>() {
@@ -23,8 +24,10 @@ class MoodRecordAdapter(private var mContext: Context) :
         fun onClickItem(mood: Mood)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: ArrayList<Mood>) {
         this.mList = data
+        notifyDataSetChanged()
     }
 
     fun setCallBack(callback: MoodRecordCallback) {
@@ -69,6 +72,11 @@ class MoodRecordAdapter(private var mContext: Context) :
         }
         holder.binding.tvDes.text = itemMood.describe[0]
         holder.binding.tvBecause.text = itemMood.becauseOf[0]
+
+        val day = Calendar.getInstance()
+        day.timeInMillis = itemMood.date
+
+        holder.binding.tvDay.text = day[Calendar.DAY_OF_MONTH].toString()
 
         if (itemMood.describe.size + itemMood.becauseOf.size > 2)
             holder.binding.tvEtc.visibility = View.VISIBLE

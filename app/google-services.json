@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:334853291805:android:050902b529b3f183246bf4",
+        "mobilesdk_app_id": "1:334853291805:android:7db4992f55fe2617246bf4",
         "android_client_info": {
-          "package_name": "com.cscmobi.habittrackingandroid"
+          "package_name": "com.cscmobi.habittracker.habitplanner"
         }
       },
       "oauth_client": [],

@@ -2,6 +2,8 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -27,6 +29,7 @@ class MoodActivity : BaseActivity2() {
     companion object {
         var mAllMoods = listOf<Mood>()
     }
+
     override fun setupScreen() {
         binding = ActivityMoodBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -46,7 +49,6 @@ class MoodActivity : BaseActivity2() {
     }
 
     override fun initView() {
-//        viewPager2()
     }
 
     override fun controllerView() {
@@ -80,7 +82,10 @@ class MoodActivity : BaseActivity2() {
         }
     }
 
+
     private fun viewPager2() {
+        println("thanhlv viewPager2viewPager2 ==== " + mAllMoods.size)
+
         pagerMonthAdapter = PagerMonthCalendarAdapter(this)
         binding.vpMonth.adapter = pagerMonthAdapter
         pagerMonthAdapter!!.setList(mDataMonth)
@@ -94,29 +99,40 @@ class MoodActivity : BaseActivity2() {
         binding.vpMonth.currentItem = mDataMonth.size - 1
 
     }
+
+    private var moodRecordAdapter: MoodRecordAdapter? = null
+
     fun showRecyclerView(month: MonthCalendarModel) {
         val listMood = getMoodInMonth(month)
+
+        println("thanhlv showRecyclerView ----- " + listMood?.size)
+
         if (listMood.isNullOrEmpty()) {
             binding.showListRecordMood.visibility = View.GONE
             return
         }
         binding.showListRecordMood.visibility = View.VISIBLE
-        val moodRecordAdapter = MoodRecordAdapter(this)
-        moodRecordAdapter.setData(listMood)
-        moodRecordAdapter.setCallBack(object : MoodRecordAdapter.MoodRecordCallback {
-            override fun onClickItem(mood: Mood) {
-                println("thanhlv onClickItem ----- " + mood.date)
-                val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
-                intent.putExtra("data_mood", Gson().toJson(mood))
-                startActivity(intent)
-            }
+        if (moodRecordAdapter == null) {
+            moodRecordAdapter = MoodRecordAdapter(this)
+            moodRecordAdapter?.setCallBack(object : MoodRecordAdapter.MoodRecordCallback {
+                override fun onClickItem(mood: Mood) {
+                    println("thanhlv onClickItem ----- " + mood.date)
+                    val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
+                    intent.putExtra("data_mood", Gson().toJson(mood))
+                    startActivity(intent)
+                }
 
-        })
-        binding.rcMoodRecord.adapter = moodRecordAdapter
-        binding.rcMoodRecord.layoutManager = LinearLayoutManager(this)
+            })
+            binding.rcMoodRecord.adapter = moodRecordAdapter
+            binding.rcMoodRecord.layoutManager = LinearLayoutManager(this)
+        }
+        Handler().postDelayed({
+            moodRecordAdapter?.setData(listMood)
+        }, 500)
+
     }
 
-    private fun getMoodInMonth(month: MonthCalendarModel): ArrayList<Mood> ? {
+    private fun getMoodInMonth(month: MonthCalendarModel): ArrayList<Mood>? {
         val list = arrayListOf<Mood>()
         mAllMoods.forEach {
             val date = Calendar.getInstance()
@@ -153,7 +169,7 @@ class MoodActivity : BaseActivity2() {
 
         while (calendar[Calendar.YEAR] <= currentTime[Calendar.YEAR]) {
             while (calendar[Calendar.MONTH] <= currentTime[Calendar.MONTH]) {
-                list.add(MonthCalendarModel(calendar[Calendar.MONTH]+1, calendar[Calendar.YEAR]))
+                list.add(MonthCalendarModel(calendar[Calendar.MONTH] + 1, calendar[Calendar.YEAR]))
                 calendar[Calendar.MONTH] += 1
                 if (calendar[Calendar.MONTH] > 11) {
                     calendar[Calendar.MONTH] = 0
