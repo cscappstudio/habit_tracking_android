@@ -5,7 +5,9 @@ import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.Goal
 import com.cscmobi.habittrackingandroid.data.model.RemindTask
+import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.decodeFromString
@@ -71,8 +73,6 @@ class Converters {
         return Json.encodeToString(remind)
     }
 
-
-
     @TypeConverter
     fun toRemindTask(remindString: String?): RemindTask? {
         // Convert String to EndDate
@@ -87,7 +87,26 @@ class Converters {
     fun toCheckList(checkListString: String): List<CheckList> {
         return Json.decodeFromString(checkListString)
     }
+    @TypeConverter
+    fun fromTaskInDayList(taskInDayList: List<TaskInDay>?): String? {
+        return if (taskInDayList == null) null else Json.encodeToString(taskInDayList)
+    }
 
+    @TypeConverter
+    fun toTaskInDayList(taskInDayListJson: String?): List<TaskInDay>? {
+        return taskInDayListJson?.let { Json.decodeFromString(it) }
+    }
+
+
+    @TypeConverter
+    fun fromTaskList(taskList: List<Task>?): String? {
+        return if (taskList == null) null else Json.encodeToString(taskList)
+    }
+
+    @TypeConverter
+    fun toTaskList(taskListJson: String?): List<Task>? {
+        return taskListJson?.let { Json.decodeFromString(it) }
+    }
 }
 
 
@@ -117,4 +136,7 @@ object DateSerializer : KSerializer<Date> {
         val dateString = getDateFormat().format(value)
         encoder.encodeString(dateString)
     }
+
+
+
 }

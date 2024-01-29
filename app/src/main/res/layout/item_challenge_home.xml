@@ -23,9 +23,8 @@
     android:layout_height="121dp"
     android:layout_marginStart="16dp"
     android:layout_marginTop="12dp"
-    android:layout_marginEnd="6dp"
-    android:layout_marginBottom="18dp"
-    android:outlineSpotShadowColor="@color/gnt_black_20"
+    android:layout_marginBottom="5dp"
+    android:outlineSpotShadowColor="#40000000"
     app:cardCornerRadius="30dp"
     app:cardElevation="12dp"
     tools:ignore="UnusedAttribute">
@@ -33,11 +32,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:onClick="@{v -> listener.onItemClicked(item,position)}"
-
         android:layout_height="match_parent">
 
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_target"
             android:layout_width="120dp"
             android:layout_height="110dp"
@@ -45,6 +43,7 @@
             android:layout_marginTop="16dp"
             android:scaleType="fitXY"
             android:src="@drawable/bg_home_challenge"
+            app:setDrawableString="@{item.srcImage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -113,7 +112,7 @@
             android:onClick="@{v -> listener.onDone(item,position)}"
             android:textColor="#fff"
             android:textSize="12sp"
-            android:visibility="@{item.stateDone ? View.INVISIBLE: View.VISIBLE"
+            android:visibility="@{item.stateDone ? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_name"
@@ -125,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bg_done_check"
-            android:visibility="@{!item.stateDone ? View.INVISIBLE: View.VISIBLE"
+            android:visibility="@{!item.stateDone ? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@id/btn_done"
             app:layout_constraintTop_toTopOf="@id/btn_done" />
 

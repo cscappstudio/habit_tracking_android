@@ -6,15 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.data.model.Tag
 import com.cscmobi.habittrackingandroid.databinding.BottomsheetPauseTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetPauseTaskFragment: BottomSheetDialogFragment() {

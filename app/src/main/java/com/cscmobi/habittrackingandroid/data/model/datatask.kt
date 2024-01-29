@@ -77,6 +77,7 @@ data class Tag(val name: String, var isSelected: Boolean = false)
 data class ColorTask(val resId: Int, var isSelected: Boolean = false)
 
 
+@Keep
 @Serializable
 data class TaskInDay(
     var taskId: Int = 0,

@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 import android.content.res.ColorStateList
 import android.os.Build
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -99,7 +100,7 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
         calenderData = daysInMonth.map { CalenderData(it) } as ArrayList<CalenderData>
 
-        if (calendarAdapter == null) {
+//        if (calendarAdapter == null) {
             val layoutManager: RecyclerView.LayoutManager =
                 GridLayoutManager(requireContext(), 7)
             binding.calendarRecyclerView.layoutManager = layoutManager
@@ -128,11 +129,11 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
             binding.calendarRecyclerView.adapter = calendarAdapter
             calendarAdapter?.submitList(calenderData)
-        } else {
+       // } else {
             calendarAdapter?._currentDate = selectedDate
-            calendarAdapter?.submitList(calenderData)
+           // calendarAdapter?.submitList(calenderData)
             calendarAdapter?.notifyDataSetChanged()
-        }
+      //  }
 
 
     }

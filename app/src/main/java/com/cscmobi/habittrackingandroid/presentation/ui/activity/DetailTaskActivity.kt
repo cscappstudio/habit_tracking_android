@@ -16,28 +16,26 @@ import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.DataTaskHistory
 import com.cscmobi.habittrackingandroid.data.model.EndDate
-import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
-import com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
+import com.cscmobi.habittrackingandroid.presentation.ui.custom.CircularSeekBar
+import com.cscmobi.habittrackingandroid.presentation.ui.custom.OnCircularSeekBarChangeListener
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.DetailTaskIntent
-import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomSheetPauseTaskFragment
-import com.cscmobi.habittrackingandroid.presentation.ui.view.CustomCalenderFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CustomDetailTaskCalenderFragment
-import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.DetailTaskViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
-import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
+import kotlin.math.roundToInt
 
 
 class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
@@ -49,6 +47,8 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private var currentTask = Task()
     private var checkList = mutableListOf<CheckList>()
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
+    private var currentProgress = 0
+    private var currentGoal = 0
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_detail_task
@@ -85,8 +85,8 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     }
 
     fun test() {
-        binding.sbProgress.max = 5
-        binding.sbProgress.setProgressDisplayAndInvalidate(0)
+//        binding.sbProgress.max = 5
+//        binding.sbProgress.setProgressDisplayAndInvalidate(0)
 
 
 
@@ -169,12 +169,15 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
 
             if (it.goal != null && it.goal!!.isOn == true) {
-                binding.sbProgress.max = it.goal!!.target ?: 5
-                binding.sbProgress.setProgressDisplayAndInvalidate(it.goal!!.currentProgress ?: 0)
+                binding.sbProgress.step = (100 / (it.goal!!.target ?: 1)).toFloat()
+              binding.sbProgress.progress =  ((it.goal!!.currentProgress ?: 0).toFloat())*binding.sbProgress.step
+
+                currentProgress = (it.goal!!.currentProgress ?: 0)
+                currentGoal = (it.goal!!.target ?: 1)
+
                 binding.ctlProgressGoal.visibility = View.VISIBLE
                 binding.txtProgress.text = (it.goal!!.currentProgress ?:0).toString()
-                binding.txtGoalTarget.text = (it.goal!!.target ?: 5).toString()
-                //TODO need to do
+                binding.txtGoalTarget.text = "Goal: ${ (it.goal!!.target ?: 1)} ${it.goal!!.unit}"
 
             } else {
                 binding.ctlProgressGoal.visibility = View.GONE
@@ -286,57 +289,71 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
         }
 
+
         binding.ivPlus.setOnClickListener {
+
+//            currentProgress = ((100 / currentGoal.toFloat())) .roundToInt()
+//            currentProgress +=  ((binding.sbProgress.step / 10).roundToInt())
+
+            currentProgress +=  ((1 / binding.sbProgress.step) + 1).roundToInt()
+            if (currentProgress > currentGoal) {
+                currentProgress = currentGoal
+            }
+
 //            this.task.goal?.currentProgress = this.task.goal?.currentProgress?.plus(1)
-            binding.sbProgress.setProgressDisplayAndInvalidate(binding.sbProgress.progressDisplay + 1)
-            binding.txtProgress.text =  binding.sbProgress.progressDisplay.toString()
+            binding.sbProgress.progress = currentProgress.toFloat() * binding.sbProgress.step
+                binding.txtProgress.text = currentProgress.toString()
 
         }
 
         binding.ivMinus.setOnClickListener {
-//            binding.sbProgress.progressDisplay =  binding.sbProgress.progressDisplay++
-//            this.task.goal?.currentProgress = this.task.goal?.currentProgress?.minus(1)
-            binding.sbProgress.setProgressDisplayAndInvalidate( binding.sbProgress.progressDisplay - 1)
-            binding.txtProgress.text =  binding.sbProgress.progressDisplay.toString()
+            currentProgress -= ((1 / binding.sbProgress.step) + 1).roundToInt()
+
+            if (currentProgress < 0) {
+                currentProgress = 0
+            }
+
+            binding.sbProgress.progress =  currentProgress * binding.sbProgress.step
+            binding.txtProgress.text = currentProgress.toString()
+
 
         }
 
         binding.txtFinish.setOnClickListener {
-//            this.task.goal?.currentProgress = this.task.goal?.target
-            binding.sbProgress.setProgressDisplayAndInvalidate(binding.sbProgress.max)
-            binding.txtProgress.text = binding.sbProgress.progressDisplay.toString()
+            binding.sbProgress.progress =  100f
+            currentProgress = (100f / binding.sbProgress.step).roundToInt()
 
+            binding.txtProgress.text = currentProgress.toString()
 
         }
 
-        binding.sbProgress.setSeekBarChangeListener(object :
-            CircleSeekBar.OnSeekBarChangedListener {
-            override fun onPointsChanged(
-                circleSeekBar: CircleSeekBar?,
-                points: Int,
-                fromUser: Boolean
-            ) {
+        binding.sbProgress.setOnRoundedSeekChangeListener(object : OnCircularSeekBarChangeListener {
+
+            override fun onProgressChange(CircularSeekBar: CircularSeekBar, progress: Float) {
+                currentProgress = ((currentGoal.toFloat()/100f) * progress).roundToInt()
+                binding.txtProgress.text = currentProgress.toString()
 
             }
 
-            override fun onStartTrackingTouch(circleSeekBar: CircleSeekBar?) {
+
+            override fun onStartTrackingTouch(CircularSeekBar: CircularSeekBar) {}
 
 
-            }
+            override fun onStopTrackingTouch(CircularSeekBar: CircularSeekBar) {}
+        });
+    }
 
-            override fun onStopTrackingTouch(circleSeekBar: CircleSeekBar?) {
-//                this@DetailTaskActivity.task.goal?.currentProgress = circleSeekBar!!.progressDisplay
-
-            }
-
-            override fun onTrackingChanging(progress: Int) {
-
-                binding.txtProgress.text = progress.toString()
-            }
-
-        })
-
+    override fun onStop() {
+        super.onStop()
+        lifecycleScope.launch {
+            currentTask.goal?.currentProgress = currentProgress
+            detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
+            delay(1000L
+            )
+        }
 
     }
+
+
 
 }

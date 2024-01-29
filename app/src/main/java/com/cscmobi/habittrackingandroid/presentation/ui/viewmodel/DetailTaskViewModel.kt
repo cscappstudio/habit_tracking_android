@@ -14,6 +14,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -91,6 +92,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
     private fun updateTask(task: Task) = viewModelScope.launch {
         try {
             databaseRepository.updateTask(task)
+            delay(500L)
         }catch (e: Exception){
 
         }

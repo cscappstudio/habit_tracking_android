@@ -1,6 +1,8 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.content.res.ColorStateList
+import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -18,6 +20,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivit
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
 import com.cscmobi.habittrackingandroid.utils.Helper
 import kotlinx.coroutines.launch
 
@@ -34,6 +37,10 @@ class CreateCollectionFragment: BaseFragment<FragmentCreateCollectionBinding>(Fr
         val TAG = "CreateCollectionFragment"
     }
     override fun initView(view: View) {
+
+        hadChangeState = false
+        newTasks.clear()
+
         initTaskCollectionAdapter()
         lifecycleScope.launch {
             collectionViewModel.userIntent.send(CollectionIntent.NotCreateCollection)
@@ -46,6 +53,7 @@ class CreateCollectionFragment: BaseFragment<FragmentCreateCollectionBinding>(Fr
 
                 } else if (it is CollectionState.CreateCollection) {
                     //TODO insert to collection
+
                 }
 
             }
@@ -113,30 +121,57 @@ class CreateCollectionFragment: BaseFragment<FragmentCreateCollectionBinding>(Fr
                 collectionData.task = newTasks
                 collectionData.resColorBg = Helper.colorTask.random()
 
-                Toast.makeText(requireContext(), "handle add collection to db", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "create collection success", Toast.LENGTH_SHORT).show()
                 lifecycleScope.launch {
                     collectionViewModel.userIntent.send(CollectionIntent.CreateCollection(collectionData))
                 }
+                parentFragmentManager.popBackStack()
             }
         }
     }
 
     fun addTask(task: Task) {
+        task.startDate = null
         if (!hadChangeState) {
             binding.layoutCreate.vRoot.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.teal_green))
             binding.rcvTask.visibility = View.VISIBLE
-            binding.llAddTask.visibility = View.GONE
 
             hadChangeState = true
         }
 
 
-
         newTasks.add(task)
+
         taskCollectionAdapter?.notifyItemInserted(newTasks.size-1)
 
 
     }
+
+    fun showPopupMenu() {
+
+        val customPopupMenu = CustomEditMenu(requireContext(),
+            {
+                // add to grid
+
+            }, {
+
+            })
+        // Calculate the coordinates to show the popup above the button
+        val location = IntArray(2)
+        //  binding.rcvFunc.getLocationOnScreen(location)
+
+        // Show the popup menu at the calculated coordinates
+//        customPopupMenu.showAsDropDown()
+
+//        customPopupMenu.showAtLocation(
+//            binding.rcvFunc,
+//            Gravity.NO_GRAVITY,
+//            this.getSizeDevice().first - resources.getDimension(R.dimen.qb_px_40).toInt(),
+//            this.getSizeDevice().second - resources.getDimension(R.dimen.qb_px_260).toInt()
+//        )
+
+    }
+
 
 
 }

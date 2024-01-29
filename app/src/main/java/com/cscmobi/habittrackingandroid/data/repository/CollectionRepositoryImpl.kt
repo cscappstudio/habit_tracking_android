@@ -5,6 +5,8 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class CollectionRepositoryImpl(val context: Context) : CollectionRepository {
     private val morningTasks = mutableListOf<Task>(
@@ -497,8 +499,8 @@ class CollectionRepositoryImpl(val context: Context) : CollectionRepository {
         ),
     )
 
-    override fun getListLocalCollection(): List<HabitCollection> {
-        return localCollection
+    override suspend fun getListLocalCollection(): Flow<List<HabitCollection>> {
+        return flow { emit(localCollection) }
     }
 
     override fun getListRemoteCollection(): List<HabitCollection> {

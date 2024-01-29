@@ -212,6 +212,13 @@
                     android:layout_height="0dp">
 
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:id="@+id/rcv_challenge"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
                 <HorizontalScrollView
                     android:id="@+id/svButtonGroup"
                     android:layout_width="match_parent"

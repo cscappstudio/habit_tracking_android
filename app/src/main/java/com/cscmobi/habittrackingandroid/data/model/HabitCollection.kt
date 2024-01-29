@@ -12,9 +12,9 @@ import kotlinx.serialization.Serializable
 data class HabitCollection(
     @ColumnInfo(name = "image")
     var image: String? = "",
-    @PrimaryKey
-    var name: String? = null,
-    @ColumnInfo(name = "task")
+    @PrimaryKey(autoGenerate = false)
+    var name: String = "",
+    @ColumnInfo(name = "taskCollection")
     var task: List<Task>? = null,
     @ColumnInfo(name = "colorBg")
     var resColorBg: Int? = R.color.blue

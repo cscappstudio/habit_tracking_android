@@ -12,14 +12,18 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
+import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
+import com.cscmobi.habittrackingandroid.data.model.ChallengeHomeItem
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
+import com.cscmobi.habittrackingandroid.presentation.ItemChallengeHomeListener
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.DetailTaskActivity
@@ -68,7 +72,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         homeViewModel.initDateWeek()
         initWeekApdater()
-
+        setUpChallenge()
         binding.txtProgress1.setSpanTextView(R.color.forest_green)
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
 
@@ -159,6 +163,50 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         taskDone = taskFinishNumber
         setUpProgress2Tasks()
+    }
+
+    fun setUpTask() {
+
+    }
+
+    fun setUpChallenge() {
+
+        var challengeHomeAdpater = BaseBindingAdapter<ChallengeHomeItem>(R.layout.item_challenge_home,layoutInflater, object: DiffUtil.ItemCallback<ChallengeHomeItem>(){
+            override fun areItemsTheSame(
+                oldItem: ChallengeHomeItem,
+                newItem: ChallengeHomeItem
+            ): Boolean {
+                return oldItem.name == oldItem.name
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ChallengeHomeItem,
+                newItem: ChallengeHomeItem
+            ): Boolean {
+                return  oldItem == newItem
+            }
+        })
+
+        challengeHomeAdpater.submitList(listOf(
+            ChallengeHomeItem("Drink water when you wake up","Morning glow",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
+            ChallengeHomeItem("Drink water when you wake up","Morning glow",true,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
+            ChallengeHomeItem("Drink water when you wake up","BBBBBB",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
+            ChallengeHomeItem("Drink water when you wake up","CCCCCC",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
+            ChallengeHomeItem("Drink water when you wake up","AAAAAA",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
+        ))
+        challengeHomeAdpater.setListener(object : ItemChallengeHomeListener<ChallengeHomeItem>{
+            override fun onItemClicked(item: ChallengeHomeItem, p: Int) {
+
+            }
+
+            override fun onDone(item: ChallengeHomeItem, p: Int) {
+                item.stateDone = !item.stateDone
+                challengeHomeAdpater.notifyItemChanged(p)
+            }
+        })
+
+        binding.rcvChallenge.adapter = challengeHomeAdpater
+
     }
 
     private fun setUpProgress2Tasks() {

@@ -7,10 +7,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.cscmobi.habittrackingandroid.data.model.HabitCollection;
+import com.cscmobi.habittrackingandroid.thanhlv.model.History;
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task;
 
 
-@Database(entities = {Task.class}, version = 1, exportSchema = false)
+@Database(entities = {Task.class, History.class, HabitCollection.class}, version = 1, exportSchema = false)
 @TypeConverters(Converters.class)
 
 public abstract class AppDatabase extends RoomDatabase {

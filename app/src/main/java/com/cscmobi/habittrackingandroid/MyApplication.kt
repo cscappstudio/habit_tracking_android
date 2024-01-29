@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import com.cscmobi.habittrackingandroid.presentation.di.databaseModule
 import com.cscmobi.habittrackingandroid.presentation.di.repositoryModule
 import com.cscmobi.habittrackingandroid.presentation.di.viewModelModule
+import com.cscmobi.habittrackingandroid.thanhlv.database.Dao
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.ninenox.kotlinlocalemanager.ApplicationLocale
 import org.koin.android.ext.koin.androidContext
@@ -24,6 +25,9 @@ class MyApplication: ApplicationLocale() {
         }
 
         AndroidThreeTen.init(this)
+
+//        val dao: Dao = get()
+
     }
 
     companion object {

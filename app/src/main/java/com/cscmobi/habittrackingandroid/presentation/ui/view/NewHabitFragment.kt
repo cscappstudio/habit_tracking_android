@@ -153,6 +153,8 @@ class NewHabitFragment :
     }
 
 
+
+
     private fun observe() {
         lifecycleScope.launch {
             collectionViewModel.state.collect {
@@ -189,6 +191,8 @@ class NewHabitFragment :
     }
 
     fun editTask(task: Task) {
+        binding.ivEdit.visibility = View.VISIBLE
+
         binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
         newHabitFragmentState = NewHabitFragmentState.EDITTASK
         setUpDataTask(task)
@@ -581,7 +585,9 @@ class NewHabitFragment :
 
 
         binding.ivClose.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            if (!parentFragmentManager.popBackStackImmediate())
+                requireActivity().finish()
+//            parentFragmentManager.popBackStack()
         }
 
         binding.swGoal.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -653,11 +659,10 @@ class NewHabitFragment :
 
         binding.layoutBtnSave.btnSave.setOnClickListener {
             if (newHabitFragmentState == NewHabitFragmentState.ADDTOCOLLECTION) {
+                setUpCreateTask()
+
                 listener?.addTask(
-                    Task(
-                        name = "my task",
-                        ava = resources.getResourceEntryName(R.drawable.ic_item_collection2)
-                    )
+                    currentTask
                 )
                 parentFragmentManager.popBackStack()
             }

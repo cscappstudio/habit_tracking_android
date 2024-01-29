@@ -66,7 +66,6 @@ class DetailCollectionFragment :
                     it.addFragmentNotHide(it.newHabitFragment,NewHabitFragment.TAG)
                     lifecycleScope.launch {
                         collectionViewModel.userIntent.send(CollectionIntent.PassTaskfromCollection(item))
-                        Log.d("WTFFF", item.name.toString())
 
                     }
                 }
