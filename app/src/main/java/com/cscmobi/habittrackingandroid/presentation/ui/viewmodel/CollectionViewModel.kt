@@ -10,14 +10,30 @@ import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flattenMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
-class CollectionViewModel constructor(private val repository: CollectionRepository,private val databaseRepository: DatabaseRepository) :
+class CollectionViewModel constructor(
+    private val repository: CollectionRepository,
+    private val databaseRepository: DatabaseRepository
+) :
     BaseViewModel() {
 
     val userIntent = Channel<CollectionIntent>(Channel.UNLIMITED)
@@ -25,63 +41,141 @@ class CollectionViewModel constructor(private val repository: CollectionReposito
     val state: StateFlow<CollectionState>
         get() = _state
 
+    var taskCollection = Task()
+
+    private  var listCollectionName = mutableListOf<String>()
+
 
     init {
         handleIntent()
     }
-    fun setUp(){}
+
+    fun setUp() {}
+
+     fun isExistCollectionName(name: String) : Boolean {
+        var  validName =  listCollectionName.filter { it == name }
+         Log.d("VALIDD", validName.toString())
+        return !validName.isNullOrEmpty()
+    }
+
 
     private fun handleIntent() {
         viewModelScope.launch {
-            userIntent.consumeAsFlow().collect{
-                when(it) {
+            userIntent.consumeAsFlow().collect {
+                when (it) {
                     is CollectionIntent.FetchCollection -> fetchCollections()
                     is CollectionIntent.PassItemCollection -> passCollectionItem(it.data)
-                    is CollectionIntent.NotCreateCollection -> _state.value = CollectionState.IdleCreateCollection
+                    is CollectionIntent.NotCreateCollection -> _state.value =
+                        CollectionState.IdleCreateCollection
+
                     is CollectionIntent.CreateCollection -> createCollection(it.data)
+                    is CollectionIntent.UpdateCollection -> updateCollection(it.data)
+                    is CollectionIntent.DeleteCollection -> deleteCollection(it.data)
+
                     is CollectionIntent.CreateTaskToRoutine -> insertTask(it.task)
-                    is CollectionIntent.PassTaskfromCollection -> _state.value = CollectionState.GetTask(it.task)
+                    is CollectionIntent.PassTaskfromCollection -> _state.value =
+                        CollectionState.GetTask(it.task)
+
+                    is CollectionIntent.EditTask -> _state.value = CollectionState.EditTask(it.task)
+//                    is CollectionIntent.EditCollectionTask -> _state.value = CollectionState.EditCollectionTask(it.task)
+                    is CollectionIntent.UpdateTask -> updateTask(it.task)
                     else -> {}
                 }
             }
         }
     }
 
-     fun createCollection(data: HabitCollection) {
-         viewModelScope.launch {
-             _state.value = CollectionState.CreateCollection(data)
-         }
+    fun createCollection(data: HabitCollection) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.insertCollection(data)
+            delay(500L)
+        }
     }
 
-    fun insertTask(task: Task) = viewModelScope.launch {
-            try {
-               databaseRepository.insertTask(task)
-                _state.value = CollectionState.CreateTaskRoutineSuccess(true)
 
-            } catch (e: Exception) {
-                Log.d("ERRRR", e.message.toString())
-
-                _state.value = CollectionState.CreateTaskRoutineSuccess(false)
+    fun updateCollection(collection: HabitCollection) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                Log.d("UPDATECOLLECT", collection.toString())
+                databaseRepository.updateCollection(collection.copy())
+                delay(500L)
             }
+        } catch (e: Exception) {
+            Log.d("UPDATECOLLECT",e.message.toString())
+
+        }
+
+    }
+
+    fun setStateUpdateCollection(data: HabitCollection) {
+        _state.value = CollectionState.UpdateCollection(data)
+    }
+
+    fun deleteCollection(collection: HabitCollection) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.deleteCollection(collection)
+            delay(500L)
+        }
+    }
+
+
+    fun insertTask(task: Task) = viewModelScope.launch {
+        try {
+            databaseRepository.insertTask(task)
+            _state.value = CollectionState.CreateTaskRoutineSuccess(true)
+
+        } catch (e: Exception) {
+            Log.d("ERRRR", e.message.toString())
+
+            _state.value = CollectionState.CreateTaskRoutineSuccess(false)
+        }
+    }
+
+    private fun updateTask(task: Task) = viewModelScope.launch {
+        try {
+            Log.d("UPDATETASK", task.toString())
+            databaseRepository.updateTask(task)
+        } catch (e: Exception) {
+
+        }
     }
 
     private fun fetchCollections() {
+
         viewModelScope.launch {
             _state.value = CollectionState.Loading
-            _state.value = try {
-                CollectionState.Collections(repository.getListLocalCollection())
+            try {
+               combine(
+                   repository.getListLocalCollection(),
+                    databaseRepository.getAllCollection()
+                ) { localCollection, databaseCollection ->
+                    val collections = mutableListOf<HabitCollection>()
+                    collections.addAll(localCollection)
+                   databaseCollection.forEach {
+                       it.isEdit = true
+                   }
+                    collections.addAll(databaseCollection)
+                   listCollectionName = collections.map { it.name }.toMutableList()
+                   _state.value = CollectionState.Collections(collections)
+                }.collect()
+
+
             } catch (e: Exception) {
                 CollectionState.Collections(mutableListOf())
             }
         }
     }
 
+    fun <T> merge(vararg flows: Flow<T>): Flow<T> = flowOf(*flows).flattenMerge()
+
+
     fun passCollectionItem(data: HabitCollection) {
         _state.value = CollectionState.Collection(data)
     }
 
+
     fun tag(): MutableList<Tag> {
-        return  mutableListOf(
+        return mutableListOf(
             Tag("No tag"),
             Tag("Workout"),
             Tag("Clean room"),

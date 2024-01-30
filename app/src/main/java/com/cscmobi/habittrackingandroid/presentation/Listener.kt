@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation
 
+import android.view.View
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 
 interface OnItemClickPositionListener {
@@ -34,4 +35,15 @@ interface ItemBasePosistionListener :  BaseBindingAdapter.BaseBindingListener {
 
 interface ItemBaseWithPostitionListener<T>:  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(item: T, p: Int)
+}
+
+
+interface ItemChallengeHomeListener<T> :  BaseBindingAdapter.BaseBindingListener {
+    fun onItemClicked(item: T, p: Int)
+
+    fun onDone(item: T, p: Int)
+}
+
+interface ItemTaskCollection<T> : ItemBaseWithPostitionListener<T> {
+    fun onEdit(v: View, item: T, p: Int)
 }

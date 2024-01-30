@@ -15,6 +15,7 @@ import com.adjust.sdk.LogLevel
 import com.cscmobi.habittrackingandroid.presentation.di.databaseModule
 import com.cscmobi.habittrackingandroid.presentation.di.repositoryModule
 import com.cscmobi.habittrackingandroid.presentation.di.viewModelModule
+import com.cscmobi.habittrackingandroid.thanhlv.database.Dao
 import com.cscmobi.habittrackingandroid.thanhlv.consent.GoogleMobileAdsConsentManager
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SplashActivity
 import com.google.android.gms.ads.*
@@ -50,6 +51,9 @@ class MyApplication : ApplicationLocale(), Application.ActivityLifecycleCallback
         }
 
         AndroidThreeTen.init(this)
+
+//        val dao: Dao = get()
+
     }
 
     companion object {

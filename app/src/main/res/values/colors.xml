@@ -19,6 +19,7 @@
     <color name="white_smoke">#F5F5F5</color>
     <color name="blue">#B6D6DD</color>
     <color name="pink">#EBB2BD</color>
+    <color name="pink_20_percent">#33EBB2BD</color>
     <color name="orange">#EEC9AA</color>
     <color name="green">#BEE4B8</color>
     <color name="purple">#BEB3D5</color>
@@ -35,11 +36,17 @@
     <color name="dove_gray">#707070</color>
     <color name="hex6A6A6A">#6A6A6A</color>
     <color name="hexD4D4D4">#D4D4D4</color>
+    <color name="hexB6D6DD_20_percent">#33B6D6DD</color>
 
 
     <color name="bg_color_onboard_1">#EEC9AA</color>
     <color name="bg_color_onboard_2">#B6D6DD</color>
     <color name="bg_color_onboard_3">#EBB2BD</color>
     <color name="bg_color_onboard_4">#BEE4B8</color>
+
+    <integer-array name="default_color_list">
+        <item>@color/pink</item>
+        <item>@color/pink</item>
+    </integer-array>
 
 </resources>

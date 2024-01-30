@@ -9,17 +9,26 @@ import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
 
-class HomeViewModel(private val repository: HomeRepository,private val databaseRepository: DatabaseRepository) : BaseViewModel() {
+class HomeViewModel(
+    private val repository: HomeRepository,
+    private val databaseRepository: DatabaseRepository
+) : BaseViewModel() {
     var listWeekData = arrayListOf<LocalDate>()
     var currentWeekPos = -1
 
@@ -42,11 +51,12 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
     }
 
     fun test() = viewModelScope.launch {
-      databaseRepository.getAllTask().collect{
+        databaseRepository.getAllTask().collect {
 
 
-       }
+        }
     }
+
 
     private fun handleIntent() {
         viewModelScope.launch {
@@ -58,6 +68,7 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
                     }
 
                     is HomeIntent.UpdateTask -> updateTask(it.task)
+                    is HomeIntent.DeleteTask -> deleteTask(it.task, it.typeDelete)
 
                     else -> {}
                 }
@@ -65,10 +76,53 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
         }
     }
 
-    private fun updateTask(task: Task) = viewModelScope.launch {
+    fun setUpHistoryTaskByDate(date: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.getHistorybyDate(date)?.collect {
+                val taskIds = it.taskInDay?.map { it.taskId }
+                taskIds?.let { ids ->
+                    withContext(Dispatchers.IO) {
+                        fetchUser(ids).collect{
+
+                       }
+                    }
+
+                }
+            }
+        }
+
+
+    }
+
+    suspend fun fetchUser(taskIds: List<Int>): Flow<List<Task>> {
+        return GlobalScope.async(Dispatchers.IO) {
+            databaseRepository.loadAllByIds(taskIds.toIntArray())
+        }.await()
+    }
+
+    private fun updateTask(task: Task) = viewModelScope.launch(Dispatchers.IO) {
         try {
             databaseRepository.updateTask(task)
-        }catch (e: Exception){
+        } catch (e: Exception) {
+
+        }
+    }
+
+
+    /**
+     * deleteType = 0 -> delete task in future -> update endDate of task
+     * deleteType = 1 -> delete task
+     * */
+    private fun deleteTask(task: Task, deleteType: Int) = viewModelScope.launch {
+        try {
+            if (deleteType == 0) {
+                databaseRepository.updateTask(task)
+            } else if (deleteType == 1) {
+                databaseRepository.deleteTask(task)
+            }
+
+
+        } catch (e: Exception) {
 
         }
     }
@@ -86,15 +140,20 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
         }
     }
 
+
+    fun fetchHistoryByDate() {
+    }
+
     private fun fetchTasks() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             tasks.clear()
 
-            databaseRepository.getAllTask().collect{
+            databaseRepository.getAllTask().collect {
                 try {
-                tasks = it.toMutableList()
-                _state.value =
-                    HomeState.Tasks(it)
+                    tasks = it.toMutableList()
+                    _state.value = HomeState.Tasks(it)
+
+                    Log.d("tasl=kk", it.toString())
                 } catch (e: Exception) {
                     HomeState.Tasks(arrayListOf())
                 }
@@ -104,8 +163,6 @@ class HomeViewModel(private val repository: HomeRepository,private val databaseR
 
         }
     }
-
-
 
 
     fun initDateWeek() {

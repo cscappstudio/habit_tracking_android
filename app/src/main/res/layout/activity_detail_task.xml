@@ -141,9 +141,11 @@
                         app:layout_constraintBottom_toBottomOf="@id/iv_repeat"
                         app:layout_constraintStart_toEndOf="@id/iv_repeat"
                         android:layout_marginStart="@dimen/_11sdp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:text="Repeat: every 1 week on Su, Mo, Tu,..."
+                        app:layout_constraintEnd_toEndOf="parent"
                         android:maxLines="1"
+                        android:ellipsize="end"
                         android:textSize="13sp"
                         android:fontFamily="@font/worksans_medium"
                         android:textColor="@color/shadow_gray"
@@ -181,8 +183,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ctl_progress_goal"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="-20dp"
                     android:layout_marginHorizontal="@dimen/_20sdp"
-
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -196,30 +198,17 @@
                         android:tint="@color/bottle_green"
                         android:layout_height="wrap_content"/>
 
-                    <com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
+                    <com.cscmobi.habittrackingandroid.presentation.ui.custom.CircularSeekBar
                         android:id="@+id/sb_progress"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:padding="@dimen/_36sdp"
-                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@id/iv_minus"
-                        app:csb_min="-1"
-                        android:layout_gravity="center"
                         app:layout_constraintEnd_toStartOf="@id/iv_plus"
-                        app:csb_arcColor="#33EBB2BD"
-                        app:csb_thumbDrawable="@drawable/ic_thumbseekbar_goal"
-                        app:csb_isShowThumb="true"
-                        app:csb_progressColor="@color/pink"
-                        app:csb_progressWidth="@dimen/_18sdp"
-                        app:csb_step="5"
-                        app:csb_fontType="1"
-                        app:csb_touchEnable="true"
-                        app:csb_isShowText="false"
-                        app:csb_text="aaaa"
-                        app:csb_textColor="@color/tangerine"
-                        app:csb_textSize="@dimen/_18ssp"
-                        app:csb_thumbSize="@dimen/_24sdp"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        app:cs_arcRadius="90dp"
+                        app:cs_arcWidth="9dp"
+                        app:cs_progressWidth="9dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -274,6 +263,7 @@
                         android:fontFamily="@font/montserratalternates_semibold"
                         android:textSize="16sp"
                         android:textColor="@color/white"
+                        android:layout_marginTop="-15dp"
                         android:paddingVertical="@dimen/_4sdp"
                         android:paddingHorizontal="@dimen/_18sdp"
                         app:layout_constraintTop_toBottomOf="@id/sb_progress"
@@ -288,12 +278,14 @@
                   android:id="@+id/layout_checklist"
                   android:layout_marginHorizontal="@dimen/_20sdp"
 
-                  android:layout_marginTop="@dimen/_11sdp"
+                  android:layout_marginTop="@dimen/_18sdp"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   />
 
               <androidx.constraintlayout.widget.ConstraintLayout
+                  android:id="@+id/ctl_current_streak"
+
                   android:layout_width="@dimen/_200sdp"
                   android:background="@drawable/bg_steak"
                   android:layout_gravity="center_horizontal"
@@ -331,6 +323,7 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ll_info_streak"
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/_26sdp"
                     android:layout_marginHorizontal="@dimen/_20sdp"

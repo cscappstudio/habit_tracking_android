@@ -1,6 +1,5 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -13,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +20,6 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.CheckList
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.ColorTask
 import com.cscmobi.habittrackingandroid.data.model.DayWeekRepeat
 import com.cscmobi.habittrackingandroid.data.model.EndDate
@@ -37,6 +34,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.adapter.FrequencyTextAda
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
 import com.cscmobi.habittrackingandroid.utils.onDone
@@ -65,6 +63,7 @@ class NewHabitFragment :
     private var colorSelect = -1
     val childFragment: CustomCalenderFragment = CustomCalenderFragment()
     var newHabitFragmentState: NewHabitFragmentState = NewHabitFragmentState.ADDTOROUTINE
+    private val bottomSheetAvaFragment = BottomSheetAvaFragment()
 
     private var listener: INewHabitListener? = null
     private var currentTask = Task()
@@ -87,24 +86,15 @@ class NewHabitFragment :
     }
 
     override fun initView(view: View) {
-        when (newHabitFragmentState) {
-            NewHabitFragmentState.EDITTASKCOLLECTION -> {
-
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+            context?.let {
+                binding.nestScroll.setPadding(0,0,0,resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt())
             }
 
-            NewHabitFragmentState.ADDTOROUTINE -> {
-                binding.layoutAddRoutine.vRoot.visibility = View.VISIBLE
-            }
+        })
 
-            NewHabitFragmentState.ADDTOCOLLECTION -> {
+        currentTask.ava = requireContext().resources.getResourceEntryName(R.drawable.ic_item_collection2)
 
-                binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
-            }
-
-            else -> {
-
-            }
-        }
 
         colorSelect = ContextCompat.getColor(requireContext(), R.color.blue)
         daysWeekRepeat = mutableListOf(
@@ -143,16 +133,22 @@ class NewHabitFragment :
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
         transaction.replace(binding.layoutEndDate.childFragmentContainer.id, childFragment).commit()
 
+        Log.d("Task Create", currentTask.toString())
+
+
+        bottomSheetAvaFragment.actionGetIcon = {
+            binding.ivHabit.setDrawableString(it)
+            currentTask.ava = it
+        }
     }
 
-    fun setDataTask(task: Task) {
-        currentTask = task
-    }
+
+
 
     private fun observe() {
         lifecycleScope.launch {
             collectionViewModel.state.collect {
-                when(it) {
+                when (it) {
                     is CollectionState.CreateTaskRoutineSuccess -> {
                         if (it.isSuccess) {
                             requireActivity().finish()
@@ -168,9 +164,16 @@ class NewHabitFragment :
                     }
 
                     is CollectionState.GetTask -> {
-                        currentTask = it.task
-                        setUpDataTask(currentTask)
+                        setUpDataTask(it.task)
                     }
+
+                    is CollectionState.EditTask -> {
+                        editTask(it.task)
+                    }
+
+//                    is CollectionState.EditCollectionTask -> {
+//                        editTaskCollection(it.task)
+//                    }
 
                     else -> {}
                 }
@@ -181,48 +184,88 @@ class NewHabitFragment :
 
     }
 
-    private fun setUpDataTask(task: Task) {
+    fun editTask(task: Task) {
+//        binding.ivEdit.visibility = View.VISIBLE
+
+        binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
+        newHabitFragmentState = NewHabitFragmentState.EDITTASK
+        setUpDataTask(task)
+    }
+
+
+    fun setUpDataTask(task: Task) {
+
+        currentTask = task
+        Log.d("CAYVL", task.toString())
+
+
         task.ava?.let { binding.ivHabit.setDrawableString(it) }
-        Log.d("CAYVL", task.name.toString())
         binding.edtName.setText(task.name.toString())
 
         task.color?.let {
             colorSelect = Color.parseColor(it)
-            binding.ivHabit.setBackgroundApla(it,20)
+            binding.ivHabit.setBackgroundApla(it, 20)
+            colorsTask[0].isSelected = false
+
         }
         binding.edtNote.setText(task.note)
         task.goal?.let {
             binding.isGoalEdit = it.isOn
             binding.edtTargetGoal.setText(it.target.toString())
 
-            binding.unitPicker.value =  unit.indexOf(it.unit)
+            binding.unitPicker.value = unit.indexOf(it.unit)
             if (!it.period.isNullOrEmpty())
-            binding.timePicker.value = time.indexOf(it.period)
+                binding.timePicker.value = time.indexOf(it.period)
         }
 
         task.repeate?.let {
             var type = ""
-            when(it.type) {
+            when (it.type) {
                 "daily" -> {
                     type = "Day"
                     binding.layoutRepeate.txtDaily.performClick()
                 }
+
                 "monthly" -> {
                     type = "Month"
                     binding.layoutRepeate.txtMonthly.performClick()
+                    it.days?.let {
+                        it.forEach { day ->
+                            listDay.forEach {
 
+                                if (day == it.date)
+                                    it.isSelected = true
+                            }
+                        }
+                        dayOfMonthCalendarAdapter?.notifyDataSetChanged()
+                    }
                 }
+
                 "weekly" -> {
                     type = "Week"
                     binding.layoutRepeate.txtWeekly.performClick()
 
+                    val commonElements = it.days?.intersect(daysWeekRepeat)
+
+                    it.days?.let {
+                        it.forEach { day ->
+                            daysWeekRepeat.forEach {
+
+                            if (day == it.day)
+                                it.isSelect = true
+                            }
+                        }
+                    }
+
                 }
+
                 else -> {}
             }
 
-            binding.layoutRepeate.txtCategory.text = "Every ${it.frequency} $type"
-            binding.layoutRepeate.isRepeatEdit = it.isOn
+            numberRepeat = it.frequency ?: 1
 
+//                binding.layoutRepeate.txtCategory.text = "Every ${${it.frequency}} $type"
+            binding.layoutRepeate.isRepeatEdit = it.isOn
         }
 
         task.endDate?.let {
@@ -239,6 +282,8 @@ class NewHabitFragment :
             binding.layoutReminder.unitDay.value = dayIndex
         }
 
+
+
         if (task.tag.isNullOrEmpty()) {
             binding.layoutTag.addIvVisible = true
         } else {
@@ -246,18 +291,25 @@ class NewHabitFragment :
             binding.layoutTag.txtTag.text = task.tag
         }
 
-        task.checklist?.forEach { _ ->
-                binding.layoutChecklist.rcvSubtask
-        }
+    
         task.checklist?.let { checkList ->
-            subTaskAdapter?.submitList(checkList.map { it.title })
+            subTasks = checkList.map { it.title }.toMutableList()
+            subTaskAdapter?.submitList(subTasks)
             subTaskAdapter?.notifyDataSetChanged()
         }
 
 
-    }
+        resetColorTask()
 
+        binding.swGoal.isChecked = binding.isGoalEdit ?: false
+        binding.layoutRepeate.swRepeat.isChecked =  binding.layoutRepeate.isRepeatEdit ?: false
+        binding.layoutEndDate.swEndDate.isChecked = binding.layoutEndDate.isEndDateEdit ?: false
+        binding.layoutReminder.swRemind.isChecked = binding.layoutReminder.isRenindEdit ?: false
+    }
+    var colorsTask = mutableListOf<ColorTask>()
+    var colorAdapter: BaseBindingAdapter<ColorTask>? = null
     private fun setUpColor() {
+        colorsTask.clear()
         val idColors = mutableListOf<Int>(
             R.color.blue,
             R.color.pink,
@@ -265,10 +317,9 @@ class NewHabitFragment :
             R.color.green,
             R.color.purple
         )
-
-        var colorsTask = idColors.map { ColorTask(it) } as MutableList
-
-        val colorAdapter = BaseBindingAdapter<ColorTask>(
+        colorsTask = idColors.map { ColorTask(it) } as MutableList
+        colorsTask[0].isSelected = true
+         colorAdapter = BaseBindingAdapter<ColorTask>(
             R.layout.item_color_task,
             layoutInflater,
             object : DiffUtil.ItemCallback<ColorTask>() {
@@ -281,16 +332,16 @@ class NewHabitFragment :
                 }
             })
 
-        colorAdapter.submitList(colorsTask)
+        colorAdapter?.submitList(colorsTask)
 
 
-        colorAdapter.setListener(object : ItemBasePosistionListener {
+        colorAdapter?.setListener(object : ItemBasePosistionListener {
             override fun onItemClicked(p: Int) {
                 colorsTask.forEach {
                     it.isSelected = false
                 }
                 colorsTask[p].isSelected = true
-                colorAdapter.notifyDataSetChanged()
+                colorAdapter?.notifyDataSetChanged()
 
                 colorSelect = ContextCompat.getColor(requireContext(), colorsTask[p].resId)
                 resetColorTask()
@@ -303,13 +354,26 @@ class NewHabitFragment :
     }
 
     private fun resetColorTask() {
+
         dayOfMonthCalendarAdapter?.colorSelect = colorSelect
+        dayOfMonthCalendarAdapter?.notifyDataSetChanged()
+
         childFragment.resetColorTask(colorSelect)
         setStrokeBackgroundUnitRemind(
             binding.layoutReminder.frDay,
             binding.layoutReminder.frMinute,
             binding.layoutReminder.frHour
         )
+        binding.edtTargetGoal.background = Utils.createCustomDrawable(colorSelect)
+        setStateTextRepeat(binding.layoutRepeate.frequencyType ?: 0)
+        childFragment.resetColorTask(colorSelect)
+        resetTextInListDay()
+
+        val indexColor =  colorsTask.indexOfFirst { ContextCompat.getColor(requireContext(),it.resId) == colorSelect }
+        if (indexColor != -1) {
+            colorsTask[indexColor].isSelected = true
+            colorAdapter?.submitList(colorsTask)
+        }
 
     }
 
@@ -392,7 +456,7 @@ class NewHabitFragment :
     }
 
     private fun setUpCheckList() {
-         subTaskAdapter = BaseBindingAdapter<String>(
+        subTaskAdapter = BaseBindingAdapter<String>(
             R.layout.item_subtask,
             layoutInflater,
             object : DiffUtil.ItemCallback<String>() {
@@ -425,6 +489,12 @@ class NewHabitFragment :
                 subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
                 subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
             }
+            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+                context?.let {
+                    binding.nestScroll.setPadding(0,0,0,resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt())
+                }
+
+            })
             hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
 
         }
@@ -432,10 +502,16 @@ class NewHabitFragment :
         binding.layoutChecklist.ivAdd.setOnClickListener {
             binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
             showKeyboardOnView(binding.layoutChecklist.edtAdd)
+            binding.nestScroll.post {
+                binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
+            }
             binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                binding.nestScroll.post {
-                    binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
+                context?.let {
+                    binding.nestScroll.setPadding(0,0,0,resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt())
+
                 }
+
+
             })
         }
 
@@ -448,20 +524,20 @@ class NewHabitFragment :
             currentTask.name = binding.edtName.text.toString()
 
         if (!binding.edtNote.text.isNullOrEmpty())
-            currentTask.name = binding.edtNote.text.toString()
+            currentTask.note = binding.edtNote.text.toString()
 
         currentTask.goal = Goal(
             isOn = binding.isGoalEdit,
             unit = binding.unitPicker.displayedValues[binding.unitPicker.value - 1],
-            target = binding.edtTargetGoal.text.toString().toInt(),
-            period = binding.timePicker.displayedValues[binding.timePicker.value-1]
+            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) 1 else binding.edtTargetGoal.text.toString()
+                .toInt(),
+            period = binding.timePicker.displayedValues[binding.timePicker.value - 1]
         )
 
 
         val hexColor = String.format("#%06X", 0xFFFFFF and colorSelect)
 
         currentTask.color = hexColor
-        currentTask.ava = resources.getResourceEntryName(R.drawable.ic_item_collection2)
 
         currentTask.tag = binding.layoutTag.txtTag.text.toString()
 
@@ -472,7 +548,6 @@ class NewHabitFragment :
         }
 
 
-
         currentTask.repeate = TaskRepeat(
             isOn = binding.layoutRepeate.isRepeatEdit,
             type = textRepeatSelect,
@@ -480,7 +555,7 @@ class NewHabitFragment :
             days = daysRepeat
         )
 
-        currentTask.startDate = Calendar.getInstance().time
+        currentTask.startDate = Calendar.getInstance().time.time
         currentTask.endDate =
             EndDate(binding.layoutEndDate.isEndDateEdit, childFragment.getDateSelected())
 
@@ -500,7 +575,12 @@ class NewHabitFragment :
 
     }
 
+
     override fun setEvent() {
+        binding.ivHabit.setOnClickListener {
+            bottomSheetAvaFragment.show(childFragmentManager, bottomSheetAvaFragment.tag)
+        }
+
         binding.edtName.onDone {
             hideKeyboardFrom(requireContext(), binding.edtName)
 
@@ -513,7 +593,9 @@ class NewHabitFragment :
 
 
         binding.ivClose.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            if (!parentFragmentManager.popBackStackImmediate())
+                requireActivity().finish()
+//            parentFragmentManager.popBackStack()
         }
 
         binding.swGoal.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -585,13 +667,26 @@ class NewHabitFragment :
 
         binding.layoutBtnSave.btnSave.setOnClickListener {
             if (newHabitFragmentState == NewHabitFragmentState.ADDTOCOLLECTION) {
+                setUpCreateTask()
+
                 listener?.addTask(
-                    Task(
-                        name = "my task",
-                        ava = resources.getResourceEntryName(R.drawable.ic_item_collection2)
-                    )
+                    currentTask
                 )
                 parentFragmentManager.popBackStack()
+            }
+
+            else if (newHabitFragmentState == NewHabitFragmentState.EDITTASK) {
+                lifecycleScope.launch {
+                    setUpCreateTask()
+                    collectionViewModel.userIntent.send(CollectionIntent.UpdateTask(currentTask))
+                }
+                requireActivity().finish()
+            }
+            else if (newHabitFragmentState == NewHabitFragmentState.EDITTASKCOLLECTION) {
+                setUpCreateTask()
+                listener?.editTaskCollection(currentTask)
+                parentFragmentManager.popBackStack()
+
             }
         }
 
@@ -604,8 +699,32 @@ class NewHabitFragment :
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         observe()
 
+        when (newHabitFragmentState) {
+            NewHabitFragmentState.EDITTASKCOLLECTION -> {
+                setUpDataTask(collectionViewModel.taskCollection)
+                binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
+
+            }
+
+            NewHabitFragmentState.ADDTOROUTINE -> {
+                binding.layoutAddRoutine.vRoot.visibility = View.VISIBLE
+            }
+
+            NewHabitFragmentState.ADDTOCOLLECTION -> {
+
+                binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
+            }
+
+            else -> {
+
+            }
+        }
     }
 
     private var gradientBgUnitReminder: GradientDrawable? = null
@@ -659,17 +778,14 @@ class NewHabitFragment :
     }
 
     private fun resetTextInListDay() {
-        val childCount = binding.layoutRepeate.llWeekly.childCount
-        if (childCount != 0) {
-            for (i in 0 until childCount) {
-                var txt: View? = binding.layoutRepeate.llWeekly.getChildAt(i)
-                txt?.let {
-                    if (txt is TextView) {
-                        txt.changeBackgroundText(false)
-                    }
-                }
+        daysWeekRepeat.forEachIndexed { index, dayWeekRepeat ->
+            if (dayWeekRepeat.isSelect) {
+                (binding.layoutRepeate.llWeekly.getChildAt(index) as TextView).changeBackgroundText(
+                    true
+                )
             }
         }
+
     }
 
     private fun setStateTextRepeat(frequencyType: Int) {
@@ -743,7 +859,6 @@ class NewHabitFragment :
             Toast.makeText(requireContext(), "show ff", Toast.LENGTH_SHORT).show()
             when (newHabitFragmentState) {
                 NewHabitFragmentState.EDITTASKCOLLECTION -> {
-
                 }
 
                 NewHabitFragmentState.ADDTOROUTINE -> {
@@ -755,6 +870,9 @@ class NewHabitFragment :
                     binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
                 }
 
+                NewHabitFragmentState.EDITTASK -> {
+                }
+
                 else -> {
 
                 }
@@ -764,6 +882,8 @@ class NewHabitFragment :
 
     interface INewHabitListener {
         fun addTask(task: Task)
+        fun editTaskCollection(task: Task)
+
     }
 
     enum class NewHabitFragmentState {

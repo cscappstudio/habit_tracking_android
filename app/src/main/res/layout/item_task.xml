@@ -64,18 +64,19 @@
                 android:paddingHorizontal="@dimen/_15sdp"
                 tools:targetApi="p">
 
-                <com.google.android.material.imageview.ShapeableImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/shapeableImageView"
                     android:layout_width="@dimen/_31sdp"
                     android:layout_height="@dimen/_31sdp"
-                    android:background="@color/greeny"
-                    android:scaleType="center"
+                    android:background="@drawable/bg_circle"
+                    android:backgroundTint="@color/blue"
+                    android:scaleType="centerCrop"
+                    android:padding="@dimen/_5sdp"
                     android:src="@drawable/ic_golf"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-
                     app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearanceOverlay="@style/circle" />
+                    />
 
                 <TextView
                     android:id="@+id/txt_name_task"

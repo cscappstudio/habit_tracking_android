@@ -33,7 +33,7 @@ enum class TypeGoal {
 data class Goal(
     var isOn: Boolean? = false,
     var unit: String? = "",
-    var target: Int? = 0,
+    var target: Int? = 1,
     var period: String? = "",
     var currentProgress: Int? = 0,
 )
@@ -43,7 +43,7 @@ data class Goal(
 @Serializable
 data class EndDate(
     var isOpen: Boolean? = false,
-    @Contextual @Serializable(with = DateSerializer::class) var endDate: Date? = null
+     var endDate: Long? = null
 
 )
 
@@ -77,6 +77,7 @@ data class Tag(val name: String, var isSelected: Boolean = false)
 data class ColorTask(val resId: Int, var isSelected: Boolean = false)
 
 
+@Keep
 @Serializable
 data class TaskInDay(
     var taskId: Int = 0,
@@ -84,6 +85,9 @@ data class TaskInDay(
     var currentStreak: Int = 0,
     var longStreak: Int = 0
 )
+
+
+data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long)
 
 
 @Serializable

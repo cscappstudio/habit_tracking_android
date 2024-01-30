@@ -18,6 +18,7 @@ import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
+import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import kotlin.random.Random
 
@@ -29,13 +30,13 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
    inner  class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
 
-            val iconResourceId = binding.root.context.resources.getIdentifier(
-                item.ava,
-                "drawable",
-                binding.root.context.packageName
-            )
+//            val iconResourceId = binding.root.context.resources.getIdentifier(
+//                item.ava,
+//                "drawable",
+//                binding.root.context.packageName
+//            )
 
-            binding.shapeableImageView.setImageResource(iconResourceId)
+            item.ava?.let { binding.shapeableImageView.setDrawableString(it) }
             binding.txtNameTask.text = item.name
 
             binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
@@ -47,44 +48,6 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                     binding.txtUnit.text = it.unit
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
 
-                    if (it.currentProgress == it.target) {
-
-                        binding.txtGoal.setTextColor(Color.WHITE)
-                        binding.ctTask.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor(item.color))
-                        binding.txtNameTask.setTextColor(Color.WHITE)
-
-                        binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-                        binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                        binding.line.visibility = View.VISIBLE
-                        binding.txtUnit.setTextColor(Color.WHITE)
-                        binding.rdCheck.isChecked = true
-
-                    } else {
-                        binding.txtGoal.text = "${it.currentProgress}/${it.target}"
-
-                        binding.txtGoal.setTextColor(ContextCompat.getColor(binding.root.context,R.color.dark_gray))
-                        binding.txtUnit.setTextColor(ContextCompat.getColor(binding.root.context,R.color.grey))
-
-                        binding.txtGoal.setSpanTextView(R.color.coral_red)
-                        binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
-                        binding.txtNameTask.setTextColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.shadow_gray
-                            )
-                        )
-
-                        binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.parseColor(item.color))
-                        binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                        binding.line.visibility = View.INVISIBLE
-                        binding.rdCheck.isChecked = false
-
-                    }
-
-                    binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
-                        onItemClickAdapter.onItemChange(layoutPosition,item,isChecked)
-                }
 
 
                 } else {
@@ -92,7 +55,48 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                     binding.txtGoal.visibility = View.GONE
                 }
 
+
+                if (it.currentProgress == it.target) {
+
+                    binding.txtGoal.setTextColor(Color.WHITE)
+                    binding.ctTask.backgroundTintList =
+                        ColorStateList.valueOf(Color.parseColor(item.color))
+                    binding.txtNameTask.setTextColor(Color.WHITE)
+
+                    binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+                    binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                    binding.line.visibility = View.VISIBLE
+                    binding.txtUnit.setTextColor(Color.WHITE)
+                    binding.rdCheck.isChecked = true
+
+                } else {
+                    binding.txtGoal.text = "${it.currentProgress}/${it.target}"
+
+                    binding.txtGoal.setTextColor(ContextCompat.getColor(binding.root.context,R.color.dark_gray))
+                    binding.txtUnit.setTextColor(ContextCompat.getColor(binding.root.context,R.color.grey))
+
+                    binding.txtGoal.setSpanTextView(R.color.coral_red)
+                    binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+                    binding.txtNameTask.setTextColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.shadow_gray
+                        )
+                    )
+
+                    binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.parseColor(item.color))
+                    binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                    binding.line.visibility = View.INVISIBLE
+                    binding.rdCheck.isChecked = false
+
+                }
+                
+                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
+                    onItemClickAdapter.onItemChange(layoutPosition,item,isChecked)
+                }
             }
+
+
 
 
             binding.swipeLayout.setSwipeListener(object : SwipeRevealLayout.SwipeListener {
@@ -116,7 +120,6 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
             binding.ivSkip.setOnClickListener {
                 onItemClickAdapter.skip(item, layoutPosition)
-
             }
 
             binding.ivEdit.setOnClickListener {
@@ -127,7 +130,7 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                 onItemClickAdapter.delete(item, layoutPosition)
             }
 
-            binding.frRoot.setOnClickListener {
+            binding.ctTask.setOnClickListener {
                 onItemClickAdapter.onItemClicked(item, layoutPosition)
             }
 

@@ -1,8 +1,11 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,9 +16,11 @@ import com.cscmobi.habittrackingandroid.databinding.ItemCollectionBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemCreateCollectionBinding
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
+import java.util.Locale
 
-class CollectionAdapter(private val onItemClickAdapter: OnItemClickPositionListener) :
-    ListAdapter<HabitCollection, RecyclerView.ViewHolder>(CollectionAdapter.DIFF_CALLBACK()) {
+class CollectionAdapter(private val items: MutableList<HabitCollection>,private val onItemClickAdapter: OnItemClickPositionListener) :
+    ListAdapter<HabitCollection, RecyclerView.ViewHolder>(CollectionAdapter.DIFF_CALLBACK()),
+    Filterable {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -113,5 +118,43 @@ class CollectionAdapter(private val onItemClickAdapter: OnItemClickPositionListe
                     return (oldItem.name == newItem.name) && oldItem.image == newItem.image
                 }
             }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                return FilterResults().apply {
+
+                    values = if (constraint.isNullOrEmpty())
+                        items
+                    else
+                        onFilter(items, constraint.toString())
+                }
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                submitList(results?.values as? List<HabitCollection>)
+
+            }
+        }
+    }
+
+    fun onFilter(list: MutableList<HabitCollection>, constraint: String) : List<HabitCollection>{
+        val filterPattern = constraint.lowercase(Locale.getDefault())
+
+        val filteredList = list.filter {
+
+            it.name.lowercase().contains(filterPattern)
+
+        }.toMutableList()
+
+        filteredList.add(0,HabitCollection())
+
+        return filteredList
+
     }
 }

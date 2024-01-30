@@ -7,4 +7,6 @@ sealed class HomeIntent {
     data class FetchTasksbyCategory(val tag: String): HomeIntent()
 
     data class UpdateTask(val task: Task): HomeIntent()
+
+    data class DeleteTask(val task: Task, val typeDelete: Int): HomeIntent()
 }

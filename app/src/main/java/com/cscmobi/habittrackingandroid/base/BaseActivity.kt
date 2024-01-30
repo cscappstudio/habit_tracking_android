@@ -72,6 +72,16 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
             .commit()
     }
 
+    protected fun showFragment(fr: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .show(fr)
+            .commit()
+    }
+    protected fun replaceFragmentNotToBackStack(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(containerViewId,fragment,fragmentTag)
+            .commit()
+    }
 
     open fun shareApp() {
         MyApplication.ignoreOpenAd = true

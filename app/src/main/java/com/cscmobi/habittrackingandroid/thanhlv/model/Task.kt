@@ -3,13 +3,11 @@ package com.cscmobi.habittrackingandroid.thanhlv.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.Goal
 import com.cscmobi.habittrackingandroid.data.model.RemindTask
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
-import com.cscmobi.habittrackingandroid.thanhlv.database.DateSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import java.util.Date
@@ -25,6 +23,9 @@ data class Task(
     @ColumnInfo(name = "note") var note: String? = "",
     @ColumnInfo(name = "tag") var tag: String = "",
     @ColumnInfo(name = "collection") var collection: String? = "",
+    @ColumnInfo(name ="pauseDate")   var pauseDate: Long? = null,
+    @ColumnInfo(name = "pause") var pause: Int? = 0, // if pause = -1 mean it pause util turn on again
+    @ColumnInfo(name = "challenge") var challenge: String? = "",
 
     @ColumnInfo(name = "goal")
     var goal: Goal? = Goal(),
@@ -32,9 +33,8 @@ data class Task(
     @ColumnInfo(name = "repeat")
     var repeate: TaskRepeat? = TaskRepeat(),
 
-    @ColumnInfo(name = "startDate")   @Contextual var startDate: Date? = null,
+    @ColumnInfo(name = "startDate")   var startDate: Long? =null,
     @ColumnInfo(name = "endDate") var endDate: EndDate? = EndDate(),
     @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
     @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,
 )
-
