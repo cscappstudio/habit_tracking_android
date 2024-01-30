@@ -7,18 +7,13 @@ import android.widget.Toast
 import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
 import com.cscmobi.habittrackingandroid.databinding.FragmentProfileBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
-import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
-import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase_Impl
-import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.thanhlv.fw.helper.MyClick
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class ProfileFragment :

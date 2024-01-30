@@ -90,10 +90,11 @@ class Converters {
     fun toCheckList(checkListString: String): List<CheckList> {
         return Json.decodeFromString(checkListString)
     }
-    @TypeConverter
-    fun fromTaskInDayList(taskInDayList: List<TaskInDay>?): String? {
-        return if (taskInDayList == null) null else Json.encodeToString(taskInDayList)
-    }
+
+//    @TypeConverter
+//    fun fromTaskInDayList(taskInDayList: List<TaskInDay>?): String? {
+//        return if (taskInDayList == null) null else Json.encodeToString(taskInDayList)
+//    }
 
 //    @TypeConverter
 //    fun fromHistory(history: List<History>?): String {
@@ -117,22 +118,28 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromTaskInDay(tasks: List<TaskInDay>?): String {
-        return Json.encodeToString(tasks ?: emptyList())
-    }
-
-    @TypeConverter
-    fun toTaskInDay(tasks: String): List<TaskInDay> {
-        return Json.decodeFromString(tasks)
+    fun fromTaskInDayList(taskInDayList: List<TaskInDay>?): String? {
+        return if (taskInDayList == null) null else Json.encodeToString(taskInDayList)
     }
 
     @TypeConverter
     fun toTaskInDayList(taskInDayListJson: String?): List<TaskInDay>? {
         return taskInDayListJson?.let { Json.decodeFromString(it) }
+    }
+
+
+
+
+
+    @TypeConverter
     fun fromChallengeJoinedHistory(joinedHistory: List<ChallengeJoinedHistory>?): String {
         return Json.encodeToString(joinedHistory ?: emptyList())
     }
 
+    @TypeConverter
+    fun toChallengeJoinedHistory(joinedHistory: String): List<ChallengeJoinedHistory> {
+        return Json.decodeFromString(joinedHistory)
+    }
 
     @TypeConverter
     fun fromTaskList(taskList: List<Task>?): String? {
@@ -142,9 +149,9 @@ class Converters {
     @TypeConverter
     fun toTaskList(taskListJson: String?): List<Task>? {
         return taskListJson?.let { Json.decodeFromString(it) }
-    fun toChallengeJoinedHistory(joinedHistory: String): List<ChallengeJoinedHistory> {
-        return Json.decodeFromString(joinedHistory)
     }
+
+
 
 
     @TypeConverter
@@ -188,5 +195,5 @@ object DateSerializer : KSerializer<Date> {
     }
 
 
-
 }
+

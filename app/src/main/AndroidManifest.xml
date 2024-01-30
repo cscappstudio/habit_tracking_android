@@ -39,7 +39,7 @@
         </activity>
 
 
-        <activity android:name=".presentation.ui.activity.NewHabitActivity" />
+<!--        <activity android:name=".presentation.ui.activity.NewHabitActivity" />-->
         <activity android:name=".presentation.ui.activity.NewHabitActivity"
             android:exported="true">
             <meta-data
