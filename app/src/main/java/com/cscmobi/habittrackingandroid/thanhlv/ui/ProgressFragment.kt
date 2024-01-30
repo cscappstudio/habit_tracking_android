@@ -119,6 +119,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     private fun updateTitleMonth(monthYear: MonthCalendarModel?) {
         if (monthYear == null) return
         val calendar = Calendar.getInstance()
+        calendar[Calendar.DAY_OF_MONTH] = 1
         calendar[Calendar.YEAR] = monthYear.year
         calendar[Calendar.MONTH] = monthYear.month - 1
         val monthYearString = SimpleDateFormat("MMMM yyyy").format(calendar.time)
@@ -149,6 +150,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         list.add(MonthCalendarModel(3, 2024))
         list.add(MonthCalendarModel(4, 2024))
         list.add(MonthCalendarModel(5, 2024))
+        list.add(MonthCalendarModel(6, 2024))
         return list
     }
 

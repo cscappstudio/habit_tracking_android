@@ -56,6 +56,9 @@ class ChallengeFragment :
     }
 
     override fun setEvent() {
+        binding.btnCreateChallenge.setOnClickListener {
+            startActivity(Intent(requireContext(), CreateChallengeActivity::class.java))
+        }
     }
 }
 

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <FrameLayout
+        android:id="@+id/btn_back_header"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/shape_circle_fill"
+        android:backgroundTint="#E1ECEC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_arrow_left"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/tv_title_header"
+        style="@style/Text_700_Med"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New task"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_back_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_back_header" />
+
+    <View
+        android:id="@+id/btn_change_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shape_round_12_fill"
+        android:backgroundTint="#33B6D6DD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/tv_title_header" />
+
+    <ImageView
+        android:id="@+id/ic_ava"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/emoji_singer"
+        app:layout_constraintBottom_toBottomOf="@id/btn_change_icon"
+        app:layout_constraintEnd_toEndOf="@id/btn_change_icon"
+        app:layout_constraintStart_toStartOf="@id/btn_change_icon"
+        app:layout_constraintTop_toTopOf="@id/btn_change_icon" />
+
+
+    <EditText
+        android:id="@+id/edt_name"
+        style="@style/Text_600"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Challenge name"
+        android:maxLines="1"
+        android:textColor="#b5b5b5"
+        android:textColorHint="#B5B5B5"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_change_icon"
+        tools:ignore="UnusedAttribute" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_white_round_20"
+        android:backgroundTint="#F5F5F5"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toBottomOf="@id/edt_name">
+
+        <View
+            android:id="@+id/color_1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_btn_color_1_selected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/color_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_color_2_selected"
+            android:backgroundTint="#EBB2BD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_3"
+            app:layout_constraintStart_toEndOf="@id/color_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/color_3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_color_3_selected"
+            android:backgroundTint="#EEC9AA"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_4"
+            app:layout_constraintStart_toEndOf="@id/color_2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/color_4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_color_4_selected"
+            android:backgroundTint="#BEE4B8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_5"
+            app:layout_constraintStart_toEndOf="@id/color_3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/color_5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_color_5_selected"
+            android:backgroundTint="#CFB2EB"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/color_4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/btn_create"
+        style="@style/Text_700_Med"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#54BA8F"
+        android:elevation="20dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:outlineSpotShadowColor="@color/black_50"
+        android:text="CREATE"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UnusedAttribute" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -88,6 +88,14 @@
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
 
+        <activity
+            android:name=".thanhlv.ui.CreateChallengeActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".thanhlv.ui.CreateNewTaskChallengeActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
