@@ -23,4 +23,8 @@ interface DatabaseRepository {
     suspend fun insertCollection(collection: HabitCollection)
 
     suspend fun getAllCollection() : Flow<List<HabitCollection>>
+
+    suspend fun updateCollection(collection: HabitCollection)
+
+    suspend fun deleteCollection(collection: HabitCollection)
 }

@@ -3,31 +3,41 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="190dp"
     android:orientation="vertical"
+    android:background="@color/transparent"
     android:layout_height="117dp">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:src="@drawable/bg_menu_popup"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:layout_height="match_parent"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingStart="10dp"
-        android:background="@drawable/bg_menu_popup2"
-        android:layout_height="match_parent">
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_edit"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:text="Edit"
             android:textColor="@color/black"
-            android:layout_weight="1"
             android:fontFamily="@font/worksans_semibold"
             android:layout_gravity="center"
             android:textSize="15sp"
             android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="70dp"
+            android:background="@color/black"
+            android:layout_marginVertical="10dp"
+            android:layout_height="1dp"/>
+
         <TextView
             android:id="@+id/tv_delete"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:text="Delete"
-            android:layout_weight="1"
-            android:textColor="@color/black"
+            android:textColor="@color/coral_red"
             android:fontFamily="@font/worksans_semibold"
             android:textSize="15sp"
             android:layout_gravity="center"

@@ -359,6 +359,7 @@
             android:layout_marginTop="@dimen/_21sdp"
             android:visibility="gone"
             android:layout_marginHorizontal="@dimen/_24sdp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_checklist"
             />

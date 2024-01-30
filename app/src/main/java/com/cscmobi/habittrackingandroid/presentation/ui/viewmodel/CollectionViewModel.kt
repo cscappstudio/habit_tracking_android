@@ -41,12 +41,23 @@ class CollectionViewModel constructor(
     val state: StateFlow<CollectionState>
         get() = _state
 
+    var taskCollection = Task()
+
+    private  var listCollectionName = mutableListOf<String>()
+
 
     init {
         handleIntent()
     }
 
     fun setUp() {}
+
+     fun isExistCollectionName(name: String) : Boolean {
+        var  validName =  listCollectionName.filter { it == name }
+         Log.d("VALIDD", validName.toString())
+        return !validName.isNullOrEmpty()
+    }
+
 
     private fun handleIntent() {
         viewModelScope.launch {
@@ -58,11 +69,15 @@ class CollectionViewModel constructor(
                         CollectionState.IdleCreateCollection
 
                     is CollectionIntent.CreateCollection -> createCollection(it.data)
+                    is CollectionIntent.UpdateCollection -> updateCollection(it.data)
+                    is CollectionIntent.DeleteCollection -> deleteCollection(it.data)
+
                     is CollectionIntent.CreateTaskToRoutine -> insertTask(it.task)
                     is CollectionIntent.PassTaskfromCollection -> _state.value =
                         CollectionState.GetTask(it.task)
 
                     is CollectionIntent.EditTask -> _state.value = CollectionState.EditTask(it.task)
+//                    is CollectionIntent.EditCollectionTask -> _state.value = CollectionState.EditCollectionTask(it.task)
                     is CollectionIntent.UpdateTask -> updateTask(it.task)
                     else -> {}
                 }
@@ -73,6 +88,32 @@ class CollectionViewModel constructor(
     fun createCollection(data: HabitCollection) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.insertCollection(data)
+            delay(500L)
+        }
+    }
+
+
+    fun updateCollection(collection: HabitCollection) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                Log.d("UPDATECOLLECT", collection.toString())
+                databaseRepository.updateCollection(collection.copy())
+                delay(500L)
+            }
+        } catch (e: Exception) {
+            Log.d("UPDATECOLLECT",e.message.toString())
+
+        }
+
+    }
+
+    fun setStateUpdateCollection(data: HabitCollection) {
+        _state.value = CollectionState.UpdateCollection(data)
+    }
+
+    fun deleteCollection(collection: HabitCollection) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.deleteCollection(collection)
             delay(500L)
         }
     }
@@ -110,7 +151,11 @@ class CollectionViewModel constructor(
                 ) { localCollection, databaseCollection ->
                     val collections = mutableListOf<HabitCollection>()
                     collections.addAll(localCollection)
+                   databaseCollection.forEach {
+                       it.isEdit = true
+                   }
                     collections.addAll(databaseCollection)
+                   listCollectionName = collections.map { it.name }.toMutableList()
                    _state.value = CollectionState.Collections(collections)
                 }.collect()
 
@@ -127,6 +172,7 @@ class CollectionViewModel constructor(
     fun passCollectionItem(data: HabitCollection) {
         _state.value = CollectionState.Collection(data)
     }
+
 
     fun tag(): MutableList<Tag> {
         return mutableListOf(

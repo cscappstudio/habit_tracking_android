@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -241,6 +242,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun edit(item: Task, p: Int) {
+                Log.d("AAAA", item.toString())
                 Intent(requireActivity(),NewHabitActivity::class.java).apply {
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask,ObjectWrapperForBinder(item))
@@ -254,9 +256,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     val c = Calendar.getInstance()
                     c.add(Calendar.DAY_OF_MONTH, -1)
 
-                    if (item.endDate == null) item.endDate = EndDate(true, c.time)
+                    if (item.endDate == null) item.endDate = EndDate(true, c.time.time)
                     else {
-                        item.endDate?.endDate = c.time
+                        item.endDate?.endDate = c.time.time
                         item.endDate?.isOpen = true
                     }
                     listTask.removeAt(p)

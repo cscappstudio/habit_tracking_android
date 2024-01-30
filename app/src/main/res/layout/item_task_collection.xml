@@ -6,7 +6,7 @@
             type="com.cscmobi.habittrackingandroid.thanhlv.model.Task" />
         <variable
             name="listener"
-            type="com.cscmobi.habittrackingandroid.presentation.ItemBaseWithPostitionListener" />
+            type="com.cscmobi.habittrackingandroid.presentation.ItemTaskCollection" />
    
         <variable
             name="position"
@@ -19,16 +19,18 @@
     android:backgroundTint="@color/white_smoke"
     android:paddingStart="@dimen/_20sdp"
     android:paddingEnd="@dimen/_13sdp"
+    android:onClick="@{v -> listener.onItemClicked(item,position)}"
     android:maxHeight="80dp"
     android:layout_marginBottom="@dimen/_6sdp"
     android:layout_height="@dimen/_45sdp">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
+        android:layout_width="26dp"
         android:layout_gravity="center_vertical"
         app:setDrawableString="@{item.ava}"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_item_collection2"
-        android:layout_height="wrap_content"/>
+        android:layout_height="26dp"/>
 
     <TextView
         android:layout_width="0dp"
@@ -45,6 +47,7 @@
         android:id="@+id/iv_edit"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_menu_dot"
+        android:onClick="@{v -> listener.onEdit(v,item,position)}"
         android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"/>
 

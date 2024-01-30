@@ -18,8 +18,8 @@ class CustomEditMenu (context: Context, editAction: () -> Unit, deleteAction: ()
 
         contentView = binding.root
         setBackgroundDrawable(null)
-        width =  Utils.dpToPx(context.resources.getDimension(com.intuit.sdp.R.dimen._150sdp),context)
-        height =  Utils.dpToPx(context.resources.getDimension(com.intuit.sdp.R.dimen._92sdp),context)
+        width =  Utils.dpToPx(context.resources.getDimension(com.intuit.sdp.R.dimen._65sdp),context)
+        height =  Utils.dpToPx(context.resources.getDimension(com.intuit.sdp.R.dimen._45sdp),context)
         isFocusable = true
         isOutsideTouchable = true
 

@@ -259,9 +259,9 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 val c = Calendar.getInstance()
                 c.add(Calendar.DAY_OF_MONTH, -1)
 
-                if (currentTask.endDate == null) currentTask.endDate = EndDate(true, c.time)
+                if (currentTask.endDate == null) currentTask.endDate = EndDate(true, c.time.time)
                 else {
-                    currentTask.endDate?.endDate = c.time
+                    currentTask.endDate?.endDate = c.time.time
                     currentTask.endDate?.isOpen = true
                 }
 

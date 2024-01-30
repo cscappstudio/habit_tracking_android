@@ -66,8 +66,11 @@ interface Dao {
     @Query("SELECT * FROM habitcollection")
     fun getAllCollection(): Flow<List<HabitCollection>>
 
+    @Update
+    suspend fun updateCollection(item: HabitCollection)
 
-
+    @Delete
+    suspend fun deleteCollection(item: HabitCollection)
 //    @Transaction
 //    suspend fun insertHistoryifNotExit(item: History, date: Long): Boolean {
 //        val existingEntity = getHistorybyDate(date)

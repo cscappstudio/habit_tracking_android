@@ -1,9 +1,11 @@
 package com.cscmobi.habittrackingandroid.data.repository
 
+import android.util.Log
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.thanhlv.database.Dao
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -43,6 +45,17 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
 
     override suspend fun getAllCollection(): Flow<List<HabitCollection>> {
        return dao.getAllCollection()
+    }
+
+    override suspend fun updateCollection(collection: HabitCollection) {
+        Log.d("Updateeeeeee", collection.toString())
+
+        dao.updateCollection(collection)
+        delay(500L)
+    }
+
+    override suspend fun deleteCollection(collection: HabitCollection) {
+        dao.deleteCollection(collection)
     }
 
 

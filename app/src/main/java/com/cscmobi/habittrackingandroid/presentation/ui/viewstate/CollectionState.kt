@@ -9,6 +9,7 @@ sealed class CollectionState {
     data object Loading: CollectionState()
     data class Collections(val collection: List<HabitCollection>): CollectionState()
     data class Collection(val data: HabitCollection): CollectionState()
+    data class UpdateCollection(val data: HabitCollection): CollectionState()
 
 
     data object IdleCreateCollection: CollectionState()
@@ -18,6 +19,7 @@ sealed class CollectionState {
 
     data class GetTask(val task: Task): CollectionState()
     data class EditTask(val task: Task): CollectionState()
+//    data class EditCollectionTask(val task: Task): CollectionState()
 
 //    data class CreateTasToCollectionk(val task: Task): CollectionState()
 //    data class CreateTaskToRoutine(val task: Task): CollectionState()

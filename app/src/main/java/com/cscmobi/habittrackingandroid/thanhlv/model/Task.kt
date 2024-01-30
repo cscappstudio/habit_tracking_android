@@ -23,6 +23,7 @@ data class Task(
     @ColumnInfo(name = "note") var note: String? = "",
     @ColumnInfo(name = "tag") var tag: String = "",
     @ColumnInfo(name = "collection") var collection: String? = "",
+    @ColumnInfo(name ="pauseDate")   var pauseDate: Long? = null,
     @ColumnInfo(name = "pause") var pause: Int? = 0, // if pause = -1 mean it pause util turn on again
     @ColumnInfo(name = "challenge") var challenge: String? = "",
 
@@ -32,7 +33,7 @@ data class Task(
     @ColumnInfo(name = "repeat")
     var repeate: TaskRepeat? = TaskRepeat(),
 
-    @ColumnInfo(name = "startDate")   @Contextual var startDate: Date? =null,
+    @ColumnInfo(name = "startDate")   var startDate: Long? =null,
     @ColumnInfo(name = "endDate") var endDate: EndDate? = EndDate(),
     @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
     @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,

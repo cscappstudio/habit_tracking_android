@@ -468,34 +468,34 @@ class CollectionRepositoryImpl(val context: Context) : CollectionRepository {
     )
     private var localCollection: MutableList<HabitCollection> = mutableListOf(
         HabitCollection(
-            context.resources.getResourceEntryName( R.drawable.bg_collection1), "Nighttime", nightTimeTasks, R.color.blue
+           image = context.resources.getResourceEntryName( R.drawable.bg_collection1), name ="Nighttime", task = nightTimeTasks, resColorBg =  R.color.blue
         ),
         HabitCollection(
-            context.resources.getResourceEntryName(R.drawable.bg_collection2), "Morning Routine", morningTasks, R.color.pink
+            image = context.resources.getResourceEntryName(R.drawable.bg_collection2), name ="Morning Routine", task =morningTasks, resColorBg =R.color.pink
         ),
         HabitCollection(
-            context.resources.getResourceEntryName( R.drawable.bg_collection3), "Heathy lifestyle", healthyTasks, R.color.orange
+            image =  context.resources.getResourceEntryName( R.drawable.bg_collection3), name ="Heathy lifestyle",task = healthyTasks, resColorBg =R.color.orange
         ),
         HabitCollection(
-            context.resources.getResourceEntryName(R.drawable.bg_collection4), "Daily Chores", dailyChoreTasks, R.color.green
+            image =   context.resources.getResourceEntryName(R.drawable.bg_collection4),name = "Daily Chores",task = dailyChoreTasks,resColorBg = R.color.green
         ),
         HabitCollection(
-            context.resources.getResourceEntryName(R.drawable.bg_collection5), "Stress relief", stressreliefTasks, R.color.purple
+            image =  context.resources.getResourceEntryName(R.drawable.bg_collection5),name = "Stress relief",task = stressreliefTasks,resColorBg = R.color.purple
         ),
         HabitCollection(
-            context.resources.getResourceEntryName(R.drawable.bg_collection6), "Study", studyTasks, R.color.blue
+            image =   context.resources.getResourceEntryName(R.drawable.bg_collection6),name = "Study", task =studyTasks, resColorBg =R.color.blue
         ),
         HabitCollection(
-            context.resources.getResourceEntryName(R.drawable.bg_collection7), "Personal finance", financeTasks, R.color.pink
+            image =   context.resources.getResourceEntryName(R.drawable.bg_collection7),name = "Personal finance", task =financeTasks,resColorBg = R.color.pink
         ),
         HabitCollection(
-            context.resources.getResourceEntryName(R.drawable.bg_collection8), "Staying fit", stayingfitTasks, R.color.orange
+            image =  context.resources.getResourceEntryName(R.drawable.bg_collection8),name = "Staying fit",task = stayingfitTasks,resColorBg = R.color.orange
         ),
         HabitCollection(
-            context.resources.getResourceEntryName( R.drawable.bg_collection9), "Hit the Gym", hitgymTasks, R.color.green
+            image =  context.resources.getResourceEntryName( R.drawable.bg_collection9), name ="Hit the Gym", task =hitgymTasks, resColorBg =R.color.green
         ),
         HabitCollection(
-            context.resources.getResourceEntryName( R.drawable.bg_collection10), "Self-improvement", selfimproveTasks, R.color.purple
+            image =  context.resources.getResourceEntryName( R.drawable.bg_collection10),name = "Self-improvement", task =selfimproveTasks, resColorBg = R.color.purple
         ),
     )
 

@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.content.res.ColorStateList
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -43,13 +44,11 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
         }
     }
 
-//    fun convertDateToLocalDate(date: Date): LocalDate? {
-//    }
 
-    fun setSelectDate(date: Date) {
+    fun setSelectDate(date: Long) {
 
         val calendar = Calendar.getInstance()
-        calendar.time = date
+        calendar.time =  Date(date)
         selectedDate = LocalDate.of(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) + 1,
@@ -65,12 +64,15 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
     }
 
-    fun getDateSelected(): Date? {
+    fun getDateSelected(): Long? {
 
         if (dayDate != null) {
             val calendar = Calendar.getInstance()
             calendar.set(dayDate!!.year, dayDate!!.monthValue - 1, dayDate!!.dayOfMonth)
-            return calendar.time
+
+            Log.d("abcd2", calendar.time.time.toString())
+
+            return calendar.time.time
         }
 
         return null

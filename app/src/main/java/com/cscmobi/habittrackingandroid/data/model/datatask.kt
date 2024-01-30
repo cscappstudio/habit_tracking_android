@@ -43,7 +43,7 @@ data class Goal(
 @Serializable
 data class EndDate(
     var isOpen: Boolean? = false,
-    @Contextual @Serializable(with = DateSerializer::class) var endDate: Date? = null
+     var endDate: Long? = null
 
 )
 

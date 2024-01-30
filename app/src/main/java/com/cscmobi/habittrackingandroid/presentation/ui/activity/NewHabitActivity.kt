@@ -18,14 +18,15 @@ import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>(),
+class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     NewHabitFragment.INewHabitListener {
     private val collectionViewModel: CollectionViewModel by viewModel()
 
 
     override fun getLayoutRes(): Int {
-        return  R.layout.activity_newhabit
+        return R.layout.activity_newhabit
     }
+
     val collectionFragment = CollectionFragment()
     val newHabitFragment = NewHabitFragment()
     val createCollectionFragment = CreateCollectionFragment()
@@ -33,18 +34,22 @@ class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>(),
 
     override fun initView() {
         collectionViewModel.setUp()
-        addFragment(R.id.fr_container,collectionFragment,"collectionFragment")
+        addFragment(R.id.fr_container, collectionFragment, "collectionFragment")
 
     }
 
     override fun onResume() {
         super.onResume()
         intent.extras?.let {
-            val dataTask  = it.getBinder(Constant.EditTask) as? ObjectWrapperForBinder
+            val dataTask = it.getBinder(Constant.EditTask) as? ObjectWrapperForBinder
             dataTask?.let { task ->
-                replaceFragmentNotToBackStack(R.id.fr_container,newHabitFragment,NewHabitFragment.TAG)
+                replaceFragmentNotToBackStack(
+                    R.id.fr_container,
+                    newHabitFragment,
+                    NewHabitFragment.TAG
+                )
                 lifecycleScope.launch {
-                  collectionViewModel.userIntent.send(CollectionIntent.EditTask(task.data as Task))
+                    collectionViewModel.userIntent.send(CollectionIntent.EditTask(task.data as Task))
 
                 }
             }
@@ -52,12 +57,24 @@ class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>(),
         }
     }
 
-    fun replaceFragment(fr: Fragment,tagFragment: String) {
-        replaceFragment(R.id.fr_container,fr, tagFragment)
+    fun replaceFragment(fr: Fragment, tagFragment: String) {
+        if (!fr.isAdded)
+            replaceFragment(R.id.fr_container, fr, tagFragment)
+        else showFragment(fr)
     }
 
-    fun addFragmentNotHide(fr: Fragment,tagFragment: String) {
-        addFragmentNotHide(R.id.fr_container,fr, tagFragment)
+    fun replaceFragmentNotToBackStack(fr: Fragment, tagFragment: String) {
+        if (!fr.isAdded)
+            replaceFragmentNotToBackStack(R.id.fr_container, fr, tagFragment)
+        else showFragment(fr)
+
+    }
+
+    fun addFragmentNotHide(fr: Fragment, tagFragment: String) {
+        if (!fr.isAdded)
+            addFragmentNotHide(R.id.fr_container, fr, tagFragment)
+        else showFragment(fr)
+
     }
 
     override fun setEvent() {
@@ -66,7 +83,10 @@ class NewHabitActivity: BaseActivity<ActivityNewhabitBinding>(),
 
     override fun addTask(task: Task) {
         createCollectionFragment.addTask(task)
-        Toast.makeText(this, "add Task", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun editTaskCollection(task: Task) {
+        createCollectionFragment.editTask(task)
     }
 
 
