@@ -70,7 +70,7 @@ class DetailChallengeActivity : BaseActivity2() {
         if (mChallenge == null) return
 
         runBlocking {
-            val joined = ChallengeJoinedHistory(Date())
+            val joined = ChallengeJoinedHistory(Date().time)
             mChallenge.joinedHistory = listOf(joined)
             AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge)
         }

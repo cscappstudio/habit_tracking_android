@@ -94,7 +94,7 @@ data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long)
 data class Tasks(var name: String = "", var id: Int)
 
 @Serializable
-data class ChallengeJoinedHistory( @Serializable (with = DateSerializer::class) var date: Long? =null, var finished: Boolean = false)
+data class ChallengeJoinedHistory( var date: Long? =null, var finished: Boolean = false)
 
 
 
