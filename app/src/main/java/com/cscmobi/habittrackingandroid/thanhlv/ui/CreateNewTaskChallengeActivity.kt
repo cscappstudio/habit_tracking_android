@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -34,6 +35,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
         btnColor.add("#CFB2EB")
     }
 
+    private val popupEmoji = PopupChoseEmojiTask()
     override fun controllerView() {
         binding.btnBackHeader.setOnClickListener {
             onBackPressed()
@@ -48,13 +50,15 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
             override fun afterTextChanged(editable: Editable) {
             }
         })
+        popupEmoji.callback = object : PopupChoseEmojiTask.Callback{
+            override fun clickChange(ava: String) {
+
+                binding.icAva.setImageURI(Uri.parse(ava))
+            }
+        }
 
         binding.btnChangeIcon.setOnClickListener {
-            PopupChoseEmojiTask2(object : PopupChoseEmojiTask2.Callback {
-                override fun clickChange(ava: Int) {
-
-                }
-            }).show(supportFragmentManager, "")
+            popupEmoji.show(supportFragmentManager, "")
         }
 
 
