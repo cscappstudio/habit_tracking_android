@@ -9,6 +9,7 @@ import com.cscmobi.habittrackingandroid.data.model.DataTaskHistory
 import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DetailData
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DetailTaskCalenderAdapter
+import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -106,24 +107,50 @@ class CustomDetailTaskCalenderFragment :
 
     }
 
+//    private fun daysInMonthArray(calendar: Calendar): ArrayList<String> {
+//        val daysInMonthArray = ArrayList<String>()
+//        val year = calendar.get(Calendar.YEAR)
+//        val month = calendar.get(Calendar.MONTH) + 1 // Calendar months are zero-based
+//        val daysInMonth: Int = YearMonth.of(year, month).lengthOfMonth()
+//        val firstOfMonth = calendar.apply { set(Calendar.DAY_OF_MONTH, 1) }
+//        val dayOfWeek = firstOfMonth.get(Calendar.DAY_OF_WEEK)
+//
+//        for (i in 1..35) {
+//            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
+//                daysInMonthArray.add("")
+//            } else {
+//                daysInMonthArray.add((i - dayOfWeek).toString())
+//            }
+//        }
+//
+//        return daysInMonthArray
+//    }
+
     private fun daysInMonthArray(calendar: Calendar): ArrayList<String> {
         val daysInMonthArray = ArrayList<String>()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH) + 1 // Calendar months are zero-based
         val daysInMonth: Int = YearMonth.of(year, month).lengthOfMonth()
-        val firstOfMonth = calendar.apply { set(Calendar.DAY_OF_MONTH, 1) }
-        val dayOfWeek = firstOfMonth.get(Calendar.DAY_OF_WEEK)
+        val firstOfMonth = LocalDate.of(year, month, 1)
+        val dayOfWeek = firstOfMonth.dayOfWeek.value
 
-        for (i in 1..35) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
+        for (i in 0 until 35) {
+            val adjustedIndex = (i + dayOfWeek - 1) % 7 // Adjust for Monday start
+            if (i < dayOfWeek - 1 || adjustedIndex >= daysInMonth + dayOfWeek - 1) {
                 daysInMonthArray.add("")
             } else {
-                daysInMonthArray.add((i - dayOfWeek).toString())
+                val dayOfMonth = i - dayOfWeek + 2
+                if (dayOfMonth in 1..daysInMonth) {
+                    daysInMonthArray.add(dayOfMonth.toString())
+                } else {
+                    daysInMonthArray.add("")
+                }
             }
         }
 
         return daysInMonthArray
     }
+
 
     private fun monthYearFromDate(calendar: Calendar): String? {
         val formatter = SimpleDateFormat("MMMM yyyy")

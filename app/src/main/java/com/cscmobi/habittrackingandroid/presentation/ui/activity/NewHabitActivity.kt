@@ -60,20 +60,17 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     fun replaceFragment(fr: Fragment, tagFragment: String) {
         if (!fr.isAdded)
             replaceFragment(R.id.fr_container, fr, tagFragment)
-        else showFragment(fr)
     }
 
     fun replaceFragmentNotToBackStack(fr: Fragment, tagFragment: String) {
         if (!fr.isAdded)
             replaceFragmentNotToBackStack(R.id.fr_container, fr, tagFragment)
-        else showFragment(fr)
 
     }
 
     fun addFragmentNotHide(fr: Fragment, tagFragment: String) {
         if (!fr.isAdded)
             addFragmentNotHide(R.id.fr_container, fr, tagFragment)
-        else showFragment(fr)
 
     }
 

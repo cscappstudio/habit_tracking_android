@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="S"
+            android:text="M"
             android:textColor="@color/bottle_green"
             android:fontFamily="@font/worksans_bold"
             android:textSize="12sp"
@@ -77,22 +77,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="M"
+            android:text="T"
             android:textColor="@color/bottle_green"
             android:fontFamily="@font/worksans_bold"
             android:textSize="12sp"
             android:textAlignment="center"
            />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="T"
-            android:textColor="@color/bottle_green"
-            android:fontFamily="@font/worksans_bold"
-            android:textSize="12sp"            android:textAlignment="center"
-            />
 
         <TextView
             android:layout_width="0dp"
@@ -101,9 +91,8 @@
             android:text="W"
             android:textColor="@color/bottle_green"
             android:fontFamily="@font/worksans_bold"
-            android:textSize="12sp"
-            android:textAlignment="center"
-           />
+            android:textSize="12sp"            android:textAlignment="center"
+            />
 
         <TextView
             android:layout_width="0dp"
@@ -121,6 +110,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="F"
+            android:textColor="@color/bottle_green"
+            android:fontFamily="@font/worksans_bold"
+            android:textSize="12sp"
+            android:textAlignment="center"
+           />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="S"
             android:textColor="@color/bottle_green"
             android:fontFamily="@font/worksans_bold"
             android:textSize="12sp"

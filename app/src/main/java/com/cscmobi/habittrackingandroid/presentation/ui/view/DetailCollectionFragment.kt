@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
@@ -13,6 +14,7 @@ import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentDetailCollectionBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBaseListener
+import com.cscmobi.habittrackingandroid.presentation.ItemDetailCollection
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
@@ -24,8 +26,9 @@ import kotlinx.coroutines.launch
 class DetailCollectionFragment :
     BaseFragment<FragmentDetailCollectionBinding>(FragmentDetailCollectionBinding::inflate) {
     lateinit var detailCollectionAdapter: BaseBindingAdapter<Task>
-    private val collectionViewModel  by activityViewModels<CollectionViewModel>()
-    private var currentCollection: HabitCollection ?= null
+    private val collectionViewModel by activityViewModels<CollectionViewModel>()
+    private var currentCollection: HabitCollection? = null
+
     @SuppressLint("SetTextI18n")
     override fun initView(view: View) {
         lifecycleScope.launch {
@@ -36,7 +39,8 @@ class DetailCollectionFragment :
                         binding.txtNumberTask.text = "${it.data.task!!.size.toString()} habits"
                         binding.ivCollection.setDrawableString(it.data.image!!)
                         initAdapter(it.data.task as ArrayList<Task>)
-                        if (it.data.isEdit) binding.ivEdit.visibility = View.VISIBLE else binding.ivEdit.visibility = View.GONE
+                        if (it.data.isEdit) binding.ivEdit.visibility =
+                            View.VISIBLE else binding.ivEdit.visibility = View.GONE
                         currentCollection = it.data
                     }
 
@@ -62,16 +66,30 @@ class DetailCollectionFragment :
                 }
             }
         )
-        detailCollectionAdapter.setListener(object: ItemBaseListener<Task> {
+        detailCollectionAdapter.setListener(object : ItemDetailCollection<Task> {
             override fun onItemClicked(item: Task) {
                 (requireActivity() as NewHabitActivity).let {
-                    it.newHabitFragment.newHabitFragmentState = NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
-                    it.addFragmentNotHide(it.newHabitFragment,NewHabitFragment.TAG)
+                    it.newHabitFragment.newHabitFragmentState =
+                        NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
+                    it.addFragmentNotHide(it.newHabitFragment, NewHabitFragment.TAG)
                     lifecycleScope.launch {
-                        collectionViewModel.userIntent.send(CollectionIntent.PassTaskfromCollection(item))
+                        collectionViewModel.userIntent.send(
+                            CollectionIntent.PassTaskfromCollection(
+                                item
+                            )
+                        )
 
                     }
                 }
+            }
+
+            override fun onAddTask(item: Task) {
+                lifecycleScope.launch {
+                    var clone = item.copy()
+                    collectionViewModel.userIntent.send(CollectionIntent.CreateTaskToRoutine(clone))
+                    Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
         })
@@ -92,18 +110,18 @@ class DetailCollectionFragment :
     }
 
     fun setPopUpWindow(v: View) {
-        val popup = CustomEditMenu(requireContext(),{
+        val popup = CustomEditMenu(requireContext(), {
             currentCollection?.let { collection ->
                 collectionViewModel.setStateUpdateCollection(collection)
 
                 (requireActivity() as NewHabitActivity).let {
 
-                    it.replaceFragment(it.createCollectionFragment,CreateCollectionFragment.TAG)
+                    it.replaceFragment(it.createCollectionFragment, CreateCollectionFragment.TAG)
                 }
             }
 
 
-        },{
+        }, {
             lifecycleScope.launch {
                 currentCollection?.let {
                     collectionViewModel.userIntent.send(CollectionIntent.DeleteCollection(it))

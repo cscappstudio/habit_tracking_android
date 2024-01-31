@@ -13,9 +13,11 @@ import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.annotation.ColorInt
+import org.threeten.bp.LocalDate
 import java.io.IOException
 import java.io.InputStream
 import java.io.Serializable
+import java.util.Calendar
 
 
 object Utils {
@@ -76,7 +78,7 @@ object Utils {
         // Focused state
         val focusedDrawable = GradientDrawable()
         focusedDrawable.shape = GradientDrawable.RECTANGLE
-        focusedDrawable.setStroke(dpToPx(1),color) // Orange color
+        focusedDrawable.setStroke(dpToPx(1), color) // Orange color
         focusedDrawable.color = ColorStateList.valueOf(Color.WHITE)
         focusedDrawable.cornerRadius = dpToPx(10).toFloat()
 
@@ -98,7 +100,7 @@ object Utils {
         return (dp * density).toInt()
     }
 
-    fun loadImageFromAssets(context: Context,fileName: String): Drawable? {
+    fun loadImageFromAssets(context: Context, fileName: String): Drawable? {
         val assetManager: AssetManager = context.assets
         val inputStream: InputStream = assetManager.open(fileName)
         return Drawable.createFromStream(inputStream, null)
@@ -110,7 +112,11 @@ object Utils {
     }
 
     inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(
+            key,
+            T::class.java
+        )
+
         else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
     }
 
@@ -130,6 +136,18 @@ object Utils {
             // If an exception occurs, the asset does not exist, return false
         }
         return false
+    }
+
+    fun LocalDate.toDate(): Long {
+        val c = Calendar.getInstance()
+        c.set(this.year, this.monthValue - 1, this.dayOfMonth)
+        c.set(Calendar.HOUR_OF_DAY, 0)
+        c.set(Calendar.MINUTE, 0)
+        c.set(Calendar.SECOND, 0)
+        c.set(Calendar.MILLISECOND, 0)
+
+        return  c.time.time
+
     }
 }
 

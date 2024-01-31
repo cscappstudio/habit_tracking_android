@@ -68,7 +68,7 @@ data class CheckList(var status: Boolean = false, var title: String)
 data class TaskRepeat(
     var isOn: Boolean? = false,
     var type: String? = "",
-    var frequency: Int? = 0,
+    var frequency: Int = 1,
     var days: List<Int>? = emptyList()
 )
 
@@ -83,8 +83,11 @@ data class TaskInDay(
     var taskId: Int = 0,
     var progress: Int = 0,
     var currentStreak: Int = 0,
-    var longStreak: Int = 0
-)
+    var longStreak: Int = 0,
+    var progressGoal: Int = 0,
+    var target: Int = 1,
+    var visible:Boolean = true
+    )
 
 
 data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long)

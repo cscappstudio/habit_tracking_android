@@ -40,6 +40,7 @@ import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
+import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.delay
@@ -65,6 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     lateinit var startOfWeek: LocalDate
     private var totalTask = 0
     private var taskDone = 0
+    private var currentDate = 0L
 
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
 
@@ -77,12 +79,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.txtProgress1.setSpanTextView(R.color.forest_green)
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
 
+        currentDate = Helper.currentDate.toDate()
     }
 
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            homeViewModel.userIntent.send(HomeIntent.FetchTasks)
+            homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
         }
         observeState()
 
@@ -128,7 +131,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             categories.add("All")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
                             initChips(categories)
-
                             hasInitChip = true
                         }
 
@@ -141,6 +143,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             setUpView(listTask)
                             binding.isTasksEmpty = false
 
+                        }
+                        if (Helper.currentDate.toDate() == currentDate)  {
+                            lifecycleScope.launch {
+                                homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(state.tasks.map { it.id }))
+                            }
                         }
                     }
 
@@ -415,6 +422,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     item.isSelected = position == index
                 }
 
+                currentDate =  date[position].toDate()
+                lifecycleScope.launch {
+                    homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+                }
                 if (date[position] == c) {
                     binding.llToday.visibility = View.GONE
                     binding.txtDate.text = "Today"

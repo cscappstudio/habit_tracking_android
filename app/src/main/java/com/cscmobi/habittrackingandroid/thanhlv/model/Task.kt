@@ -24,7 +24,7 @@ data class Task(
     @ColumnInfo(name = "tag") var tag: String = "",
     @ColumnInfo(name = "collection") var collection: String? = "",
     @ColumnInfo(name ="pauseDate")   var pauseDate: Long? = null,
-    @ColumnInfo(name = "pause") var pause: Int? = 0, // if pause = -1 mean it pause util turn on again
+    @ColumnInfo(name = "pause") var pause: Int = 0, // if pause = -1 mean it pause util turn on again
     @ColumnInfo(name = "challenge") var challenge: String? = "",
 
     @ColumnInfo(name = "goal")

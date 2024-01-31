@@ -140,21 +140,46 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
 
     }
 
+//    private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
+//        val daysInMonthArray = ArrayList<String>()
+//        val yearMonth: YearMonth = YearMonth.from(date)
+//        val daysInMonth: Int = yearMonth.lengthOfMonth()
+//        val firstOfMonth = selectedDate.withDayOfMonth(1)
+//        val dayOfWeek = firstOfMonth.dayOfWeek.value
+//        for (i in 1..35) {
+//            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
+//                daysInMonthArray.add("")
+//            } else {
+//                daysInMonthArray.add((i - dayOfWeek).toString())
+//            }
+//        }
+//        return daysInMonthArray
+//    }
+
     private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
         val daysInMonthArray = ArrayList<String>()
         val yearMonth: YearMonth = YearMonth.from(date)
         val daysInMonth: Int = yearMonth.lengthOfMonth()
-        val firstOfMonth = selectedDate.withDayOfMonth(1)
+        val firstOfMonth = date.withDayOfMonth(1)
         val dayOfWeek = firstOfMonth.dayOfWeek.value
-        for (i in 1..35) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
+
+        // Adjust the loop to start from 0 (Monday) and end at 6 (Sunday)
+        for (i in 0 until 35) {
+            val adjustedIndex = (i + dayOfWeek - 1) % 7 // Adjust for Monday start
+            if (i < dayOfWeek - 1 || adjustedIndex >= daysInMonth + dayOfWeek - 1) {
                 daysInMonthArray.add("")
             } else {
-                daysInMonthArray.add((i - dayOfWeek).toString())
+                val dayOfMonth = i - dayOfWeek + 2
+                if (dayOfMonth in 1..daysInMonth) {
+                    daysInMonthArray.add(dayOfMonth.toString())
+                } else {
+                    daysInMonthArray.add("")
+                }
             }
         }
         return daysInMonthArray
     }
+
 
     private fun monthYearFromDate(date: LocalDate): String? {
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM yyyy")

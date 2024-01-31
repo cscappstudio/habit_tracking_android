@@ -82,7 +82,7 @@ interface Dao {
     fun getAllHistory() : Flow<List<History>>
 
     @Query("SELECT * FROM history WHERE date=:date")
-    fun getHistorybyDate(date: Long) : Flow<History>?
+    suspend fun getHistorybyDate(date: Long) : History?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertHistory(item: History)
@@ -100,13 +100,17 @@ interface Dao {
 
     @Delete
     suspend fun deleteCollection(item: HabitCollection)
-//    @Transaction
-//    suspend fun insertHistoryifNotExit(item: History, date: Long): Boolean {
-//        val existingEntity = getHistorybyDate(date)
-//        return if (existingEntity == null) {
-//            insertHistory(item)
-//            true
-//        } else false
-//
-//    }
+
+    @Transaction
+    suspend fun insertHistoryifNotExit(item: History): Boolean {
+        if (item.date != null) {
+            val existingEntity = getHistorybyDate(item.date!!)
+            return if (existingEntity == null) {
+                insertHistory(item)
+                true
+            } else false
+
+        }
+        return  false
+    }
 }

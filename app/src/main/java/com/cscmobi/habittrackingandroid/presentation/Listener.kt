@@ -29,6 +29,10 @@ interface ItemBaseListener<T> :  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(item: T)
 }
 
+interface ItemDetailCollection<T> : ItemBaseListener<T> {
+    fun onAddTask(item: T)
+}
+
 interface ItemBasePosistionListener :  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(p: Int)
 }

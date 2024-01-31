@@ -34,7 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
         initFragments()
-        showFragmentInActivity(fragment1)
+        showFragment(fragment1)
 
         val listener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -84,7 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    fun showFragmentInActivity(fmShow: Fragment?) {
+    fun showFragment(fmShow: Fragment?) {
 
 //        transaction.setCustomAnimations(
 //            R.anim.bottom_up,
