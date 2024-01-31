@@ -69,25 +69,26 @@ class QuestionFOActivity : BaseActivity2() {
     }
 
     override fun loadData() {
-            RunUtils.runInBackground {
-                runBlocking {
+        RunUtils.runInBackground {
+            runBlocking {
 
-                    if (AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-                            .isEmpty()
-                    ) {
-                        generationDataDefault()
-                    }
+                if (AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                        .isEmpty()
+                ) {
+                    generationDataDefault()
+                }
 //                    Handler().postDelayed({
-                        runBlocking {
-                            ChallengeFragment.allChallenges =
-                                AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-                            ChallengeFragment.myChallenges =
-                                AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
-                        }
+                runBlocking {
+                    ChallengeFragment.allChallenges =
+                        AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                    ChallengeFragment.myChallenges.postValue(
+                        AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
+                    )
+                }
 //                    }, 500)
 
-                }
             }
+        }
 
     }
 

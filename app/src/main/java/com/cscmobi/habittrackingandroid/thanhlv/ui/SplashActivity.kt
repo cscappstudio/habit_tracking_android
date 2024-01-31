@@ -44,6 +44,7 @@ class SplashActivity : BaseActivity2() {
         setContentView(binding.root)
 
     }
+
     override fun loadData() {
         if (SPF.getLanguage(this) != null)
             CURRENT_LANG = SPF.getLanguage(this)!!
@@ -61,8 +62,10 @@ class SplashActivity : BaseActivity2() {
                 runBlocking {
                     ChallengeFragment.allChallenges =
                         AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-                    ChallengeFragment.myChallenges =
-                        AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
+                    ChallengeFragment.myChallenges
+                        .postValue(
+                            AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
+                        )
                 }
             }
         }

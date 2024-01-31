@@ -12,8 +12,10 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.google.gson.Gson
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DetailChallengeActivity : BaseActivity2() {
@@ -47,8 +49,7 @@ class DetailChallengeActivity : BaseActivity2() {
             if (!mChallenge?.joinedHistory.isNullOrEmpty()) {
                 binding.btnStartChallenge.visibility = View.GONE
                 binding.btnOptionTop.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 binding.btnStartChallenge.visibility = View.VISIBLE
                 binding.btnOptionTop.visibility = View.GONE
             }
@@ -63,6 +64,12 @@ class DetailChallengeActivity : BaseActivity2() {
 
         binding.btnStartChallenge.setOnClickListener {
             joinChallenge(mChallenge)
+            finish()
+        }
+
+        binding.btnOptionTop.setOnClickListener {
+            val menuDropDown = MenuDropDown(this@DetailChallengeActivity)
+            menuDropDown.showAsDropDown(it)
         }
     }
 
@@ -70,9 +77,18 @@ class DetailChallengeActivity : BaseActivity2() {
         if (mChallenge == null) return
 
         runBlocking {
-            val joined = ChallengeJoinedHistory(Date())
+            val joined = ChallengeJoinedHistory(System.currentTimeMillis())
             mChallenge.joinedHistory = listOf(joined)
             AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge)
+            delay(500)
+            val newMyChallenges =
+                ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
+            newMyChallenges.sortByDescending {
+                val last = it.joinedHistory!!.size
+                it.joinedHistory!![last-1].date
+            }
+
+            ChallengeFragment.myChallenges.postValue(newMyChallenges)
         }
     }
 

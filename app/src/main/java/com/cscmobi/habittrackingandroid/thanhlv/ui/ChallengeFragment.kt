@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.content.Intent
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.base.BaseFragment
@@ -15,7 +16,8 @@ class ChallengeFragment :
     BaseFragment<FragmentChallengeBinding>(FragmentChallengeBinding::inflate) {
 
     companion object {
-        var myChallenges: List<Challenge>? = null
+//        var myChallenges: List<Challenge>? = null
+        var myChallenges = MutableLiveData<List<Challenge>>()
         var allChallenges: List<Challenge>? = null
     }
 
@@ -38,7 +40,7 @@ class ChallengeFragment :
         binding.rcAllChallenge.overScrollMode = View.OVER_SCROLL_NEVER
 
         myChallengeAdapter = MyChallengeAdapter(requireContext())
-        myChallengeAdapter?.setData(myChallenges as MutableList<Challenge>?)
+//        myChallengeAdapter?.setData(myChallenges as MutableList<Challenge>?)
         myChallengeAdapter?.setCallBack(object : MyChallengeAdapter.MyChallengeCallback {
             override fun onClickItem(challenge: Challenge) {
                 val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
@@ -51,8 +53,18 @@ class ChallengeFragment :
         binding.rcMyChallenge.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        if (myChallenges.isNullOrEmpty()) binding.showMyChallenge.visibility = View.GONE
-        else binding.showMyChallenge.visibility = View.VISIBLE
+//        if (myChallenges.isNullOrEmpty()) binding.showMyChallenge.visibility = View.GONE
+//        else binding.showMyChallenge.visibility = View.VISIBLE
+
+        myChallenges.observe(this) { list ->
+            println("thanhlv myChallenges.observe " + list.size)
+            if (list.isNullOrEmpty()) {
+                binding.showMyChallenge.visibility = View.GONE
+            } else {
+                binding.showMyChallenge.visibility = View.VISIBLE
+                myChallengeAdapter?.setData(list as MutableList<Challenge>?)
+            }
+        }
     }
 
     override fun setEvent() {

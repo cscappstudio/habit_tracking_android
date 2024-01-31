@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
@@ -46,7 +47,7 @@ class EmojiAdapter(private var mContext: Context, var mList: List<String>) :
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (mList.isEmpty()) return
-        holder.binding.imgAva.setImageURI(Uri.parse(mList[position]))
+        holder.binding.imgAva.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(mList[position])))
         holder.binding.root.setOnClickListener {
             mCallback?.onClickItem(mList[position])
         }

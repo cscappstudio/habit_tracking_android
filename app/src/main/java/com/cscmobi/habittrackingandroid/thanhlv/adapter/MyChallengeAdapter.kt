@@ -24,8 +24,10 @@ class MyChallengeAdapter(private var mContext: Context) :
         fun onClickItem(challenge: Challenge)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: MutableList<Challenge>?) {
         if (data != null) this.mList = data
+        notifyDataSetChanged()
     }
 
     fun setCallBack(callback: MyChallengeCallback) {

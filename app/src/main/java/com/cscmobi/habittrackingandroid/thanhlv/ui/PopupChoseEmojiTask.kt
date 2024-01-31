@@ -50,8 +50,7 @@ class PopupChoseEmojiTask : BottomSheetDialogFragment() {
     }
 
     private fun initView() {
-
-        if (adapter == null) {
+//        if (adapter == null) {
             adapter = EmojiAdapter(requireContext(), mListEmoji)
             adapter!!.setCallback(object : EmojiAdapter.EmojiCallback {
                 override fun onClickItem(emoji: String) {
@@ -61,7 +60,7 @@ class PopupChoseEmojiTask : BottomSheetDialogFragment() {
             })
             binding.rcEmoji.adapter = adapter
             binding.rcEmoji.layoutManager = GridLayoutManager(requireContext(), 5)
-        }
+//        }
 
     }
 

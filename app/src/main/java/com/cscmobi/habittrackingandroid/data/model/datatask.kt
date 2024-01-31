@@ -90,7 +90,7 @@ data class TaskInDay(
 data class Tasks(var name: String = "", var id: Int)
 
 @Serializable
-data class ChallengeJoinedHistory(@Contextual @Serializable (with = DateSerializer::class) var date: Date? =null, var finished: Boolean = false)
+data class ChallengeJoinedHistory(var date: Long = 0, var finished: Boolean = false)
 
 
 

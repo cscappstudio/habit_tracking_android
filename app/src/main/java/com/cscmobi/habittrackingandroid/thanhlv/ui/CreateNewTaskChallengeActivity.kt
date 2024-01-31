@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.text.Editable
@@ -50,13 +51,12 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
             override fun afterTextChanged(editable: Editable) {
             }
         })
+
         popupEmoji.callback = object : PopupChoseEmojiTask.Callback{
             override fun clickChange(ava: String) {
-
-                binding.icAva.setImageURI(Uri.parse(ava))
+                binding.icAva.setImageBitmap(BitmapFactory.decodeStream(assets.open(ava)))
             }
         }
-
         binding.btnChangeIcon.setOnClickListener {
             popupEmoji.show(supportFragmentManager, "")
         }
