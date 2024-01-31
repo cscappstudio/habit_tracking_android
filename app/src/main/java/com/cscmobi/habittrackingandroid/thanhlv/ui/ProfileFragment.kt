@@ -7,18 +7,13 @@ import android.widget.Toast
 import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
-import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
 import com.cscmobi.habittrackingandroid.databinding.FragmentProfileBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
-import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
-import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase_Impl
-import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.thanhlv.fw.helper.MyClick
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class ProfileFragment :
@@ -30,7 +25,7 @@ class ProfileFragment :
     private var lastVer = ""
     private var latest = false
     private var avaProfile: String? = ""
-    private val bottomSheetChoseAvaProfile = BottomSheetChoseAvaProfile()
+    private val popupChoseAvaProfile = PopupChoseAvaProfile()
 
     @SuppressLint("SetTextI18n")
     override fun initView(view: View) {
@@ -69,26 +64,18 @@ class ProfileFragment :
 
         binding.tvChangeAva.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
-
-                bottomSheetChoseAvaProfile.show(childFragmentManager, "")
-
-//                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
-//                    override fun clickChange(ava: Int) {
-//                        binding.imgProfile.setImageResource(ava)
-//                        SPF.setAvaProfile(requireContext(), ava.toString())
-//                    }
-//                }).show(childFragmentManager, "")
+                popupChoseAvaProfile.show(childFragmentManager, "")
             }
         })
+        popupChoseAvaProfile.callback = object : PopupChoseAvaProfile.Callback{
+            override fun clickChange(ava: Int) {
+                binding.imgProfile.setImageResource(ava)
+                SPF.setAvaProfile(requireContext(), ava.toString())
+            }
+        }
         binding.icPlusAva.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
-
-                bottomSheetChoseAvaProfile.show(childFragmentManager, "")
-//                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
-//                    override fun clickChange(ava: Int) {
-//                        binding.imgProfile.setImageResource(ava)
-//                    }
-//                }).show(childFragmentManager, "")
+                popupChoseAvaProfile.show(childFragmentManager, "")
             }
         })
 

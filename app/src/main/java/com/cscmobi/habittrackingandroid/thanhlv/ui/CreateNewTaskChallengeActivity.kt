@@ -1,41 +1,13 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
-import com.cscmobi.habittrackingandroid.data.model.Tasks
-import com.cscmobi.habittrackingandroid.databinding.ActivityCreateChallengeBinding
 import com.cscmobi.habittrackingandroid.databinding.ActivityCreateNewTaskChallengeBinding
-import com.cscmobi.habittrackingandroid.databinding.ActivityOnboardBinding
-import com.cscmobi.habittrackingandroid.databinding.ActivityQuestionFoBinding
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.AddTaskChallengeAdapter
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.DetailChallengeAdapter
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.OnBoardAdapter
-import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
-import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
-import com.cscmobi.habittrackingandroid.thanhlv.model.OnBoardModel
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.google.gson.Gson
-import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
-import com.thanhlv.fw.helper.RunUtils
-import com.thanhlv.fw.spf.SPF
-import kotlinx.coroutines.runBlocking
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CreateNewTaskChallengeActivity : BaseActivity2() {
 
@@ -78,7 +50,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
         })
 
         binding.btnChangeIcon.setOnClickListener {
-            PopupChoseEmojiTask(object : PopupChoseEmojiTask.Callback {
+            PopupChoseEmojiTask2(object : PopupChoseEmojiTask2.Callback {
                 override fun clickChange(ava: Int) {
 
                 }
