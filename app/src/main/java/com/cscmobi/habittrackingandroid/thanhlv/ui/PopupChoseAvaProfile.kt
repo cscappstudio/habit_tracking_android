@@ -73,10 +73,10 @@ class PopupChoseAvaProfile(var callback: Callback?) :
             dismissAllowingStateLoss()
         }
 
-        binding.rootView.setOnClickListener {
-            callback?.clickChange(avaProfileRes)
-            dismissAllowingStateLoss()
-        }
+//        binding.rootView.setOnClickListener {
+//            callback?.clickChange(avaProfileRes)
+//            dismissAllowingStateLoss()
+//        }
     }
 
 

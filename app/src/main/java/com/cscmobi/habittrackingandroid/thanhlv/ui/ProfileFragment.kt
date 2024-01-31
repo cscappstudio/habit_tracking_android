@@ -30,6 +30,7 @@ class ProfileFragment :
     private var lastVer = ""
     private var latest = false
     private var avaProfile: String? = ""
+    private val bottomSheetChoseAvaProfile = BottomSheetChoseAvaProfile()
 
     @SuppressLint("SetTextI18n")
     override fun initView(view: View) {
@@ -68,21 +69,26 @@ class ProfileFragment :
 
         binding.tvChangeAva.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
-                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
-                    override fun clickChange(ava: Int) {
-                        binding.imgProfile.setImageResource(ava)
-                        SPF.setAvaProfile(requireContext(), ava.toString())
-                    }
-                }).show(childFragmentManager, "")
+
+                bottomSheetChoseAvaProfile.show(childFragmentManager, "")
+
+//                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
+//                    override fun clickChange(ava: Int) {
+//                        binding.imgProfile.setImageResource(ava)
+//                        SPF.setAvaProfile(requireContext(), ava.toString())
+//                    }
+//                }).show(childFragmentManager, "")
             }
         })
         binding.icPlusAva.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
-                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
-                    override fun clickChange(ava: Int) {
-                        binding.imgProfile.setImageResource(ava)
-                    }
-                }).show(childFragmentManager, "")
+
+                bottomSheetChoseAvaProfile.show(childFragmentManager, "")
+//                PopupChoseAvaProfile(object : PopupChoseAvaProfile.Callback {
+//                    override fun clickChange(ava: Int) {
+//                        binding.imgProfile.setImageResource(ava)
+//                    }
+//                }).show(childFragmentManager, "")
             }
         })
 
