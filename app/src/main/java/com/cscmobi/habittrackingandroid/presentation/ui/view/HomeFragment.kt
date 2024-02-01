@@ -22,6 +22,7 @@ import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.ChallengeHomeItem
 import com.cscmobi.habittrackingandroid.data.model.EndDate
+import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
 import com.cscmobi.habittrackingandroid.databinding.FragmentHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemChallengeHomeListener
@@ -34,6 +35,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
+import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
@@ -51,6 +53,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
 import java.util.Calendar
 import java.util.Locale
+import kotlin.math.roundToInt
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -144,9 +147,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             binding.isTasksEmpty = false
 
                         }
-                        if (Helper.currentDate.toDate() == currentDate)  {
+                        if (Helper.currentDate.toDate() == currentDate) {
                             lifecycleScope.launch {
-                                homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(state.tasks.map { it.id }))
+
+                                var history = History(taskInDay = getTasksInday(state.tasks))
+                                homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history))
                             }
                         }
                     }
@@ -160,9 +165,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    private fun getTasksInday(tasks: List<Task>) : List<TaskInDay> {
+        var tasksInday = mutableListOf<TaskInDay>()
+        tasksInday.clear()
+
+        tasks.forEach {
+            tasksInday.add(
+                TaskInDay(
+                    it.id,
+                    progress = (it.goal!!.currentProgress.toFloat() * 100f / it.goal!!.target.toFloat()).roundToInt(),
+                    progressGoal = it.goal!!.currentProgress
+                )
+            )
+        }
+        return  tasksInday
+    }
     private fun setUpView(task: MutableList<Task>) {
         var taskFinishNumber = 0
-         val taskNotChallenge= task.filter { it.challenge.isNullOrEmpty() }
+        val taskNotChallenge = task.filter { it.challenge.isNullOrEmpty() }
         totalTask = taskNotChallenge.size
         task.forEach {
             it.goal?.let { goal ->
@@ -179,30 +199,60 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     fun setUpChallenge() {
 
-        var challengeHomeAdpater = BaseBindingAdapter<ChallengeHomeItem>(R.layout.item_challenge_home,layoutInflater, object: DiffUtil.ItemCallback<ChallengeHomeItem>(){
-            override fun areItemsTheSame(
-                oldItem: ChallengeHomeItem,
-                newItem: ChallengeHomeItem
-            ): Boolean {
-                return oldItem.name == oldItem.name
-            }
+        var challengeHomeAdpater = BaseBindingAdapter<ChallengeHomeItem>(
+            R.layout.item_challenge_home,
+            layoutInflater,
+            object : DiffUtil.ItemCallback<ChallengeHomeItem>() {
+                override fun areItemsTheSame(
+                    oldItem: ChallengeHomeItem,
+                    newItem: ChallengeHomeItem
+                ): Boolean {
+                    return oldItem.name == oldItem.name
+                }
 
-            override fun areContentsTheSame(
-                oldItem: ChallengeHomeItem,
-                newItem: ChallengeHomeItem
-            ): Boolean {
-                return  oldItem == newItem
-            }
-        })
+                override fun areContentsTheSame(
+                    oldItem: ChallengeHomeItem,
+                    newItem: ChallengeHomeItem
+                ): Boolean {
+                    return oldItem == newItem
+                }
+            })
 
-        challengeHomeAdpater.submitList(listOf(
-            ChallengeHomeItem("Drink water when you wake up","Morning glow",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
-            ChallengeHomeItem("Drink water when you wake up","Morning glow",true,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
-            ChallengeHomeItem("Drink water when you wake up","BBBBBB",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
-            ChallengeHomeItem("Drink water when you wake up","CCCCCC",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
-            ChallengeHomeItem("Drink water when you wake up","AAAAAA",false,requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)),
-        ))
-        challengeHomeAdpater.setListener(object : ItemChallengeHomeListener<ChallengeHomeItem>{
+        challengeHomeAdpater.submitList(
+            listOf(
+                ChallengeHomeItem(
+                    "Drink water when you wake up",
+                    "Morning glow",
+                    false,
+                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
+                ),
+                ChallengeHomeItem(
+                    "Drink water when you wake up",
+                    "Morning glow",
+                    true,
+                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
+                ),
+                ChallengeHomeItem(
+                    "Drink water when you wake up",
+                    "BBBBBB",
+                    false,
+                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
+                ),
+                ChallengeHomeItem(
+                    "Drink water when you wake up",
+                    "CCCCCC",
+                    false,
+                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
+                ),
+                ChallengeHomeItem(
+                    "Drink water when you wake up",
+                    "AAAAAA",
+                    false,
+                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
+                ),
+            )
+        )
+        challengeHomeAdpater.setListener(object : ItemChallengeHomeListener<ChallengeHomeItem> {
             override fun onItemClicked(item: ChallengeHomeItem, p: Int) {
 
             }
@@ -249,10 +299,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun edit(item: Task, p: Int) {
-                Log.d("AAAA", item.toString())
-                Intent(requireActivity(),NewHabitActivity::class.java).apply {
+                Intent(requireActivity(), NewHabitActivity::class.java).apply {
                     val bundle = Bundle()
-                    bundle.putBinder(Constant.EditTask,ObjectWrapperForBinder(item))
+                    bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
                     this.putExtras(bundle)
                     startActivity(this)
                 }
@@ -273,9 +322,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
 
                     lifecycleScope.launch {
-                        homeViewModel.userIntent.send(HomeIntent.DeleteTask(item,0))
+                        homeViewModel.userIntent.send(HomeIntent.DeleteTask(item, 0))
+
                     }
-                    //TODO xoa task id task nay  cua ngay hien tai trong  bang? history
+                    homeViewModel.deleteTaskInHistory(currentDate, item.id)
 
 
                 }, {
@@ -285,9 +335,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
 
                     lifecycleScope.launch {
-                        homeViewModel.userIntent.send(HomeIntent.DeleteTask(item,1))
+                        homeViewModel.userIntent.send(HomeIntent.DeleteTask(item, 1))
                     }
-                    //TODO xoa task id nay  trong bang? history
+
+                    if (item.startDate != null)
+                        homeViewModel.deleteTaskInHistory(item.startDate!!, item.id)
 
                 })
 
@@ -296,7 +348,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
 
                 if (isChange) {
-                    item.goal?.currentProgress = item.goal?.target
+                    item.goal?.currentProgress = item.goal?.target!!
 
 
                 } else {
@@ -422,9 +474,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     item.isSelected = position == index
                 }
 
-                currentDate =  date[position].toDate()
+                currentDate = date[position].toDate()
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+
+                    if (currentDate <= Helper.currentDate.toDate())
+                    {
+                        var history = History(taskInDay = getTasksInday(listTask))
+                        homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history, currentDate))
+
+                    }
                 }
                 if (date[position] == c) {
                     binding.llToday.visibility = View.GONE
@@ -537,6 +596,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     override fun onPause() {
         super.onPause()
         hasInitChip = false
+
+
     }
 
     companion object {

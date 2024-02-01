@@ -33,9 +33,9 @@ enum class TypeGoal {
 data class Goal(
     var isOn: Boolean? = false,
     var unit: String? = "",
-    var target: Int? = 1,
+    var target: Int = 1,
     var period: String? = "",
-    var currentProgress: Int? = 0,
+    var currentProgress: Int = 0,
 )
 
 
@@ -85,12 +85,12 @@ data class TaskInDay(
     var currentStreak: Int = 0,
     var longStreak: Int = 0,
     var progressGoal: Int = 0,
-    var target: Int = 1,
+//    var target: Int = 1,
     var visible:Boolean = true
     )
 
 
-data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long)
+data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long, var isPause: Boolean = false)
 
 
 @Serializable

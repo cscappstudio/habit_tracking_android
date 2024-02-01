@@ -14,6 +14,13 @@ import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Helper.validateTask
+import com.cscmobi.habittrackingandroid.utils.Utils.getCurrentCalenderWithoutHour
+import com.cscmobi.habittrackingandroid.utils.Utils.getDayofMonth
+import com.cscmobi.habittrackingandroid.utils.Utils.getDayofWeek
+import com.cscmobi.habittrackingandroid.utils.Utils.getDayofYear
+import com.cscmobi.habittrackingandroid.utils.Utils.getMonth
+import com.cscmobi.habittrackingandroid.utils.Utils.getWeek
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -60,10 +67,9 @@ class HomeViewModel(
         test()
     }
 
-     fun insertTaskHistory(idTaskToday: List<Int>) {
-        if (idTaskToday.isEmpty()) return
+    fun insertTaskHistory(history: History,date: Long? = null) {
+        if (history.taskInDay.isEmpty()) return
 
-        var taskInDay = idTaskToday.map { TaskInDay(taskId = it) }
 //        histories.forEach {
 //            history ->
 //            taskInDay.forEach { taskInfo ->
@@ -77,49 +83,34 @@ class HomeViewModel(
 //            }
 //
 //        }
+        var initDate = date ?: getCurrentCalenderWithoutHour().time.time
+
+
         viewModelScope.launch(Dispatchers.IO) {
-           val test =  databaseRepository.insertHistoryifNotExit(
-                History(date = getCurrentCalenderWithoutHour().time.time, taskInDay = taskInDay)
+            databaseRepository.insertHistoryifNotExit(
+                history.copy(date = initDate)
             )
 
         }
     }
 
 
-
     private fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.getAllHistory().collect {
             histories = it.toMutableList()
+            Log.d("history", it.toString())
+
         }
     }
 
-    private fun getCurrentCalenderWithoutHour(): Calendar {
-        val calendar = Calendar.getInstance()
-        // Set hour, minute, second, and millisecond to zero
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar
-    }
 
-    private fun getDateWithoutHour(date: Long): Long {
-        val calendar = Calendar.getInstance()
-        calendar.time = Date(date)
-        // Set hour, minute, second, and millisecond to zero
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time.time
-    }
+
+
+
 
     fun test() {
         viewModelScope.launch {
-            databaseRepository.getAllHistory().collect{
-                Log.d("history", it.toString())
-            }
-
+            getAllHistory()
         }
 
     }
@@ -137,7 +128,7 @@ class HomeViewModel(
                     is HomeIntent.UpdateTask -> updateTask(it.task)
                     is HomeIntent.DeleteTask -> deleteTask(it.task, it.typeDelete)
 
-                    is HomeIntent.InsertTaskHistory -> insertTaskHistory(it.taskIds)
+                    is HomeIntent.InsertTaskHistory -> insertTaskHistory(it.history,it.date)
 
                     else -> {}
                 }
@@ -178,6 +169,27 @@ class HomeViewModel(
     }
 
 
+     fun deleteTaskInHistory(date: Long, taskId: Int) {
+        try {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.getHistoryWithDate(date).collect{
+                it.forEach { history ->
+                   val index =  history.taskInDay.indexOfFirst { it.taskId == taskId }
+                    if (index != -1)  {
+                        val newTaskInDay = history.taskInDay.toMutableList()
+                        newTaskInDay.removeAt(index)
+                        databaseRepository.deleteTaskInHistory(history.id,newTaskInDay)
+                    }
+                }
+            }
+
+        }
+        }catch (e: Exception) {
+            println("chaulq______delete task in history: ${e.message}")
+        }
+
+    }
+
     /**
      * deleteType = 0 -> delete task in future -> update endDate of task
      * deleteType = 1 -> delete task
@@ -195,6 +207,7 @@ class HomeViewModel(
 
         }
     }
+
 
     private fun fetchTasksbyCategory(tag: String) {
         viewModelScope.launch {
@@ -225,7 +238,7 @@ class HomeViewModel(
 
                     tasks = taskFilter.toMutableList()
                     _state.value = HomeState.Tasks(tasks)
-                   // _state.value = HomeState.Tasks(taskFilter)
+                    // _state.value = HomeState.Tasks(taskFilter)
 
                 } catch (e: Exception) {
                     HomeState.Tasks(arrayListOf())
@@ -237,105 +250,8 @@ class HomeViewModel(
         }
     }
 
-    private fun validateTask(task: Task, date: Long): Boolean {
-        var isValid = true
-
-        task.pauseDate?.let {
-            var c = Calendar.getInstance()
-            c.time = Date(it)
-            c.add(Calendar.DAY_OF_MONTH, task.pause)
-
-            if (c.time.time > date) {
-                isValid = false
-            }
-
-            Log.d("isValid", "1 $isValid")
-        }
-
-        task.repeate?.let {
-            if (it.isOn == true) {
-                when (it.type) {
-                    "daily" -> {
-
-                        isValid =
-                            abs(getDayofYear(date) - getDayofYear(task.startDate!!)) % it.frequency == 0
 
 
-                    }
-
-                    "monthly" -> {
-                        var checkMonthValid =
-                            abs(getMonth(date) - getMonth(task.startDate!!)) % it.frequency == 0
-                        if (checkMonthValid) {
-                            it.days?.forEach {
-
-                            }
-                            val dayValid = it.days?.find { getDayofMonth(date) == it }
-                            isValid = (dayValid != null && dayValid != -1)
-                        } else isValid = false
-
-                    }
-
-                    "weekly" -> {
-                        var checkWeekValid =
-                            abs(getWeek(date) - getWeek(task.startDate!!)) % it.frequency == 0
-                        if (checkWeekValid) {
-                            var dayValid = it.days?.find { it == getDayofWeek(date) }
-                            isValid = dayValid != null && dayValid != -1
-
-
-                        } else isValid = false
-
-
-                    }
-                }
-                Log.d("isValid", "2 $isValid")
-
-            }
-
-        }
-
-        val _date = getDateWithoutHour(date)
-        if (getDateWithoutHour(task.startDate!!) > _date || (task.endDate!!.isOpen == true && task.endDate!!.endDate!! < _date)) {
-            isValid = false
-            Log.d("isValid", "3 $isValid")
-
-        }
-
-        if (isValid == false) Log.d("isvalid", task.name.toString())
-        return isValid
-    }
-
-    private fun getDayofYear(date: Long): Int {
-        var c = Calendar.getInstance()
-        c.time = Date(date)
-        return c.get(Calendar.DAY_OF_YEAR)
-    }
-
-    private fun getDayofMonth(date: Long): Int {
-        var c = Calendar.getInstance()
-        c.time = Date(date)
-        return c.get(Calendar.DAY_OF_MONTH)
-    }
-
-    private fun getDayofWeek(date: Long): Int {
-        var c = Calendar.getInstance()
-        c.time = Date(date)
-        return c.get(Calendar.DAY_OF_WEEK)
-    }
-
-    private fun getMonth(date: Long): Int {
-        var c = Calendar.getInstance()
-        c.time = Date(date)
-        return c.get(Calendar.MONTH)
-    }
-
-
-    private fun getWeek(date: Long): Int {
-        var c = Calendar.getInstance()
-        c.time = Date(date)
-        return c.get(Calendar.WEEK_OF_YEAR)
-    }
 
 
     fun initDateWeek() {

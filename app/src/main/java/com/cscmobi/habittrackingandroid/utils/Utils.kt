@@ -18,6 +18,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.Serializable
 import java.util.Calendar
+import java.util.Date
 
 
 object Utils {
@@ -148,6 +149,54 @@ object Utils {
 
         return  c.time.time
 
+    }
+
+
+
+
+
+
+
+
+    fun getDayofYear(date: Long): Int {
+        var c = Calendar.getInstance()
+        c.time = Date(date)
+        return c.get(Calendar.DAY_OF_YEAR)
+    }
+
+     fun getDayofMonth(date: Long): Int {
+        var c = Calendar.getInstance()
+        c.time = Date(date)
+        return c.get(Calendar.DAY_OF_MONTH)
+    }
+
+     fun getDayofWeek(date: Long): Int {
+        var c = Calendar.getInstance()
+        c.time = Date(date)
+        return c.get(Calendar.DAY_OF_WEEK)
+    }
+
+     fun getMonth(date: Long): Int {
+        var c = Calendar.getInstance()
+        c.time = Date(date)
+        return c.get(Calendar.MONTH)
+    }
+
+
+     fun getWeek(date: Long): Int {
+        var c = Calendar.getInstance()
+        c.time = Date(date)
+        return c.get(Calendar.WEEK_OF_YEAR)
+    }
+
+    fun getCurrentCalenderWithoutHour(): Calendar {
+        val calendar = Calendar.getInstance()
+        // Set hour, minute, second, and millisecond to zero
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar
     }
 }
 

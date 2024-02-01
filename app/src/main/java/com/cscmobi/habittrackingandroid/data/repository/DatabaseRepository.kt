@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.data.repository
 
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
+import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.flow.Flow
@@ -33,4 +34,10 @@ interface DatabaseRepository {
     suspend fun getAllHistory() : Flow<List<History>>
 
     suspend fun insertHistoryifNotExit(history: History)
+
+    suspend fun updateHistory(history: History)
+
+    suspend fun deleteTaskInHistory(id: Int,newTaskInDay: List<TaskInDay>)
+
+    suspend fun getHistoryWithDate(startDate: Long): Flow<List<History>>
 }

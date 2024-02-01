@@ -13,6 +13,8 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskStat
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils
+import com.cscmobi.habittrackingandroid.utils.Utils.getDayofMonth
+import com.cscmobi.habittrackingandroid.utils.Utils.getMonth
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import kotlin.math.abs
 
 class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): BaseViewModel() {
 
@@ -80,7 +83,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
                 when(it) {
                     is DetailTaskIntent.FetchTaskbyId -> getTaskById(it.id)
 
-                    is DetailTaskIntent.FetchHistory -> fetchHistory()
+                    is DetailTaskIntent.fetchHistoryByTask -> fetchHistoryByTask(it.task)
                     is DetailTaskIntent.UpdateTask -> updateTask(it.task)
                     is DetailTaskIntent.DeleteTask -> deleteTask(it.task,it.typeDelete)
                     else -> {}
@@ -118,19 +121,69 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
         }
     }
 
-   fun fetchHistory() {
+   fun fetchHistoryByTask(task: Task) {
        viewModelScope.launch {
-           try {
-               var c = Calendar.getInstance()
-               fakeDataHistory.forEach {
-                   it.date = c.time.time
-                   c.add(Calendar.DAY_OF_MONTH,-1)
+//           try {
+//               var c = Calendar.getInstance()
+//               fakeDataHistory.forEach {
+//                   it.date = c.time.time
+//                   c.add(Calendar.DAY_OF_MONTH,-1)
+//               }
+//
+//               _history.value = fakeDataHistory
+//
+//           }catch (e: Exception) {
+//               _history.value = mutableListOf()
+//           }
+
+
+           databaseRepository.getHistoryWithDate(task.startDate!!).collect{
+               var filterHistory = it.toMutableList()
+
+               task.repeate?.let {
+                   repeat ->
+                   if (repeat.isOn == true) {
+                       filterHistory.clear()
+                       repeat.frequency
+                       repeat.days
+                       when(repeat.type) {
+                           "daily" -> {
+                               filterHistory = it.filter {    abs(Utils.getDayofYear(it.date!!) - Utils.getDayofYear(task.startDate!!)) % repeat.frequency == 0 }
+                                   .toMutableList()
+                           }
+                           "weekly" -> {
+                               it.forEach {history ->
+                               var checkWeekValid =
+                                       abs(Utils.getWeek(history.date!!) - Utils.getWeek(task.startDate!!)) % repeat.frequency == 0
+                                   if (checkWeekValid) {
+                                       var dayValid = repeat.days?.find { it == Utils.getDayofWeek(history.date!!) }
+                                       val isValid = dayValid != null && dayValid != -1
+                                       if (isValid) filterHistory.add(history)
+                                   }
+                               }
+
+                           }
+                           "monthly" -> {
+                               it.forEach { history ->
+                                   var checkMonthValid =
+                                       abs(getMonth(history.date!!) - getMonth(task.startDate!!)) % repeat.frequency == 0
+
+                                   if (checkMonthValid) {
+
+                                       val dayValid = repeat.days?.find { getDayofMonth(history.date!!) == it }
+                                       val isValid = (dayValid != null && dayValid != -1)
+                                       if (isValid) filterHistory.add(history)
+
+                                   }
+                               }
+                           }
+                       }
+
+                   }
                }
 
-               _history.value = fakeDataHistory
 
-           }catch (e: Exception) {
-               _history.value = mutableListOf()
+               _history.value = filterHistory
            }
 
        }

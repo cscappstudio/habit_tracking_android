@@ -10,6 +10,7 @@ import androidx.room.Update
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
+import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.flow.Flow
@@ -40,7 +41,10 @@ interface Dao {
     @Query("SELECT * FROM task WHERE id=:id")
      fun findById(id: Int): Flow<Task>
     @Insert
-    suspend fun insertAll(vararg users: Task)
+    fun insertAll(vararg users: Task)
+
+    @Insert
+     fun insertAllHistory(vararg data: History)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(item: Task)
@@ -101,6 +105,7 @@ interface Dao {
     @Delete
     suspend fun deleteCollection(item: HabitCollection)
 
+
     @Transaction
     suspend fun insertHistoryifNotExit(item: History): Boolean {
         if (item.date != null) {
@@ -108,9 +113,26 @@ interface Dao {
             return if (existingEntity == null) {
                 insertHistory(item)
                 true
-            } else false
-
+            } else {
+                updateHistory(item)
+                false
+            }
         }
         return  false
     }
+
+
+    @Update
+    suspend fun updateHistory(history: History)
+
+
+    @Query("UPDATE history SET taskInDay = :newTaskInDay WHERE id = :id")
+
+    suspend fun deleteTaskinHistory(id: Int,newTaskInDay: List<TaskInDay>)
+
+    @Query("SELECT * FROM history WHERE date >= :startDate")
+    fun getHistoryWithDate(startDate: Long) : Flow<List<History>>
+
+
+
 }

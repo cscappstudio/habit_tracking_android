@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="com.android.vending.BILLING" /> &lt;!&ndash; Include this permission any time your app needs location information. &ndash;&gt; -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- or -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <!--    fb adjust-->
     <!--    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>-->
 
@@ -23,6 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+        
+        <receiver android:name=".AlarmReceiver"/>
         <activity
             android:name=".presentation.ui.activity.DetailTaskActivity"
             android:exported="false" />

@@ -5,7 +5,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 sealed class DetailTaskIntent {
     data class FetchTaskbyId(val id: Int): DetailTaskIntent()
 
-    data object FetchHistory : DetailTaskIntent()
+    data class fetchHistoryByTask(val task: Task) : DetailTaskIntent()
 
     data class UpdateTask(val task: Task): DetailTaskIntent()
 

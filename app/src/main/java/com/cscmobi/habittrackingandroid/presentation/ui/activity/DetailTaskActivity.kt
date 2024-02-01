@@ -35,6 +35,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
+import java.util.Date
 import kotlin.math.roundToInt
 
 
@@ -80,8 +81,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
         test()
 
-
-
     }
 
     fun test() {
@@ -104,7 +103,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
                     is DetailTaskState.TaskById -> {
                         initData(it.task)
-                        detailTaskViewModel.userIntent.send(DetailTaskIntent.FetchHistory)
+                        detailTaskViewModel.userIntent.send(DetailTaskIntent.fetchHistoryByTask(it.task))
                     }
                 }
             }
@@ -124,33 +123,98 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     }
 
     private fun setUpTaskHistoryData(listDataTaskHistory: List<DataTaskHistory>) {
+//        try {
+//
+//        var finishDay = 0
+//        var missDay = 0
+//        var longStreak = listDataTaskHistory[listDataTaskHistory.size-1].taskInDay.longStreak
+//        var currentStreak = listDataTaskHistory[listDataTaskHistory.size-1].taskInDay.currentStreak
+//        listDataTaskHistory.forEach {
+//            if (it.taskInDay.progress == 100) finishDay++
+//            if (it.taskInDay.progress == 0) missDay++
+//        }
+//
+//        var rate =  ((finishDay.toFloat()  / listDataTaskHistory.size.toFloat())*100).toInt()
+//
+//        binding.txtStreak.text = "$currentStreak days"
+//        binding.layoutSteak1.txtDay.text = "$finishDay days"
+//        binding.layoutSteak2.txtDay.text = "$missDay days"
+//        binding.layoutSteak3.txtDay.text = "$longStreak days"
+//        binding.layoutSteak4.txtDay.text = "$rate %"
+//
+//        childFragment.setData(listDataTaskHistory) }catch (e: Exception) {
+//            binding.ctlCurrentStreak.visibility = View.GONE
+//            binding.llInfoStreak.visibility = View.GONE
+//        }
+
+
         try {
+            var pauseDate = -1L
+            var endPauseDate = -1L
+            val c = Calendar.getInstance()
+            if (currentTask.pauseDate != null) {
+                pauseDate = currentTask.pauseDate!!
+
+                c.time = Date(pauseDate)
+                c.set(Calendar.DAY_OF_MONTH, 3)
+                endPauseDate = c.time.time
+            }
+
+            var finishDay = 0
+            var missDay = 0
+            var longStreak = 0
+            var currentStreak = 0
+            listDataTaskHistory.forEach {
 
 
-        var finishDay = 0
-        var missDay = 0
-        var longStreak = listDataTaskHistory[listDataTaskHistory.size-1].taskInDay.longStreak
-        var currentStreak = listDataTaskHistory[listDataTaskHistory.size-1].taskInDay.currentStreak
-        listDataTaskHistory.forEach {
-            if (it.taskInDay.progress == 100) finishDay++
-            if (it.taskInDay.progress == 0) missDay++
-        }
+               if (pauseDate != -1L) {
+                   if (currentTask.pause == -1) {
+                       if (pauseDate >= it.date) {
+                           missDay++
+                           it.isPause = true
+                       }
 
-        var rate =  ((finishDay.toFloat()  / listDataTaskHistory.size.toFloat())*100).toInt()
+                   } else {
+                       if (it.date in pauseDate .. endPauseDate)
+                       {
+                           missDay++
+                           it.isPause = true
 
-        binding.txtStreak.text = "$currentStreak days"
-        binding.layoutSteak1.txtDay.text = "$finishDay days"
-        binding.layoutSteak2.txtDay.text = "$missDay days"
-        binding.layoutSteak3.txtDay.text = "$longStreak days"
-        binding.layoutSteak4.txtDay.text = "$rate %"
+                       }
+                   }
 
-        Log.d("testtttt", listDataTaskHistory.toString())
+               }
 
-        childFragment.setData(listDataTaskHistory) }catch (e: Exception) {
+//                if (currentTask.repeate == null) {
+//
+//                } else {
+//                }
+                if (!it.isPause) {
+                    if (it.taskInDay.progress == 100){
+                        finishDay++
+                        currentStreak++
+                    } else {
+                        currentStreak = 0
+                    }
+
+                    if (longStreak < currentStreak) {
+                        longStreak = currentStreak
+                    }
+                }
+            }
+
+            var rate =  ((finishDay.toFloat()  / listDataTaskHistory.size.toFloat())*100).toInt()
+
+            binding.txtStreak.text = "$currentStreak days"
+            binding.layoutSteak1.txtDay.text = "$finishDay days"
+            binding.layoutSteak2.txtDay.text = "$missDay days"
+            binding.layoutSteak3.txtDay.text = "$longStreak days"
+            binding.layoutSteak4.txtDay.text = "$rate %"
+
+            childFragment.setData(listDataTaskHistory) }catch (e: Exception) {
             binding.ctlCurrentStreak.visibility = View.GONE
             binding.llInfoStreak.visibility = View.GONE
         }
-
     }
 
     private fun initData(task: Task) {

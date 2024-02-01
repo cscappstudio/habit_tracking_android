@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.data.repository
 
 import android.util.Log
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
+import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.thanhlv.database.Dao
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
@@ -68,6 +69,18 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
 
     override suspend fun insertHistoryifNotExit(history: History) {
         dao.insertHistoryifNotExit(history)
+    }
+
+    override suspend fun updateHistory(history: History) {
+        dao.updateHistory(history)
+    }
+
+    override suspend fun deleteTaskInHistory(id: Int,newTaskInDay: List<TaskInDay>) {
+        dao.deleteTaskinHistory(id, newTaskInDay)
+    }
+
+    override suspend fun getHistoryWithDate(startDate: Long): Flow<List<History>> {
+       return dao.getHistoryWithDate(startDate)
     }
 
 
