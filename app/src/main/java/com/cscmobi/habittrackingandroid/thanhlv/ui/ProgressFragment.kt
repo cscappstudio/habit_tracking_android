@@ -1,8 +1,11 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
@@ -10,12 +13,18 @@ import com.cscmobi.habittrackingandroid.databinding.FragmentProgressBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerYearCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
+import com.cscmobi.habittrackingandroid.utils.CalendarUtil
+import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesMonthLabelAxisX
+import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesWeekLabelAxisX
+import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesYearLabelAxisX
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.thanhlv.fw.helper.RunUtils
+import com.thanhlv.fw.spf.SPF
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.random.Random
 
 class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressBinding::inflate) {
     private var pagerMonthAdapter: PagerMonthCalendarAdapter? = null
@@ -23,62 +32,354 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     override fun setEvent() {
     }
+
     override fun initView(view: View) {
 
         binding.bbCurrentStreak
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
         binding.bbCompletionRate
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
+        binding.bbLongestStreak
+            .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
+        binding.bbPerfectDay
+            .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
 
         viewPager2()
+        handleChart()
+    }
+
+    private var mChartType = 1
+    private fun handleChart() {
+
+        binding.btnWeek.setOnClickListener {
+            mChartType = 1
+            mCurrentStartPeriod = System.currentTimeMillis()
+            validateBtn(mChartType, -1)
+            binding.btnWeek.setTextColor(Color.parseColor("#ffffff"))
+            binding.btnMonth.setTextColor(Color.parseColor("#b5b5b5"))
+            binding.btnYear.setTextColor(Color.parseColor("#b5b5b5"))
+            binding.btnWeek.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EDCA15"))
+            binding.btnMonth.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#f5f5f5"))
+            binding.btnYear.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#f5f5f5"))
+
+            drawChart(mChartType, -1)
+        }
+        binding.btnMonth.setOnClickListener {
+            mChartType = 2
+            mCurrentStartPeriod = System.currentTimeMillis()
+            validateBtn(mChartType, -1)
+            binding.btnMonth.setTextColor(Color.parseColor("#ffffff"))
+            binding.btnWeek.setTextColor(Color.parseColor("#b5b5b5"))
+            binding.btnYear.setTextColor(Color.parseColor("#b5b5b5"))
+            binding.btnMonth.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#EDCA15"))
+            binding.btnWeek.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#f5f5f5"))
+            binding.btnYear.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#f5f5f5"))
+
+            drawChart(mChartType, -1)
+        }
+        binding.btnYear.setOnClickListener {
+            mChartType = 3
+            mCurrentStartPeriod = System.currentTimeMillis()
+            validateBtn(mChartType, -1)
+            binding.btnYear.setTextColor(Color.parseColor("#ffffff"))
+            binding.btnWeek.setTextColor(Color.parseColor("#b5b5b5"))
+            binding.btnMonth.setTextColor(Color.parseColor("#b5b5b5"))
+            binding.btnYear.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EDCA15"))
+            binding.btnWeek.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#f5f5f5"))
+            binding.btnMonth.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#f5f5f5"))
+            drawChart(mChartType, -1)
+        }
+
+        validateBtn(mChartType, -1)
+        drawChart(mChartType, -1)
+
+
+        binding.btnNextPeriod.setOnClickListener {
+            resolveNextPeriod(mChartType)
+        }
+        binding.btnPreviousPeriod.setOnClickListener {
+            resolvePreviousPeriod(mChartType)
+        }
+    }
+
+    private fun validateBtn(type: Int, startPeriod: Long) {
+
+        when (type) {
+            1 -> {
+                binding.btnWeek.isEnabled = false
+                binding.btnMonth.isEnabled = true
+                binding.btnYear.isEnabled = true
+                if (startPeriod < 0) {
+                    binding.btnNextPeriod.alpha = 0.5f
+                    binding.btnNextPeriod.isEnabled = false
+
+                    if (CalendarUtil.startWeek(System.currentTimeMillis())
+                        > CalendarUtil.startWeek(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousPeriod.alpha = 1f
+                        binding.btnPreviousPeriod.isEnabled = true
+                    } else {
+                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.isEnabled = false
+                    }
+                } else {
+                    if (CalendarUtil.startWeek(startPeriod)
+                        > CalendarUtil.startWeek(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousPeriod.alpha = 1f
+                        binding.btnPreviousPeriod.isEnabled = true
+                    } else {
+                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.isEnabled = false
+                    }
+
+                    if (CalendarUtil.startWeek(startPeriod) <
+                        CalendarUtil.startWeek(System.currentTimeMillis())
+                    ) {
+                        binding.btnNextPeriod.alpha = 1f
+                        binding.btnNextPeriod.isEnabled = true
+                    } else {
+                        binding.btnNextPeriod.alpha = 0.5f
+                        binding.btnNextPeriod.isEnabled = false
+                    }
+                }
+            }
+            2 -> {
+                binding.btnWeek.isEnabled = true
+                binding.btnMonth.isEnabled = false
+                binding.btnYear.isEnabled = true
+                if (startPeriod < 0) {
+                    binding.btnNextPeriod.alpha = 0.5f
+                    binding.btnNextPeriod.isEnabled = false
+                    if (CalendarUtil.startMonth(System.currentTimeMillis())
+                        > CalendarUtil.startMonth(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousPeriod.alpha = 1f
+                        binding.btnPreviousPeriod.isEnabled = true
+                    } else {
+                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.isEnabled = false
+                    }
+                } else {
+                    if (CalendarUtil.startMonth(startPeriod)
+                        > CalendarUtil.startMonth(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousPeriod.alpha = 1f
+                        binding.btnPreviousPeriod.isEnabled = true
+                    } else {
+                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.isEnabled = false
+                    }
+
+                    if (CalendarUtil.startMonth(startPeriod) <
+                        CalendarUtil.startMonth(System.currentTimeMillis())
+                    ) {
+                        binding.btnNextPeriod.alpha = 1f
+                        binding.btnNextPeriod.isEnabled = true
+                    } else {
+                        binding.btnNextPeriod.alpha = 0.5f
+                        binding.btnNextPeriod.isEnabled = false
+                    }
+                }
+            }
+            3 -> {
+                binding.btnWeek.isEnabled = true
+                binding.btnMonth.isEnabled = true
+                binding.btnYear.isEnabled = false
+                if (startPeriod < 0) {
+                    binding.btnNextPeriod.alpha = 0.5f
+                    binding.btnNextPeriod.isEnabled = false
+                    if (CalendarUtil.startYear(System.currentTimeMillis())
+                        > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousPeriod.alpha = 1f
+                        binding.btnPreviousPeriod.isEnabled = true
+                    } else {
+                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.isEnabled = false
+                    }
+                } else {
+                    if (CalendarUtil.startYear(startPeriod)
+                        > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousPeriod.alpha = 1f
+                        binding.btnPreviousPeriod.isEnabled = true
+                    } else {
+                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.isEnabled = false
+                    }
+
+                    if (CalendarUtil.startYear(startPeriod) <
+                        CalendarUtil.startYear(System.currentTimeMillis())
+                    ) {
+                        binding.btnNextPeriod.alpha = 1f
+                        binding.btnNextPeriod.isEnabled = true
+                    } else {
+                        binding.btnNextPeriod.alpha = 0.5f
+                        binding.btnNextPeriod.isEnabled = false
+                    }
+                }
+            }
+        }
+    }
+
+    private fun resolvePreviousPeriod(type: Int) {
+        when (type) {
+            1 -> {
+                mCurrentStartPeriod = CalendarUtil.previousWeek(mCurrentStartPeriod)
+                binding.tvPeriod.text = CalendarUtil.getTitleWeek(mCurrentStartPeriod)
+                binding.tvPeriodYear.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
+                binding.tvPeriodYear.visibility = View.VISIBLE
+            }
+
+            2 -> {
+                mCurrentStartPeriod = CalendarUtil.previousMonth(mCurrentStartPeriod)
+                binding.tvPeriod.text = CalendarUtil.getTitleMonth(mCurrentStartPeriod)
+                binding.tvPeriodYear.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
+                binding.tvPeriodYear.visibility = View.VISIBLE
+            }
+
+            3 -> {
+                mCurrentStartPeriod = CalendarUtil.previousYear(mCurrentStartPeriod)
+                binding.tvPeriod.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
+                binding.tvPeriodYear.visibility = View.GONE
+            }
+        }
+        validateBtn(mChartType, mCurrentStartPeriod)
+        drawChart(mChartType, mCurrentStartPeriod)
+
+    }
+
+    private var mCurrentStartPeriod = CalendarUtil.startWeekMs(System.currentTimeMillis())
+
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
+    private fun resolveNextPeriod(type: Int) {
+        val currentDay = Calendar.getInstance()
+        currentDay.timeInMillis = mCurrentStartPeriod
+
+        when (type) {
+            1 -> {
+                mCurrentStartPeriod = CalendarUtil.nextWeek(mCurrentStartPeriod)
+                binding.tvPeriod.text = CalendarUtil.getTitleWeek(mCurrentStartPeriod)
+                binding.tvPeriodYear.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
+                binding.tvPeriodYear.visibility = View.VISIBLE
+            }
+
+            2 -> {
+                mCurrentStartPeriod = CalendarUtil.nextMonth(mCurrentStartPeriod)
+                binding.tvPeriod.text = CalendarUtil.getTitleMonth(mCurrentStartPeriod)
+                binding.tvPeriodYear.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
+                binding.tvPeriodYear.visibility = View.VISIBLE
+            }
+
+            3 -> {
+                mCurrentStartPeriod = CalendarUtil.nextYear(mCurrentStartPeriod)
+                binding.tvPeriod.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
+                binding.tvPeriodYear.visibility = View.GONE
+            }
+        }
+        validateBtn(mChartType, mCurrentStartPeriod)
+        drawChart(mChartType, mCurrentStartPeriod)
+
+    }
+
+    private fun fetchDataForChart(type: Int, startDate: Long) {
+        when (type) {
+            1 -> {
+                if (startDate < 0) { //tuần hiện tại
+                    binding.tvPeriod.text = CalendarUtil.getTitleWeek(System.currentTimeMillis())
+                    binding.tvPeriodYear.text =
+                        CalendarUtil.getTitleYear(System.currentTimeMillis())
+                    binding.tvPeriodYear.visibility = View.VISIBLE
+                    val temp = mutableListOf<Any>()
+                    for (i in 1..7) temp.add(Random(10).nextInt() * 10)
+                    mCurrentData = arrayOf<Any>(temp)
+                } else {
+
+                }
+            }
+            3 -> {
+                if (startDate < 0) { //năm hiện tại
+                    binding.tvPeriod.text = CalendarUtil.getTitleYear(System.currentTimeMillis())
+                    binding.tvPeriodYear.visibility = View.GONE
+                    val temp = mutableListOf<Any>()
+                    for (i in 1..12) temp.add(Random(10).nextInt() * 10)
+                    mCurrentData = arrayOf<Any>(temp)
+                } else {
+
+                }
+            }
+            2 -> {
+                if (startDate < 0) { //tháng hiện tại
+                    binding.tvPeriod.text = CalendarUtil.getTitleMonth(System.currentTimeMillis())
+                    binding.tvPeriodYear.text =
+                        CalendarUtil.getTitleYear(System.currentTimeMillis())
+                    binding.tvPeriodYear.visibility = View.VISIBLE
+                    val temp = mutableListOf<Any>()
+                    for (i in 1..CalendarUtil.totalDayOfMonth(System.currentTimeMillis()))
+                        temp.add(Random(10).nextInt() * 10)
+                    mCurrentData = arrayOf<Any>(temp)
+                } else {
+
+                }
+            }
+        }
+    }
+
+    private var mCurrentData = arrayOf<Any>(
+        5,
+        30,
+        55,
+        100,
+        80,
+        30,
+        60
+    )
+
+    private fun drawChart(type: Int, startDate: Long) {
+
+        fetchDataForChart(mChartType, startDate)
+
+        var categories = categoriesWeekLabelAxisX
+        var radiusColumn = 10
+        var interval = 1
+        when (type) {
+            2 -> {
+                categories = categoriesMonthLabelAxisX
+                radiusColumn = 3
+                interval = 7
+            }
+            3 -> {
+                categories = categoriesYearLabelAxisX
+                radiusColumn = 6
+                interval = 3
+            }
+            else -> {
+                categories = categoriesWeekLabelAxisX
+                radiusColumn = 10
+                interval = 1
+            }
+        }
         val aaChartModel: AAChartModel = AAChartModel()
             .chartType(AAChartType.Column)
             .backgroundColor("#00000000")
             .series(
                 arrayOf(
                     AASeriesElement()
-                        .data(
-                            arrayOf(
-                                15,
-                                30,
-                                55,
-                                120,
-                                80,
-                                30,
-                                60,
-                                15,
-                                30,
-                                55,
-                                120,
-                                80,
-                                30,
-                                60,
-                                15,
-                                30,
-                                55,
-                                120,
-                                80,
-                                30,
-                                60,
-                                15,
-                                30,
-                                55,
-                                120,
-                                80
-                            )
-                        )
+                        .data(mCurrentData)
                         .enableMouseTracking(false)
-                        .step(5)
                         .showInLegend(true)
                 )
             )
-//            .categories(arrayOf("1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15", "16", "17","18", "19", "20", "21", "22", "23", "24", "25", "26", "27","28", "29", "30"))
-            .yAxisMax(120)
-            .yAxisMin(0)
-            .borderRadius(1)
+            .categories(categories)
+            .borderRadius(radiusColumn)
+            .xAxisTickInterval(interval)
             .yAxisLabelsEnabled(true)
+            .yAxisMax(100)
             .yAxisTitle("")
-//            .xAxisTickInterval(7)
             .gradientColorEnable(true)
             .colorsTheme(arrayOf("#54BA8F", "#FB7950", "#54BA8F", "#FB7950"))
             .legendEnabled(false) //show series name

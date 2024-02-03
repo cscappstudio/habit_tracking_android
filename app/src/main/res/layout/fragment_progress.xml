@@ -40,24 +40,36 @@
                 android:outlineSpotShadowColor="@color/black_12"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UnusedAttribute"/>
+                tools:ignore="UnusedAttribute" />
 
             <View
                 android:id="@+id/bb_completion_rate"
                 android:layout_width="105dp"
                 android:layout_height="105dp"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="102dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_circle_gradient_3"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
                 app:layout_constraintStart_toStartOf="@id/bb_current_streak"
                 app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
-                tools:ignore="UnusedAttribute"/>
+                tools:ignore="UnusedAttribute" />
 
+            <View
+                android:id="@+id/bb_perfect_day"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_circle_gradient_4"
+                android:elevation="20dp"
+                android:outlineSpotShadowColor="@color/black_12"
+                app:layout_constraintEnd_toStartOf="@id/bb_longest_streak"
+                app:layout_constraintStart_toEndOf="@id/bb_completion_rate"
+                app:layout_constraintTop_toTopOf="@id/bb_current_streak"
+                tools:ignore="UnusedAttribute" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/bg_longest_streak"
+            <View
+                android:id="@+id/bb_longest_streak"
                 android:layout_width="98dp"
                 android:layout_height="98dp"
                 android:layout_marginEnd="24dp"
@@ -67,10 +79,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/bb_current_streak"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
-                tools:ignore="UnusedAttribute">
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                tools:ignore="UnusedAttribute" />
 
 
             <ImageView
@@ -232,7 +241,7 @@
                     android:backgroundTint="#EDCA15"
                     android:gravity="center"
                     android:text="Week"
-                    android:textColor="#fff"
+                    android:textColor="#ffffff"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@id/bg_type"
                     app:layout_constraintEnd_toStartOf="@id/btn_month"
@@ -245,10 +254,10 @@
                     android:layout_width="86dp"
                     android:layout_height="36dp"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#EDCA15"
+                    android:backgroundTint="#f5f5f5"
                     android:gravity="center"
                     android:text="Month"
-                    android:textColor="#fff"
+                    android:textColor="#B5B5B5"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@id/bg_type"
                     app:layout_constraintEnd_toStartOf="@id/btn_year"
@@ -261,10 +270,10 @@
                     android:layout_width="86dp"
                     android:layout_height="36dp"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#EDCA15"
+                    android:backgroundTint="#f5f5f5"
                     android:gravity="center"
                     android:text="Year"
-                    android:textColor="#fff"
+                    android:textColor="#B5B5B5"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@id/bg_type"
                     app:layout_constraintEnd_toEndOf="@id/bg_type"
@@ -311,7 +320,7 @@
                     android:layout_height="44dp"
                     android:layout_marginEnd="4dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_nav_arrow_right_gray"
+                    android:src="@drawable/ic_nav_arrow_right_black"
                     app:layout_constraintBottom_toBottomOf="@id/tv_period_year"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_period" />
@@ -329,10 +338,9 @@
                 <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
                     android:id="@+id/aa_chart_view"
                     android:layout_width="0dp"
-                    android:layout_height="180dp"
+                    android:layout_height="160dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="-6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -396,7 +404,7 @@
                     android:layout_height="44dp"
                     android:layout_marginEnd="4dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_nav_arrow_right_gray"
+                    android:src="@drawable/ic_nav_arrow_right_black"
                     app:layout_constraintBottom_toBottomOf="@id/tv_year"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_year" />
@@ -474,7 +482,6 @@
         android:layout_height="90dp"
         android:background="@drawable/shape_gradient_header"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
     <TextView
