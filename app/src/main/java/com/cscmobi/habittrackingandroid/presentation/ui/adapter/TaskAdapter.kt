@@ -56,7 +56,7 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                 }
 
 
-                if (it.currentProgress == it.target) {
+                if (it.currentProgress >= it.target) {
 
                     binding.txtGoal.setTextColor(Color.WHITE)
                     binding.ctTask.backgroundTintList =
@@ -90,10 +90,17 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                     binding.rdCheck.isChecked = false
 
                 }
-                
-                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
-                    onItemClickAdapter.onItemChange(layoutPosition,item,isChecked)
+
+                binding.rdCheck.setOnClickListener {
+                   onItemClickAdapter.onItemChange(layoutPosition,item,binding.rdCheck.isChecked)
+
                 }
+
+//                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
+//                    onItemClickAdapter.onItemChange(layoutPosition,item,isChecked)
+//
+//                }
+
             }
 
 

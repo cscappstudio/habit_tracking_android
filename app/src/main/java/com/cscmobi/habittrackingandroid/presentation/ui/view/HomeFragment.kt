@@ -42,6 +42,7 @@ import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
+import com.cscmobi.habittrackingandroid.utils.Utils.isListChanged
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import com.google.android.material.chip.Chip
@@ -72,6 +73,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var currentDate = 0L
 
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
+    var currentHistory: History? = null
 
     override fun initView(view: View) {
         binding.isTasksEmpty = true
@@ -150,13 +152,48 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         if (Helper.currentDate.toDate() == currentDate) {
                             lifecycleScope.launch {
 
-                                var history = History(taskInDay = getTasksInday(state.tasks))
-                                homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history))
+                               homeViewModel.getHistorybyDate(currentDate)
+                               // homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history))
                             }
                         }
                     }
 
                     else -> {
+
+                    }
+                }
+            }
+
+
+        }
+
+        lifecycleScope.launch {
+            homeViewModel.currentHistory.collect {
+//                if (it.taskInDay.isNullOrEmpty()) return@collect
+
+                if (it.id != -1) {
+                    currentHistory = it
+
+                    if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
+                        var updateHistory = it.copy(taskInDay = getTasksInday(listTask))
+                        homeViewModel.updateHistory(it)
+                        currentHistory = updateHistory
+                    }
+
+                        it.taskInDay.forEach { taskInDay ->
+                            var index = listTask.indexOfFirst { it.id == taskInDay.taskId }
+                            if (index != -1) {
+                                listTask[index].goal?.currentProgress = taskInDay.progressGoal
+                                taskAdapter.notifyDataSetChanged()
+                            }
+
+                        }
+
+                } else {
+                    if (currentDate <= Helper.currentDate.toDate()) {
+                        var history = History(taskInDay = getTasksInday(listTask))
+                        homeViewModel.insertTaskHistory(history)
+                        currentHistory = history
 
                     }
                 }
@@ -277,11 +314,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 //         val goalProgress = homeViewModel.tasks.map { it.goal?.currentProgress }
         taskAdapter = TaskAdapter(object : ItemTaskWithEdit<Task> {
             override fun onItemClicked(item: Task, p: Int) {
+//                Intent(requireActivity(), DetailTaskActivity::class.java).apply {
+//                    putExtra(Constant.task_id, item.id)
+//                    startActivity(this)
+//                }
                 Intent(requireActivity(), DetailTaskActivity::class.java).apply {
-                    putExtra(Constant.task_id, item.id)
+                    val bundle = Bundle()
+                    bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
+                    currentHistory?.let {
+                        bundle.putInt(Constant.IDHISTORY,it.id)
+
+                    }
+                    this.putExtras(bundle)
+
                     startActivity(this)
                 }
-
             }
 
             override fun skip(item: Task, p: Int) {
@@ -299,9 +346,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun edit(item: Task, p: Int) {
+
                 Intent(requireActivity(), NewHabitActivity::class.java).apply {
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
+
                     this.putExtras(bundle)
                     startActivity(this)
                 }
@@ -339,7 +388,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
 
                     if (item.startDate != null)
-                        homeViewModel.deleteTaskInHistory(item.startDate!!, item.id)
+                        homeViewModel.deleteTaskInHistory(item.startDate!!.toDate(), item.id)
 
                 })
 
@@ -349,8 +398,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                 if (isChange) {
                     item.goal?.currentProgress = item.goal?.target!!
-
-
                 } else {
                     item.goal?.currentProgress = 0
                 }
@@ -358,7 +405,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                 setUpView(listTask)
                 lifecycleScope.launch {
-                    homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
+                   // homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
+                    currentHistory?.let { currentHistory ->
+                        val index = currentHistory.taskInDay?.indexOfFirst { it.taskId == item.id }
+                        if (index != null && index != -1) {
+                            currentHistory.taskInDay[index].progressGoal = item.goal!!.currentProgress
+
+                            homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
+
+                        }
+                    }
                     delay(500L)
                 }
 
@@ -478,12 +534,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
 
-                    if (currentDate <= Helper.currentDate.toDate())
-                    {
-                        var history = History(taskInDay = getTasksInday(listTask))
-                        homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history, currentDate))
-
-                    }
+//                    if (currentDate <= Helper.currentDate.toDate())
+//                    {
+//                        var history = History(taskInDay = getTasksInday(listTask))
+//                        homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history,currentDate))
+//                    }
                 }
                 if (date[position] == c) {
                     binding.llToday.visibility = View.GONE

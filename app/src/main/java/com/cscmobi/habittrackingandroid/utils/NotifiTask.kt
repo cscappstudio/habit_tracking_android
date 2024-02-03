@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.viewModelScope
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
@@ -14,18 +15,20 @@ import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 
-object  NotifiTask{
+object NotifiTask {
 
     var db: AppDatabase? = null
     var tasks = mutableListOf<Task>()
 
-    
-    fun setUpWorker(owner: LifecycleOwner,context: Context) {
+
+    fun setUpWorker(owner: LifecycleOwner, context: Context) {
         // need to check task change then add requestwork again
-        if (tasks.isEmpty() ) return
+        if (tasks.isEmpty()) return
 
         val uniqueWorkName = Constant.WORKNAME
 
@@ -52,7 +55,8 @@ object  NotifiTask{
             }
         }
     }
-    class NotifiTaskWorker(val appContext: Context, workerParams: WorkerParameters):
+
+    class NotifiTaskWorker(val appContext: Context, workerParams: WorkerParameters) :
         CoroutineWorker(appContext, workerParams) {
 
         override suspend fun doWork(): Result {
@@ -70,7 +74,7 @@ object  NotifiTask{
                     }
                 }
                 AlarmUtils.createNotificationChannel(appContext)
-                AlarmUtils.create(appContext,taskFilter)
+                AlarmUtils.create(appContext, taskFilter)
             } catch (e: Exception) {
                 return Result.failure()
             }
@@ -79,15 +83,22 @@ object  NotifiTask{
 
 
         suspend fun insertHistoryifNotExit() {
+            var date = Utils.getCurrentCalenderWithoutHour().time.time
             var history = History()
-            history.date = Utils.getCurrentCalenderWithoutHour().time.time
+            history.date = date
             history.taskInDay = tasks.map { TaskInDay(it.id) }
+            db?.dao()?.getHistorybyDate(date)?.collect {
+                if (it == null) {
+                    db?.dao()?.insertHistory(
+                        history.copy()
+                    )
 
-            db?.dao()?.insertHistoryifNotExit(
-                history.copy()
-            )
+                }
+
+            }
+
         }
-        
+
 
     }
 }

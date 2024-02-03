@@ -82,11 +82,11 @@ data class ColorTask(val resId: Int, var isSelected: Boolean = false)
 data class TaskInDay(
     var taskId: Int = 0,
     var progress: Int = 0,
-    var currentStreak: Int = 0,
-    var longStreak: Int = 0,
+//    var currentStreak: Int = 0,
+//    var longStreak: Int = 0,
     var progressGoal: Int = 0,
 //    var target: Int = 1,
-    var visible:Boolean = true
+  //  var visible:Boolean = true
     )
 
 

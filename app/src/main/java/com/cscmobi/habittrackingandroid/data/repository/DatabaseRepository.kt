@@ -17,7 +17,7 @@ interface DatabaseRepository {
 
     suspend fun deleteTask(task: Task)
 
-    suspend fun getHistorybyDate(date: Long) : History?
+    suspend fun getHistorybyDate(date: Long) : Flow<History?>
 
     suspend fun loadAllByIds(id: IntArray): Flow<List<Task>>
 
@@ -33,7 +33,7 @@ interface DatabaseRepository {
 
     suspend fun getAllHistory() : Flow<List<History>>
 
-    suspend fun insertHistoryifNotExit(history: History)
+    suspend fun insertHistory(history: History)
 
     suspend fun updateHistory(history: History)
 

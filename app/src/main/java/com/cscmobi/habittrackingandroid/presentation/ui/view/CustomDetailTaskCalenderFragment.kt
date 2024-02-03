@@ -77,7 +77,6 @@ class CustomDetailTaskCalenderFragment :
                     calenderData.forEach {
 //                        it.progress = -1
                         if (it.day.isNotEmpty() && data.day == it.day.toInt()) {
-                            Log.d("AAAZ", data.progress.toString())
                             it.progress = data.progress
                         }
 

@@ -151,11 +151,16 @@ object Utils {
 
     }
 
+    fun Long.toDate(): Long {
+        val c = Calendar.getInstance()
+        c.time = Date(this)
+        c.set(Calendar.HOUR_OF_DAY, 0)
+        c.set(Calendar.MINUTE, 0)
+        c.set(Calendar.SECOND, 0)
+        c.set(Calendar.MILLISECOND, 0)
 
-
-
-
-
+        return  c.time.time
+    }
 
 
     fun getDayofYear(date: Long): Int {
@@ -197,6 +202,24 @@ object Utils {
         calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MILLISECOND, 0)
         return calendar
+    }
+
+
+    fun isListChanged(originalList: List<Int>, modifiedList: List<Int>): Boolean {
+        // Check if the sizes are different
+        if (originalList.size != modifiedList.size) {
+            return true
+        }
+
+        // Check if the content is different
+        for (i in originalList.indices) {
+            if (originalList[i] != modifiedList[i]) {
+                return true
+            }
+        }
+
+        // The lists are identical
+        return false
     }
 }
 

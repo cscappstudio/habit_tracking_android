@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
 import com.cscmobi.habittrackingandroid.data.model.DataTaskHistory
@@ -15,6 +16,8 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.getDayofMonth
 import com.cscmobi.habittrackingandroid.utils.Utils.getMonth
+import com.cscmobi.habittrackingandroid.utils.Utils.toDate
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,45 +36,46 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
         get() = _state
 
     private val _history =  MutableStateFlow<List<History>>(emptyList())
+
     val history : StateFlow<List<History>>
         get() = _history
 
-    var fakeDataHistory = mutableListOf(
-    History(
-    0,0,
-    listOf(
-    TaskInDay(
-    0,0,0
-    ),
-    TaskInDay(3,50,0,0)
-    )
-    ),
-
-    History(
-    1,0, listOf(TaskInDay(3,100,1,1))
-    ),
-    History(
-    2,0, listOf(TaskInDay(3,80,1,1))
-    ),
-    History(
-    3,0, listOf(TaskInDay(3,0,0,1))
-    ),
-    History(
-    4,0, listOf(TaskInDay(3,100,1,1))
-    ),
-    History(
-    5, 0,listOf(TaskInDay(3,100,2,2))
-    ),
-    History(
-    6,0, listOf(TaskInDay(3,100,3,3))
-    ),
-    History(
-    7, 0,listOf(TaskInDay(3,66,0,3))
-    ),
-    History(
-    8,0, listOf(TaskInDay(3,100,1,3))
-    ),
-    )
+//    var fakeDataHistory = mutableListOf(
+//    History(
+//    0,0,
+//    listOf(
+//    TaskInDay(
+//    0,0,0
+//    ),
+//    TaskInDay(3,50,0,0)
+//    )
+//    ),
+//
+//    History(
+//    1,0, listOf(TaskInDay(3,100,1,1))
+//    ),
+//    History(
+//    2,0, listOf(TaskInDay(3,80,1,1))
+//    ),
+//    History(
+//    3,0, listOf(TaskInDay(3,0,0,1))
+//    ),
+//    History(
+//    4,0, listOf(TaskInDay(3,100,1,1))
+//    ),
+//    History(
+//    5, 0,listOf(TaskInDay(3,100,2,2))
+//    ),
+//    History(
+//    6,0, listOf(TaskInDay(3,100,3,3))
+//    ),
+//    History(
+//    7, 0,listOf(TaskInDay(3,66,0,3))
+//    ),
+//    History(
+//    8,0, listOf(TaskInDay(3,100,1,3))
+//    ),
+//    )
 
     init {
         handleIntent()
@@ -99,6 +103,10 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
         }catch (e: Exception){
 
         }
+    }
+
+    fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
+        databaseRepository.updateHistory(history)
     }
 
 
@@ -137,7 +145,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 //           }
 
 
-           databaseRepository.getHistoryWithDate(task.startDate!!).collect{
+           databaseRepository.getHistoryWithDate(task.startDate!!.toDate()).collect{
                var filterHistory = it.toMutableList()
 
                task.repeate?.let {
@@ -181,7 +189,6 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 
                    }
                }
-
 
                _history.value = filterHistory
            }

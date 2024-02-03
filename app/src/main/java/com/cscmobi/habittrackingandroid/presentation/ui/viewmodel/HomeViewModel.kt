@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.DayOfWeek
@@ -56,6 +57,9 @@ class HomeViewModel(
         get() = _state
     var tasks = mutableListOf<Task>()
     var histories = mutableListOf<History>()
+    private val _currentHistory = MutableStateFlow<History>(History(id = -1))
+    val currentHistory: StateFlow<History>
+        get() = _currentHistory
 
 //    private val _categoryState = MutableStateFlow(mutableListOf<String>())
 //
@@ -70,28 +74,22 @@ class HomeViewModel(
     fun insertTaskHistory(history: History,date: Long? = null) {
         if (history.taskInDay.isEmpty()) return
 
-//        histories.forEach {
-//            history ->
-//            taskInDay.forEach { taskInfo ->
-//                val taskIdInfo = history.taskInDay?.indexOfFirst { it.taskId == taskInfo.taskId }
-//                if (taskIdInfo != null && taskIdInfo != -1 && history.taskInDay != null) {
-//                    //taskInfo = history.taskInDay[taskIdInfo]
-//                    taskInfo.currentStreak = history.taskInDay!![taskIdInfo].currentStreak
-//                    taskInfo.longStreak = history.taskInDay!![taskIdInfo].longStreak
-//                }
-//
-//            }
-//
-//        }
-        var initDate = date ?: getCurrentCalenderWithoutHour().time.time
-
-
         viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.insertHistoryifNotExit(
-                history.copy(date = initDate)
-            )
+            databaseRepository.insertHistory(history)
+        }
+    }
+
+    fun getHistorybyDate(date: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.getHistorybyDate(date).collect {
+                        _currentHistory.value = it ?: History(id = -1)
+            }
 
         }
+    }
+
+    fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
+        databaseRepository.updateHistory(history)
     }
 
 
@@ -129,6 +127,7 @@ class HomeViewModel(
                     is HomeIntent.DeleteTask -> deleteTask(it.task, it.typeDelete)
 
                     is HomeIntent.InsertTaskHistory -> insertTaskHistory(it.history,it.date)
+                    is HomeIntent.UpdateHistory -> updateHistory(it.history)
 
                     else -> {}
                 }
@@ -136,23 +135,23 @@ class HomeViewModel(
         }
     }
 
-    fun setUpHistoryTaskByDate(date: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.getHistorybyDate(date)?.let {
-                val taskIds = it.taskInDay?.map { it.taskId }
-                taskIds?.let { ids ->
-                    withContext(Dispatchers.IO) {
-                        fetchUser(ids).collect {
-
-                        }
-                    }
-
-                }
-            }
-        }
-
-
-    }
+//    fun setUpHistoryTaskByDate(date: Long) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            databaseRepository.getHistorybyDate(date)?.let {
+//                val taskIds = it.taskInDay?.map { it.taskId }
+//                taskIds?.let { ids ->
+//                    withContext(Dispatchers.IO) {
+//                        fetchUser(ids).collect {
+//
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
+//
+//
+//    }
 
     suspend fun fetchUser(taskIds: List<Int>): Flow<List<Task>> {
         return GlobalScope.async(Dispatchers.IO) {

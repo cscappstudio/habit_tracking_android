@@ -11,4 +11,5 @@ sealed class HomeIntent {
 
     data class DeleteTask(val task: Task, val typeDelete: Int): HomeIntent()
     data class InsertTaskHistory(val history: History, var date: Long? = null): HomeIntent()
+    data class UpdateHistory(val history: History): HomeIntent()
 }

@@ -32,7 +32,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         dao.delete(task)
     }
 
-    override suspend fun getHistorybyDate(date: Long): History? {
+    override suspend fun getHistorybyDate(date: Long): Flow<History?> {
         return dao.getHistorybyDate(date)
     }
 
@@ -67,8 +67,8 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         return dao.getAllHistory()
     }
 
-    override suspend fun insertHistoryifNotExit(history: History) {
-        dao.insertHistoryifNotExit(history)
+    override suspend fun insertHistory(history: History) {
+        dao.insertHistory(history)
     }
 
     override suspend fun updateHistory(history: History) {

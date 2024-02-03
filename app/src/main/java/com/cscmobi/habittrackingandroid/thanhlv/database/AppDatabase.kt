@@ -12,10 +12,13 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import com.cscmobi.habittrackingandroid.utils.FakeData.createDate
+import com.cscmobi.habittrackingandroid.utils.FakeData.generateRandomTasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 
 
 @Database(entities = [Task::class, Challenge::class, History::class, HabitCollection::class, Mood::class], version = 1, exportSchema = false)
@@ -39,13 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-                            // Initialization code on database creation
-
-//                            if(db.isOpen) {
-//                                initData(instance)
-//                                db.close()
-//
-//                            }
+                        //      initData(instance)
                         }
 
                     })
@@ -54,23 +51,29 @@ abstract class AppDatabase : RoomDatabase() {
             return instance as AppDatabase
         }
 
-        fun initData(database: AppDatabase?) {
+        fun initData(database: AppDatabase?) = CoroutineScope(Dispatchers.IO).launch {
+
+    val startDate = createDate(2024, 1, 20)
+    val endDate = createDate(2024, 2, 5)
+
+    val randomTasks = generateRandomTasks(startDate, endDate, 15)
 
 
-            database?.runInTransaction{
+//            database?.runInTransaction{
 
-                var tasks = arrayListOf<Task>(
-                    Task(0, name = "task 1",""),
-                )
+//                var tasks = arrayListOf<Task>(
+//                    Task(0, name = "task 1", color = "#B6D6DD", ava = "ic_item_collection2",startDate = Calendar.getInstance().time.time),
+//
+//                )
                 var histories = arrayListOf<History>(
                     History(),
                 )
 
 
-                    database.dao().insertAll(*tasks.toTypedArray())
-                    database.dao().insertAllHistory(*histories.toTypedArray())
+                    database?.dao()?.insertAll(*randomTasks.toTypedArray())
+                    database?.dao()?.insertAllHistory(*histories.toTypedArray())
 
-            }
+          //  }
         }
     }
 
@@ -78,3 +81,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun dao(): Dao
 }
+
+

@@ -6,4 +6,5 @@ object Constant {
     const val EditTask = "EditTask"
     const val KEY_TYPE = "type"
     const val TASKNAME = "TaskName"
+    const val IDHISTORY = "IDHISTORY"
 }
