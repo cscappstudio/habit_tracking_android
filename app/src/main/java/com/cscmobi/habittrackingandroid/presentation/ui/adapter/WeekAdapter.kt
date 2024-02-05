@@ -38,7 +38,6 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
     class ViewHolderItemUnSelect constructor(val binding: ItemWeekcalenderBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: WeekCalenderItem,  onItemClickAdapter: OnItemClickPositionListener) {
-            var test = Random.nextBoolean()
 
             if ((item.localDate ?: Helper.currentDate).isAfter(Helper.currentDate)) {
                 binding.sbWeek.setProgressDisplayAndInvalidate(binding.sbWeek.min)
@@ -51,12 +50,7 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
                     R.color.silver),ContextCompat.getColor(binding.root.context,
                     R.color.hexD4D4D4),false)
 
-                if (test) {
-                    binding.sbWeek.setProgressDisplayAndInvalidate(binding.sbWeek.max)
-                } else {
-                    binding.sbWeek.setProgressDisplayAndInvalidate(50)
-
-                }
+                    binding.sbWeek.setProgressDisplayAndInvalidate(item.progress)
             }
 
 

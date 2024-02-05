@@ -280,7 +280,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/_70sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_icon_add" />
     </androidx.constraintlayout.widget.ConstraintLayout>

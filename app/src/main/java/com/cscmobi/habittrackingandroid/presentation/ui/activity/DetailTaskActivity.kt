@@ -31,6 +31,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
+import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
@@ -55,6 +56,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private var currentGoal = 0
     var currentTaskHistory: History? = null
     var historyId = -1
+    var progressStep = 1f
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_detail_task
@@ -93,7 +95,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
             }
 
-            historyId =  it.getInt(Constant.IDHISTORY,-1)
+            historyId = it.getInt(Constant.IDHISTORY, -1)
 
         }
         observe()
@@ -105,7 +107,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             detailTaskViewModel.history.collect {
                 if (it.isNotEmpty()) {
                     if (historyId != -1)
-                        currentTaskHistory =  it.find { it.id == historyId }
+                        currentTaskHistory = it.find { it.id == historyId }
                     setUpTaskHistoryData(detailTaskViewModel.getDetailHistory(it, currentTask.id))
                 }
 
@@ -113,11 +115,12 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
     }
 
-    private fun updateTaskHistory(task: Task,currentProgress: Int ) {
+    private fun updateTaskHistory(task: Task, currentProgress: Int) {
         currentTaskHistory?.let {
             val index = it.taskInDay.indexOfFirst { it.taskId == task.id }
-            if (index !=-1) {
+            if (index != -1) {
                 it.taskInDay[index].progressGoal = currentProgress
+                it.taskInDay[index].progress = Helper.calTaskProgress(currentProgress,task.goal!!.target)
                 detailTaskViewModel.updateHistory(it)
             }
 
@@ -240,10 +243,13 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             binding.txtNoteTask.text = it.note
 
 
-            if (it.goal != null && it.goal!!.isOn == true) {
-                binding.sbProgress.step = (100 / (it.goal!!.target ?: 1)).toFloat()
+            if (it.goal != null) {
+               progressStep = (100 / (it.goal!!.target ?: 1)).toFloat()
+
+                if (it.goal!!.target > 2)
+                    binding.sbProgress.step = progressStep
                 binding.sbProgress.progress =
-                    ((it.goal!!.currentProgress ?: 0).toFloat()) * binding.sbProgress.step
+                    ((it.goal!!.currentProgress ?: 0).toFloat()) *progressStep
 
                 currentProgress = (it.goal!!.currentProgress ?: 0)
                 currentGoal = (it.goal!!.target ?: 1)
@@ -253,8 +259,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 binding.txtProgress.text = (it.goal!!.currentProgress ?: 0).toString()
                 binding.txtGoalTarget.text = "Goal: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"
 
-            } else {
-                binding.ctlProgressGoal.visibility = View.GONE
             }
 
             it.checklist?.let {
@@ -320,6 +324,10 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             bottomSheetPauseFragment.show(supportFragmentManager, bottomSheetPauseFragment.tag)
             bottomSheetPauseFragment.actionPause = {
                 currentTask.pause = it
+                currentTaskHistory?.let { h ->
+                    currentTask.pauseDate = h.date
+
+                }
 
                 lifecycleScope.launch {
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
@@ -345,9 +353,11 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 lifecycleScope.launch {
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.DeleteTask(currentTask, 0))
                 }
-                finish()
+                currentTaskHistory?.let {
+                    detailTaskViewModel.deleteTaskInHistory(it.date!!, currentTask.id)
+                }
 
-                //TODO xoa task id task nay  cua ngay hien tai trong  bang? history
+                finish()
 
 
             }, {
@@ -357,7 +367,14 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 lifecycleScope.launch {
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.DeleteTask(currentTask, 1))
                 }
-                //TODO xoa task id nay  trong bang? history
+
+                currentTaskHistory?.let {
+                    if (currentTask.startDate != null)
+                        detailTaskViewModel.deleteTaskInHistory(
+                            currentTask.startDate!!,
+                            currentTask.id
+                        )
+                }
                 finish()
 
             })
@@ -369,10 +386,10 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 //            currentProgress = ((100 / currentGoal.toFloat())) .roundToInt()
 //            currentProgress +=  ((binding.sbProgress.step / 10).roundToInt())
 
-            currentProgress += ((1 / binding.sbProgress.step) + 1).roundToInt()
+            currentProgress += ((1 /progressStep) + 1).roundToInt()
             if (currentProgress > currentGoal) {
                 binding.sbProgress.progress = 100f
-            } else binding.sbProgress.progress = currentProgress.toFloat() * binding.sbProgress.step
+            } else binding.sbProgress.progress = currentProgress.toFloat() *progressStep
 
 
             binding.txtProgress.text = currentProgress.toString()
@@ -380,15 +397,15 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
 
         binding.ivMinus.setOnClickListener {
-            currentProgress -= ((1 / binding.sbProgress.step) + 1).roundToInt()
+            currentProgress -= ((1 /progressStep) + 1).roundToInt()
 
             if (currentProgress < 0) {
                 currentProgress = 0
             }
 
 
-            if (currentProgress * binding.sbProgress.step <= 100) {
-                binding.sbProgress.progress = currentProgress * binding.sbProgress.step
+            if (currentProgress *progressStep <= 100) {
+                binding.sbProgress.progress = currentProgress *progressStep
             } else binding.sbProgress.progress = 100f
             binding.txtProgress.text = currentProgress.toString()
 
@@ -396,7 +413,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
         binding.txtFinish.setOnClickListener {
             binding.sbProgress.progress = 100f
-            currentProgress = (100f / binding.sbProgress.step).roundToInt()
+            currentProgress = (100f /progressStep).roundToInt()
 
             binding.txtProgress.text = currentProgress.toString()
 
@@ -423,7 +440,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         lifecycleScope.launch {
             //       currentTask.goal?.currentProgress = currentProgress
             //      detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
-            updateTaskHistory(currentTask,currentProgress)
+            updateTaskHistory(currentTask, currentProgress)
             delay(
                 1000L
             )

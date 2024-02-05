@@ -7,6 +7,7 @@ import org.threeten.bp.LocalDate
 import java.util.Calendar
 import java.util.Date
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 
 object Helper {
@@ -90,6 +91,14 @@ object Helper {
         calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MILLISECOND, 0)
         return calendar.time.time
+    }
+
+
+    fun calTaskProgress(goal: Int, target: Int): Int {
+        var progressGoal = if (goal > target)
+            target else goal
+
+       return (progressGoal * 100f / target).roundToInt()
     }
 
 }

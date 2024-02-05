@@ -129,6 +129,27 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
         }
     }
 
+    fun deleteTaskInHistory(date: Long, taskId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                databaseRepository.getHistoryWithDate(date).collect{
+                    it.forEach { history ->
+                        val index =  history.taskInDay.indexOfFirst { it.taskId == taskId }
+                        if (index != -1)  {
+                            val newTaskInDay = history.taskInDay.toMutableList()
+                            newTaskInDay.removeAt(index)
+                            databaseRepository.deleteTaskInHistory(history.id,newTaskInDay)
+                        }
+                    }
+                }
+
+            }
+        }catch (e: Exception) {
+            println("chaulq______delete task in history: ${e.message}")
+        }
+
+    }
+
    fun fetchHistoryByTask(task: Task) {
        viewModelScope.launch {
 //           try {

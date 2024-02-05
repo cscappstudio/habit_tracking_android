@@ -41,6 +41,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Helper.calTaskProgress
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.Utils.isListChanged
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
@@ -85,13 +86,38 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
 
         currentDate = Helper.currentDate.toDate()
+
+        lifecycleScope.launch {
+            homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+
+
+            homeViewModel.histories.collect{
+                it.forEach {
+                    data.forEach { weekData ->
+                        if (it.date!!.toDate() == weekData.localDate!!.toDate()) {
+                            var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
+                            var tasksNum = it.taskInDay.size
+
+                            weekData.progress =  calTaskProgress(tasksFinishNum,tasksNum)
+
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+
+
+
+
+
     }
 
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch {
-            homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
-        }
+
         observeState()
 
     }
@@ -124,6 +150,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
         }
+
     }
 
     private fun observeState() {
@@ -131,11 +158,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.state.collect { state ->
                 when (state) {
                     is HomeState.Tasks -> {
+                        Log.d("aothatday", "111")
+
+
                         if (!hasInitChip) {
                             val categories = arrayListOf<String>()
                             categories.add("All")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
                             initChips(categories)
+
                             hasInitChip = true
                         }
 
@@ -149,13 +180,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             binding.isTasksEmpty = false
 
                         }
-                        if (Helper.currentDate.toDate() == currentDate) {
                             lifecycleScope.launch {
 
                                homeViewModel.getHistorybyDate(currentDate)
                                // homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history))
                             }
-                        }
+
                     }
 
                     else -> {
@@ -170,24 +200,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         lifecycleScope.launch {
             homeViewModel.currentHistory.collect {
 //                if (it.taskInDay.isNullOrEmpty()) return@collect
-
                 if (it.id != -1) {
                     currentHistory = it
 
                     if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
-                        var updateHistory = it.copy(taskInDay = getTasksInday(listTask))
-                        homeViewModel.updateHistory(it)
-                        currentHistory = updateHistory
+                       // var updateHistory = it.copy(taskInDay = getTasksInday(listTask))
+//                        homeViewModel.updateHistory(it)
+//                        currentHistory = updateHistory
+
+                        currentHistory!!.taskInDay =   getTasksInday(listTask)
+
+                        homeViewModel.userIntent.send(HomeIntent.UpdateHistory( currentHistory!!))
                     }
+
+                    data.indexOfFirst { it.localDate!!.toDate() ==  currentDate}
 
                         it.taskInDay.forEach { taskInDay ->
                             var index = listTask.indexOfFirst { it.id == taskInDay.taskId }
                             if (index != -1) {
                                 listTask[index].goal?.currentProgress = taskInDay.progressGoal
-                                taskAdapter.notifyDataSetChanged()
                             }
 
                         }
+                    taskAdapter.notifyDataSetChanged()
+
 
                 } else {
                     if (currentDate <= Helper.currentDate.toDate()) {
@@ -197,6 +233,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     }
                 }
+
             }
         }
 
@@ -207,11 +244,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         tasksInday.clear()
 
         tasks.forEach {
+
             tasksInday.add(
                 TaskInDay(
                     it.id,
-                    progress = (it.goal!!.currentProgress.toFloat() * 100f / it.goal!!.target.toFloat()).roundToInt(),
-                    progressGoal = it.goal!!.currentProgress
+                    progress = calTaskProgress(it.goal!!.currentProgress, it.goal!!.target),
+                    progressGoal = it.goal!!.currentProgress,
                 )
             )
         }
@@ -335,7 +373,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 bottomSheetPauseFragment.show(childFragmentManager, bottomSheetPauseFragment.tag)
                 bottomSheetPauseFragment.actionPause = {
                     item.pause = it
-
+                    item.pauseDate =  currentDate
                     lifecycleScope.launch {
                         homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
 
@@ -372,7 +410,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     lifecycleScope.launch {
                         homeViewModel.userIntent.send(HomeIntent.DeleteTask(item, 0))
-
                     }
                     homeViewModel.deleteTaskInHistory(currentDate, item.id)
 
@@ -402,18 +439,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     item.goal?.currentProgress = 0
                 }
                 taskAdapter.notifyDataSetChanged()
-
                 setUpView(listTask)
                 lifecycleScope.launch {
-                   // homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
                     currentHistory?.let { currentHistory ->
-                        val index = currentHistory.taskInDay?.indexOfFirst { it.taskId == item.id }
-                        if (index != null && index != -1) {
-                            currentHistory.taskInDay[index].progressGoal = item.goal!!.currentProgress
+//                        val index = currentHistory.taskInDay?.indexOfFirst { it.taskId == item.id }
+//                        if (index != null && index != -1) {
+//                            currentHistory.taskInDay[index].progressGoal = item.goal!!.currentProgress
+//
+//
+//                        }
 
-                            homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
+                        currentHistory.taskInDay =   getTasksInday(listTask)
 
-                        }
+                        homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
+
                     }
                     delay(500L)
                 }
@@ -459,6 +498,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     if (chip.isChecked) {
                         lifecycleScope.launch {
+
                             homeViewModel.userIntent.send(HomeIntent.FetchTasksbyCategory(chip.tag.toString()))
                         }
                         changeChipState(true, chip)
@@ -566,6 +606,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
         })
+
+
+
         weekAdapter.submitList(data)
         binding.rcvWeek.adapter = weekAdapter
 

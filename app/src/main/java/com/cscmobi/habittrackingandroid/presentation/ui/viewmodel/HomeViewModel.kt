@@ -56,7 +56,11 @@ class HomeViewModel(
     val state: StateFlow<HomeState>
         get() = _state
     var tasks = mutableListOf<Task>()
-    var histories = mutableListOf<History>()
+
+    private val _histories = MutableStateFlow<MutableList<History>>(mutableListOf())
+    val histories : StateFlow<MutableList<History>>
+        get() = _histories
+
     private val _currentHistory = MutableStateFlow<History>(History(id = -1))
     val currentHistory: StateFlow<History>
         get() = _currentHistory
@@ -90,13 +94,14 @@ class HomeViewModel(
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.updateHistory(history)
+      //  _currentHistory.value = history
     }
 
 
     private fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.getAllHistory().collect {
-            histories = it.toMutableList()
-            Log.d("history", it.toString())
+            _histories.value = it.toMutableList()
+           Log.d("history", it.toString())
 
         }
     }

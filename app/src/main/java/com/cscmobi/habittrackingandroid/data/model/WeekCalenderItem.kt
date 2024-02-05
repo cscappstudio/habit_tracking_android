@@ -6,6 +6,6 @@ data class WeekCalenderItem(
     val day: String,
     val date: Int,
     var isSelected: Boolean = false,
-    var progress:Int? = 0,
+    var progress:Int = 0,
     var localDate: LocalDate? = null
 )
