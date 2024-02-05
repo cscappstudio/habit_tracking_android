@@ -33,6 +33,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdjustHelper.Companion.trackingEvent
 import com.thanhlv.ads.lib.AdsConfigs
 import com.thanhlv.ads.lib.AdsConfigs.*
@@ -43,6 +44,7 @@ import com.thanhlv.fw.constant.AppConfigs.Companion.EVENT_WATCH_5_ADS_FULL
 import com.thanhlv.fw.constant.AppConfigs.Companion.adFullShowTime
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
+import org.json.JSONObject
 import java.io.File
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -573,6 +575,33 @@ class MyUtils {
                 context.startActivity(i)
             } catch (ignored: java.lang.Exception) {
             }
+        }
+
+
+
+//        private fun getValueCurrencyList(): MutableList<ValueCurrencyModel> {
+//            val list = mutableListOf<ValueCurrencyModel>()
+//            val str = readJsonAsset("currency.json")
+//            val jsonObject = JSONObject(str)
+//            val data = JSONObject(jsonObject.get("data").toString())
+//            for (key in data.keys()) {
+//                list.add(
+//                    Gson().fromJson(
+//                        JSONObject(data[key].toString()).toString(),
+//                        ValueCurrencyModel::class.java
+//                    )
+//                )
+//            }
+//            return list
+//        }
+
+        private fun readJsonAsset(context: Context, fileName: String): String {
+            val inputStream = context.assets.open(fileName)
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+            return String(buffer, Charsets.UTF_8)
         }
 
     }

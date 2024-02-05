@@ -24,6 +24,7 @@ import com.thanhlv.fw.helper.RunUtils
 import com.thanhlv.fw.spf.SPF
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 import kotlin.random.Random
 
 class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressBinding::inflate) {
@@ -113,7 +114,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                 binding.btnMonth.isEnabled = true
                 binding.btnYear.isEnabled = true
                 if (startPeriod < 0) {
-                    binding.btnNextPeriod.alpha = 0.5f
+                    binding.btnNextPeriod.alpha = 0.3f
                     binding.btnNextPeriod.isEnabled = false
 
                     if (CalendarUtil.startWeek(System.currentTimeMillis())
@@ -122,7 +123,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnPreviousPeriod.alpha = 1f
                         binding.btnPreviousPeriod.isEnabled = true
                     } else {
-                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.alpha = 0.3f
                         binding.btnPreviousPeriod.isEnabled = false
                     }
                 } else {
@@ -132,7 +133,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnPreviousPeriod.alpha = 1f
                         binding.btnPreviousPeriod.isEnabled = true
                     } else {
-                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.alpha = 0.3f
                         binding.btnPreviousPeriod.isEnabled = false
                     }
 
@@ -142,7 +143,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnNextPeriod.alpha = 1f
                         binding.btnNextPeriod.isEnabled = true
                     } else {
-                        binding.btnNextPeriod.alpha = 0.5f
+                        binding.btnNextPeriod.alpha = 0.3f
                         binding.btnNextPeriod.isEnabled = false
                     }
                 }
@@ -152,7 +153,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                 binding.btnMonth.isEnabled = false
                 binding.btnYear.isEnabled = true
                 if (startPeriod < 0) {
-                    binding.btnNextPeriod.alpha = 0.5f
+                    binding.btnNextPeriod.alpha = 0.3f
                     binding.btnNextPeriod.isEnabled = false
                     if (CalendarUtil.startMonth(System.currentTimeMillis())
                         > CalendarUtil.startMonth(SPF.getStartOpenTime(requireContext()))
@@ -160,7 +161,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnPreviousPeriod.alpha = 1f
                         binding.btnPreviousPeriod.isEnabled = true
                     } else {
-                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.alpha = 0.3f
                         binding.btnPreviousPeriod.isEnabled = false
                     }
                 } else {
@@ -170,7 +171,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnPreviousPeriod.alpha = 1f
                         binding.btnPreviousPeriod.isEnabled = true
                     } else {
-                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.alpha = 0.3f
                         binding.btnPreviousPeriod.isEnabled = false
                     }
 
@@ -180,7 +181,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnNextPeriod.alpha = 1f
                         binding.btnNextPeriod.isEnabled = true
                     } else {
-                        binding.btnNextPeriod.alpha = 0.5f
+                        binding.btnNextPeriod.alpha = 0.3f
                         binding.btnNextPeriod.isEnabled = false
                     }
                 }
@@ -190,7 +191,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                 binding.btnMonth.isEnabled = true
                 binding.btnYear.isEnabled = false
                 if (startPeriod < 0) {
-                    binding.btnNextPeriod.alpha = 0.5f
+                    binding.btnNextPeriod.alpha = 0.3f
                     binding.btnNextPeriod.isEnabled = false
                     if (CalendarUtil.startYear(System.currentTimeMillis())
                         > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
@@ -198,7 +199,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnPreviousPeriod.alpha = 1f
                         binding.btnPreviousPeriod.isEnabled = true
                     } else {
-                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.alpha = 0.3f
                         binding.btnPreviousPeriod.isEnabled = false
                     }
                 } else {
@@ -208,7 +209,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnPreviousPeriod.alpha = 1f
                         binding.btnPreviousPeriod.isEnabled = true
                     } else {
-                        binding.btnPreviousPeriod.alpha = 0.5f
+                        binding.btnPreviousPeriod.alpha = 0.3f
                         binding.btnPreviousPeriod.isEnabled = false
                     }
 
@@ -218,7 +219,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         binding.btnNextPeriod.alpha = 1f
                         binding.btnNextPeriod.isEnabled = true
                     } else {
-                        binding.btnNextPeriod.alpha = 0.5f
+                        binding.btnNextPeriod.alpha = 0.3f
                         binding.btnNextPeriod.isEnabled = false
                     }
                 }
@@ -294,9 +295,9 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     binding.tvPeriodYear.text =
                         CalendarUtil.getTitleYear(System.currentTimeMillis())
                     binding.tvPeriodYear.visibility = View.VISIBLE
-                    val temp = mutableListOf<Any>()
-                    for (i in 1..7) temp.add(Random(10).nextInt() * 10)
-                    mCurrentData = arrayOf<Any>(temp)
+                    val temp = arrayListOf<Any>()
+                    for (i in 1..7) temp.add((0..10).random() * 10)
+                    mCurrentData = temp.toArray()
                 } else {
 
                 }
@@ -305,9 +306,9 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                 if (startDate < 0) { //năm hiện tại
                     binding.tvPeriod.text = CalendarUtil.getTitleYear(System.currentTimeMillis())
                     binding.tvPeriodYear.visibility = View.GONE
-                    val temp = mutableListOf<Any>()
-                    for (i in 1..12) temp.add(Random(10).nextInt() * 10)
-                    mCurrentData = arrayOf<Any>(temp)
+                    val temp = arrayListOf<Any>()
+                    for (i in 1..12) temp.add((0..10).random() * 10)
+                    mCurrentData = temp.toArray()
                 } else {
 
                 }
@@ -318,15 +319,21 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     binding.tvPeriodYear.text =
                         CalendarUtil.getTitleYear(System.currentTimeMillis())
                     binding.tvPeriodYear.visibility = View.VISIBLE
-                    val temp = mutableListOf<Any>()
+                    val temp = arrayListOf<Any>()
                     for (i in 1..CalendarUtil.totalDayOfMonth(System.currentTimeMillis()))
-                        temp.add(Random(10).nextInt() * 10)
-                    mCurrentData = arrayOf<Any>(temp)
+                        temp.add((0..10).random() * 10)
+
+                    mCurrentData = temp.toArray()
                 } else {
 
                 }
             }
         }
+    }
+
+    fun toArray(): Array<Any> {
+        val elems = arrayListOf<Any>()
+        return elems.toTypedArray()
     }
 
     private var mCurrentData = arrayOf<Any>(
