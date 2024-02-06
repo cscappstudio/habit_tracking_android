@@ -61,7 +61,7 @@ class FeelingTagAdapter(private var mContext: Context) :
             else Color.parseColor("#EDCA15")
         )
 
-        holder.binding.tvTitle.text = item.feeling
+        holder.binding.tvTitle.text = item.describe
         holder.binding.root.setOnClickListener {
             item.selected = !item.selected
 

@@ -1,0 +1,91 @@
+{
+  "describe": [
+    {
+      "great": [
+        "Confident",
+        "Energetic",
+        "Excited",
+        "Grateful",
+        "Hopeful",
+        "Joyful",
+        "Loved",
+        "Optimistic",
+        "Proud",
+        "Satisfied"
+      ]
+    },
+    {
+      "good": [
+        "Comfortable",
+        "Confident",
+        "Energetic",
+        "Excited",
+        "Hopeful",
+        "Loved",
+        "Optimistic",
+        "Proud",
+        "Relaxed",
+        "Satisfied"
+      ]
+    },
+    {
+      "neutral": [
+        "Bored",
+        "Busy",
+        "Busy",
+        "Calm",
+        "Confused",
+        "Fine",
+        "Nervous",
+        "Nonchalant",
+        "Positive",
+        "Relaxed"
+      ]
+    },
+    {
+      "not_great": [
+        "Anxious",
+        "Disappointed",
+        "Dissatisfied",
+        "Distracted",
+        "Gloomy",
+        "Nervous",
+        "Sad",
+        "Stressed",
+        "Tired",
+        "Worried"
+      ]
+    },
+    {
+      "bad": [
+        "Angry",
+        "Depressed",
+        "Frustrated",
+        "Hopeless",
+        "Hurt",
+        "Lonely",
+        "Miserable",
+        "Overwhelmed",
+        "Sad",
+        "Worried"
+      ]
+    }
+  ],
+  "because_of": [
+    "work",
+    "school",
+    "family",
+    "friend",
+    "pet",
+    "Fitness",
+    "health",
+    "Finances",
+    "Hobbies",
+    "Sleep",
+    "Achievements",
+    "Weather",
+    "Food",
+    "News",
+    "others"
+  ]
+}

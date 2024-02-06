@@ -331,11 +331,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         }
     }
 
-    fun toArray(): Array<Any> {
-        val elems = arrayListOf<Any>()
-        return elems.toTypedArray()
-    }
-
     private var mCurrentData = arrayOf<Any>(
         5,
         30,

@@ -595,7 +595,7 @@ class MyUtils {
 //            return list
 //        }
 
-        private fun readJsonAsset(context: Context, fileName: String): String {
+        fun readJsonAsset(context: Context, fileName: String): String {
             val inputStream = context.assets.open(fileName)
             val size = inputStream.available()
             val buffer = ByteArray(size)

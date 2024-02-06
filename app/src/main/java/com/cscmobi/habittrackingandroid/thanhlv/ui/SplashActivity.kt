@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivitySplashBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.consent.GoogleMobileAdsConsentManager
+import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.helper.NotificationHelper
 import com.google.android.gms.tasks.Task
@@ -51,6 +52,9 @@ class SplashActivity : BaseActivity2() {
 
         if (SPF.isFirstOpenApp(this)) SPF.setStartOpenTime(this, System.currentTimeMillis())
         RunUtils.runInBackground {
+
+            val challengeData = ChallengeData(this)
+
             loadRemoteConfigs()
 //            getPurchaseHistory()
 //            GSMUtil.retryLoginGSM = 0

@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.cscmobi.habittrackingandroid.data.model.ChallengeDays
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
 import com.cscmobi.habittrackingandroid.data.model.Tasks
 import kotlinx.serialization.Serializable
@@ -20,14 +21,14 @@ data class Challenge(
     @ColumnInfo(name = "cycle")
     var cycle: Int = 0,
     @ColumnInfo(name = "repeat")
-    var repeat: Int = 0,
+    var repeat: List<Int>? = null,
     @ColumnInfo(name = "joinedHistory")
     var joinedHistory: List<ChallengeJoinedHistory>? = null,
     @ColumnInfo(name = "finish")
     var finish: Boolean = false,
 
     @ColumnInfo(name = "tasks")
-    var tasks: List<Tasks>? = null
+    var days: List<ChallengeDays>? = null
 ) {
     @PrimaryKey(true)
     var id = 0

@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.R
@@ -43,7 +44,8 @@ class DetailChallengeActivity : BaseActivity2() {
             binding.tvTitleChallenge.text = mChallenge?.name
             binding.tvDays.text = mChallenge?.duration.toString() + " days"
             if (!mChallenge?.image.isNullOrEmpty())
-                binding.imgChallenge.setImageResource(mChallenge?.image!!.toInt())
+                binding.imgChallenge
+                    .setImageBitmap(BitmapFactory.decodeStream(assets.open(mChallenge?.image!!)))
             else binding.imgChallenge.setImageResource(R.drawable.img_target)
 
             if (!mChallenge?.joinedHistory.isNullOrEmpty()) {
@@ -85,7 +87,7 @@ class DetailChallengeActivity : BaseActivity2() {
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
             newMyChallenges.sortByDescending {
                 val last = it.joinedHistory!!.size
-                it.joinedHistory!![last-1].date
+                it.joinedHistory!![last - 1].date
             }
 
             ChallengeFragment.myChallenges.postValue(newMyChallenges)

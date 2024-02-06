@@ -16,6 +16,8 @@ import com.cscmobi.habittrackingandroid.databinding.ActivityOnboardBinding
 import com.cscmobi.habittrackingandroid.databinding.ActivityQuestionFoBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.OnBoardAdapter
+import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData
+import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData.Companion.mChallengeDefaultList
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.OnBoardModel
@@ -93,165 +95,17 @@ class QuestionFOActivity : BaseActivity2() {
     }
 
     suspend fun generationDataDefault() {
-        //challenge default
-        var challenge = Challenge()
-        challenge.name = "Digital Detox Challenge"
-        challenge.duration = 7
-
-        var task = Task()
-        var taskList = ArrayList<Tasks>()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        var tasks = Tasks("Assess your screen time", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Set Screen Time Limits", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Engage in non-screen activities", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Delete Unnecessary Apps", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Call a friend", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Schedule social media time", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Reflect and Plan Ahead", task.id)
-        taskList.add(tasks)
-
-        challenge.tasks = taskList.toList()
-        challenge.image = R.drawable.img_challenge_digital_detox.toString()
-
-        AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
-
-
-        //challenge default
-        challenge = Challenge()
-        challenge.name = "Relieve anxiety"
-        challenge.duration = 7
-
-        task = Task()
-        taskList = ArrayList<Tasks>()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Acknowledge your feeling", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Practice Mindful Breathing", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Write down your feeling", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Exercise", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Create a structured routine", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Maitain self-care (relax in the bath/shower -> icon bồn tắm)", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Digital Detox", task.id)
-        taskList.add(tasks)
-
-        challenge.tasks = taskList.toList()
-        challenge.image = R.drawable.img_challenge_relieve_my_anxiety.toString()
-
-        AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
-
-        //challenge default
-        challenge = Challenge()
-        challenge.name = "Work boost"
-        challenge.duration = 5
-
-        task = Task()
-        taskList = ArrayList<Tasks>()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Build a to-do list", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Write down your distractions", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Focus on one task for 25 mins", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Batch your tasks", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Refine your workspace", task.id)
-        taskList.add(tasks)
-
-        challenge.tasks = taskList.toList()
-        challenge.image = R.drawable.img_challenge_work_boost.toString()
-
-        AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
-
-        //challenge default
-        challenge = Challenge()
-        challenge.name = "Morning Glow"
-        challenge.duration = 7
-
-        task = Task()
-        taskList = ArrayList<Tasks>()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Drink water when you wake up", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Eat a Healthy Breakfast", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Stretch and exercise", task.id)
-        taskList.add(tasks)
-
-        task = Task()
-        AppDatabase.getInstance(applicationContext).dao().insert(task)
-        tasks = Tasks("Make your bed", task.id)
-        taskList.add(tasks)
-
-        challenge.tasks = taskList.toList()
-        challenge.image = R.drawable.img_challenge_morning_glow.toString()
-
-        AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
+        mChallengeDefaultList.forEach {
+            val challenge = Challenge()
+            challenge.name = it.name
+            challenge.description = it.description
+            challenge.image = it.image
+            challenge.duration = it.duration
+            challenge.cycle = it.cycle
+            challenge.repeat = it.repeat
+            challenge.days = it.days
+            AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
+        }
 
     }
 
