@@ -22,6 +22,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionStat
 import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class DetailCollectionFragment :
     BaseFragment<FragmentDetailCollectionBinding>(FragmentDetailCollectionBinding::inflate) {
@@ -85,8 +86,9 @@ class DetailCollectionFragment :
 
             override fun onAddTask(item: Task) {
                 lifecycleScope.launch {
-                    var clone = item.copy()
+                    var clone = item.copy(startDate = Calendar.getInstance().time.time)
                     collectionViewModel.userIntent.send(CollectionIntent.CreateTaskToRoutine(clone))
+
                     Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT).show()
                 }
 

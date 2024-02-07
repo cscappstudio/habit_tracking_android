@@ -32,7 +32,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
             val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, "reminder")
                 .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentTitle("habit aa")
+                .setContentTitle("habit")
                 .setContentText(content)
 //            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
 //            .setDefaults(Notification.DEFAULT_SOUND)

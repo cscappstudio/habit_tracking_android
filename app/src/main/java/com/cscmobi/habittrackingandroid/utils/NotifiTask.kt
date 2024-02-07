@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -11,24 +12,29 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.await
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
+import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import com.cscmobi.habittrackingandroid.utils.Utils.toDate
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 
 object NotifiTask {
 
     var db: AppDatabase? = null
-    var tasks = mutableListOf<Task>()
+//    var tasks = mutableListOf<Task>()
 
 
     fun setUpWorker(owner: LifecycleOwner, context: Context) {
-        // need to check task change then add requestwork again
-        if (tasks.isEmpty()) return
 
         val uniqueWorkName = Constant.WORKNAME
 
@@ -36,24 +42,36 @@ object NotifiTask {
             PeriodicWorkRequestBuilder<NotifiTaskWorker>(1, TimeUnit.DAYS)
                 .build()
 
-
         val workManager = WorkManager.getInstance(context)
-        val workQuery = workManager.getWorkInfosForUniqueWorkLiveData(uniqueWorkName)
+        workManager.enqueueUniquePeriodicWork(
+            uniqueWorkName,
+            ExistingPeriodicWorkPolicy.KEEP,
+            uploadWorkRequest
+        )
+//        val workQuery = workManager.getWorkInfosForUniqueWorkLiveData(uniqueWorkName)
+//
+//
+//
+//        workQuery.observe(owner) { workInfos ->
+//            if (workInfos.isNullOrEmpty()) {
+//                // Work is not enqueued, so enqueue it
+//                workManager.enqueueUniquePeriodicWork(
+//                    uniqueWorkName,
+//                    ExistingPeriodicWorkPolicy.UPDATE,
+//                    uploadWorkRequest
+//                )
+//
+//
+//            } else {
+//                // Work is already enqueued or running, do nothing or handle as needed
+//
+//                workManager.updateWork(uploadWorkRequest)
+//            }
+//        }
+    }
 
+    fun updateWorkManager() {
 
-
-        workQuery.observe(owner) { workInfos ->
-            if (workInfos.isNullOrEmpty()) {
-                // Work is not enqueued, so enqueue it
-                workManager.enqueueUniquePeriodicWork(
-                    uniqueWorkName,
-                    ExistingPeriodicWorkPolicy.UPDATE,
-                    uploadWorkRequest
-                )
-            } else {
-                // Work is already enqueued or running, do nothing or handle as needed
-            }
-        }
     }
 
     class NotifiTaskWorker(val appContext: Context, workerParams: WorkerParameters) :
@@ -61,28 +79,48 @@ object NotifiTask {
 
         override suspend fun doWork(): Result {
             try {
-                Log.d("Worker", "worker run")
-                insertHistoryifNotExit()
-                var taskFilter = mutableListOf<Task>()
-                taskFilter.clear()
 
-                tasks.forEach { task ->
-                    task.remind?.let {
-                        if (it.isOpen == true) {
-                            tasks.add(task)
+
+                db?.dao()?.getAll()?.collect {
+                    var tasks =
+                        it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
+
+                    if (tasks.isNullOrEmpty()) return@collect
+
+                    delay(1000L)
+                    Log.d("Worker", "1 $tasks")
+
+                    var taskFilter = mutableListOf<Task>()
+                    taskFilter.clear()
+
+                    tasks.forEach { t ->
+                        t.remind?.let {
+                            if (it.isOpen == true) {
+                                taskFilter.add(t)
+                            }
                         }
                     }
+                    Log.d("Worker", "2 $taskFilter")
+
+                    AlarmUtils.createNotificationChannel(appContext)
+                    AlarmUtils.create(appContext, taskFilter)
+
+                    withContext(Dispatchers.IO) {
+                        Log.d("Worker", "3 insert to history")
+
+                        insertHistoryifNotExit(tasks)
+                    }
+
                 }
-                AlarmUtils.createNotificationChannel(appContext)
-                AlarmUtils.create(appContext, taskFilter)
+
+                return Result.success()
             } catch (e: Exception) {
                 return Result.failure()
             }
-            return Result.success()
         }
 
 
-        suspend fun insertHistoryifNotExit() {
+        suspend fun insertHistoryifNotExit(tasks: List<Task>) {
             var date = Utils.getCurrentCalenderWithoutHour().time.time
             var history = History()
             history.date = date

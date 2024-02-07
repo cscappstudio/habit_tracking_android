@@ -18,6 +18,8 @@ interface EditItemTask<T> {
     fun delete(item: T, p: Int)
 
     fun onItemChange(p: Int, item: T,isChange: Boolean)
+
+    fun onResume(p: Int, item: T)
 }
 
 interface ItemTaskWithEdit<T>: ItemWithPostionListener<T>, EditItemTask<T>

@@ -3,43 +3,30 @@ package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
-import com.cscmobi.habittrackingandroid.data.model.EndDate
-import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepository
-import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
-import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.Helper.validateTask
-import com.cscmobi.habittrackingandroid.utils.Utils.getCurrentCalenderWithoutHour
-import com.cscmobi.habittrackingandroid.utils.Utils.getDayofMonth
-import com.cscmobi.habittrackingandroid.utils.Utils.getDayofWeek
-import com.cscmobi.habittrackingandroid.utils.Utils.getDayofYear
-import com.cscmobi.habittrackingandroid.utils.Utils.getMonth
-import com.cscmobi.habittrackingandroid.utils.Utils.getWeek
+import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
+import java.time.temporal.TemporalField
 import java.util.Calendar
 import java.util.Date
-import kotlin.math.abs
-import kotlin.math.log
 
 
 class HomeViewModel(
@@ -58,10 +45,10 @@ class HomeViewModel(
     var tasks = mutableListOf<Task>()
 
     private val _histories = MutableStateFlow<MutableList<History>>(mutableListOf())
-    val histories : StateFlow<MutableList<History>>
+    val histories: StateFlow<MutableList<History>>
         get() = _histories
 
-    private val _currentHistory = MutableStateFlow<History>(History(id = -1))
+    private val _currentHistory = MutableStateFlow<History>(History(id = IDLE))
     val currentHistory: StateFlow<History>
         get() = _currentHistory
 
@@ -75,7 +62,7 @@ class HomeViewModel(
         test()
     }
 
-    fun insertTaskHistory(history: History,date: Long? = null) {
+    fun insertTaskHistory(history: History, date: Long? = null) {
         if (history.taskInDay.isEmpty()) return
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -86,7 +73,7 @@ class HomeViewModel(
     fun getHistorybyDate(date: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getHistorybyDate(date).collect {
-                        _currentHistory.value = it ?: History(id = -1)
+                _currentHistory.value = it ?: History(id = -1)
             }
 
         }
@@ -94,21 +81,17 @@ class HomeViewModel(
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.updateHistory(history)
-      //  _currentHistory.value = history
+        //  _currentHistory.value = history
     }
 
 
     private fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.getAllHistory().collect {
             _histories.value = it.toMutableList()
-           Log.d("history", it.toString())
+            Log.d("history", it.toString())
 
         }
     }
-
-
-
-
 
 
     fun test() {
@@ -131,7 +114,7 @@ class HomeViewModel(
                     is HomeIntent.UpdateTask -> updateTask(it.task)
                     is HomeIntent.DeleteTask -> deleteTask(it.task, it.typeDelete)
 
-                    is HomeIntent.InsertTaskHistory -> insertTaskHistory(it.history,it.date)
+                    is HomeIntent.InsertTaskHistory -> insertTaskHistory(it.history, it.date)
                     is HomeIntent.UpdateHistory -> updateHistory(it.history)
 
                     else -> {}
@@ -173,22 +156,22 @@ class HomeViewModel(
     }
 
 
-     fun deleteTaskInHistory(date: Long, taskId: Int) {
+    fun deleteTaskInHistory(date: Long, taskId: Int) {
         try {
-        viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.getHistoryWithDate(date).collect{
-                it.forEach { history ->
-                   val index =  history.taskInDay.indexOfFirst { it.taskId == taskId }
-                    if (index != -1)  {
-                        val newTaskInDay = history.taskInDay.toMutableList()
-                        newTaskInDay.removeAt(index)
-                        databaseRepository.deleteTaskInHistory(history.id,newTaskInDay)
+            viewModelScope.launch(Dispatchers.IO) {
+                databaseRepository.getHistoryWithDate(date).collect {
+                    it.forEach { history ->
+                        val index = history.taskInDay.indexOfFirst { it.taskId == taskId }
+                        if (index != -1) {
+                            val newTaskInDay = history.taskInDay.toMutableList()
+                            newTaskInDay.removeAt(index)
+                            databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
+                        }
                     }
                 }
-            }
 
-        }
-        }catch (e: Exception) {
+            }
+        } catch (e: Exception) {
             println("chaulq______delete task in history: ${e.message}")
         }
 
@@ -237,11 +220,18 @@ class HomeViewModel(
 
             databaseRepository.getAllTask().collect {
                 try {
-                    var taskFilter = it.filter { validateTask(it, date) }
 
+                    var taskFilter = it.filter { validateTask(it, date, false) }
 
                     tasks = taskFilter.toMutableList()
-                    _state.value = HomeState.Tasks(tasks)
+
+                    if (tasks.isEmpty())
+                        _state.value = HomeState.Empty
+                    else
+                        _state.value = HomeState.Tasks(tasks)
+
+                    Log.d("fetchTasksByDate", _state.value.toString())
+
                     // _state.value = HomeState.Tasks(taskFilter)
 
                 } catch (e: Exception) {
@@ -255,13 +245,28 @@ class HomeViewModel(
     }
 
 
+    fun initDateWeek(date: Long? = null) {
+
+        var c = LocalDate.now()
+        val minRange =  c.minusWeeks(12).toDate()
+        val maxRange = c.plusWeeks(12).toDate()
 
 
+        if (date != null) {
+            var calendar = Calendar.getInstance()
+            calendar.time = Date(date)
 
-    fun initDateWeek() {
+            if (calendar.time.time.toDate() in minRange..maxRange) return
+            c = LocalDate.of(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+        }
+
         listWeekData.clear()
 
-        val c = LocalDate.now()
+
         val weekRange = 12L
 
         for (i in -weekRange until weekRange) {
@@ -276,9 +281,9 @@ class HomeViewModel(
         }
 
 
-        currentWeekPos = listWeekData.indexOfFirst { it == c }
+        currentWeekPos = listWeekData.indexOfFirst { it == LocalDate.now() }
         // Print the list of LocalDate objects
-        println("chaulq___________${listWeekData[currentWeekPos]}")
+        println("chaulq___________${currentWeekPos}")
 
     }
 

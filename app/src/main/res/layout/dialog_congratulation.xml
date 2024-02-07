@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="350dp"
+            android:minWidth="300dp"
+            android:layout_height="760dp"
+            android:minHeight="720dp"
+            android:layout_gravity="center"
+            android:background="@color/dark_teal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_congratulation"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_percent="0.88" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@id/iv_bg">
+
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:maxHeight="280dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_rawRes="@raw/congratulation" />
+
+                <TextView
+                    android:id="@+id/txt_title"
+                    android:layout_width="match_parent"
+                    android:text="Congratulation!"
+                    android:textSize="24sp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/teal_green"
+                    android:fontFamily="@font/worksans_bold"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/txt_content1"
+                    android:layout_marginTop="12dp"
+                    android:lineHeight="32dp"
+                    android:layout_marginHorizontal="45dp"
+                    android:layout_width="match_parent"
+                    android:text="All habits for today are \ncompleted!"
+                    android:textSize="19sp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/jade_black"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:id="@+id/txt_content2"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:lineHeight="24dp"
+                    android:text="Only 78% of users have done this."
+                    android:textSize="13sp"
+                    android:layout_marginHorizontal="45dp"
+                    android:minLines="2"
+                    android:maxLines="4"
+                    android:gravity="center_horizontal"
+                    android:textColor="#686B6A"
+                    android:fontFamily="@font/worksans_medium"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_claim"
+                    android:layout_marginTop="14dp"
+                    android:paddingVertical="12dp"
+                    android:background="@drawable/bg_white_corner_30"
+                    android:backgroundTint="@color/jade_black"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/worksans_bold"
+                    android:text="CLAIM BADGE"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="60dp"
+
+                    android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toTopOf="@id/ll"
+                android:id="@+id/lottie"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:maxHeight="280dp"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/congratulation" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.82" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

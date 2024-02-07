@@ -7,4 +7,7 @@ object Constant {
     const val KEY_TYPE = "type"
     const val TASKNAME = "TaskName"
     const val IDHISTORY = "IDHISTORY"
+
+    const val  IDLE = -2
+
 }

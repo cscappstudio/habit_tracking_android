@@ -2,6 +2,8 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.base.BaseFragment
@@ -9,6 +11,8 @@ import com.cscmobi.habittrackingandroid.data.model.DataTaskHistory
 import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DetailData
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DetailTaskCalenderAdapter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import java.text.SimpleDateFormat
@@ -26,6 +30,7 @@ class CustomDetailTaskCalenderFragment :
     val dateMapByYear = mutableMapOf<Int, MutableList<DataDate>>()
     var minYear = 0
     var maxYear = 0
+    private var height = 0
 
     fun setData(listDataTaskHistory: List<DataTaskHistory>) {
         dataTaskHistorys = listDataTaskHistory.toMutableList()
@@ -35,8 +40,29 @@ class CustomDetailTaskCalenderFragment :
     }
 
     override fun initView(view: View) {
+        binding.calendarRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+
+                height = binding.calendarRecyclerView.height
+                binding.calendarRecyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                binding.calendarRecyclerView.layoutParams.height = height
+
+            }
+        })
         selectedDate = Calendar.getInstance()
         setMonthView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     override fun setEvent() {
@@ -50,6 +76,7 @@ class CustomDetailTaskCalenderFragment :
     }
 
     private fun setMonthView() {
+        binding.progressBar.visibility = View.VISIBLE
         calenderData.clear()
         val daysInMonth = daysInMonthArray(selectedDate)
         binding.monthYearTV.text = monthYearFromDate(selectedDate);
@@ -63,13 +90,12 @@ class CustomDetailTaskCalenderFragment :
                 it.progress = -2
                 it.textDateState = false
             }
-        } else if ( currentYear > maxYear) {
+        } else if (currentYear > maxYear) {
             calenderData.forEach {
                 it.progress = -2
                 it.textDateState = true
             }
-        }
-        else {
+        } else {
             dateMapByYear[currentYear]?.forEach { data ->
                 val checkMonth = selectedDate.get(Calendar.MONTH) == data.month
                 if (checkMonth) {
@@ -103,6 +129,10 @@ class CustomDetailTaskCalenderFragment :
             calendarAdapter?.notifyDataSetChanged()
         }
 
+        lifecycleScope.launch {
+            delay(1000L)
+            binding.progressBar.visibility = View.INVISIBLE
+        }
 
     }
 
@@ -169,7 +199,7 @@ class CustomDetailTaskCalenderFragment :
 
     fun setRangeYear() {
         var c = Calendar.getInstance()
-        c. time = Date(dataTaskHistorys[0].date)
+        c.time = Date(dataTaskHistorys[0].date)
         minYear = c.get(Calendar.YEAR)
 
         c.time = Date(dataTaskHistorys.last().date)
@@ -189,11 +219,11 @@ class CustomDetailTaskCalenderFragment :
             calendar.time = Date(it.date)
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
-            val day =  calendar.get(Calendar.DAY_OF_MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
             if (!dateMapByYear.containsKey(year)) {
                 dateMapByYear[year] = mutableListOf()
             }
-            dateMapByYear[year]?.add(DataDate(year,month,day,it.taskInDay.progress))
+            dateMapByYear[year]?.add(DataDate(year, month, day, it.taskInDay.progress))
         }
 
         Log.d("ABC", dateMapByYear.toString())

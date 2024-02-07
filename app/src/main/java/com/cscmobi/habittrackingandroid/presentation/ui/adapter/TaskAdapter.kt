@@ -18,14 +18,21 @@ import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
+import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
+import java.util.Calendar
+import java.util.Date
 import kotlin.random.Random
 
 
 class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
     ListAdapter<Task, TaskAdapter.ViewHolder>(DIFF_CALLBACK()) {
     private val binderHelper = ViewBinderHelper()
+
+    var date: Long = Helper.currentDate.toDate()
+
 
    inner  class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
@@ -35,11 +42,37 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 //                "drawable",
 //                binding.root.context.packageName
 //            )
+            var isPause = false
+            binding.frMenu.visibility = View.INVISIBLE
+            binding.swipeLayout.close(true)
+
+
 
             item.ava?.let { binding.shapeableImageView.setDrawableString(it) }
             binding.txtNameTask.text = item.name
 
             binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+
+            if (item.pauseDate != null || item.pause != 0 ){
+                var c = Calendar.getInstance()
+                c.time = Date(item.pauseDate!!)
+                c.add(Calendar.DAY_OF_MONTH, item.pause)
+
+                if (date in  item.pauseDate!!.toDate() .. c.time.time) {
+                    binding.ivPlay.visibility = View.VISIBLE
+                    binding.rdCheck.visibility = View.GONE
+                    isPause = true
+                } else  {
+                    binding.ivPlay.visibility = View.GONE
+                    binding.rdCheck.visibility = View.VISIBLE
+                    isPause = false
+                }
+            }
+            else {
+                binding.ivPlay.visibility = View.GONE
+                binding.rdCheck.visibility = View.VISIBLE
+                isPause = false
+            }
 
             item.goal?.let {
                 if (it.isOn == true) {
@@ -96,6 +129,8 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
                 }
 
+
+
 //                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
 //                    onItemClickAdapter.onItemChange(layoutPosition,item,isChecked)
 //
@@ -105,10 +140,15 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
 
 
-
             binding.swipeLayout.setSwipeListener(object : SwipeRevealLayout.SwipeListener {
                 override fun onClosed(view: SwipeRevealLayout?) {
-                    binding.rdCheck.visibility = View.VISIBLE
+                    if (isPause) {
+
+                        binding.ivPlay.visibility = View.VISIBLE
+
+                    } else  binding.rdCheck.visibility = View.VISIBLE
+
+
                     binding.frMenu.visibility = View.INVISIBLE
 
 
@@ -119,7 +159,11 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                 }
 
                 override fun onSlide(view: SwipeRevealLayout?, slideOffset: Float) {
+                    if (isPause)  binding.ivPlay.visibility = View.INVISIBLE
+                        else
                     binding.rdCheck.visibility = View.INVISIBLE
+
+
 
                 }
 
@@ -141,7 +185,13 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                 onItemClickAdapter.onItemClicked(item, layoutPosition)
             }
 
+            binding.ivPlay.setOnClickListener {
+                onItemClickAdapter.onResume(layoutPosition,item)
+                binding.ivPlay.visibility = View.GONE
+                binding.rdCheck.visibility = View.VISIBLE
 
+                notifyItemChanged(layoutPosition)
+            }
 
 
         }

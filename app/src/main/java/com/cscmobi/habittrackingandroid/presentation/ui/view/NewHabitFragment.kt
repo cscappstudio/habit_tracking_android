@@ -279,7 +279,7 @@ class NewHabitFragment :
             binding.layoutReminder.isRenindEdit = it.isOpen
             binding.layoutReminder.unitHour.value = it.hour ?: 10
             binding.layoutReminder.unitMinute.value = it.minute ?: 2
-            binding.layoutReminder.unitDay.value = dayIndex
+            binding.layoutReminder.unitDay.value = dayIndex + 1
         }
 
 
@@ -563,7 +563,7 @@ class NewHabitFragment :
             isOpen = binding.layoutReminder.isRenindEdit,
             hour = binding.layoutReminder.unitHour.value,
             minute = binding.layoutReminder.unitMinute.value,
-            unit = binding.layoutReminder.unitDay.displayedValues[binding.layoutReminder.unitDay.value - 1]
+            unit = binding.layoutReminder.unitDay.displayedValues[binding.layoutReminder.unitDay.value -1]
         )
 
 

@@ -84,6 +84,7 @@
 
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_calender"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_round_calender"
             app:layout_constraintTop_toTopOf="@id/iv_avatar"
@@ -280,7 +281,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_icon_add" />
     </androidx.constraintlayout.widget.ConstraintLayout>

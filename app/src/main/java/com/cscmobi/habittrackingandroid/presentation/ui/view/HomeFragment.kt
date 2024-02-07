@@ -7,6 +7,8 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.format.DateFormat
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -39,9 +41,11 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
+import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.calTaskProgress
+import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.Utils.isListChanged
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
@@ -54,8 +58,8 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
-import kotlin.math.roundToInt
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -75,6 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
     var currentHistory: History? = null
+    private var calenderDialogHomeFragment = CalenderDialogHomeFragment()
 
     override fun initView(view: View) {
         binding.isTasksEmpty = true
@@ -91,14 +96,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
 
 
-            homeViewModel.histories.collect{
+            homeViewModel.histories.collect {
                 it.forEach {
+
                     data.forEach { weekData ->
                         if (it.date!!.toDate() == weekData.localDate!!.toDate()) {
                             var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
                             var tasksNum = it.taskInDay.size
 
-                            weekData.progress =  calTaskProgress(tasksFinishNum,tasksNum)
+                            weekData.progress = calTaskProgress(tasksFinishNum, tasksNum)
 
                         }
 
@@ -107,11 +113,52 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
         }
+        calenderDialogHomeFragment.actionDateSelect = {
+            currentDate = it.toDate()
+            Log.d("chaulq_____currentDate", Date(currentDate).toString())
+            lifecycleScope.launch {
+                homeViewModel.initDateWeek(currentDate)
+
+                homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+                getDatesofWeek()
+                if (currentDate == Helper.currentDate.toDate()) {
+                    binding.llToday.visibility = View.GONE
+                    binding.txtDate.text = "Today"
+                } else {
+                    binding.llToday.visibility = View.VISIBLE
+
+                    val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
+                    binding.txtDate.text = dateFormat
+
+                }
+
+                binding.llToday.visibility =
+                    if (currentDate == Helper.currentDate.toDate()) View.INVISIBLE else View.VISIBLE
+                if (currentDate < Helper.currentDate.toDate()) {
+                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
+
+                } else {
+                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
+                }
+                weekAdapter.notifyDataSetChanged()
+
+                data.indexOfFirst { it.localDate!!.toDate() == currentDate }.let {
+                    if (it != -1) {
+                        data.forEachIndexed { index, item ->
+                            item.isSelected = it == index
+                        }
+                        binding.rcvWeek.postDelayed(Runnable {
+                            scrollToPositionWithCentering(it)
+                        }, 200L)
+                    }
+
+                }
 
 
+                calenderDialogHomeFragment.dismiss()
+            }
 
-
-
+        }
 
     }
 
@@ -158,9 +205,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.state.collect { state ->
                 when (state) {
                     is HomeState.Tasks -> {
-                        Log.d("aothatday", "111")
-
-
+                        Log.d("aabn", state.tasks.toString())
                         if (!hasInitChip) {
                             val categories = arrayListOf<String>()
                             categories.add("All")
@@ -170,26 +215,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             hasInitChip = true
                         }
 
-                        if (state.tasks.isEmpty()) {
-                            binding.isTasksEmpty = true
-                        } else {
-                            listTask.clear()
-                            listTask = state.tasks.toMutableList()
-                            initTaskAdapter()
-                            setUpView(listTask)
-                            binding.isTasksEmpty = false
+                        binding.isTasksEmpty = false
 
+                        listTask.clear()
+                        listTask = state.tasks.toMutableList()
+                        initTaskAdapter()
+                        setUpView(listTask)
+                        binding.isTasksEmpty = false
+
+
+                        lifecycleScope.launch {
+
+                            homeViewModel.getHistorybyDate(currentDate)
+                            // homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history))
                         }
-                            lifecycleScope.launch {
 
-                               homeViewModel.getHistorybyDate(currentDate)
-                               // homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history))
-                            }
+                    }
+
+                    is HomeState.Empty -> {
+                        binding.isTasksEmpty = true
 
                     }
 
                     else -> {
-
                     }
                 }
             }
@@ -199,21 +247,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         lifecycleScope.launch {
             homeViewModel.currentHistory.collect {
-//                if (it.taskInDay.isNullOrEmpty()) return@collect
-                if (it.id != -1) {
-                    currentHistory = it
+                if (it.id != IDLE) {
+                    if (it.id != -1) {
+                        currentHistory = it
 
-                    if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
-                       // var updateHistory = it.copy(taskInDay = getTasksInday(listTask))
-//                        homeViewModel.updateHistory(it)
-//                        currentHistory = updateHistory
+                        if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
 
-                        currentHistory!!.taskInDay =   getTasksInday(listTask)
 
-                        homeViewModel.userIntent.send(HomeIntent.UpdateHistory( currentHistory!!))
-                    }
+                            currentHistory!!.taskInDay = getTasksInday(listTask)
 
-                    data.indexOfFirst { it.localDate!!.toDate() ==  currentDate}
+                            homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory!!))
+                        }
+
+                        data.indexOfFirst { it.localDate!!.toDate() == currentDate }
 
                         it.taskInDay.forEach { taskInDay ->
                             var index = listTask.indexOfFirst { it.id == taskInDay.taskId }
@@ -222,16 +268,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             }
 
                         }
-                    taskAdapter.notifyDataSetChanged()
+                        taskAdapter.notifyDataSetChanged()
+                    } else {
+                        if (currentDate <= Helper.currentDate.toDate()) {
+                            var history =
+                                History(date = currentDate, taskInDay = getTasksInday(listTask))
+                            homeViewModel.insertTaskHistory(history)
+                            currentHistory = history
 
-
-                } else {
-                    if (currentDate <= Helper.currentDate.toDate()) {
-                        var history = History(taskInDay = getTasksInday(listTask))
-                        homeViewModel.insertTaskHistory(history)
-                        currentHistory = history
-
+                        }
                     }
+                    setUpView(listTask)
                 }
 
             }
@@ -239,7 +286,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    private fun getTasksInday(tasks: List<Task>) : List<TaskInDay> {
+    private fun getTasksInday(tasks: List<Task>): List<TaskInDay> {
         var tasksInday = mutableListOf<TaskInDay>()
         tasksInday.clear()
 
@@ -253,8 +300,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 )
             )
         }
-        return  tasksInday
+        return tasksInday
     }
+
     private fun setUpView(task: MutableList<Task>) {
         var taskFinishNumber = 0
         val taskNotChallenge = task.filter { it.challenge.isNullOrEmpty() }
@@ -266,6 +314,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         taskDone = taskFinishNumber
         setUpProgress2Tasks()
+
+        if (binding.sbProgress.progressDisplay == 100) {
+            requireActivity().let {
+                with(it.getMySharedPreferences()) {
+                    if (!this.getBoolean("isDialogCongraShown", false)) {
+                        DialogUtils.showCongratulationDialog(
+                            it,
+                            "Congratulation!",
+                            SpannableString("All habits for today are completed!"),
+                            "Only 78% of users have done this."
+                        )
+                        this.edit().putBoolean("isDialogCongraShown", true).apply()
+                    }
+                }
+            }
+
+        }
     }
 
     fun setUpTask() {
@@ -360,7 +425,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
                     currentHistory?.let {
-                        bundle.putInt(Constant.IDHISTORY,it.id)
+                        bundle.putInt(Constant.IDHISTORY, it.id)
 
                     }
                     this.putExtras(bundle)
@@ -373,12 +438,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 bottomSheetPauseFragment.show(childFragmentManager, bottomSheetPauseFragment.tag)
                 bottomSheetPauseFragment.actionPause = {
                     item.pause = it
-                    item.pauseDate =  currentDate
+                    item.pauseDate = currentDate
                     lifecycleScope.launch {
                         homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
 
                     }
                     Toast.makeText(requireContext(), "Update success", Toast.LENGTH_SHORT).show()
+                    taskAdapter.notifyItemChanged(p)
                 }
 
             }
@@ -449,7 +515,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 //
 //                        }
 
-                        currentHistory.taskInDay =   getTasksInday(listTask)
+                        currentHistory.taskInDay = getTasksInday(listTask)
 
                         homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
 
@@ -459,7 +525,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             }
 
+            override fun onResume(p: Int, item: Task) {
+                item.pause = 0
+                item.pauseDate = null
+                lifecycleScope.launch {
+                    homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
+                }
+
+            }
+
         })
+        taskAdapter.date = currentDate
+
         binding.rcvTasks.adapter = taskAdapter
         taskAdapter.submitList(listTask)
         taskAdapter.notifyDataSetChanged()
@@ -542,6 +619,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun setEvent() {
         binding.llToday.setOnClickListener {
+            if (homeViewModel.currentWeekPos == -1) {
+                homeViewModel.initDateWeek()
+                currentDate = Helper.currentDate.toDate()
+                getDatesofWeek()
+
+                weekAdapter.notifyDataSetChanged()
+                if (currentDate == Helper.currentDate.toDate()) {
+                    binding.llToday.visibility = View.GONE
+                    binding.txtDate.text = "Today"
+                } else {
+                    binding.llToday.visibility = View.VISIBLE
+
+                    val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
+                    binding.txtDate.text = dateFormat
+                }
+                binding.rcvWeek.postDelayed(Runnable {
+                    scrollToPositionWithCentering(homeViewModel.currentWeekPos)
+                }, 200L)
+
+                lifecycleScope.launch {
+                    homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+                }
+                return@setOnClickListener
+            }
+
+
             binding.llToday.visibility = View.GONE
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
             for (i in (homeViewModel.currentWeekPos - 3)..(homeViewModel.currentWeekPos + 3)) {
@@ -549,6 +652,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
             data[homeViewModel.currentWeekPos].isSelected = true
             weekAdapter.notifyItemChanged(homeViewModel.currentWeekPos)
+
+            currentDate = Helper.currentDate.toDate()
+            if (currentDate == Helper.currentDate.toDate()) {
+                binding.llToday.visibility = View.GONE
+                binding.txtDate.text = "Today"
+            } else {
+                binding.llToday.visibility = View.VISIBLE
+
+                val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
+                binding.txtDate.text = dateFormat
+            }
+            lifecycleScope.launch {
+                homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+            }
         }
 
 
@@ -556,6 +673,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             startActivity(Intent(requireContext(), MoodActivity::class.java))
         }
 
+        binding.ivCalender.setOnClickListener {
+            calenderDialogHomeFragment.show(
+                childFragmentManager.beginTransaction().remove(calenderDialogHomeFragment),
+                CalenderDialogHomeFragment.TAG
+            )
+        }
     }
 
     private fun initWeekApdater() {

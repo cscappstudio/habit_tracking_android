@@ -1,8 +1,12 @@
 package com.cscmobi.habittrackingandroid.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import org.threeten.bp.LocalDate
 import java.util.Calendar
 import java.util.Date
@@ -12,23 +16,41 @@ import kotlin.math.roundToInt
 
 object Helper {
     var currentDate = LocalDate.now()
-    var colorTask = mutableListOf<Int>(R.color.blue,R.color.pink, R.color.orange, R.color.green, R.color.purple)
+    var colorTask = mutableListOf<Int>(
+        R.color.blue,
+        R.color.pink,
+        R.color.orange,
+        R.color.green,
+        R.color.purple
+    )
 
+    fun Activity.getMySharedPreferences(): SharedPreferences {
+        return getSharedPreferences(
+            "cf", Context.MODE_PRIVATE
+        )
+    }
 
-    fun validateTask(task: Task, date: Long): Boolean {
+    fun validateTask(task: Task, date: Long, isPauseValidate: Boolean = true): Boolean {
         var isValid = true
 
-        task.pauseDate?.let {
-            var c = Calendar.getInstance()
-            c.time = Date(it)
-            c.add(Calendar.DAY_OF_MONTH, task.pause)
 
-            if (c.time.time > date) {
-                isValid = false
+
+        if (isPauseValidate)
+            task.pauseDate?.let {
+                //TODO check puasedate == currentDate then set = null
+                var c = Calendar.getInstance()
+                c.time = Date(it)
+                c.add(Calendar.DAY_OF_MONTH, task.pause)
+
+//                if (c.time.time > date ) {
+//                    isValid = false
+//                }
+                if (date in it.toDate()..c.time.time) {
+                    isValid = false
+                }
+
+                Log.d("isValid", "1 $isValid")
             }
-
-            Log.d("isValid", "1 $isValid")
-        }
 
         task.repeate?.let {
             if (it.isOn == true) {
@@ -98,7 +120,7 @@ object Helper {
         var progressGoal = if (goal > target)
             target else goal
 
-       return (progressGoal * 100f / target).roundToInt()
+        return (progressGoal * 100f / target).roundToInt()
     }
 
 }

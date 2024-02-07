@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +37,7 @@ import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
@@ -49,46 +51,50 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val fragment4 = ProfileFragment()
 
     private val appDatabase: AppDatabase by inject()
-
-
+    var taskFilter = mutableListOf<Task>()
+    private var isSetUpAlarm = false
     override fun getLayoutRes(): Int {
         return R.layout.activity_main
     }
 
 
     fun initNotifiTask() {
-        NotifiTask.db = appDatabase
 
         lifecycleScope.launch {
-            NotifiTask.db?.dao()?.getAll()?.collect {
-                try {
-                    var taskFilter =
-                        it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
-                    Log.d("Mainaaaaaaaaaaaaaa", taskFilter.toString())
+            if (NotifiTask.db == null)
+                    NotifiTask.db = appDatabase
 
-                    NotifiTask.tasks = taskFilter.toMutableList()
-                } catch (e: Exception) {
-                    HomeState.Tasks(arrayListOf())
-                }
-
-            }
+            NotifiTask.setUpWorker(this@MainActivity,this@MainActivity)
 
         }
 
+    }
 
-//        AlarmUtils.createNotificationChannel(this)
+    fun initAlarm() {
+        lifecycleScope.launch {
+            if (isSetUpAlarm) return@launch
 
-//        var listTask = mutableListOf<Task>()
-//        listTask.add(Task(name = "111111", remind = RemindTask(true,4,38,"PM")))
-//        listTask.add(Task(name = "222222", remind = RemindTask(true,4,39,"PM")))
-//        listTask.add(Task(name = "33333", remind = RemindTask(true,4,40,"PM")))
-//        listTask.add(Task(name = "44444", remind = RemindTask(true,4,41,"PM")))
-//
-//        AlarmUtils.create(this,listTask)
+        if (NotifiTask.db == null)
+            NotifiTask.db = appDatabase
+        NotifiTask.db?.dao()?.getAll()?.collect {
+
+          var task = it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
+            if (task.isNullOrEmpty()) return@collect
+            taskFilter.clear()
+            task.forEach { t ->
+                t.remind?.let {
+                    if (it.isOpen == true) {
+                        taskFilter.add(t)
+                    }
+                }
+            }
+            AlarmUtils.createNotificationChannel(this@MainActivity)
+            AlarmUtils.create(this@MainActivity,taskFilter)
+            isSetUpAlarm = true
+        } }
     }
 
     override fun initView() {
-        initNotifiTask()
         binding.bottomNavigationView.background = null
 //        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
@@ -136,6 +142,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(listener);
 
+        initAlarm()
+
     }
 
     override fun setEvent() {
@@ -175,13 +183,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (SPF.isFirstOpenApp(this)) SPF.setFirstOpenApp(this, false)
     }
 
-    override fun onPause() {
-        super.onPause()
-        NotifiTask.setUpWorker(this@MainActivity,this@MainActivity)
 
-    }
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
+        initNotifiTask()
+        isSetUpAlarm = false
 
     }
 
