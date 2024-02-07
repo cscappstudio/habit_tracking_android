@@ -20,9 +20,9 @@ class AllChallengeAdapter(private var mContext: Context) :
     class ViewHolder(var binding: ItemAllChallengeBinding) : RecyclerView.ViewHolder(binding.root)
 
     private var mList = mutableListOf<Challenge>()
-    private var mCallBack: MyChallengeCallback? = null
+    private var mCallBack: AllChallengeCallback? = null
 
-    interface MyChallengeCallback {
+    interface AllChallengeCallback {
         fun onClickItem(challenge: Challenge)
     }
 
@@ -30,7 +30,7 @@ class AllChallengeAdapter(private var mContext: Context) :
         if (data != null) this.mList = data
     }
 
-    fun setCallBack(callback: MyChallengeCallback) {
+    fun setCallBack(callback: AllChallengeCallback) {
         this.mCallBack = callback
     }
 

@@ -2,32 +2,14 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
-import com.cscmobi.habittrackingandroid.data.model.Tasks
-import com.cscmobi.habittrackingandroid.databinding.ActivityOnboardBinding
 import com.cscmobi.habittrackingandroid.databinding.ActivityQuestionFoBinding
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.OnBoardAdapter
-import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData
 import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData.Companion.mChallengeDefaultList
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
-import com.cscmobi.habittrackingandroid.thanhlv.model.OnBoardModel
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.helper.RunUtils
-import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import kotlin.collections.ArrayList
 
 class QuestionFOActivity : BaseActivity2() {
 
@@ -48,23 +30,23 @@ class QuestionFOActivity : BaseActivity2() {
 
     override fun controllerView() {
         binding.btnAnswer1.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, QuestionFO2Activity::class.java))
             finish()
         }
         binding.btnAnswer2.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, QuestionFO2Activity::class.java))
             finish()
         }
         binding.btnAnswer3.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, QuestionFO2Activity::class.java))
             finish()
         }
         binding.btnAnswer4.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, QuestionFO2Activity::class.java))
             finish()
         }
         binding.btnAnswer5.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, QuestionFO2Activity::class.java))
             finish()
         }
 

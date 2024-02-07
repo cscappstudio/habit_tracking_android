@@ -27,7 +27,7 @@ class ChallengeFragment :
     override fun initView(view: View) {
         allChallengeAdapter = AllChallengeAdapter(requireContext())
         allChallengeAdapter?.setData(allChallenges as MutableList<Challenge>?)
-        allChallengeAdapter?.setCallBack(object : AllChallengeAdapter.MyChallengeCallback {
+        allChallengeAdapter?.setCallBack(object : AllChallengeAdapter.AllChallengeCallback {
             override fun onClickItem(challenge: Challenge) {
                 val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
                 intent.putExtra("data", Gson().toJson(challenge))

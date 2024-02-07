@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_qfo_2">
+
+
+    <TextView
+        android:id="@+id/btn_next"
+        style="@style/Text_600_Med"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#01100C"
+        android:gravity="center_vertical"
+        android:paddingStart="18dp"
+        android:paddingEnd="38dp"
+        android:text="Next"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnusedAttribute" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_arrow_right_2"
+        app:layout_constraintBottom_toBottomOf="@id/btn_next"
+        app:layout_constraintEnd_toEndOf="@id/btn_next"
+        app:layout_constraintTop_toTopOf="@id/btn_next" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/shape_round_30_fill"
+        android:backgroundTint="#66FFFFFF"
+        android:layout_marginEnd="24dp"
+        android:paddingBottom="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_next">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_leaf"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="5:7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_max="300dp"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_1"
+            style="@style/Text_600_Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="24dp"
+            android:text="Don't worry,"
+            android:textColor="#09392D"
+            android:textSize="34sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            style="@style/Text_600_Med"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="6dp"
+            android:lineSpacingMultiplier="1.25"
+            android:layout_marginEnd="60dp"
+            android:maxLines="2"
+            android:text="we will help you meet your better self."
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_1"
+            tools:ignore="UnusedAttribute" />
+
+
+        <TextView
+            android:id="@+id/tv_3"
+            style="@style/Text_500_Med"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="24dp"
+            android:lineSpacingMultiplier="1.4"
+            android:paddingStart="20dp"
+            android:text="Make a clear plan and effextive"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_2"
+            app:layout_constraintWidth_percent="0.6"
+            tools:ignore="UnusedAttribute" />
+        <View
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/shape_circle_fill"
+            android:backgroundTint="#01110D"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_3"
+            tools:ignore="UnusedAttribute" />
+
+        <View
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/shape_circle_fill"
+            android:backgroundTint="#01110D"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_4"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_4"
+            style="@style/Text_500_Med"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="24dp"
+            android:lineSpacingMultiplier="1.4"
+            android:paddingStart="20dp"
+            android:text="Always with the user"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_3"
+            app:layout_constraintWidth_percent="0.5"
+            tools:ignore="UnusedAttribute" />
+
+
+        <ImageView
+            android:id="@+id/tv_5"
+            style="@style/Text_500_Med"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="42dp"
+            android:src="@drawable/img_4_dot"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_4"
+            tools:ignore="UnusedAttribute" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="50dp"
+        android:scaleType="fitXY"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/img_qfo_2"
+        app:layout_constraintTop_toTopOf="@id/text"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_max="300dp"
+        tools:ignore="UnusedAttribute" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

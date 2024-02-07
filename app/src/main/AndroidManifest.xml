@@ -84,6 +84,10 @@
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
         <activity
+            android:name=".thanhlv.ui.QuestionFO2Activity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+        <activity
             android:name=".thanhlv.ui.OnboardActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
