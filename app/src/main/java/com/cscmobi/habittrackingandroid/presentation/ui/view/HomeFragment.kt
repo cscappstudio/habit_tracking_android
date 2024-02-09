@@ -7,12 +7,15 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
 import android.text.SpannableString
 import android.text.format.DateFormat
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
@@ -76,6 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var totalTask = 0
     private var taskDone = 0
     private var currentDate = 0L
+    private var lastHistory: History? = null
 
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
     var currentHistory: History? = null
@@ -94,11 +98,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         lifecycleScope.launch {
             homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
-
-
             homeViewModel.histories.collect {
-                it.forEach {
+                if (it.isNullOrEmpty()) return@collect
 
+                it.forEach {
                     data.forEach { weekData ->
                         if (it.date!!.toDate() == weekData.localDate!!.toDate()) {
                             var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
@@ -110,6 +113,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     }
                 }
+
+                lastHistory = if (it.size == 1)  it[0] else it.last()
             }
 
         }
@@ -316,21 +321,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setUpProgress2Tasks()
 
         if (binding.sbProgress.progressDisplay == 100) {
-            requireActivity().let {
-                with(it.getMySharedPreferences()) {
-                    if (!this.getBoolean("isDialogCongraShown", false)) {
+            requireActivity().let {mactivity ->
+                with(mactivity.getMySharedPreferences()) {
+                    if (!this.getBoolean("isDialogCongraShown1", false)) {
                         DialogUtils.showCongratulationDialog(
-                            it,
+                            mactivity,
                             "Congratulation!",
                             SpannableString("All habits for today are completed!"),
                             "Only 78% of users have done this."
                         )
-                        this.edit().putBoolean("isDialogCongraShown", true).apply()
+                        this.edit().putBoolean("isDialogCongraShown1", true).apply()
+                    }
+
+                    lastHistory?.let {
+                        if (it.currentStreakDay + 1 == 2) {
+                            if (!this.getBoolean("isDialogCongraShown2", false)) {
+                                DialogUtils.showCongratulationDialog(
+                                    mactivity,
+                                    "Whoa!",
+                                    SpannableString("You just hit 2-day habit streak!").apply {
+                                        this.setSpan(ForegroundColorSpan(ContextCompat.getColor(mactivity,R.color.skyblue)), 13, 14, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                    },
+                                    "Consistency is key, and you're on the right track. Keep crushing those goals! \uD83D\uDCAA\uD83C\uDF1F"
+                                )
+                                this.edit().putBoolean("isDialogCongraShown2", true).apply()
+                            }
+                        }
+
                     }
                 }
             }
 
         }
+
     }
 
     fun setUpTask() {

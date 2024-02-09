@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
+import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
@@ -59,7 +60,7 @@ class HomeViewModel(
 
     init {
         handleIntent()
-        test()
+        getAllHistory()
     }
 
     fun insertTaskHistory(history: History, date: Long? = null) {
@@ -85,21 +86,50 @@ class HomeViewModel(
     }
 
 
-    private fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
+     fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
+
+
         databaseRepository.getAllHistory().collect {
-            _histories.value = it.toMutableList()
-            Log.d("history", it.toString())
+
+
+            var histories = it.toMutableList()
+            databaseRepository.getAllTask().collect{
+                task ->
+                var currentDayStreak = 0
+
+                for (i in histories.size-1 downTo 0) {
+                    var taskFinish = true
+
+                   histories[i].taskInDay.forEach { taskInDay ->
+                       task.find { it.id == taskInDay.taskId }?.let {
+                           if (it.goal!!.target != taskInDay.progressGoal){
+                               taskFinish = false
+                           }
+                       }
+
+                       if (!taskFinish)  {
+                           return@forEach
+                       }
+                   }
+                    if (taskFinish) currentDayStreak++
+                    else break
+                }
+                println("chaulqalo___$currentDayStreak")
+                histories.last().currentStreakDay = currentDayStreak
+                _histories.value = histories
+            }
+
+//            _histories.value = it.toMutableList()
 
         }
     }
 
 
-    fun test() {
-        viewModelScope.launch {
-            getAllHistory()
-        }
 
-    }
+
+
+
+
 
 
     private fun handleIntent() {

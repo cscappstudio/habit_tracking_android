@@ -131,7 +131,7 @@ class CreateCollectionFragment :
     private fun setEmptyCollection() {
         binding.layoutCreate.btnSave.text = "CREATE COLLECTION"
         binding.edtCollection.setText("")
-        binding.layoutCreate.vRoot.backgroundTintList =
+        binding.layoutCreate.btnSave.backgroundTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.gray))
         binding.isShowListTask = false
         isEdit = false
@@ -219,7 +219,7 @@ class CreateCollectionFragment :
     fun addTask(task: Task) {
         task.startDate = null
         if (!hadChangeState) {
-            binding.layoutCreate.vRoot.backgroundTintList =
+            binding.layoutCreate.btnSave.backgroundTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.teal_green))
             binding.rcvTask.visibility = View.VISIBLE
 

@@ -29,6 +29,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.cscmobi.habittrackingandroid.utils.AlarmUtils
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.NotifiTask
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
@@ -144,6 +145,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         initAlarm()
 
+
+        with(getMySharedPreferences()) {
+            if (this.getLong("currentDDay",-1L) != Helper.currentDate.toDate()) {
+                getMySharedPreferences().edit().putLong("currentDDay",Helper.currentDate.toDate()).apply()
+                getMySharedPreferences().edit().putBoolean("isDialogCongraShown2",false).apply()
+
+            }
+        }
     }
 
     override fun setEvent() {
