@@ -23,7 +23,7 @@ class ConfigsGeneralModel {
     var adsPlatform = "admod"
 
     @SerializedName("lastVersion")
-    var lastVersion = "1.0.0"
+    var lastVersion = "0.0.1"
 
     @SerializedName("updateMessage")
     var updateMessage = "Please update to best performance"

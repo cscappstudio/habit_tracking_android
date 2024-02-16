@@ -71,6 +71,10 @@ class ChallengeFragment :
         binding.btnCreateChallenge.setOnClickListener {
             startActivity(Intent(requireContext(), CreateChallengeActivity::class.java))
         }
+
+        binding.bgBannerPro.root.setOnClickListener {
+            startActivity(Intent(requireContext(), SubscriptionsActivity::class.java))
+        }
     }
 }
 

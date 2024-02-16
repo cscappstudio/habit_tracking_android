@@ -52,6 +52,11 @@
         <!--        </service>-->
 
         <activity
+            android:name=".thanhlv.ui.SubscriptionsActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
+
+        <activity
             android:name=".thanhlv.ui.MoodActivity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#36947A">
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_onboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_mood_great"
+        app:layout_constraintBottom_toTopOf="@id/btn_subs"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_transparent"
+        app:layout_constraintBottom_toTopOf="@id/btn_subs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabBackground="@drawable/dot_indicator_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:tabMaxWidth="16dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_subs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_top_round_30"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <TextView
+            android:id="@+id/btn_next"
+            style="@style/Text_700"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="42dp"
+            android:background="@drawable/shape_round_30_fill"
+            android:backgroundTint="#01100C"
+            android:gravity="center"
+            android:text="TRY FOR FREE"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/btn_lifetime"
+            style="@style/Text_600_Med"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/shape_round_30_fill"
+            android:backgroundTint="#F5F5F5"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:text="LIFETIME"
+            android:textColor="#09392D"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/btn_yearly"
+            style="@style/Text_600_Med"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/tt_interact_round_rect_stroke"
+            android:paddingStart="24dp"
+            android:paddingTop="12dp"
+            android:text="YEARLY"
+            android:textColor="#09392D"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_lifetime"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/btn_monthly"
+            style="@style/Text_600_Med"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/shape_round_30_fill"
+            android:backgroundTint="#F5F5F5"
+            android:gravity="center_vertical"
+            android:textColor="#09392D"
+            android:paddingStart="24dp"
+            android:text="MONTHLY"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_yearly"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_des"
+            style="@style/Text_500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="3-day free trial, then auto-renews at 16,99$/ year"
+            android:textColor="#393E3C"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_monthly"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -79,6 +79,12 @@ class ProfileFragment :
             }
         })
 
+        binding.btnSubscription.setOnClickListener(object : MyClick() {
+            override fun onMyClick(v: View, count: Long) {
+                startActivity(Intent(requireContext(), SubscriptionsActivity::class.java))
+            }
+        })
+
         binding.btnLanguage.setOnClickListener(object : MyClick() {
             override fun onMyClick(v: View, count: Long) {
                 val intent = Intent(requireContext(), ChangeLanguageActivity::class.java)
