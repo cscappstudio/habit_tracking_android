@@ -18,4 +18,11 @@
 
     <string name="latest_version">Latest version</string>
     <string name="please_update">Please update</string>
+    <string name="billing_is_not_connected_please_try_again">Billing is not connected please try again</string>
+    <string name="gsm_app_id" translatable="false">65af85c42552577a77fb3087</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
+    <string name="lifetime">Lifetime</string>
+    <string name="automatically_renewed">Automatically renewed</string>
+    <string name="once_payment">Once payment</string>
 </resources>

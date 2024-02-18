@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.adjust.sdk.Adjust
+import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -21,8 +22,11 @@ import com.android.billingclient.api.QueryPurchasesParams
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityOnboardBinding
 import com.cscmobi.habittrackingandroid.databinding.ActivitySubscritptionsBinding
+import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.SlideSubsAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.model.OnBoardModel
+import com.cscmobi.habittrackingandroid.thanhlv.model.SubsModel
+import com.cscmobi.habittrackingandroid.utils.GSMUtil
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.common.collect.ImmutableList
 import com.google.gson.JsonObject
@@ -48,7 +52,7 @@ class SubscriptionsActivity : BaseActivity2() {
 
     override fun initView() {
 
-        binding.btnNext.rippleEffect()
+        binding.btnBuyNow.rippleEffect()
         binding.vpOnboard.clipToPadding = false
         binding.vpOnboard.clipChildren = false
         binding.vpOnboard.isUserInputEnabled = false
@@ -62,16 +66,32 @@ class SubscriptionsActivity : BaseActivity2() {
     private fun getListPhoto(): ArrayList<OnBoardModel> {
         val list = ArrayList<OnBoardModel>()
         list.add(
-            OnBoardModel(R.drawable.img_onboard_1, "Unlimited habits", "free user can only have 3 habits/day. Upgrade to Premium for no limit, just habit")
+            OnBoardModel(
+                R.drawable.img_slide_subs_1,
+                "Unlimited habits",
+                "free user can only have 3 habits/day. Upgrade to Premium for no limit, just habit"
+            )
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_2, "Advanced statistics", "Unlock more graph for weekly, monthly and yearly performance")
+            OnBoardModel(
+                R.drawable.img_slide_subs_2,
+                "Advanced statistics",
+                "Unlock more graph for weekly, monthly and yearly performance"
+            )
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_3, "Custom challenges", "Create your own challenge and tailor habits to fit your life")
+            OnBoardModel(
+                R.drawable.img_slide_subs_3,
+                "Custom challenges",
+                "Create your own challenge and tailor habits to fit your life"
+            )
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_4, "No ads", "Zero distractions, 100% focus! Enjoy an ad-free experience with Premium.")
+            OnBoardModel(
+                R.drawable.img_slide_subs_4,
+                "No ads",
+                "Zero distractions, 100% focus! Enjoy an ad-free experience with Premium."
+            )
         )
         return list
     }
@@ -96,10 +116,15 @@ class SubscriptionsActivity : BaseActivity2() {
             }
         }, 100, 1200)
 
-        binding.btnNext.setOnClickListener {
+        binding.btnBuyNow.setOnClickListener {
             startActivity(Intent(this, QuestionFOActivity::class.java))
             finish()
         }
+
+        binding.btnBackHeader.setOnClickListener {
+            finish()
+        }
+
         binding.vpOnboard.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             @SuppressLint("UseCompatLoadingForDrawables")
             override fun onPageSelected(position: Int) {
@@ -153,7 +178,7 @@ class SubscriptionsActivity : BaseActivity2() {
         val productList: ImmutableList<QueryProductDetailsParams.Product> = ImmutableList.of(
             QueryProductDetailsParams.Product.newBuilder().setProductId(yearlyID)
                 .setProductType(BillingClient.ProductType.SUBS).build(),
-            QueryProductDetailsParams.Product.newBuilder().setProductId(weeklyID)
+            QueryProductDetailsParams.Product.newBuilder().setProductId(monthlyID)
                 .setProductType(BillingClient.ProductType.SUBS).build()
         )
         val params = QueryProductDetailsParams.newBuilder().setProductList(productList).build()
@@ -185,36 +210,35 @@ class SubscriptionsActivity : BaseActivity2() {
     }
 
 
-
-//    @SuppressLint("SetTextI18n")
-//    fun fillSubscription() {
-//        try {
-//            var filled = 0
+    @SuppressLint("SetTextI18n")
+    fun fillSubscription() {
+        try {
+            var filled = 0
 //            listSubs.clear()
-//            for (i in productDetails.indices) {
-//                if (productDetails[i] == null) return
-//                val id = productDetails[i]!!.productId
-//                var price: String? = ""
-//                if (productDetails[i]!!.productType == "inapp" && productDetails[i]!!.oneTimePurchaseOfferDetails != null) {
-//                    price = productDetails[i]!!.oneTimePurchaseOfferDetails!!.formattedPrice
-//                } else if (productDetails[i]!!.productType == "subs" && productDetails[i]!!
-//                        .subscriptionOfferDetails != null && productDetails[i]!!.subscriptionOfferDetails!!.isNotEmpty()
-//                ) price =
-//                    getPrice(productDetails[i]!!.subscriptionOfferDetails!![0].pricingPhases.pricingPhaseList)
-//                if (id == weeklyID) {
+            for (i in productDetails.indices) {
+                if (productDetails[i] == null) return
+                val id = productDetails[i]!!.productId
+                var price: String? = ""
+                if (productDetails[i]!!.productType == "inapp" && productDetails[i]!!.oneTimePurchaseOfferDetails != null) {
+                    price = productDetails[i]!!.oneTimePurchaseOfferDetails!!.formattedPrice
+                } else if (productDetails[i]!!.productType == "subs" && productDetails[i]!!
+                        .subscriptionOfferDetails != null && productDetails[i]!!.subscriptionOfferDetails!!.isNotEmpty()
+                ) price =
+                    getPrice(productDetails[i]!!.subscriptionOfferDetails!![0].pricingPhases.pricingPhaseList)
+                if (id == monthlyID) {
 //                    listSubs.add(
 //                        SubsModel(
 //                            0,
-//                            getString(R.string.weekly),
+//                            getString(R.string.monthly),
 //                            price!!,
 //                            getString(R.string.automatically_renewed),
 //                            false,
 //                            id
 //                        )
 //                    )
-//                    filled++
-//                }
-//                if (id == yearlyID) {
+                    filled++
+                }
+                if (id == yearlyID) {
 //                    listSubs.add(
 //                        SubsModel(
 //                            1,
@@ -225,9 +249,9 @@ class SubscriptionsActivity : BaseActivity2() {
 //                            id
 //                        )
 //                    )
-//                    filled++
-//                }
-//                if (id == lifetimeID) {
+                    filled++
+                }
+                if (id == lifetimeID) {
 //                    listSubs.add(
 //                        SubsModel(
 //                            2,
@@ -238,26 +262,24 @@ class SubscriptionsActivity : BaseActivity2() {
 //                            id
 //                        )
 //                    )
-//                    filled++
-//                }
-//            }
+                    filled++
+                }
+            }
 //            listSubs.sortWith { o1, o2 -> o1.index.compareTo(o2.index) }
-//            if (listSubs.size == 3) {
+            if (filled >= 3) {
 //                subsAdapter?.updateData(listSubs)
 //                binding.slider.isUserInputEnabled = true
-////                binding.slider.setCurrentItem(1, true)
-//
+//                binding.slider.setCurrentItem(1, true)
+
 //                Handler(Looper.getMainLooper()).postDelayed({
 //                    binding.slider.setCurrentItem(1, true)
 //                }, 200)
 //                SELECTED_SUBS = listSubs[1].keyID
-//                binding.btnBuy.isEnabled = true
-//            }
-//        } catch (ignored: Exception) {
-//        }
-//    }
-
-
+                binding.btnBuyNow.isEnabled = true
+            }
+        } catch (ignored: Exception) {
+        }
+    }
 
 
     private var maxPrice: Long = -1
@@ -306,6 +328,7 @@ class SubscriptionsActivity : BaseActivity2() {
     private var productDetail: ProductDetails? = null
 
 
+    private var SELECTED_SUBS = ""
     fun launchPurchaseFlow(productID: String) {
         if (SELECTED_SUBS == "") return
         for (i in productDetails.indices) {
@@ -319,20 +342,21 @@ class SubscriptionsActivity : BaseActivity2() {
         if (productDetail!!.subscriptionOfferDetails != null) {
             token = productDetail!!.subscriptionOfferDetails!![0].offerToken
         }
-        val productDetailsParamsList: ImmutableList<BillingFlowParams.ProductDetailsParams> = if (token == null) {
-            ImmutableList.of(
-                BillingFlowParams.ProductDetailsParams.newBuilder()
-                    .setProductDetails(productDetail!!)
-                    .build()
-            )
-        } else {
-            ImmutableList.of(
-                BillingFlowParams.ProductDetailsParams.newBuilder()
-                    .setProductDetails(productDetail!!)
-                    .setOfferToken(token)
-                    .build()
-            )
-        }
+        val productDetailsParamsList: ImmutableList<BillingFlowParams.ProductDetailsParams> =
+            if (token == null) {
+                ImmutableList.of(
+                    BillingFlowParams.ProductDetailsParams.newBuilder()
+                        .setProductDetails(productDetail!!)
+                        .build()
+                )
+            } else {
+                ImmutableList.of(
+                    BillingFlowParams.ProductDetailsParams.newBuilder()
+                        .setProductDetails(productDetail!!)
+                        .setOfferToken(token)
+                        .build()
+                )
+            }
         val billingFlowParams =
             BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList)
                 .build()
@@ -363,6 +387,30 @@ class SubscriptionsActivity : BaseActivity2() {
                     if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
                         handlePurchase(purchase)
 
+        }
+    }
+
+    private var gotoHome = true
+    private fun handlePurchase(purchase: Purchase) {
+        if (!purchase.isAcknowledged) {
+            billingClient.acknowledgePurchase(
+                AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken).build()
+            ) { billingResult: BillingResult ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    SPF.setProApp(applicationContext, true)
+                    productDetail?.let { trackingPurchase(purchase, it) }
+                    runOnUiThread {
+                        if (gotoHome) {
+                            val i = Intent(this@SubscriptionsActivity, MainActivity::class.java)
+                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            startActivity(i)
+                            gotoHome = false
+                        }
+                        finish()
+                    }
+                }
+            }
         }
     }
 //    @SuppressLint("MissingSuperCall")
