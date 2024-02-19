@@ -42,6 +42,36 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="UnusedAttribute" />
 
+            <TextView
+                android:id="@+id/tv_current_streak"
+                style="@style/Text_700_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:elevation="20dp"
+                android:text="20"
+                android:textColor="#fff"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_current_streak"
+                app:layout_constraintStart_toStartOf="@id/bb_current_streak"
+                app:layout_constraintTop_toTopOf="@id/bb_current_streak" />
+
+            <TextView
+                style="@style/Text_500_Med"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:elevation="20dp"
+                android:gravity="center"
+
+                android:paddingHorizontal="12dp"
+                android:text="Completion rate"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_current_streak"
+                app:layout_constraintStart_toStartOf="@id/bb_current_streak"
+                app:layout_constraintTop_toBottomOf="@id/tv_current_streak" />
+
             <View
                 android:id="@+id/bb_completion_rate"
                 android:layout_width="105dp"
@@ -54,6 +84,36 @@
                 app:layout_constraintStart_toStartOf="@id/bb_current_streak"
                 app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
                 tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/tv_completion_rate_percent"
+                style="@style/Text_700_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:elevation="20dp"
+                android:text="20"
+                android:textColor="#fff"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_completion_rate"
+                app:layout_constraintStart_toStartOf="@id/bb_completion_rate"
+                app:layout_constraintTop_toTopOf="@id/bb_completion_rate" />
+
+
+            <TextView
+                style="@style/Text_500_Med"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:elevation="20dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="Completion rate"
+                android:textColor="#fff"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_completion_rate"
+                app:layout_constraintStart_toStartOf="@id/bb_completion_rate"
+                app:layout_constraintTop_toBottomOf="@id/tv_completion_rate_percent" />
+
 
             <View
                 android:id="@+id/bb_perfect_day"
@@ -68,6 +128,36 @@
                 app:layout_constraintTop_toTopOf="@id/bb_current_streak"
                 tools:ignore="UnusedAttribute" />
 
+            <TextView
+                android:id="@+id/tv_perfect_day"
+                style="@style/Text_700_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:elevation="20dp"
+                android:text="20"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_perfect_day"
+                app:layout_constraintStart_toStartOf="@id/bb_perfect_day"
+                app:layout_constraintTop_toTopOf="@id/bb_perfect_day" />
+
+
+            <TextView
+                style="@style/Text_500_Med"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:elevation="20dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="Perfect day"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_perfect_day"
+                app:layout_constraintStart_toStartOf="@id/bb_perfect_day"
+                app:layout_constraintTop_toBottomOf="@id/tv_perfect_day" />
+
+
             <View
                 android:id="@+id/bb_longest_streak"
                 android:layout_width="98dp"
@@ -80,6 +170,35 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
                 tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/tv_longest_streak"
+                style="@style/Text_700_Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:elevation="20dp"
+                android:text="20"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_longest_streak"
+                app:layout_constraintStart_toStartOf="@id/bb_longest_streak"
+                app:layout_constraintTop_toTopOf="@id/bb_longest_streak" />
+
+
+            <TextView
+                style="@style/Text_500_Med"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:elevation="20dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="Longest streak"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/bb_longest_streak"
+                app:layout_constraintStart_toStartOf="@id/bb_longest_streak"
+                app:layout_constraintTop_toBottomOf="@id/tv_longest_streak" />
 
 
             <ImageView
