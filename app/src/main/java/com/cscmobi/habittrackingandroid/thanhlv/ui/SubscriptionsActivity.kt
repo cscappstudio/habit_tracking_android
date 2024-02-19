@@ -367,27 +367,27 @@ class SubscriptionsActivity : BaseActivity2() {
     override fun onResume() {
         super.onResume()
         MyUtils.hideNavigationBar(this)
-        billingClient.queryPurchasesAsync(
-            QueryPurchasesParams.newBuilder()
-                .setProductType(BillingClient.ProductType.SUBS).build()
-        ) { billingResult: BillingResult, list: List<Purchase> ->
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && list.isNotEmpty())
-                for (purchase in list)
-                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
-                        handlePurchase(purchase)
-
-        }
-
-        billingClient.queryPurchasesAsync(
-            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP)
-                .build()
-        ) { billingResult2: BillingResult, list2: List<Purchase> ->
-            if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK && list2.isNotEmpty())
-                for (purchase in list2)
-                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
-                        handlePurchase(purchase)
-
-        }
+//        billingClient.queryPurchasesAsync(
+//            QueryPurchasesParams.newBuilder()
+//                .setProductType(BillingClient.ProductType.SUBS).build()
+//        ) { billingResult: BillingResult, list: List<Purchase> ->
+//            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && list.isNotEmpty())
+//                for (purchase in list)
+//                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
+//                        handlePurchase(purchase)
+//
+//        }
+//
+//        billingClient.queryPurchasesAsync(
+//            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP)
+//                .build()
+//        ) { billingResult2: BillingResult, list2: List<Purchase> ->
+//            if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK && list2.isNotEmpty())
+//                for (purchase in list2)
+//                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
+//                        handlePurchase(purchase)
+//
+//        }
     }
 
     private var gotoHome = true

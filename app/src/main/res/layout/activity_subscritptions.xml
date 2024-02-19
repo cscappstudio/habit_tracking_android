@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/btn_buy_now"
-            style="@style/Text_700"
+            style="@style/Text_700_Bold"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="24dp"
@@ -78,14 +78,13 @@
 
         <TextView
             android:id="@+id/btn_lifetime"
-            style="@style/Text_600_Med"
+            style="@style/Text_600_Bold"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="18dp"
-            android:background="@drawable/shape_round_30_fill"
-            android:backgroundTint="#F5F5F5"
+            android:background="@drawable/bg_subs_unselect"
             android:gravity="center_vertical"
             android:paddingStart="24dp"
             android:text="LIFETIME"
@@ -97,13 +96,13 @@
 
         <TextView
             android:id="@+id/btn_yearly"
-            style="@style/Text_600_Med"
+            style="@style/Text_600_Bold"
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="12dp"
-            android:background="@drawable/tt_interact_round_rect_stroke"
+            android:background="@drawable/bg_subs_selected"
             android:paddingStart="24dp"
             android:paddingTop="12dp"
             android:text="YEARLY"
@@ -113,20 +112,46 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="UnusedAttribute" />
 
+        <ImageView
+            android:id="@+id/img_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="18dp"
+            android:src="@drawable/img_label_discount_subs"
+            app:layout_constraintEnd_toEndOf="@id/btn_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly" />
+
+        <TextView
+            android:id="@+id/tv_discount"
+            style="@style/Text_600_Med"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="42dp"
+            android:text="SALE 70%"
+            android:textColor="#393E3C"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/img_discount"
+            app:layout_constraintEnd_toEndOf="@id/img_discount"
+            app:layout_constraintStart_toStartOf="@id/img_discount"
+            app:layout_constraintTop_toTopOf="@id/img_discount"
+            tools:ignore="UnusedAttribute" />
+
+
         <TextView
             android:id="@+id/btn_monthly"
-            style="@style/Text_600_Med"
+            style="@style/Text_600_Bold"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/shape_round_30_fill"
-            android:backgroundTint="#F5F5F5"
+            android:background="@drawable/bg_subs_unselect"
             android:gravity="center_vertical"
-            android:textColor="#09392D"
             android:paddingStart="24dp"
             android:text="MONTHLY"
+            android:textColor="#09392D"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@id/btn_yearly"
             app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +159,7 @@
 
         <TextView
             android:id="@+id/tv_des"
-            style="@style/Text_500"
+            style="@style/Text_500_Med"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
