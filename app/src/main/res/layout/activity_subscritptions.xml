@@ -70,6 +70,7 @@
             android:backgroundTint="#01100C"
             android:gravity="center"
             android:text="TRY FOR FREE"
+            android:elevation="10dp"
             android:textColor="#fff"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +86,9 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="18dp"
             android:background="@drawable/bg_subs_unselect"
+            android:elevation="0dp"
             android:gravity="center_vertical"
+            android:outlineSpotShadowColor="@color/black_50"
             android:paddingStart="24dp"
             android:text="LIFETIME"
             android:textColor="#09392D"
@@ -101,13 +104,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:elevation="12dp"
             android:text="$16,99"
             android:textColor="#09392D"
             android:textSize="18sp"
-            app:layout_constraintVertical_bias="0.2"
-            app:layout_constraintTop_toTopOf="@id/btn_lifetime"
             app:layout_constraintBottom_toBottomOf="@id/btn_lifetime"
             app:layout_constraintEnd_toEndOf="@id/btn_lifetime"
+            app:layout_constraintTop_toTopOf="@id/btn_lifetime"
+            app:layout_constraintVertical_bias="0.2"
             tools:ignore="UnusedAttribute" />
 
 
@@ -117,13 +121,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:elevation="12dp"
             android:text="Lifetime subscription"
             android:textColor="#b5b5b5"
             android:textSize="12sp"
-            app:layout_constraintVertical_bias="0.72"
-            app:layout_constraintTop_toTopOf="@id/btn_lifetime"
             app:layout_constraintBottom_toBottomOf="@id/btn_lifetime"
             app:layout_constraintEnd_toEndOf="@id/btn_lifetime"
+            app:layout_constraintTop_toTopOf="@id/btn_lifetime"
+            app:layout_constraintVertical_bias="0.72"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -135,6 +140,8 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_subs_selected"
+            android:elevation="12dp"
+            android:outlineSpotShadowColor="@color/black_50"
             android:paddingStart="24dp"
             android:paddingTop="14dp"
             android:text="YEARLY"
@@ -143,18 +150,20 @@
             app:layout_constraintBottom_toTopOf="@id/btn_lifetime"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="UnusedAttribute" />
+
         <TextView
             android:id="@+id/tv_price_yearly"
             style="@style/Text_600_Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:elevation="12dp"
             android:text="$16,99"
             android:textColor="#09392D"
             android:textSize="18sp"
-            app:layout_constraintTop_toTopOf="@id/btn_yearly"
             app:layout_constraintBottom_toBottomOf="@id/btn_yearly"
             app:layout_constraintEnd_toEndOf="@id/btn_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -163,12 +172,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:elevation="12dp"
             android:text="$16,99"
             android:textColor="#B5B5B5"
             android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/btn_yearly"
             app:layout_constraintBottom_toBottomOf="@id/btn_yearly"
             app:layout_constraintEnd_toStartOf="@id/tv_price_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -177,13 +187,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:elevation="12dp"
             android:text="Free trial 3-day"
             android:textColor="#54BA8F"
             android:textSize="15sp"
-            app:layout_constraintVertical_bias=".72"
-            app:layout_constraintTop_toTopOf="@id/btn_yearly"
             app:layout_constraintBottom_toBottomOf="@id/btn_yearly"
             app:layout_constraintStart_toStartOf="@id/btn_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly"
+            app:layout_constraintVertical_bias=".72"
             tools:ignore="UnusedAttribute" />
 
         <ImageView
@@ -192,24 +203,27 @@
             android:layout_height="24dp"
             android:layout_marginTop="-5dp"
             android:layout_marginEnd="18dp"
-            android:src="@drawable/img_label_discount_subs"
+            android:background="@drawable/img_label_discount_subs"
+            android:elevation="12dp"
             app:layout_constraintEnd_toEndOf="@id/btn_yearly"
             app:layout_constraintTop_toTopOf="@id/btn_yearly" />
 
         <ImageView
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="22dp"
+            android:elevation="12dp"
             android:src="@drawable/img_poper"
             app:layout_constraintBottom_toBottomOf="@id/img_discount"
-            android:layout_marginStart="22dp"
             app:layout_constraintStart_toStartOf="@id/img_discount"
-            app:layout_constraintTop_toTopOf="@id/img_discount"
-            android:layout_width="21dp"
-            android:layout_height="21dp"/>
+            app:layout_constraintTop_toTopOf="@id/img_discount" />
 
         <TextView
             android:id="@+id/tv_discount"
             style="@style/Text_600_Med"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:elevation="12dp"
             android:gravity="center_vertical"
             android:paddingStart="42dp"
             android:text="SALE 70%"
@@ -231,7 +245,9 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_subs_unselect"
+            android:elevation="0dp"
             android:gravity="center_vertical"
+            android:outlineSpotShadowColor="@color/black_50"
             android:paddingStart="24dp"
             android:text="MONTHLY"
             android:textColor="#09392D"
@@ -246,13 +262,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:elevation="12dp"
             android:text="$16,99"
             android:textColor="#09392D"
             android:textSize="18sp"
-            app:layout_constraintVertical_bias="0.2"
-            app:layout_constraintTop_toTopOf="@id/btn_monthly"
             app:layout_constraintBottom_toBottomOf="@id/btn_monthly"
             app:layout_constraintEnd_toEndOf="@id/btn_monthly"
+            app:layout_constraintTop_toTopOf="@id/btn_monthly"
+            app:layout_constraintVertical_bias="0.2"
             tools:ignore="UnusedAttribute" />
 
 
@@ -262,13 +279,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:elevation="12dp"
             android:text="Automatic renewal"
             android:textColor="#b5b5b5"
             android:textSize="12sp"
-            app:layout_constraintVertical_bias="0.72"
-            app:layout_constraintTop_toTopOf="@id/btn_monthly"
             app:layout_constraintBottom_toBottomOf="@id/btn_monthly"
             app:layout_constraintEnd_toEndOf="@id/btn_monthly"
+            app:layout_constraintTop_toTopOf="@id/btn_monthly"
+            app:layout_constraintVertical_bias="0.72"
             tools:ignore="UnusedAttribute" />
 
         <TextView

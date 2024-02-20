@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.adjust.sdk.Adjust
@@ -32,6 +33,7 @@ import com.google.common.collect.ImmutableList
 import com.google.gson.JsonObject
 import com.thanhlv.ads.lib.AdjustHelper
 import com.thanhlv.fw.constant.AppConfigs
+import com.thanhlv.fw.helper.DisplayUtils
 import com.thanhlv.fw.helper.FirebaseHelper
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
@@ -132,6 +134,40 @@ class SubscriptionsActivity : BaseActivity2() {
                 ii = position
             }
         })
+
+        binding.btnMonthly.setOnClickListener {
+            binding.btnMonthly.setBackgroundResource(R.drawable.bg_subs_selected)
+            binding.btnYearly.setBackgroundResource(R.drawable.bg_subs_unselect)
+            binding.btnLifetime.setBackgroundResource(R.drawable.bg_subs_unselect)
+            binding.btnMonthly.elevation = DisplayUtils.dpToPx2(12f)
+            binding.btnYearly.elevation = 0f
+            binding.btnLifetime.elevation = 0f
+            binding.imgDiscount.backgroundTintList = ColorStateList.valueOf(
+                Color.parseColor("#DFCE75")
+            )
+        }
+
+        binding.btnYearly.setOnClickListener {
+            binding.btnMonthly.setBackgroundResource(R.drawable.bg_subs_unselect)
+            binding.btnYearly.setBackgroundResource(R.drawable.bg_subs_selected)
+            binding.btnLifetime.setBackgroundResource(R.drawable.bg_subs_unselect)
+            binding.btnMonthly.elevation = 0f
+            binding.btnYearly.elevation = DisplayUtils.dpToPx2(12f)
+            binding.btnLifetime.elevation = 0f
+            binding.imgDiscount.backgroundTintList = null
+        }
+
+        binding.btnLifetime.setOnClickListener {
+            binding.btnMonthly.setBackgroundResource(R.drawable.bg_subs_unselect)
+            binding.btnYearly.setBackgroundResource(R.drawable.bg_subs_unselect)
+            binding.btnLifetime.setBackgroundResource(R.drawable.bg_subs_selected)
+            binding.imgDiscount.backgroundTintList = ColorStateList.valueOf(
+                Color.parseColor("#DFCE75")
+            )
+            binding.btnMonthly.elevation = 0f
+            binding.btnYearly.elevation = 0f
+            binding.btnLifetime.elevation = DisplayUtils.dpToPx2(12f)
+        }
     }
 
     override fun loadData() {
