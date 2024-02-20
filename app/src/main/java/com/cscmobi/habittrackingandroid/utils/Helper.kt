@@ -36,8 +36,6 @@ object Helper {
     fun validateTask(task: Task, date: Long, isPauseValidate: Boolean = true): Boolean {
         var isValid = true
 
-
-
         if (isPauseValidate)
             task.pauseDate?.let {
                 //TODO check puasedate == currentDate then set = null
@@ -97,17 +95,23 @@ object Helper {
         }
 
         val _date = getDateWithoutHour(date)
-        if (getDateWithoutHour(task.startDate!!) > _date || (task.endDate!!.isOpen == true && task.endDate!!.endDate!! < _date)) {
-            isValid = false
-            Log.d("isValid", "3 $isValid")
 
+        if (task.startDate != null) {
+            if (getDateWithoutHour(task.startDate!!) > _date || (task.endDate!!.isOpen == true && task.endDate!!.endDate!! < _date)) {
+                isValid = false
+                Log.d("isValid", "3 $isValid")
+
+            }
         }
+
+
 
         if (isValid == false) Log.d("isvalid", task.name.toString())
         return isValid
     }
 
     fun getDateWithoutHour(date: Long): Long {
+        if (date == -1L) return -1
         val calendar = Calendar.getInstance()
         calendar.time = Date(date)
         // Set hour, minute, second, and millisecond to zero
