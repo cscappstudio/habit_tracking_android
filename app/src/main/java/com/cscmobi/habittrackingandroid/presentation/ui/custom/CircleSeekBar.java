@@ -174,6 +174,11 @@ public class CircleSeekBar extends View {
         invalidate();
     }
 
+    public void setText(String s) {
+        this.mText = s;
+        invalidate();
+    }
+
     public int getProgressDisplay() {
         return mProgressDisplay;
     }

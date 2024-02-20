@@ -16,12 +16,12 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/_12sdp"
-        android:onClick="@{v -> listener.onItemClicked(position)}"
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/rd_check"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
+            android:onClick="@{v -> listener.onItemClicked(position)}"
             android:checked="@{item.status}"
             android:button="@drawable/custom_checklist_checkbox"
             android:layout_height="wrap_content"/>

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
@@ -49,6 +50,12 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
         MyUtils.hideStatusBar(this)
         initView()
         setEvent()
+//        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//
+//            }
+//
+//        })
     }
 
     abstract fun initView()

@@ -83,5 +83,9 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
        return dao.getHistoryWithDate(startDate)
     }
 
+    override suspend fun getCollectionByName(name: String): HabitCollection? {
+        return dao.findCollectionByName(name)
+    }
+
 
 }

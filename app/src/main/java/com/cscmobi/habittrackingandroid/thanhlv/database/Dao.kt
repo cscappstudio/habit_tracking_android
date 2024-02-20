@@ -133,6 +133,8 @@ interface Dao {
     @Query("SELECT * FROM history WHERE date >= :startDate")
     fun getHistoryWithDate(startDate: Long) : Flow<List<History>>
 
+    @Query("SELECT * FROM HabitCollection WHERE nameCollection = :name")
+    suspend fun findCollectionByName(name: String) : HabitCollection?
 
 
 }

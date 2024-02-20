@@ -70,13 +70,18 @@ class DetailCollectionFragment :
         detailCollectionAdapter.setListener(object : ItemDetailCollection<Task> {
             override fun onItemClicked(item: Task) {
                 (requireActivity() as NewHabitActivity).let {
-                    it.newHabitFragment.newHabitFragmentState =
-                        NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
+                    if (item.notBelongDefaultCollection)
+                        it.newHabitFragment.newHabitFragmentState =
+                            NewHabitFragment.NewHabitFragmentState.ADDTOROUTINEWITHCOLLECTION
+                    else
+                        it.newHabitFragment.newHabitFragmentState =
+                            NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
                     it.addFragmentNotHide(it.newHabitFragment, NewHabitFragment.TAG)
+
                     lifecycleScope.launch {
                         collectionViewModel.userIntent.send(
                             CollectionIntent.PassTaskfromCollection(
-                                item
+                                item.copy()
                             )
                         )
 
@@ -118,7 +123,7 @@ class DetailCollectionFragment :
 
                 (requireActivity() as NewHabitActivity).let {
 
-                    it.replaceFragment(it.createCollectionFragment, CreateCollectionFragment.TAG)
+                    it.addFragmentNotHide(it.createCollectionFragment, CreateCollectionFragment.TAG)
                 }
             }
 

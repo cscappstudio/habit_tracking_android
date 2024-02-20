@@ -40,4 +40,8 @@ interface DatabaseRepository {
     suspend fun deleteTaskInHistory(id: Int,newTaskInDay: List<TaskInDay>)
 
     suspend fun getHistoryWithDate(startDate: Long): Flow<List<History>>
+
+    suspend fun getCollectionByName(name: String) : HabitCollection?
+
+
 }

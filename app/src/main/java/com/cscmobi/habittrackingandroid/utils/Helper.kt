@@ -15,6 +15,9 @@ import kotlin.math.roundToInt
 
 
 object Helper {
+    var isNewDay = false
+    var chooseDate = 0L
+
     var currentDate = LocalDate.now()
     var colorTask = mutableListOf<Int>(
         R.color.blue,
@@ -122,5 +125,7 @@ object Helper {
 
         return (progressGoal * 100f / target).roundToInt()
     }
+
+
 
 }

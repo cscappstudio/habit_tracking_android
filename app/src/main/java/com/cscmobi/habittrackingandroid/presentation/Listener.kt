@@ -53,3 +53,9 @@ interface ItemChallengeHomeListener<T> :  BaseBindingAdapter.BaseBindingListener
 interface ItemTaskCollection<T> : ItemBaseWithPostitionListener<T> {
     fun onEdit(v: View, item: T, p: Int)
 }
+
+
+
+interface OnBackPress {
+    fun onBack()
+}

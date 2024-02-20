@@ -19,6 +19,7 @@ import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.databinding.FragmentCollectionBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBaseListener
+import com.cscmobi.habittrackingandroid.presentation.ItemDetailCollection
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.CollectionAdapter
@@ -28,6 +29,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionStat
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Calendar
 import kotlin.math.hypot
 
 class CollectionFragment :
@@ -137,15 +139,28 @@ class CollectionFragment :
                 }
             },  originalData = listTasks
         )
-        detailCollectionAdapter?.setListener(object: ItemBaseListener<Task> {
+        detailCollectionAdapter?.setListener(object: ItemDetailCollection<Task> {
             override fun onItemClicked(item: Task) {
                 (requireActivity() as NewHabitActivity).let {
-                    it.newHabitFragment.newHabitFragmentState = NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
+                    if (item.notBelongDefaultCollection)
+                        it.newHabitFragment.newHabitFragmentState =
+                            NewHabitFragment.NewHabitFragmentState.ADDTOROUTINEWITHCOLLECTION
+                    else
+                        it.newHabitFragment.newHabitFragmentState =
+                            NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
                     it.addFragmentNotHide(it.newHabitFragment,NewHabitFragment.TAG)
                     lifecycleScope.launch {
                         collectionViewModel.userIntent.send(CollectionIntent.PassTaskfromCollection(item))
 
                     }
+                }
+            }
+
+            override fun onAddTask(item: Task) {
+                lifecycleScope.launch {
+                    var clone = item.copy(startDate = Calendar.getInstance().time.time)
+                    collectionViewModel.userIntent.send(CollectionIntent.CreateTaskToRoutine(clone))
+                    Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -90,7 +90,7 @@ class HomeViewModel(
 
 
         databaseRepository.getAllHistory().collect {
-
+            if (it.isEmpty()) return@collect
 
             var histories = it.toMutableList()
             databaseRepository.getAllTask().collect{

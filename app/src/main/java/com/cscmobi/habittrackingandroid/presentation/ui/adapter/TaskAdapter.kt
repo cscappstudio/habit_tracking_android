@@ -125,6 +125,11 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
                 }
 
                 binding.rdCheck.setOnClickListener {
+                    if (date > Helper.currentDate.toDate()) {
+                        binding.rdCheck.isChecked = false
+                        return@setOnClickListener
+                    }
+
                    onItemClickAdapter.onItemChange(layoutPosition,item,binding.rdCheck.isChecked)
 
                 }

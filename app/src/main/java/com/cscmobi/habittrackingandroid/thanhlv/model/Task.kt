@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.EndDate
@@ -16,7 +17,7 @@ import java.util.Date
 @Serializable
 @Entity
 data class Task(
-    @PrimaryKey(true) var id: Int = 0,
+    @PrimaryKey(true)  var id: Int = 0,
     @ColumnInfo(name = "name") var name: String? = "New Task",
     @ColumnInfo(name = "color") var color: String? = "#B6D6DD",
     @ColumnInfo(name = "ava") var ava: String? ="",
@@ -37,4 +38,12 @@ data class Task(
     @ColumnInfo(name = "endDate") var endDate: EndDate? = EndDate(),
     @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
     @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,
-)
+
+
+    @Ignore
+    var notBelongDefaultCollection:Boolean = true,
+    @Ignore
+    var index: Int = 0
+) {
+
+}

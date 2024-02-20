@@ -63,6 +63,7 @@ import org.threeten.bp.format.TextStyle
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -79,6 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var totalTask = 0
     private var taskDone = 0
     private var currentDate = 0L
+    private var currentPosWeek = -1
     private var lastHistory: History? = null
 
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
@@ -169,14 +171,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onResume() {
         super.onResume()
-
         observeState()
 
     }
 
     fun getDatesofWeek() {
-
-
         date.clear()
         data.clear()
 
@@ -210,7 +209,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.state.collect { state ->
                 when (state) {
                     is HomeState.Tasks -> {
-                        Log.d("aabn", state.tasks.toString())
                         if (!hasInitChip) {
                             val categories = arrayListOf<String>()
                             categories.add("All")
@@ -307,7 +305,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         return tasksInday
     }
-
     private fun setUpView(task: MutableList<Task>) {
         var taskFinishNumber = 0
         val taskNotChallenge = task.filter { it.challenge.isNullOrEmpty() }
@@ -318,8 +315,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
         taskDone = taskFinishNumber
-        setUpProgress2Tasks()
+        var taskChallenge = task.groupBy { it.challenge }
+        var totalChallenge = taskChallenge.size
+        var challengeFinish = taskChallenge.size
 
+        taskChallenge.forEach { t, u ->
+            var notDoneTask = u.find { it.goal!!.currentProgress != it.goal!!.target }
+            if (notDoneTask != null) challengeFinish --
+        }
+
+        setUpProgress1Tasks(challengeFinish,totalChallenge)
+        setUpProgress2Tasks()
+        binding.sbProgress.setText(((taskDone + challengeFinish).toFloat() / (totalChallenge + totalTask).toFloat() * 100f).roundToInt().toString() +"%")
+        binding.sbProgress.progressDisplay = ((taskDone + challengeFinish).toFloat() / (totalChallenge + totalTask).toFloat() * 100f).roundToInt()
         if (binding.sbProgress.progressDisplay == 100) {
             requireActivity().let {mactivity ->
                 with(mactivity.getMySharedPreferences()) {
@@ -429,7 +437,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.rcvChallenge.adapter = challengeHomeAdpater
 
     }
-
+    private fun setUpProgress1Tasks(challengeFinish: Int, totalChallenge: Int) {
+        binding.txtProgress2.text = "$challengeFinish/$totalChallenge"
+    }
     private fun setUpProgress2Tasks() {
         binding.txtProgress2.text = "$taskDone/$totalTask"
     }
@@ -477,7 +487,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 Intent(requireActivity(), NewHabitActivity::class.java).apply {
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
-
                     this.putExtras(bundle)
                     startActivity(this)
                 }
@@ -521,7 +530,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
-
                 if (isChange) {
                     item.goal?.currentProgress = item.goal?.target!!
                 } else {
@@ -539,6 +547,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 //                        }
 
                         currentHistory.taskInDay = getTasksInday(listTask)
+
+
+                                var tasksFinishNum = currentHistory.taskInDay.filter { it.progress == 100 }.size
+                                var tasksNum = currentHistory.taskInDay.size
+
+                        data[currentPosWeek]
+                            .progress = calTaskProgress(tasksFinishNum, tasksNum)
+
+                        weekAdapter.notifyItemChanged(currentPosWeek)
+
 
                         homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
 
@@ -660,7 +678,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 binding.rcvWeek.postDelayed(Runnable {
                     scrollToPositionWithCentering(homeViewModel.currentWeekPos)
                 }, 200L)
-
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
                 }
@@ -670,6 +687,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             binding.llToday.visibility = View.GONE
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
+
             for (i in (homeViewModel.currentWeekPos - 3)..(homeViewModel.currentWeekPos + 3)) {
                 data[i].isSelected = false
             }
@@ -773,6 +791,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         val smoothScroller = CenterSmoothScroller(binding.rcvWeek.context)
         smoothScroller.targetPosition = position
         layoutManager.startSmoothScroll(smoothScroller)
+        currentPosWeek = position
 
     }
 
@@ -840,7 +859,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     override fun onPause() {
         super.onPause()
         hasInitChip = false
-
+        Helper.chooseDate = currentDate
 
     }
 

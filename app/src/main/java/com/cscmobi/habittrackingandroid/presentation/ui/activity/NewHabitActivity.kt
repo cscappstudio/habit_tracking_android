@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.cscmobi.habittrackingandroid.R
@@ -85,6 +86,8 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     override fun editTaskCollection(task: Task) {
         createCollectionFragment.editTask(task)
     }
+
+
 
 
 }

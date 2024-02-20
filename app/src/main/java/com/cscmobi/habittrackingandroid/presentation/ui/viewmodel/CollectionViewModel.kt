@@ -10,6 +10,7 @@ import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -44,7 +45,6 @@ class CollectionViewModel constructor(
     var taskCollection = Task()
 
     private  var listCollectionName = mutableListOf<String>()
-
 
     init {
         handleIntent()
@@ -152,7 +152,7 @@ class CollectionViewModel constructor(
                     val collections = mutableListOf<HabitCollection>()
                     collections.addAll(localCollection)
                    databaseCollection.forEach {
-                       it.isEdit = true
+                     it.isEdit = true
                    }
                     collections.addAll(databaseCollection)
                    listCollectionName = collections.map { it.name }.toMutableList()
@@ -173,7 +173,70 @@ class CollectionViewModel constructor(
         _state.value = CollectionState.Collection(data)
     }
 
+     fun deleteTask(task: Task, deleteType: Int) = viewModelScope.launch {
+        try {
+            if (deleteType == 0) {
+                databaseRepository.updateTask(task)
+            } else if (deleteType == 1) {
+                databaseRepository.deleteTask(task)
+            }
 
+
+        } catch (e: Exception) {
+
+        }
+    }
+    fun deleteTaskInHistory(date: Long, taskId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                databaseRepository.getHistoryWithDate(date).collect {
+                    it.forEach { history ->
+                        val index = history.taskInDay.indexOfFirst { it.taskId == taskId }
+                        if (index != -1) {
+                            val newTaskInDay = history.taskInDay.toMutableList()
+                            newTaskInDay.removeAt(index)
+                            databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
+                        }
+                    }
+                }
+
+            }
+        } catch (e: Exception) {
+            println("chaulq______delete task in history: ${e.message}")
+        }
+
+    }
+
+    fun deleteTaskInCollection(task: Task) = CoroutineScope(Dispatchers.IO).launch {
+        task.collection?.let {
+           var collection =  async {databaseRepository.getCollectionByName(it)   } .await()
+               if (collection != null) {
+                   var newTask = collection.task?.toMutableList()
+                   newTask?.remove(task)
+
+                   val mCollection = collection.copy(task = newTask)
+                   databaseRepository.updateCollection(mCollection)
+                   passCollectionItem(mCollection)
+               }
+
+        }
+    }
+
+    fun updateTaskCollection(task: Task) = CoroutineScope(Dispatchers.IO).launch {
+        task.collection?.let {
+            var collection =  async {databaseRepository.getCollectionByName(it)   } .await()
+            if (collection != null) {
+                var newTask = collection.task?.toMutableList()
+                newTask?.set(task.index, task)
+
+                val mCollection = collection.copy(task = newTask)
+                databaseRepository.updateCollection(mCollection)
+                passCollectionItem(mCollection)
+            }
+
+        }
+
+    }
     fun tag(): MutableList<Tag> {
         return mutableListOf(
             Tag("No tag"),

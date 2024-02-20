@@ -9,5 +9,6 @@ object Constant {
     const val IDHISTORY = "IDHISTORY"
 
     const val  IDLE = -2
+    const val SUBTASK = "SUBTASK"
 
 }

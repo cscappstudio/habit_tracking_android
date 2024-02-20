@@ -42,8 +42,6 @@ object AlarmUtils {
 
         }
 
-
-
         for (task in tasks) {
             intent.putExtra(Constant.KEY_TYPE, INDEX)
             intent.putExtra(Constant.TASKNAME, task.name)
@@ -64,6 +62,8 @@ object AlarmUtils {
                 Calendar.AM_PM,
                 if (task.remind!!.unit == "AM") Calendar.AM else Calendar.PM
             )
+
+            if (calendar.time.time < Calendar.getInstance().time.time) continue
 
             Log.d("AlarmUtils", calendar.time.toString())
 

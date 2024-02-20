@@ -97,8 +97,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun initView() {
         binding.bottomNavigationView.background = null
-//        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
-
         initFragments()
         showFragment(fragment1)
 
@@ -135,8 +133,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             .toBuilder()
             .setTopLeftCorner(CornerFamily.ROUNDED, Utils.dpToPx(20f, this).toFloat())
             .setTopRightCorner(CornerFamily.ROUNDED, Utils.dpToPx(20f, this).toFloat())
-//            .setBottomRightCorner(CornerFamily.ROUNDED, DisplayUtils.dpToPx(30f).toFloat())
-//            .setBottomLeftCorner(CornerFamily.ROUNDED, DisplayUtils.dpToPx(30f).toFloat())
             .build()
 
 
@@ -148,9 +144,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         with(getMySharedPreferences()) {
             if (this.getLong("currentDDay",-1L) != Helper.currentDate.toDate()) {
-                getMySharedPreferences().edit().putLong("currentDDay",Helper.currentDate.toDate()).apply()
-                getMySharedPreferences().edit().putBoolean("isDialogCongraShown2",false).apply()
-
+                this.edit().putLong("currentDDay",Helper.currentDate.toDate()).apply()
+                this.edit().putBoolean("isDialogCongraShown2",false).apply()
+                Helper.isNewDay = true
             }
         }
     }
@@ -162,12 +158,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     fun showFragment(fmShow: Fragment?) {
-
-//        transaction.setCustomAnimations(
-//            R.anim.bottom_up,
-//            R.anim.bottom_down
-//        )
-
         val transaction: FragmentTransaction = supportFragmentManager
             .beginTransaction()
 
@@ -199,6 +189,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         isSetUpAlarm = false
 
     }
+
+
 
 
 }

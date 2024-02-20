@@ -159,10 +159,14 @@ class CreateCollectionFragment :
             if (!validateEditText()) {
                 return@setOnClickListener
             }
-
+            newTasks.forEachIndexed { index, task ->
+                task.collection = binding.edtCollection.text.toString()
+                task.index = index
+            }
             if (!isEdit) {
                 if (hadChangeState && !binding.edtCollection.text.isNullOrEmpty()) {
                     collectionData.name = binding.edtCollection.text.toString()
+
                     collectionData.task = newTasks
                     collectionData.resColorBg = Helper.colorTask.random()
 
@@ -207,7 +211,7 @@ class CreateCollectionFragment :
            return false
        }
 
-        if (collectionViewModel.isExistCollectionName(binding.edtCollection.text.toString())) {
+        if (collectionViewModel.isExistCollectionName(binding.edtCollection.text.toString()) && !isEdit) {
             Toast.makeText(requireContext(), "Name is exist", Toast.LENGTH_SHORT).show()
 
             return false
@@ -252,7 +256,6 @@ class CreateCollectionFragment :
     fun editTask(task: Task) {
         newTasks[currentPos] = task
         taskCollectionAdapter?.notifyItemChanged(currentPos)
-
     }
 
 

@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -32,11 +33,15 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
+import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 import java.util.Date
@@ -62,6 +67,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         return R.layout.activity_detail_task
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragContainer.id, childFragment).commit()
@@ -75,6 +81,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         binding.layoutSteak2.ivInfo.setImageResource(R.drawable.ic_steak_miss)
         binding.layoutSteak3.ivInfo.setImageResource(R.drawable.ic_steak_skip)
         binding.layoutSteak4.ivInfo.setImageResource(R.drawable.ic_steak_rate)
+
 
 
 //        val taskId = intent.getIntExtra(Constant.task_id, -1)
@@ -96,6 +103,14 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             }
 
             historyId = it.getInt(Constant.IDHISTORY, -1)
+
+
+            if (Helper.chooseDate > Helper.currentDate.toDate()) {
+                binding.sbProgress.setOnTouchListener{ _, _ -> true }
+                binding.ivPlus.setOnTouchListener{ _, _ -> true }
+                binding.ivMinus.setOnTouchListener{ _, _ -> true }
+                binding.txtFinish.setOnTouchListener{ _, _ -> true }
+            }
 
         }
         observe()
@@ -229,6 +244,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     }
 
     private fun initData(task: Task) {
+
         currentTask = task
         currentTask.also {
             checkList = it.checklist as MutableList<CheckList>
@@ -263,8 +279,14 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
             it.checklist?.let {
                 checkList = it.toMutableList()
-                initCheckList()
+                Helper.isNewDay = getMySharedPreferences().getLong("currentDDay",-1L) != Helper.currentDate.toDate()
 
+                if (Helper.isNewDay) {
+                    checkList.forEach { cl ->
+                        cl.status = false
+                    }
+                }
+                initCheckList()
             }
 
         }
@@ -435,15 +457,24 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         });
     }
 
+
     override fun onStop() {
         super.onStop()
+
         lifecycleScope.launch {
             //       currentTask.goal?.currentProgress = currentProgress
             //      detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
             updateTaskHistory(currentTask, currentProgress)
+
+            withContext(Dispatchers.IO){
+                currentTask.checklist = checkList
+                detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
+
+            }
             delay(
                 1000L
             )
+
         }
 
     }
