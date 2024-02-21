@@ -53,6 +53,7 @@ import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.Utils.isListChanged
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -566,6 +567,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     }
                     delay(500L)
+                }
+
+
+                val viewHolder = binding.rcvTasks.findViewHolderForAdapterPosition(0)
+                viewHolder?.let {
+                    val fr =(viewHolder as TaskAdapter.ViewHolder).binding.frRoot
+                    BubbleShowCaseBuilder(requireActivity()) //Activity instance
+                        .title("foo") //Any title for the bubble view
+                        .targetView(fr) //View to point out
+                        .show() //Display the ShowCase
+
                 }
 
             }
