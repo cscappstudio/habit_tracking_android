@@ -311,16 +311,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         totalTask = taskNotChallenge.size
         task.forEach {
             it.goal?.let { goal ->
-                if (goal.currentProgress == goal.target) taskFinishNumber++
+                if (goal.currentProgress >= goal.target) taskFinishNumber++
             }
         }
         taskDone = taskFinishNumber
-        var taskChallenge = task.groupBy { it.challenge }
+        var taskChallenge = task.filter { !it.challenge.isNullOrEmpty() }.groupBy { it.challenge  }
+
         var totalChallenge = taskChallenge.size
         var challengeFinish = taskChallenge.size
 
         taskChallenge.forEach { t, u ->
-            var notDoneTask = u.find { it.goal!!.currentProgress != it.goal!!.target }
+            var notDoneTask = u.find { it.goal!!.currentProgress < it.goal!!.target }
             if (notDoneTask != null) challengeFinish --
         }
 
@@ -438,10 +439,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
     private fun setUpProgress1Tasks(challengeFinish: Int, totalChallenge: Int) {
-        binding.txtProgress2.text = "$challengeFinish/$totalChallenge"
+        binding.txtProgress1.text = "$challengeFinish/$totalChallenge"
+        binding.txtProgress1.setSpanTextView(R.color.forest_green)
     }
     private fun setUpProgress2Tasks() {
         binding.txtProgress2.text = "$taskDone/$totalTask"
+        binding.txtProgress2.setSpanTextView(R.color.forest_green)
+
     }
 
 

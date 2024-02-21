@@ -168,7 +168,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 
            databaseRepository.getHistoryWithDate(task.startDate!!.toDate()).collect{
                var filterHistory = it.toMutableList()
-
+                println("chaulq_history______________________________$filterHistory")
                task.repeate?.let {
                    repeat ->
                    if (repeat.isOn == true) {

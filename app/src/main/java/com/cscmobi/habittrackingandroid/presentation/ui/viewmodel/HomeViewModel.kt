@@ -66,6 +66,7 @@ class HomeViewModel(
     fun insertTaskHistory(history: History, date: Long? = null) {
         if (history.taskInDay.isEmpty()) return
 
+        Log.d("LOGINSERTHISTORY", history.toString())
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.insertHistory(history)
         }
@@ -91,6 +92,8 @@ class HomeViewModel(
 
         databaseRepository.getAllHistory().collect {
             if (it.isEmpty()) return@collect
+
+            Log.d("AAAA", it.toString())
 
             var histories = it.toMutableList()
             databaseRepository.getAllTask().collect{
@@ -240,16 +243,13 @@ class HomeViewModel(
     }
 
 
-    fun fetchHistoryByDate() {
-
-    }
-
     private fun fetchTasksByDate(date: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             tasks.clear()
 
             databaseRepository.getAllTask().collect {
                 try {
+                    Log.d("fetchTasksByDate", it.toString())
 
                     var taskFilter = it.filter { validateTask(it, date, false) }
 
@@ -260,7 +260,6 @@ class HomeViewModel(
                     else
                         _state.value = HomeState.Tasks(tasks)
 
-                    Log.d("fetchTasksByDate", _state.value.toString())
 
                     // _state.value = HomeState.Tasks(taskFilter)
 

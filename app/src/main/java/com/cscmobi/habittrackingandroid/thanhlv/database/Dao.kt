@@ -88,7 +88,7 @@ interface Dao {
     @Query("SELECT * FROM history WHERE date=:date")
     fun getHistorybyDate(date: Long) : Flow<History?>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHistory(item: History)
 
 
