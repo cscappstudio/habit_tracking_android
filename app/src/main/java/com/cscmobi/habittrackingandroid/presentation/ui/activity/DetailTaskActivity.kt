@@ -121,6 +121,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         lifecycleScope.launch {
             detailTaskViewModel.history.collect {
                 if (it.isNotEmpty()) {
+                    Log.d("DEBUGHISTORY", it.toString())
                     if (historyId != -1)
                         currentTaskHistory = it.find { it.id == historyId }
                     setUpTaskHistoryData(detailTaskViewModel.getDetailHistory(it, currentTask.id))
@@ -184,8 +185,9 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             var missDay = 0
             var longStreak = 0
             var currentStreak = 0
-            listDataTaskHistory.forEach {
+            Log.d("listDataTaskHistory", listDataTaskHistory.size.toString())
 
+            listDataTaskHistory.forEach {
 
                 if (pauseDate != -1L) {
                     if (currentTask.pause == -1) {

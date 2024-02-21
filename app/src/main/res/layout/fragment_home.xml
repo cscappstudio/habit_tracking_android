@@ -26,7 +26,7 @@
             android:id="@+id/iv_avatar"
             android:layout_width="@dimen/_36sdp"
             android:layout_height="@dimen/_36sdp"
-            android:src="@drawable/bg_home_2"
+            android:src="@drawable/bg_avatar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/_20sdp"
@@ -85,12 +85,14 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_calender"
-            android:layout_width="wrap_content"
+            android:layout_width="92dp"
+            android:minWidth="72dp"
+            android:minHeight="72dp"
             android:src="@drawable/ic_round_calender"
             app:layout_constraintTop_toTopOf="@id/iv_avatar"
             app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="92dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             app:layout_constraintTop_toBottomOf="@id/iv_avatar"
