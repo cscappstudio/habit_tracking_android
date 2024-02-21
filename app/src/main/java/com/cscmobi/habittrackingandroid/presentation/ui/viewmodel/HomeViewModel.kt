@@ -53,11 +53,6 @@ class HomeViewModel(
     val currentHistory: StateFlow<History>
         get() = _currentHistory
 
-//    private val _categoryState = MutableStateFlow(mutableListOf<String>())
-//
-//    val categoryState: StateFlow<MutableList<String>> = _categoryState
-
-
     init {
         handleIntent()
         getAllHistory()
