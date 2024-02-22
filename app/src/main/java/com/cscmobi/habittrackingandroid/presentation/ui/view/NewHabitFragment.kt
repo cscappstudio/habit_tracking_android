@@ -49,6 +49,7 @@ import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
 import com.cscmobi.habittrackingandroid.utils.onDone
 import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
+import com.thanhlv.ads.lib.AdMobUtils
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -174,6 +175,24 @@ class NewHabitFragment :
                 })
             }
             insets
+        }
+
+
+        if (Utils.isShowAds(requireContext())) {
+            binding.adView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                requireContext(),
+                binding.root.context.getString(R.string.admob_banner_id),
+                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                binding.adView,
+                object : AdMobUtils.Companion.LoadAdCallback {
+                    override fun onLoaded(ad: Any?) {
+                    }
+
+                    override fun onLoadFailed() {
+                        binding.adView.visibility = View.GONE
+                    }
+                })
         }
     }
 
@@ -745,7 +764,6 @@ class NewHabitFragment :
         binding.layoutAddRoutine.vRoot.setOnClickListener {
             lifecycleScope.launch {
                 setUpCreateTask()
-
                 collectionViewModel.userIntent.send(CollectionIntent.CreateTaskToRoutine(currentTask))
             }
         }

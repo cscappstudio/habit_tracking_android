@@ -1,47 +1,32 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.PeriodicWorkRequest
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
-import com.cscmobi.habittrackingandroid.data.model.RemindTask
 import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
-import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProfileFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.cscmobi.habittrackingandroid.utils.AlarmUtils
-import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.NotifiTask
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.spf.SPF
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.util.concurrent.TimeUnit
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -63,9 +48,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         lifecycleScope.launch {
             if (NotifiTask.db == null)
-                    NotifiTask.db = appDatabase
+                NotifiTask.db = appDatabase
 
-            NotifiTask.setUpWorker(this@MainActivity,this@MainActivity)
+            NotifiTask.setUpWorker(this@MainActivity, this@MainActivity)
 
         }
 
@@ -75,23 +60,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         lifecycleScope.launch {
             if (isSetUpAlarm) return@launch
 
-        if (NotifiTask.db == null)
-            NotifiTask.db = appDatabase
-        NotifiTask.db?.dao()?.getAll()?.collect {
-          var task = it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
-            if (task.isNullOrEmpty()) return@collect
-            taskFilter.clear()
-            task.forEach { t ->
-                t.remind?.let {
-                    if (it.isOpen == true) {
-                        taskFilter.add(t)
+            if (NotifiTask.db == null)
+                NotifiTask.db = appDatabase
+            NotifiTask.db?.dao()?.getAll()?.collect {
+                var task = it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
+                if (task.isNullOrEmpty()) return@collect
+                taskFilter.clear()
+                task.forEach { t ->
+                    t.remind?.let {
+                        if (it.isOpen == true) {
+                            taskFilter.add(t)
+                        }
                     }
                 }
+                AlarmUtils.createNotificationChannel(this@MainActivity)
+                AlarmUtils.create(this@MainActivity, taskFilter)
+                isSetUpAlarm = true
             }
-            AlarmUtils.createNotificationChannel(this@MainActivity)
-            AlarmUtils.create(this@MainActivity,taskFilter)
-            isSetUpAlarm = true
-        } }
+        }
     }
 
     override fun initView() {
@@ -142,9 +128,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
 
         with(getMySharedPreferences()) {
-            if (this.getLong("currentDDay",-1L) != Helper.currentDate.toDate()) {
-                this.edit().putLong("currentDDay",Helper.currentDate.toDate()).apply()
-                this.edit().putBoolean("isDialogCongraShown2",false).apply()
+            if (this.getLong("currentDDay", -1L) != Helper.currentDate.toDate()) {
+                this.edit().putLong("currentDDay", Helper.currentDate.toDate()).apply()
+                this.edit().putBoolean("isDialogCongraShown2", false).apply()
                 Helper.isNewDay = true
             }
         }
@@ -152,7 +138,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun setEvent() {
         binding.fab.setOnClickListener {
-            startActivity(Intent(this, NewHabitActivity::class.java))
+            if (!SPF.isProApp(this)) {
+                with(getMySharedPreferences()) {
+                    if (fragment1.getSizeTasksNormal() >= this.getInt(
+                            "sss",
+                            3
+                        )
+                    ) {
+                        AdMobUtils.createRewardAds(this@MainActivity,getString(R.string.rewardsAdsId),object :AdMobUtils.Companion.LoadAdCallback{
+                            override fun onLoaded(ad: Any?) {
+                                AdMobUtils.showRewardAds(this@MainActivity,object :
+                                    FullScreenContentCallback() {
+
+                                })
+                            }
+
+                            override fun onLoadFailed() {
+                            }
+
+                        })
+
+                    } else {
+                        startActivity(Intent(this@MainActivity, NewHabitActivity::class.java))
+                    }
+                }
+
+            } else
+                startActivity(Intent(this, NewHabitActivity::class.java))
         }
     }
 
@@ -172,6 +184,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         transaction.commit()
     }
 
+
     private fun initFragments() {
         addFragment(R.id.frame_container, fragment1, "fragment1")
         addFragment(R.id.frame_container, fragment2, "fragment2")
@@ -188,8 +201,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         isSetUpAlarm = false
 
     }
-
-
 
 
 }

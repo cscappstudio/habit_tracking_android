@@ -10,5 +10,6 @@ object Constant {
 
     const val  IDLE = -2
     const val SUBTASK = "SUBTASK"
+    const val  FIRSTSHOWUSECASE = "FIRSTSHOWUSECASE"
 
 }

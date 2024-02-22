@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
+import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -18,16 +19,22 @@ import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
+import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
+import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Helper.createBubbleShowCaseBuilder
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
+import com.thanhlv.ads.lib.AdMobUtils
 import java.util.Calendar
 import java.util.Date
 import kotlin.random.Random
 
 
-class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
+class TaskAdapter(private val activity: Activity,private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
     ListAdapter<Task, TaskAdapter.ViewHolder>(DIFF_CALLBACK()) {
     private val binderHelper = ViewBinderHelper()
 
@@ -37,12 +44,33 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
    inner  class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
 
+            if (item.id == IDLE && layoutPosition == 1) {
+              binding.swipeLayout.visibility = View.GONE
+              binding.adView.visibility = View.VISIBLE
+                AdMobUtils.createNativeAd(binding.root.context,binding.root.context.getString(R.string.native_id),binding.adView,object : AdMobUtils.Companion.LoadAdCallback {
+                    override fun onLoaded(ad: Any?) {
+
+                    }
+
+                    override fun onLoadFailed() {
+//                        currentList.removeAt(1)
+//                        notifyItemRemoved(1)
+                    }
+
+                })
+
+            } else {
+                binding.swipeLayout.visibility = View.VISIBLE
+                binding.adView.visibility = View.GONE
+            }
 //            val iconResourceId = binding.root.context.resources.getIdentifier(
 //                item.ava,
 //                "drawable",
 //                binding.root.context.packageName
 //            )
+
             var isPause = false
+
             binding.frMenu.visibility = View.INVISIBLE
             binding.swipeLayout.close(true)
 
@@ -161,6 +189,16 @@ class TaskAdapter(private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
 
                 override fun onOpened(view: SwipeRevealLayout?) {
                     binding.frMenu.visibility = View.VISIBLE
+
+                    BubbleShowCaseSequence()
+                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivSkip,"Pausing a task doesn't break your streak. You can resume when ready.","showcase_skip")) //First BubbleShowCase to show
+                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivEdit,"Tap to edit","showcase_edit")) //Second BubbleShowCase to show
+                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivvDelete,"Tap to delete","showcase_delete")) //Third BubbleShowCase to show
+                        .show() //Display the ShowCaseSequence
+//                    BubbleShowCaseBuilder(activity) //Activity instance
+//                        .title("foo") //Any title for the bubble view
+//                        .targetView(binding.ivvDelete) //View to point out
+//                        .show() //Display the ShowCase
                 }
 
                 override fun onSlide(view: SwipeRevealLayout?, slideOffset: Float) {

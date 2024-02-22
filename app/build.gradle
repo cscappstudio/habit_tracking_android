@@ -49,6 +49,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_id", "ca-app-pub-3940256099942544~3347511713"
             resValue "string", "native_id", "ca-app-pub-3940256099942544/2247696110"
+            resValue "string", "native_video_id", "ca-app-pub-3940256099942544/1044960115"
             resValue "string", "inter_id", "ca-app-pub-3940256099942544/1033173712"
             resValue "string", "admob_app_open_id", "ca-app-pub-3940256099942544/9257395921"
             resValue "string", "admob_banner_id", "ca-app-pub-3940256099942544/6300978111"
@@ -67,6 +68,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_id", "ca-app-pub-3940256099942544~3347511713"
             resValue "string", "native_id", "ca-app-pub-3940256099942544/2247696110"
+            resValue "string", "native_video_id", "ca-app-pub-3940256099942544/1044960115"
             resValue "string", "inter_id", "ca-app-pub-3940256099942544/1033173712"
             resValue "string", "admob_app_open_id", "ca-app-pub-3940256099942544/9257395921"
             resValue "string", "admob_banner_id", "ca-app-pub-3940256099942544/6300978111"

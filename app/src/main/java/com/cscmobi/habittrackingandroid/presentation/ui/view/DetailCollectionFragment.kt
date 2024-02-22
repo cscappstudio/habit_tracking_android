@@ -20,7 +20,9 @@ import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
+import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
+import com.thanhlv.ads.lib.AdMobUtils
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -51,6 +53,22 @@ class DetailCollectionFragment :
 
         }
 
+        if (Utils.isShowAds(requireContext())) {
+            binding.adView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                requireContext(),
+                binding.root.context.getString(R.string.admob_banner_id),
+                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                binding.adView,
+                object : AdMobUtils.Companion.LoadAdCallback {
+                    override fun onLoaded(ad: Any?) {
+                    }
+
+                    override fun onLoadFailed() {
+                        binding.adView.visibility = View.GONE
+                    }
+                })
+        }
     }
 
     private fun initAdapter(list: ArrayList<Task>) {

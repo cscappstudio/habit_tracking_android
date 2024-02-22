@@ -35,9 +35,11 @@ import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
+import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
+import com.thanhlv.ads.lib.AdMobUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -114,6 +116,23 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
         }
         observe()
+
+        if (Utils.isShowAds(this)) {
+            binding.adView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                this,
+                binding.root.context.getString(R.string.admob_banner_id),
+                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                binding.adView,
+                object : AdMobUtils.Companion.LoadAdCallback {
+                    override fun onLoaded(ad: Any?) {
+                    }
+
+                    override fun onLoadFailed() {
+                        binding.adView.visibility = View.GONE
+                    }
+                })
+        }
     }
 
 

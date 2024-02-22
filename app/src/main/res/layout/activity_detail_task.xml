@@ -425,5 +425,14 @@
 
         </androidx.core.widget.NestedScrollView>
 
+        <com.thanhlv.ads.lib.TemplateNativeView
+            android:id="@+id/adView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:gnt_template_type="@layout/gnt_small_item_template"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

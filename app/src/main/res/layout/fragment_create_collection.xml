@@ -108,13 +108,22 @@
 
     <include
         android:id="@+id/layout_create"
-        app:layout_constraintBottom_toBottomOf="parent"
-
+        app:layout_constraintBottom_toTopOf="@id/adView"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="@dimen/_20sdp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
         layout="@layout/btn_save"
+        />
+
+
+    <com.thanhlv.ads.lib.TemplateNativeView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        app:gnt_template_type="@layout/gnt_small_item_template"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

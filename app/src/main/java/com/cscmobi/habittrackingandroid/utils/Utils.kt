@@ -12,7 +12,11 @@ import android.graphics.drawable.StateListDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import com.thanhlv.fw.helper.NetworkHelper
+import com.thanhlv.fw.spf.SPF
 import org.threeten.bp.LocalDate
 import java.io.IOException
 import java.io.InputStream
@@ -220,6 +224,16 @@ object Utils {
 
         // The lists are identical
         return false
+    }
+
+    fun isShowAds(context: Context): Boolean {
+        return !SPF.isProApp(context) && NetworkHelper.isNetworkAvailable(context)
+    }
+
+    fun View?.removeSelf() {
+        this ?: return
+        val parentView = parent as? ViewGroup ?: return
+        parentView.removeView(this)
     }
 }
 

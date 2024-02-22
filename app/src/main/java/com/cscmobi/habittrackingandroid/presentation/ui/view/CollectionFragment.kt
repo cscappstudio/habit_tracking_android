@@ -27,6 +27,8 @@ import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import com.cscmobi.habittrackingandroid.utils.Utils
+import com.thanhlv.ads.lib.AdMobUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
@@ -74,6 +76,23 @@ class CollectionFragment :
             }
         }
         setUpSearchView()
+
+        if (Utils.isShowAds(requireContext())) {
+            binding.adView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                requireContext(),
+                binding.root.context.getString(R.string.admob_banner_id),
+                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                binding.adView,
+                object : AdMobUtils.Companion.LoadAdCallback {
+                    override fun onLoaded(ad: Any?) {
+                    }
+
+                    override fun onLoadFailed() {
+                        binding.adView.visibility = View.GONE
+                    }
+                })
+        }
     }
 
     private fun setUpSearchView() {

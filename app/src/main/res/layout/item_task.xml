@@ -1,156 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:dragEdge="right"
-    android:id="@+id/swipe_layout"
-    app:mode="same_level"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
-        android:id="@+id/fr_menu"
-        android:layout_width="wrap_content"
-        android:visibility="invisible"
-        android:translationX="@dimen/_minus30sdp"
-        android:layout_height="match_parent">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_skip"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_skip"
-                android:layout_height="wrap_content"/>
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_edit"
-                android:layout_width="wrap_content"
-                android:layout_marginHorizontal="@dimen/_8sdp"
-                android:src="@drawable/ic_edit"
-                android:layout_height="wrap_content"/>
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivv_delete"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_delete"
-                android:layout_height="wrap_content"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/fr_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:dragEdge="right"
+            app:mode="same_level">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/ct_task"
-                android:layout_width="0dp"
-                android:layout_marginStart="24dp"
-                android:layout_height="@dimen/_51sdp"
-                android:layout_weight="1"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_white_corner_30"
-                android:elevation="9dp"
-                android:maxHeight="80dp"
-                android:outlineSpotShadowColor="#59000000"
-                android:paddingHorizontal="@dimen/_15sdp"
-                tools:targetApi="p">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/shapeableImageView"
-                    android:layout_width="@dimen/_31sdp"
-                    android:layout_height="@dimen/_31sdp"
-                    android:background="@drawable/bg_circle"
-                    android:backgroundTint="@color/blue"
-                    android:scaleType="centerCrop"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_golf"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/txt_name_task"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_11sdp"
-                    android:fontFamily="@font/worksans_semibold"
-                    android:text="Drink water"
-                    android:textFontWeight="600"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/line"
-                    android:background="@color/white"
-                    android:layout_width="0dp"
-                    android:visibility="invisible"
-                    app:layout_constraintTop_toTopOf="@id/txt_name_task"
-                    app:layout_constraintBottom_toBottomOf="@id/txt_name_task"
-                    app:layout_constraintStart_toStartOf="@id/txt_name_task"
-                    app:layout_constraintEnd_toEndOf="@id/txt_name_task"
-                    android:layout_height="@dimen/_1sdp"/>
-
-                <TextView
-                    android:id="@+id/txt_goal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/worksans_medium"
-                    android:text="2/3"
-                    android:textColor="@color/dark_gray"
-                    android:textFontWeight="700"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@+id/txt_unit"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
-
-                <TextView
-                    android:id="@+id/txt_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/worksans_regular"
-                    android:text="glasses"
-                    android:textColor="@color/grey"
-                    android:textFontWeight="500"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_goal" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/rd_check"
-                android:layout_marginStart="14dp"
-                android:layout_gravity="center"
-                android:layout_width="40dp"
-                android:layout_marginEnd="8dp"
-                android:button="@drawable/custom_checkbox"
-                android:layout_height="40dp"/>
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_play"
+            <FrameLayout
+                android:id="@+id/fr_menu"
                 android:layout_width="wrap_content"
-                android:src="@drawable/ic_play"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="24dp"
-                android:visibility="gone"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:layout_height="match_parent"
+                android:translationX="@dimen/_minus30sdp"
+                android:visibility="invisible">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_skip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_skip" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
+                        android:src="@drawable/ic_edit" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivv_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_delete" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fr_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ct_task"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_51sdp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_white_corner_30"
+                        android:elevation="9dp"
+                        android:maxHeight="80dp"
+                        android:outlineSpotShadowColor="#59000000"
+                        android:paddingHorizontal="@dimen/_15sdp"
+                        tools:targetApi="p">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/shapeableImageView"
+                            android:layout_width="@dimen/_31sdp"
+                            android:layout_height="@dimen/_31sdp"
+                            android:background="@drawable/bg_circle"
+                            android:backgroundTint="@color/blue"
+                            android:padding="@dimen/_5sdp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_golf"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/txt_name_task"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_11sdp"
+                            android:fontFamily="@font/worksans_semibold"
+                            android:text="Drink water"
+                            android:textFontWeight="600"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_1sdp"
+                            android:background="@color/white"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="@id/txt_name_task"
+                            app:layout_constraintEnd_toEndOf="@id/txt_name_task"
+                            app:layout_constraintStart_toStartOf="@id/txt_name_task"
+                            app:layout_constraintTop_toTopOf="@id/txt_name_task" />
+
+                        <TextView
+                            android:id="@+id/txt_goal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/worksans_medium"
+                            android:text="2/3"
+                            android:textColor="@color/dark_gray"
+                            android:textFontWeight="700"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toTopOf="@+id/txt_unit"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/txt_unit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/worksans_regular"
+                            android:text="glasses"
+                            android:textColor="@color/grey"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txt_goal" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/rd_check"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:button="@drawable/custom_checkbox" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_play"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="24dp"
+                        android:src="@drawable/ic_play"
+                        android:visibility="gone" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </FrameLayout>
+        </com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout>
+        <com.thanhlv.ads.lib.TemplateNativeView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="24dp"
+            app:gnt_template_type="@layout/gnt_small_item_template"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </FrameLayout>
 
-
-</com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout>
+</layout>

@@ -43,7 +43,10 @@ data class Task(
     @Ignore
     var notBelongDefaultCollection:Boolean = true,
     @Ignore
-    var index: Int = 0
+    var index: Int = 0,
+
+    @Ignore
+    var srcChallenge: String = ""
 ) {
 
 }
