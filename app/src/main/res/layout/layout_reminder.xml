@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/worksans_semibold"
-            android:text="Get reminders"
+            android:text="@string/get_reminders"
             android:layout_marginStart="@dimen/_20sdp"
             android:textColor="@color/shadow_gray"
             android:textSize="@dimen/_13ssp"

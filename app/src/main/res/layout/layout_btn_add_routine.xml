@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"/>
           <TextView
               android:layout_width="wrap_content"
-              android:text="Add to routine"
+              android:text="@string/add_to_routine"
               android:textColor="@color/white"
               android:layout_gravity="center_vertical"
               android:fontFamily="@font/worksans_bold"

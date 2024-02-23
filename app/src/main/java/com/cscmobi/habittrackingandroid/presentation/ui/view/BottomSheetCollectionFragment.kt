@@ -53,7 +53,7 @@ class BottomSheetCollectionFragment :
         savedInstanceState: Bundle?
     ): View? {
         val binding = BottomSheetAlbumCollectionFragmentBinding.inflate(inflater, container, false)
-        binding.layoutNext.btnSave.text = "NEXT"
+        binding.layoutNext.btnSave.text = getString(R.string.next)
 
         val albumAdapter = BaseBindingAdapter<AlbumCollection>(
             R.layout.item_album_collection,

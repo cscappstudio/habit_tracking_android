@@ -191,9 +191,18 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                     binding.frMenu.visibility = View.VISIBLE
 
                     BubbleShowCaseSequence()
-                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivSkip,"Pausing a task doesn't break your streak. You can resume when ready.","showcase_skip")) //First BubbleShowCase to show
-                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivEdit,"Tap to edit","showcase_edit")) //Second BubbleShowCase to show
-                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivvDelete,"Tap to delete","showcase_delete")) //Third BubbleShowCase to show
+                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivSkip,
+                            binding.root.context.getString(
+                                R.string.pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready
+                            ),"showcase_skip")) //First BubbleShowCase to show
+                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivEdit,
+                            binding.root.context.getString(
+                                R.string.tap_to_edit
+                            ),"showcase_edit")) //Second BubbleShowCase to show
+                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivvDelete,
+                            binding.root.context.getString(
+                                R.string.tap_to_delete
+                            ),"showcase_delete")) //Third BubbleShowCase to show
                         .show() //Display the ShowCaseSequence
 //                    BubbleShowCaseBuilder(activity) //Activity instance
 //                        .title("foo") //Any title for the bubble view

@@ -50,6 +50,7 @@ import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.calTaskProgress
+import com.cscmobi.habittrackingandroid.utils.Helper.freeIAP
 import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.Utils
@@ -139,7 +140,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 getDatesofWeek()
                 if (currentDate == Helper.currentDate.toDate()) {
                     binding.llToday.visibility = View.GONE
-                    binding.txtDate.text = "Today"
+                    binding.txtDate.text = getString(R.string.today)
                 } else {
                     binding.llToday.visibility = View.VISIBLE
 
@@ -178,7 +179,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    fun getSizeTasksNormal() = listNormalTask.filter { it.id != IDLE }.size
 
     override fun onResume() {
         super.onResume()
@@ -198,7 +198,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             viewHolder.itemView.visibility = View.INVISIBLE
 
                             BubbleShowCaseBuilder(requireActivity()) //Activity instance
-                                .description("Swipe left to edit, pause or delete your task")
+                                .description(getString(R.string.swipe_left_to_edit_pause_or_delete_your_task))
                                 .arrowPosition(BubbleShowCase.ArrowPosition.TOP)
                                 .targetView(viewItem) //View to point out
                                 .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
@@ -428,6 +428,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             setUpProgress1Tasks(0,0)
             binding.sbProgress.progressDisplay = 0
             binding.sbProgress.setText("0%")
+            binding.txtContent.text = getString(R.string.you_re_almost_done)
             return
         }
 
@@ -461,6 +462,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.sbProgress.progressDisplay =
             ((taskDone + challengeFinish).toFloat() / (totalChallenge + totalTask).toFloat() * 100f).roundToInt()
         if (binding.sbProgress.progressDisplay == 100) {
+            binding.txtContent.text = getString(R.string.awesome)
+            binding.txtProgress1.visibility = View.INVISIBLE
+            binding.txtProgress2.visibility = View.INVISIBLE
+            binding.txtUnit1.visibility = View.INVISIBLE
+            binding.txtUnit2.visibility = View.INVISIBLE
+            binding.txtDoneTask.visibility = View.VISIBLE
+
             requireActivity().let { mactivity ->
                 with(mactivity.getMySharedPreferences()) {
                     if (!this.getBoolean("isDialogCongraShown1", false)) {
@@ -499,6 +507,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
 
+        } else {
+            binding.txtContent.text = getString(R.string.you_re_almost_done)
+            binding.txtProgress1.visibility = View.VISIBLE
+            binding.txtProgress2.visibility = View.VISIBLE
+            binding.txtUnit1.visibility = View.VISIBLE
+            binding.txtUnit2.visibility = View.VISIBLE
+            binding.txtDoneTask.visibility = View.INVISIBLE
         }
 
     }
@@ -641,6 +656,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun skip(item: Task, p: Int) {
+                if (!freeIAP.canSkip(requireActivity())) {
+                    Toast.makeText(requireContext(), "Go to premium", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
                 bottomSheetPauseFragment.show(childFragmentManager, bottomSheetPauseFragment.tag)
                 bottomSheetPauseFragment.actionPause = {
                     item.pause = it
@@ -651,6 +671,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
                     Toast.makeText(requireContext(), "Update success", Toast.LENGTH_SHORT).show()
                     taskAdapter.notifyItemChanged(p)
+                    freeIAP.isSkip = true
                 }
 
             }
@@ -711,9 +732,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         homeViewModel.userIntent.send(HomeIntent.DeleteTask(item, 1))
                     }
 
-                    if (item.startDate != null)
+                    if (item.startDate != null) {
                         homeViewModel.deleteTaskInHistory(item.startDate!!.toDate(), item.id)
-
+                    }
+                    if (freeIAP.rewardTimes > 0)
+                    {
+                        freeIAP.rewardTimes--
+                    }
                 })
             }
 
@@ -754,6 +779,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
                 }
+                freeIAP.isSkip = false
 
             }
 
@@ -861,7 +887,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 weekAdapter.notifyDataSetChanged()
                 if (currentDate == Helper.currentDate.toDate()) {
                     binding.llToday.visibility = View.GONE
-                    binding.txtDate.text = "Today"
+                    binding.txtDate.text = getString(R.string.today)
                 } else {
                     binding.llToday.visibility = View.VISIBLE
 
@@ -890,7 +916,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             currentDate = Helper.currentDate.toDate()
             if (currentDate == Helper.currentDate.toDate()) {
                 binding.llToday.visibility = View.GONE
-                binding.txtDate.text = "Today"
+                binding.txtDate.text = getString(R.string.today)
             } else {
                 binding.llToday.visibility = View.VISIBLE
 
@@ -933,7 +959,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
                 if (date[position] == c) {
                     binding.llToday.visibility = View.GONE
-                    binding.txtDate.text = "Today"
+                    binding.txtDate.text = getString(R.string.today)
                 } else {
                     binding.llToday.visibility = View.VISIBLE
                     binding.txtDate.text = date[position].format(formatter)

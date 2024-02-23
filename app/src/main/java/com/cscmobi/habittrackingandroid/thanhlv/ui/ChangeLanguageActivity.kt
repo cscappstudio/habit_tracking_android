@@ -48,11 +48,11 @@ class ChangeLanguageActivity : BaseActivity2() {
         binding.tvUsa.rippleEffect()
         binding.tvGermany.rippleEffect()
         binding.tvPortuguese.rippleEffect()
-        binding.tvFilipino.rippleEffect()
+        binding.tvJapan.rippleEffect()
         binding.tvFrench.rippleEffect()
         binding.tvHindi.rippleEffect()
-        binding.tvThailand.rippleEffect()
-        binding.tvVietnam.rippleEffect()
+        binding.tvKorea.rippleEffect()
+        binding.tvRussian.rippleEffect()
         binding.tvSpanish.rippleEffect()
 
         if (SPF.getLanguage(this) != null) currentLanguage = SPF.getLanguage(this)!!
@@ -107,13 +107,13 @@ class ChangeLanguageActivity : BaseActivity2() {
             toggleItemLanguage()
         }
 
-        binding.tvVietnam.setOnClickListener {
-            currentLanguage = "vi"
+        binding.tvRussian.setOnClickListener {
+            currentLanguage = "ru"
             toggleItemLanguage()
         }
 
-        binding.tvThailand.setOnClickListener {
-            currentLanguage = "th"
+        binding.tvKorea.setOnClickListener {
+            currentLanguage = "ko"
             toggleItemLanguage()
         }
         binding.tvSpanish.setOnClickListener {
@@ -121,8 +121,8 @@ class ChangeLanguageActivity : BaseActivity2() {
             toggleItemLanguage()
         }
 
-        binding.tvFilipino.setOnClickListener {
-            currentLanguage = "fil"
+        binding.tvJapan.setOnClickListener {
+            currentLanguage = "ja"
             toggleItemLanguage()
         }
 

@@ -39,7 +39,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:textSize="12sp"
         android:layout_marginHorizontal="@dimen/_28sdp"
-        android:text="Choose one of the avaiable images that best fits your content "
+        android:text="@string/choose_one_of_the_avaiable_images_that_best_fits_your_content"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/worksans_medium"
         android:textAlignment="center"

@@ -15,12 +15,7 @@ import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetPauseTaskFragment: BottomSheetDialogFragment() {
-    private var pauseInfos = mutableListOf<Tag>(
-        Tag("For 1 day"),
-        Tag("For 3 days"),
-        Tag("For 7 days"),
-        Tag("Until I change it")
-    )
+    private var pauseInfos = mutableListOf<Tag>()
 
     var actionPause: ((Int) -> Unit)? = null
     var currentPos = 0
@@ -34,6 +29,13 @@ class BottomSheetPauseTaskFragment: BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = BottomsheetPauseTaskBinding.inflate(inflater, container, false)
+
+        pauseInfos = mutableListOf<Tag>(
+            Tag(getString(R.string.for_1_day)),
+            Tag(getString(R.string.for_3_days)),
+            Tag(getString(R.string.for_7_days)),
+            Tag(getString(R.string.until_i_change_it))
+        )
         val adapter = BaseBindingAdapter(
             R.layout.item_tag,
             layoutInflater,

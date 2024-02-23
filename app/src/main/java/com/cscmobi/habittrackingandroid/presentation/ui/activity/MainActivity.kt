@@ -1,11 +1,14 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
 import android.content.Intent
+import android.widget.Toast
+import androidx.datastore.preferences.core.preferencesOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
+import com.cscmobi.habittrackingandroid.data.model.FreeIAP
 import com.cscmobi.habittrackingandroid.databinding.ActivityMainBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
@@ -14,7 +17,9 @@ import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProfileFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.cscmobi.habittrackingandroid.utils.AlarmUtils
+import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Helper.freeIAP
 import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.NotifiTask
 import com.cscmobi.habittrackingandroid.utils.Utils
@@ -39,6 +44,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val appDatabase: AppDatabase by inject()
     var taskFilter = mutableListOf<Task>()
     private var isSetUpAlarm = false
+    private var taskSize = 0
     override fun getLayoutRes(): Int {
         return R.layout.activity_main
     }
@@ -63,6 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (NotifiTask.db == null)
                 NotifiTask.db = appDatabase
             NotifiTask.db?.dao()?.getAll()?.collect {
+                taskSize = it.size
                 var task = it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
                 if (task.isNullOrEmpty()) return@collect
                 taskFilter.clear()
@@ -126,6 +133,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         initAlarm()
 
+        freeIAP = FreeIAP.fromJson(this)
+
 
         with(getMySharedPreferences()) {
             if (this.getLong("currentDDay", -1L) != Helper.currentDate.toDate()) {
@@ -134,34 +143,54 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 Helper.isNewDay = true
             }
         }
+
+        if (freeIAP.week != Helper.getCurrentWeek()) {
+            freeIAP.week = Helper.getCurrentWeek()
+            freeIAP.isSkip = false
+        }
     }
 
     override fun setEvent() {
         binding.fab.setOnClickListener {
             if (!SPF.isProApp(this)) {
-                with(getMySharedPreferences()) {
-                    if (fragment1.getSizeTasksNormal() >= this.getInt(
-                            "sss",
-                            3
-                        )
+                    if (taskSize >= Constant.FREEMAXTASK
                     ) {
-                        AdMobUtils.createRewardAds(this@MainActivity,getString(R.string.rewardsAdsId),object :AdMobUtils.Companion.LoadAdCallback{
-                            override fun onLoaded(ad: Any?) {
-                                AdMobUtils.showRewardAds(this@MainActivity,object :
-                                    FullScreenContentCallback() {
+                        val getReward = freeIAP.rewardTimes
+                        if (getReward >= Constant.MAXGETREWARD) {
+                            Toast.makeText(this@MainActivity, "go to premium", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            AdMobUtils.createRewardAds(
+                                this@MainActivity,
+                                getString(R.string.rewardsAdsId),
+                                object : AdMobUtils.Companion.LoadAdCallback {
+                                    override fun onLoaded(ad: Any?) {
+                                        AdMobUtils.showRewardAds(this@MainActivity, object :
+                                            FullScreenContentCallback() {
+                                            override fun onAdDismissedFullScreenContent() {
+                                                super.onAdDismissedFullScreenContent()
+                                                freeIAP.rewardTimes++
+
+                                                startActivity(
+                                                    Intent(
+                                                        this@MainActivity,
+                                                        NewHabitActivity::class.java
+                                                    )
+                                                )
+
+                                            }
+                                        })
+                                    }
+
+                                    override fun onLoadFailed() {
+                                    }
 
                                 })
-                            }
-
-                            override fun onLoadFailed() {
-                            }
-
-                        })
-
+                        }
                     } else {
                         startActivity(Intent(this@MainActivity, NewHabitActivity::class.java))
                     }
-                }
+
 
             } else
                 startActivity(Intent(this, NewHabitActivity::class.java))
@@ -199,6 +228,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onStop()
         initNotifiTask()
         isSetUpAlarm = false
+        freeIAP.saveToPreference(this)
 
     }
 

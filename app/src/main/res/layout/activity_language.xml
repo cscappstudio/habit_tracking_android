@@ -181,7 +181,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/tv_filipino"
+                android:id="@+id/tv_japan"
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_42sdp"
@@ -192,7 +192,7 @@
                 android:backgroundTint="#f5f5f5"
                 android:gravity="center_vertical"
                 android:paddingStart="80dp"
-                android:text="@string/filipino"
+                android:text="@string/japanese"
                 android:textColor="#393E3C"
                 android:textFontWeight="500"
                 android:textSize="16sp"
@@ -208,15 +208,15 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="24dp"
-                android:src="@drawable/ic_flag_filipino"
-                app:layout_constraintBottom_toBottomOf="@id/tv_filipino"
-                app:layout_constraintStart_toStartOf="@id/tv_filipino"
-                app:layout_constraintTop_toTopOf="@id/tv_filipino"
+                android:src="@drawable/ic_flag_japan"
+                app:layout_constraintBottom_toBottomOf="@id/tv_japan"
+                app:layout_constraintStart_toStartOf="@id/tv_japan"
+                app:layout_constraintTop_toTopOf="@id/tv_japan"
                 tools:ignore="ContentDescription" />
 
 
             <TextView
-                android:id="@+id/tv_thailand"
+                android:id="@+id/tv_korea"
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_42sdp"
@@ -227,14 +227,14 @@
                 android:backgroundTint="#f5f5f5"
                 android:gravity="center_vertical"
                 android:paddingStart="80dp"
-                android:text="@string/thailand"
+                android:text="@string/korean"
                 android:textColor="#393E3C"
                 android:textFontWeight="500"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="60dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_filipino"
+                app:layout_constraintTop_toBottomOf="@id/tv_japan"
                 tools:ignore="RtlSymmetry"
                 tools:targetApi="p" />
 
@@ -243,10 +243,10 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="24dp"
-                android:src="@drawable/ic_flag_thailan"
-                app:layout_constraintBottom_toBottomOf="@id/tv_thailand"
-                app:layout_constraintStart_toStartOf="@id/tv_thailand"
-                app:layout_constraintTop_toTopOf="@id/tv_thailand"
+                android:src="@drawable/ic_flag_korean"
+                app:layout_constraintBottom_toBottomOf="@id/tv_korea"
+                app:layout_constraintStart_toStartOf="@id/tv_korea"
+                app:layout_constraintTop_toTopOf="@id/tv_korea"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -268,7 +268,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="60dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_thailand"
+                app:layout_constraintTop_toBottomOf="@id/tv_korea"
                 tools:ignore="RtlSymmetry"
                 tools:targetApi="p" />
 
@@ -319,7 +319,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/tv_vietnam"
+                android:id="@+id/tv_russian"
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_42sdp"
@@ -330,7 +330,7 @@
                 android:backgroundTint="#f5f5f5"
                 android:gravity="center_vertical"
                 android:paddingStart="80dp"
-                android:text="@string/vietnamese"
+                android:text="@string/rusian"
                 android:textColor="#393E3C"
                 android:textFontWeight="500"
                 android:textSize="16sp"
@@ -346,10 +346,10 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="24dp"
-                android:src="@drawable/ic_flag_vietnam"
-                app:layout_constraintBottom_toBottomOf="@id/tv_vietnam"
-                app:layout_constraintStart_toStartOf="@id/tv_vietnam"
-                app:layout_constraintTop_toTopOf="@id/tv_vietnam"
+                android:src="@drawable/ic_flag_rusian"
+                app:layout_constraintBottom_toBottomOf="@id/tv_russian"
+                app:layout_constraintStart_toStartOf="@id/tv_russian"
+                app:layout_constraintTop_toTopOf="@id/tv_russian"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -371,7 +371,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="60dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_vietnam"
+                app:layout_constraintTop_toBottomOf="@id/tv_russian"
                 tools:ignore="RtlSymmetry"
                 tools:targetApi="p" />
 
@@ -433,9 +433,9 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_ratio_full_yellow"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/tv_filipino"
-                app:layout_constraintEnd_toEndOf="@id/tv_filipino"
-                app:layout_constraintTop_toTopOf="@id/tv_filipino"
+                app:layout_constraintBottom_toBottomOf="@id/tv_japan"
+                app:layout_constraintEnd_toEndOf="@id/tv_japan"
+                app:layout_constraintTop_toTopOf="@id/tv_japan"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -446,9 +446,9 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_ratio_full_yellow"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/tv_thailand"
-                app:layout_constraintEnd_toEndOf="@id/tv_thailand"
-                app:layout_constraintTop_toTopOf="@id/tv_thailand"
+                app:layout_constraintBottom_toBottomOf="@id/tv_korea"
+                app:layout_constraintEnd_toEndOf="@id/tv_korea"
+                app:layout_constraintTop_toTopOf="@id/tv_korea"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -485,9 +485,9 @@
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_ratio_full_yellow"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/tv_vietnam"
-                app:layout_constraintEnd_toEndOf="@id/tv_vietnam"
-                app:layout_constraintTop_toTopOf="@id/tv_vietnam"
+                app:layout_constraintBottom_toBottomOf="@id/tv_russian"
+                app:layout_constraintEnd_toEndOf="@id/tv_russian"
+                app:layout_constraintTop_toTopOf="@id/tv_russian"
                 tools:ignore="ContentDescription" />
 
             <ImageView

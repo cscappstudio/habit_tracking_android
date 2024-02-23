@@ -43,7 +43,7 @@ class BottomsheetNewHabitFragment :
         binding = BottomsheetFragmentNewHabitBinding.inflate(inflater, container, false)
         binding.caseType = caseType
         if (caseType == 1) {
-            binding.txtTitle.text = "Enter how often you want the task to repeat"
+            binding.txtTitle.text = getString(R.string.enter_how_often_you_want_the_task_to_repeat)
             binding.txtUnit.text = unitSelect.ifEmpty { "Week" }
             binding.edt.inputType = EditorInfo.TYPE_CLASS_NUMBER
 
@@ -56,8 +56,8 @@ class BottomsheetNewHabitFragment :
 
         binding.llCreateTag.setOnClickListener {
             binding.caseType = 1
-            binding.txtTitle.text = "Enter name tag"
-            binding.layoutBtnSave.btnSave.text = "CREATE"
+            binding.txtTitle.text = getString(R.string.enter_name_tag)
+            binding.layoutBtnSave.btnSave.text = getString(R.string.create)
             binding.txtUnit.visibility = View.GONE
 
         }

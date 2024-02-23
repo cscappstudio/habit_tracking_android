@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/worksans_bold"
-                    android:text="New Habit"
+                    android:text="@string/new_habit"
                     android:textColor="@color/bottle_green"
                     android:textSize="@dimen/_18ssp"
                     app:layout_constraintStart_toStartOf="@id/iv_close"
@@ -145,7 +145,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="Note"
+                        android:text="@string/note"
                         android:fontFamily="@font/worksans_semibold"
                         android:textSize="@dimen/_13ssp"
                         android:textColor="@color/shadow_gray"
@@ -188,7 +188,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/worksans_semibold"
-                        android:text="Goal"
+                        android:text="@string/goal"
                         android:textColor="@color/shadow_gray"
                         android:textSize="@dimen/_13ssp"
                         app:layout_constraintStart_toStartOf="parent"

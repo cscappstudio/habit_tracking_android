@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.cscmobi.habittrackingandroid.R
+import com.cscmobi.habittrackingandroid.data.model.FreeIAP
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.elconfidencial.bubbleshowcase.BubbleShowCase
@@ -25,6 +26,9 @@ object Helper {
     var chooseDate = 0L
 
     var currentDate = LocalDate.now()
+    var freeIAP = FreeIAP()
+
+
     var colorTask = mutableListOf<Int>(
         R.color.blue,
         R.color.pink,
@@ -38,6 +42,7 @@ object Helper {
             "cf", Context.MODE_PRIVATE
         )
     }
+
 
     fun validateTask(task: Task, date: Long, isPauseValidate: Boolean = true): Boolean {
         var isValid = true
@@ -166,6 +171,11 @@ object Helper {
 //                }
 //            })
             .showOnce(id)
+    }
+
+    fun getCurrentWeek(): Int {
+        var c = Calendar.getInstance()
+        return c.get(Calendar.WEEK_OF_MONTH)
     }
 
 

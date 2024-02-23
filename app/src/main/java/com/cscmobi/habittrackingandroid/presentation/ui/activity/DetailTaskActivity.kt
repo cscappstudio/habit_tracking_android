@@ -74,10 +74,10 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragContainer.id, childFragment).commit()
 
-        binding.layoutSteak1.txtInfo.text = "Finished"
-        binding.layoutSteak2.txtInfo.text = "Missed"
-        binding.layoutSteak3.txtInfo.text = "Long Streak"
-        binding.layoutSteak4.txtInfo.text = "Rate"
+        binding.layoutSteak1.txtInfo.text = getString(R.string.finished)
+        binding.layoutSteak2.txtInfo.text = getString(R.string.missed)
+        binding.layoutSteak3.txtInfo.text = getString(R.string.long_streak)
+        binding.layoutSteak4.txtInfo.text = getString(R.string.rate)
 
         binding.layoutSteak1.ivInfo.setImageResource(R.drawable.ic_steak_finish)
         binding.layoutSteak2.ivInfo.setImageResource(R.drawable.ic_steak_miss)

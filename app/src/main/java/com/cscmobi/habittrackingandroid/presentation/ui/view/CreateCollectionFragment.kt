@@ -30,6 +30,7 @@ import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
 
 class CreateCollectionFragment :
@@ -148,7 +149,7 @@ class CreateCollectionFragment :
     }
 
     private fun setEmptyCollection() {
-        binding.layoutCreate.btnSave.text = "CREATE COLLECTION"
+        binding.layoutCreate.btnSave.text = getString(R.string.create_collection)
         binding.edtCollection.setText("")
         binding.layoutCreate.btnSave.backgroundTintList =
             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.gray))
@@ -159,10 +160,18 @@ class CreateCollectionFragment :
     override fun setEvent() {
 
         binding.ivAddIv.setOnClickListener {
+
             bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
         }
 
         binding.llAddTask.setOnClickListener {
+            if (!SPF.isProApp(requireContext())) {
+                if (newTasks.size >=3 ) {
+                    Toast.makeText(requireContext(), "go to premium screen", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+
             (requireActivity() as NewHabitActivity).let {
                 it.newHabitFragment.newHabitFragmentState =
                     NewHabitFragment.NewHabitFragmentState.ADDTOCOLLECTION

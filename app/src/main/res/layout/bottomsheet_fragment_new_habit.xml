@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
-            android:text="Enter how often you want the task to repeat"
+            android:text="@string/enter_how_often_you_want_the_task_to_repeat"
             android:textColor="@color/dark_green"
             android:fontFamily="@font/worksans_semibold"
             android:textSize="15sp"
@@ -61,7 +61,7 @@
             <TextView
                 android:id="@+id/txt_unit"
                 android:layout_width="wrap_content"
-                android:text="Week"
+                android:text="@string/week"
                 android:textColor="@color/shadow_gray"
                 android:textSize="14sp"
                 android:layout_gravity="center_vertical"
@@ -125,7 +125,7 @@
                 android:ellipsize="end"
                 android:textSize="13sp"
                 android:fontFamily="@font/worksans_semibold"
-                android:text="Create new"
+                android:text="@string/create_new"
                 android:textColor="@color/white"
                 android:layout_height="wrap_content"/>
         </androidx.appcompat.widget.LinearLayoutCompat>

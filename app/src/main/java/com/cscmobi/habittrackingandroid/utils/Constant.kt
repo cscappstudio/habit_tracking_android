@@ -12,4 +12,9 @@ object Constant {
     const val SUBTASK = "SUBTASK"
     const val  FIRSTSHOWUSECASE = "FIRSTSHOWUSECASE"
 
+    const val FREEMAXTASK = 5
+    const val GETREWARDADS = "GETREWARDADS"
+    const val MAXGETREWARD = 2
+    const val CURRENTWEEK =  "CURRENTWEEK"
+
 }

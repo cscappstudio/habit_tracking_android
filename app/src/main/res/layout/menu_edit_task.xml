@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
-            android:text="Edit"
+            android:text="@string/edit"
             android:textColor="@color/black"
             android:fontFamily="@font/worksans_semibold"
             android:layout_gravity="center"
@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
-            android:text="Delete"
+            android:text="@string/delete"
             android:textColor="@color/coral_red"
             android:fontFamily="@font/worksans_semibold"
             android:textSize="15sp"

@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/montserratalternates_medium"
-                android:text="Create my collection"
+                android:text="@string/create_my_collection"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9ssp" />
         </androidx.appcompat.widget.LinearLayoutCompat>

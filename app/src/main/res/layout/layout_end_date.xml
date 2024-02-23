@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:fontFamily="@font/worksans_semibold"
-        android:text="End date"
+        android:text="@string/end_date"
         android:textColor="@color/shadow_gray"
         android:textSize="@dimen/_13ssp"
         app:layout_constraintStart_toStartOf="parent"

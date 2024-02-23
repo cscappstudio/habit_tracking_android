@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
     <TextView
         android:layout_width="wrap_content"
-        android:text="Choose icon"
+        android:text="@string/choose_icon"
         android:textColor="@color/shadow_gray"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/worksans_semibold"

@@ -9,13 +9,137 @@
     <string name="german" translatable="false">Deutsch</string>
     <string name="united_states" translatable="false">English</string>
     <string name="portuguese" translatable="false">Português</string>
-    <string name="filipino" translatable="false">Filipino</string>
-    <string name="thailand" translatable="false">ไทย</string>
+    <string name="japanese" translatable="false">日本語</string>
+    <string name="korean" translatable="false">한국인</string>
     <string name="french" translatable="false">Français</string>
     <string name="spanish" translatable="false">Español</string>
-    <string name="vietnamese" translatable="false">Tiếng Việt</string>
+    <string name="rusian" translatable="false">Русский</string>
 
 
     <string name="latest_version">Latest version</string>
     <string name="please_update">Please update</string>
+    <string name="you_re_almost_done">You\'re almost done!</string>
+    <string name="today">Today</string>
+    <string name="challenge">Challenge</string>
+    <string name="tasks">Tasks</string>
+    <string name="home">Home</string>
+    <string name="progress">Progress</string>
+    <string name="profile">Profile</string>
+    <string name="swipe_left_to_edit_pause_or_delete_your_task">Swipe left to edit, pause or delete your task</string>
+    <string name="pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready">Pausing a task doesn\'t break your streak. You can resume when ready.</string>
+    <string name="tap_to_edit">Tap to edit</string>
+    <string name="tap_to_delete">Tap to delete</string>
+    <string name="are_you_sure_you_want_to_delete">Are you sure you want to delete?</string>
+    <string name="delete_all_will_loss_all_of_task_s_history_amp_future"><![CDATA[Delete All will loss all of task\'s history & future]]></string>
+    <string name="delete_future_task_only">Delete future task only</string>
+    <string name="delete_all">Delete all</string>
+    <string name="for_1_day">For 1 day</string>
+    <string name="for_3_days">For 3 days</string>
+    <string name="for_7_days">For 7 days</string>
+    <string name="until_i_change_it">Until I change it</string>
+    <string name="awesome">Awesome!</string>
+    <string name="there_are_no_projects_yet_please_add_a_project_now">There are no projects yet, please add a project now</string>
+    <string name="basic_info">Basic info</string>
+    <string name="finish">Finish</string>
+    <string name="check_list">Check list</string>
+    <string name="current_streak">Current Streak</string>
+    <string name="finished">Finished</string>
+    <string name="missed">Missed</string>
+    <string name="long_streak">Long Streak</string>
+    <string name="rate">Rate</string>
+    <string name="collection">Collection</string>
+    <string name="all">All</string>
+    <string name="create_my_own">Create my own</string>
+    <string name="practice_affirmations">Practice affirmations</string>
+    <string name="practice_visualization">Practice visualization</string>
+    <string name="meditate">Meditate</string>
+    <string name="make_the_bed">Make the bed</string>
+    <string name="brush_teeth">Brush teeth</string>
+    <string name="drink_water">Drink water</string>
+    <string name="eat_breakfast">Eat breakfast</string>
+    <string name="pray">Pray</string>
+    <string name="take_a_shower">Take a shower</string>
+    <string name="take_vitamins">Take vitamins</string>
+    <string name="warm_and_cozy_drink">Warm and cozy drink</string>
+    <string name="skincare">Skincare</string>
+    <string name="reflect_on_my_day">Reflect on my day</string>
+    <string name="stretch">Stretch</string>
+    <string name="aroma_candle">Aroma candle</string>
+    <string name="make_bed">Make bed</string>
+    <string name="laundry">Laundry</string>
+    <string name="sweep_or_vacuum">Sweep or Vacuum</string>
+    <string name="task_out_trash">Task out trash</string>
+    <string name="meal_prep">Meal prep</string>
+    <string name="water_plants">Water plants</string>
+    <string name="fruit_and_veggies">Fruit and veggies</string>
+    <string name="limit_sugar">Limit sugar</string>
+    <string name="no_alcohol">No alcohol</string>
+    <string name="get_enough_sleep">Get enough sleep</string>
+    <string name="set_goals">Set goals</string>
+    <string name="review_material">Review material</string>
+    <string name="take_note">Take note</string>
+    <string name="brainstorming">Brainstorming</string>
+    <string name="prioritize_tasks">Prioritize tasks</string>
+    <string name="study_groups">Study groups</string>
+    <string name="drink_tea">Drink tea</string>
+    <string name="watch_movie">Watch movie</string>
+    <string name="music_on">Music on</string>
+    <string name="yoga">Yoga</string>
+    <string name="paint_or_draw">Paint or draw</string>
+    <string name="read">Read</string>
+    <string name="jogging">Jogging</string>
+    <string name="running">Running</string>
+    <string name="full_body_stretching">Full-body stretching</string>
+    <string name="swimming">Swimming</string>
+    <string name="cycling">Cycling</string>
+    <string name="hit_the_gym">Hit the gym</string>
+    <string name="create_shopping_list">Create shopping list</string>
+    <string name="set_saving_goal">Set saving goal</string>
+    <string name="track_expense">Track expense</string>
+    <string name="pay_the_bills">Pay the bills</string>
+    <string name="check_investment">Check investment</string>
+    <string name="review_subscriptions">Review subscriptions</string>
+    <string name="try_something_new">Try something new</string>
+    <string name="practice_a_new_skill">Practice a new skill</string>
+    <string name="volunteer">Volunteer</string>
+    <string name="listen_to_podcast">Listen to podcast</string>
+    <string name="wam_up">Wam-up</string>
+    <string name="burpees">Burpees</string>
+    <string name="pushups">Pushups</string>
+    <string name="core_leg_workout"><![CDATA[Core & Leg workout]]></string>
+    <string name="upper_body_tranning">Upper body tranning</string>
+    <string name="core_strength_tranning">Core strength tranning</string>
+    <string name="squats">Squats</string>
+    <string name="nighttime">Nighttime</string>
+    <string name="morning_routine">Morning Routine</string>
+    <string name="heathy_lifestyle">Heathy lifestyle</string>
+    <string name="daily_chores">Daily Chores</string>
+    <string name="stress_relief">Stress relief</string>
+    <string name="study">Study</string>
+    <string name="personal_finance">Personal finance</string>
+    <string name="staying_fit">Staying fit</string>
+    <string name="self_improvement">Self-improvement</string>
+    <string name="create_my_collection">Create my collection</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="create_collection">CREATE COLLECTION</string>
+    <string name="next">NEXT</string>
+    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">Choose one of the avaiable images that best fits your content</string>
+    <string name="new_habit">New Habit</string>
+    <string name="note">Note</string>
+    <string name="goal">Goal</string>
+    <string name="repeat">Repeat</string>
+    <string name="frequency">Frequency</string>
+    <string name="end_date">End date</string>
+    <string name="get_reminders">Get reminders</string>
+    <string name="tag">Tag</string>
+    <string name="add_to_routine">Add to routine</string>
+    <string name="choose_icon">Choose icon</string>
+    <string name="create_new">Create new</string>
+    <string name="week">Week</string>
+    <string name="enter_how_often_you_want_the_task_to_repeat">Enter how often you want the task to repeat</string>
+    <string name="enter_name_tag">Enter name tag</string>
+    <string name="create">CREATE</string>
+
+
 </resources>
