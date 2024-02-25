@@ -9,8 +9,10 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentProfileBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_PASS_REVIEW_APP
 import com.thanhlv.fw.helper.MyClick
 import com.thanhlv.fw.helper.MyUtils
+import com.thanhlv.fw.helper.MyUtils.Companion.gotoStore
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
@@ -104,10 +106,44 @@ class ProfileFragment :
             }
         })
 
+        binding.btnRate.setOnClickListener(object : MyClick() {
+            override fun onMyClick(v: View, count: Long) {
+                clickRating()
+            }
+        })
+
         binding.btnAbout.setOnClickListener {
             clickAbout()
         }
 
+    }
+
+    fun clickRating(){
+                val popupRating = PopupRating.newInstance()
+                popupRating.setCallback(object : PopupRating.ConfirmCallback {
+                    override fun clickNegative() {
+                        MyUtils.hideNavigationBar(requireActivity())
+                        try {
+                            if (!popupRating.isAdded) popupRating.dismissAllowingStateLoss()
+                        } catch (_: Exception) {
+                        }
+                    }
+
+                    override fun clickPositive(value: Float) {
+                        MyUtils.hideNavigationBar(requireActivity())
+                        if (!RemoteConfigs.instance.getConfigValue(KEY_PASS_REVIEW_APP)
+                                .asBoolean() || value > 4
+                        ) {
+                            gotoStore(requireContext())
+                        }
+                    }
+                })
+                try {
+                    if (!popupRating.isAdded) popupRating.show(
+                        requireActivity().supportFragmentManager, ""
+                    )
+                } catch (_: Exception) {
+                }
     }
 
     private fun clickAbout() {

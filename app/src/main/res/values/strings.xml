@@ -25,4 +25,14 @@
     <string name="lifetime">Lifetime</string>
     <string name="automatically_renewed">Automatically renewed</string>
     <string name="once_payment">Once payment</string>
+
+    <string name="your_opinion_matters_to_us">Your opinion matters to us!</string>
+    <string name="enjoying_the_app">Enjoying the app?</string>
+    <string name="the_best_we_can_get">The best we can get</string>
+    <string name="not_now">Not now</string>
+    <string name="submit">Submit</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">Please leave feedback to help us improve product</string>
+    <string name="thanks_for_submitting_a_review">Thanks for submitting a review!</string>
+    <string name="please_rate_us_on_app_store">Please rate us on App Store</string>
+
 </resources>

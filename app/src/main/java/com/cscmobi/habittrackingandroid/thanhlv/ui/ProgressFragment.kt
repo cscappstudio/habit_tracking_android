@@ -104,6 +104,14 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         binding.btnPreviousPeriod.setOnClickListener {
             resolvePreviousPeriod(mChartType)
         }
+        validateStatsBtn(mCurrentYear)
+        binding.btnPreviousYear.setOnClickListener {
+            resolvePreviousYearStats()
+        }
+
+        binding.btnNextYear.setOnClickListener {
+            resolveNextYearStats()
+        }
     }
 
     private fun validateBtn(type: Int, startPeriod: Long) {
@@ -255,6 +263,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     }
 
     private var mCurrentStartPeriod = CalendarUtil.startWeekMs(System.currentTimeMillis())
+    private var mCurrentYear = CalendarUtil.startYear(System.currentTimeMillis()).toLong()
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun resolveNextPeriod(type: Int) {
@@ -285,6 +294,56 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         validateBtn(mChartType, mCurrentStartPeriod)
         drawChart(mChartType, mCurrentStartPeriod)
 
+    }
+
+
+
+    private fun validateStatsBtn(startPeriod: Long) {
+                if (startPeriod < 0) {
+                    binding.btnNextYear.alpha = 0.3f
+                    binding.btnNextYear.isEnabled = false
+                    if (CalendarUtil.startYear(System.currentTimeMillis())
+                        > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousYear.alpha = 1f
+                        binding.btnPreviousYear.isEnabled = true
+                    } else {
+                        binding.btnPreviousYear.alpha = 0.3f
+                        binding.btnPreviousYear.isEnabled = false
+                    }
+                } else {
+                    if (CalendarUtil.startYear(startPeriod)
+                        > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
+                    ) {
+                        binding.btnPreviousYear.alpha = 1f
+                        binding.btnPreviousYear.isEnabled = true
+                    } else {
+                        binding.btnPreviousYear.alpha = 0.3f
+                        binding.btnPreviousYear.isEnabled = false
+                    }
+
+                    if (CalendarUtil.startYear(startPeriod) <
+                        CalendarUtil.startYear(System.currentTimeMillis())
+                    ) {
+                        binding.btnNextYear.alpha = 1f
+                        binding.btnNextYear.isEnabled = true
+                    } else {
+                        binding.btnNextYear.alpha = 0.3f
+                        binding.btnNextYear.isEnabled = false
+                    }
+                }
+    }
+    private fun resolvePreviousYearStats() {
+        mCurrentYear =  CalendarUtil.previousYear(mCurrentYear)
+        binding.tvYear.text = CalendarUtil.getTitleYear(mCurrentYear)
+        validateStatsBtn(mCurrentYear)
+        //
+    }
+    private fun resolveNextYearStats() {
+        mCurrentYear =  CalendarUtil.nextYear(mCurrentYear)
+        binding.tvYear.text = CalendarUtil.getTitleYear(mCurrentYear)
+        validateStatsBtn(mCurrentYear)
+//
     }
 
     private fun fetchDataForChart(type: Int, startDate: Long) {
@@ -460,9 +519,9 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     private fun getDataForYear(): MutableList<MonthCalendarModel> {
         val list = mutableListOf<MonthCalendarModel>()
-        list.add(MonthCalendarModel(1, 2023))
+//        list.add(MonthCalendarModel(1, 2023))
         list.add(MonthCalendarModel(1, 2024))
-        list.add(MonthCalendarModel(1, 2025))
+//        list.add(MonthCalendarModel(1, 2025))
         return list
     }
 }

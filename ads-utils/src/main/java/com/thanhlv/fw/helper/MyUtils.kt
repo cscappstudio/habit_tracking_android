@@ -604,5 +604,29 @@ class MyUtils {
             return String(buffer, Charsets.UTF_8)
         }
 
+        fun gotoStore(context: Context) {
+            try {
+                context.startActivity(rateIntentForUrl(context, "market://details"))
+            } catch (e: ActivityNotFoundException) {
+                context.startActivity(
+                    rateIntentForUrl(
+                        context,
+                        "https://play.google.com/store/apps/details"
+                    )
+                )
+            }
+        }
+
+        private fun rateIntentForUrl(context: Context, url: String?): Intent {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(String.format("%s?id=%s", url, context.packageName))
+            )
+            var flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+            flags = flags or Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+            intent.addFlags(flags)
+            return intent
+        }
+
     }
 }
