@@ -9,10 +9,9 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="350dp"
-            android:minWidth="300dp"
-            android:layout_height="760dp"
-            android:minHeight="720dp"
+            android:id="@+id/ctl_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/dark_teal">
 
@@ -89,7 +88,7 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:fontFamily="@font/worksans_bold"
-                    android:text="CLAIM BADGE"
+                    android:text="@string/claim_badge"
                     android:layout_gravity="center_horizontal"
                     android:paddingHorizontal="60dp"
 

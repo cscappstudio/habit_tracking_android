@@ -145,5 +145,12 @@
     <string name="repeat_no_repeat">Repetir: Sem repetição</string>
     <string name="reminder_no_reminder">Lembrete: Sem lembrete</string>
     <string name="reminder">Lembrete</string>
+    <string name="congratulation">Parabéns!</string>
+    <string name="all_habits_for_today_are_completed">Todos os hábitos para hoje estão concluídos!</string>
+    <string name="only_78_of_users_have_done_this">Apenas 78% dos usuários fizeram isso.</string>
+    <string name="whoa">Uau!</string>
+    <string name="you_just_hit_2_day_habit_streak">Você acabou de atingir uma sequência de hábitos de 2 dias!</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">A consistência é a chave, e você está no caminho certo. Continue esmagando esses objetivos! 💪🌟</string>
+    <string name="claim_badge">REIVINDICAR DISTINTIVO</string>
 
 </resources>

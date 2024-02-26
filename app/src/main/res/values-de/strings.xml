@@ -143,5 +143,18 @@
     <string name="repeat_no_repeat">Keine Wiederholung</string>
     <string name="reminder_no_reminder"> Erinnerung: Keine Erinnerung</string>
     <string name="reminder">Erinnerung</string>
+    <string name="congratulation">Herzlichen Glückwunsch!</string>
+    <string name="all_habits_for_today_are_completed">Alle Gewohnheiten für heute sind abgeschlossen!</string>
+    <string name="only_78_of_users_have_done_this">Nur 78 % der Benutzer haben das gemacht.</string>
+    <string name="whoa">Whoa!</string>
+    <string name="you_just_hit_2_day_habit_streak">Du hast gerade einen 2-Tage-Gewohnheitsstreak erreicht!</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">Kontinuität ist entscheidend, und du bist auf dem richtigen Weg. Zerquetsche weiterhin diese Ziele! 💪🌟</string>
+    <string name="claim_badge">ABZEICHEN BEANSPRUCHEN</string>
+
+
+
+
+
+
 
 </resources>

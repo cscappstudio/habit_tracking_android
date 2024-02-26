@@ -145,5 +145,12 @@
     <string name="repeat_no_repeat">반복: 반복 없음</string>
     <string name="reminder_no_reminder">알림: 알림 없음</string>
     <string name="reminder">알림</string>
+    <string name="congratulation">축하합니다!</string>
+    <string name="all_habits_for_today_are_completed">오늘의 모든 습관이 완료되었습니다!</string>
+    <string name="only_78_of_users_have_done_this">사용자 중 78%만이 이를 수행했습니다.</string>
+    <string name="whoa">우와!</string>
+    <string name="you_just_hit_2_day_habit_streak">2일간의 습관 스트릭을 이루었습니다!</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">일관성이 중요하며 당신은 올바른 길에 있습니다. 그 목표를 계속 이루어 가세요! 💪🌟</string>
+    <string name="claim_badge">뱃지 청구</string>
 
 </resources>

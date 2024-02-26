@@ -16,13 +16,14 @@ import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.thanhlv.ads.lib.AdMobUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     NewHabitFragment.INewHabitListener {
     private val collectionViewModel: CollectionViewModel by viewModel()
-
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_newhabit
@@ -37,6 +38,35 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
         collectionViewModel.setUp()
         addFragment(R.id.fr_container, collectionFragment, "collectionFragment")
 
+       onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (collectionFragment.isVisible) {
+
+                    AdMobUtils.createInterstitialAd(
+                        this@NewHabitActivity,
+                        getString(R.string.inter_id),
+                        object : AdMobUtils.Companion.LoadAdCallback {
+                            override fun onLoaded(ad: Any?) {
+                                AdMobUtils.showInterstitialAd(this@NewHabitActivity,
+                                    object : FullScreenContentCallback() {
+                                        override fun onAdDismissedFullScreenContent() {
+                                            super.onAdDismissedFullScreenContent()
+                                            finish()
+                                        }
+                                    })
+                            }
+
+                            override fun onLoadFailed() {
+                                finish()
+                            }
+
+
+                        })
+                } else {
+                    supportFragmentManager.popBackStack()
+                }
+            }
+        })
     }
 
     override fun onResume() {
@@ -86,8 +116,6 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     override fun editTaskCollection(task: Task) {
         createCollectionFragment.editTask(task)
     }
-
-
 
 
 }

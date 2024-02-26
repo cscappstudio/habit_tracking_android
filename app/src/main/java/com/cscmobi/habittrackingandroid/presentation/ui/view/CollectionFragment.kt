@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -214,7 +215,8 @@ class CollectionFragment :
         }
 
         binding.layoutHeader.ivBack.setOnClickListener {
-            requireActivity().finish()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+
         }
 
         binding.layoutHeader.ivSearch.setOnClickListener {

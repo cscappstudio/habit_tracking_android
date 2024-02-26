@@ -145,6 +145,13 @@
     <string name="repeat_no_repeat">Repeat: No Repeat</string>
     <string name="reminder_no_reminder">Reminder: No Reminder</string>
     <string name="reminder">Reminder</string>
+    <string name="congratulation">Congratulation!</string>
+    <string name="all_habits_for_today_are_completed">All habits for today are completed!</string>
+    <string name="only_78_of_users_have_done_this">Only 78% of users have done this.</string>
+    <string name="whoa">Whoa!</string>
+    <string name="you_just_hit_2_day_habit_streak">You just hit 2-day habit streak!</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">Consistency is key, and you\'re on the right track. Keep crushing those goals! 💪🌟</string>
+    <string name="claim_badge">CLAIM BADGE</string>
 
 
 </resources>

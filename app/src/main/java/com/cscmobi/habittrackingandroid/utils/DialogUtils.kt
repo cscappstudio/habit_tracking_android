@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.cscmobi.habittrackingandroid.databinding.DialogCongratulationBinding
 import com.cscmobi.habittrackingandroid.databinding.DialogDeleteTaskBinding
+import com.thanhlv.fw.helper.DisplayUtils
 
 object DialogUtils {
     fun showDeleteTaskDialog(context: Context, deleteFuture: () -> Unit, deleteAll: () -> Unit) {
@@ -38,13 +39,16 @@ object DialogUtils {
         val alertDialog = AlertDialog.Builder(context)
             .setView(binding.root)
             .show()
-
-        val layoutParams = WindowManager.LayoutParams()
-        layoutParams.copyFrom(alertDialog.window?.attributes)
-        layoutParams?.gravity = Gravity.CENTER
-        alertDialog.window?.attributes = layoutParams
-
+        alertDialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
         alertDialog.window?.setBackgroundDrawable(null)
+
+        val layoutParams = binding.ctlRoot.layoutParams
+        layoutParams.width = DisplayUtils.getDeviceWidthPx().toInt()
+        layoutParams.height = DisplayUtils.getDeviceHeightPx().toInt()
+        binding.ctlRoot.layoutParams = layoutParams
 
         binding.txtTitle.text = title
         binding.txtContent1.text = content1

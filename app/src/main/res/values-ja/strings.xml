@@ -145,5 +145,12 @@
     <string name="repeat_no_repeat">繰り返し：繰り返し無し</string>
     <string name="reminder_no_reminder">リマインダー：リマインダーなし</string>
     <string name="reminder">リマインダー</string>
+    <string name="congratulation">おめでとうございます！</string>
+    <string name="all_habits_for_today_are_completed">今日の習慣はすべて完了しました！</string>
+    <string name="only_78_of_users_have_done_this">ユーザーのうち78％だけがこれを行いました。</string>
+    <string name="whoa">うわー！</string>
+    <string name="you_just_hit_2_day_habit_streak">2日間の習慣ストリークに成功しました！</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">一貫性が重要であり、あなたは正しい道を進んでいます。それらの目標を粉砕し続けてください！ 💪🌟</string>
+    <string name="claim_badge">バッジを請求</string>
 
 </resources>

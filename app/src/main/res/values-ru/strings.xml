@@ -145,5 +145,12 @@
     <string name="repeat_no_repeat">Повтор: Нет повторений</string>
     <string name="reminder_no_reminder">Напоминание: Без напоминания</string>
     <string name="reminder">Напоминание</string>
+    <string name="congratulation">Поздравляю!</string>
+    <string name="all_habits_for_today_are_completed">Все привычки на сегодня выполнены!</string>
+    <string name="only_78_of_users_have_done_this">Это сделали всего лишь 78% пользователей.</string>
+    <string name="whoa">Вау!</string>
+    <string name="you_just_hit_2_day_habit_streak">Вы только что начали свою двухдневную серию привычек!</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">Постоянство - ключ, и вы на верном пути. Продолжайте разгромлять эти цели! 💪🌟</string>
+    <string name="claim_badge">ПОЛУЧИТЬ ЗНАК</string>
 
 </resources>

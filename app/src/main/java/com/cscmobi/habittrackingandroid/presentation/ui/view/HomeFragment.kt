@@ -469,14 +469,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             binding.txtUnit2.visibility = View.INVISIBLE
             binding.txtDoneTask.visibility = View.VISIBLE
 
+
             requireActivity().let { mactivity ->
                 with(mactivity.getMySharedPreferences()) {
                     if (!this.getBoolean("isDialogCongraShown1", false)) {
                         DialogUtils.showCongratulationDialog(
                             mactivity,
-                            "Congratulation!",
-                            SpannableString("All habits for today are completed!"),
-                            "Only 78% of users have done this."
+                            getString(R.string.congratulation),
+                            SpannableString(getString(R.string.all_habits_for_today_are_completed)),
+                            getString(R.string.only_78_of_users_have_done_this)
                         )
                         this.edit().putBoolean("isDialogCongraShown1", true).apply()
                     }
@@ -486,8 +487,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             if (!this.getBoolean("isDialogCongraShown2", false)) {
                                 DialogUtils.showCongratulationDialog(
                                     mactivity,
-                                    "Whoa!",
-                                    SpannableString("You just hit 2-day habit streak!").apply {
+                                    getString(R.string.whoa),
+                                    SpannableString(getString(R.string.you_just_hit_2_day_habit_streak)).apply {
                                         this.setSpan(
                                             ForegroundColorSpan(
                                                 ContextCompat.getColor(
@@ -497,7 +498,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                             ), 13, 14, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                                         )
                                     },
-                                    "Consistency is key, and you're on the right track. Keep crushing those goals! \uD83D\uDCAA\uD83C\uDF1F"
+                                    getString(R.string.consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals)
                                 )
                                 this.edit().putBoolean("isDialogCongraShown2", true).apply()
                             }

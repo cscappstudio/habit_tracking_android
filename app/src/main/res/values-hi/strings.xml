@@ -145,5 +145,12 @@
     <string name="repeat_no_repeat">दोहराना: कोई दोहराव नहीं</string>
     <string name="reminder_no_reminder">स्मारक: कोई स्मारक नहीं</string>
     <string name="reminder">स्मारक</string>
+    <string name="congratulation">बधाई हो!</string>
+    <string name="all_habits_for_today_are_completed">आज के लिए सभी आदतें पूर्ण हैं!</string>
+    <string name="only_78_of_users_have_done_this">केवल 78% उपयोगकर्ताओं ने इसे किया है।</string>
+    <string name="whoa">वाह!</string>
+    <string name="you_just_hit_2_day_habit_streak">आपने अभी 2-दिन की आदत स्ट्रीक को मारा है!</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">सहजता कुंजी है, और आप सही रास्ते पर हैं। उन लक्ष्यों को कुचलते रहें! 💪🌟</string>
+    <string name="claim_badge">इन्सिग्निया का दावा करें</string>
 
 </resources>
