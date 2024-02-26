@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
@@ -24,12 +23,13 @@ import com.thanhlv.fw.helper.RunUtils
 import com.thanhlv.fw.spf.SPF
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
-import kotlin.random.Random
 
 class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressBinding::inflate) {
     private var pagerMonthAdapter: PagerMonthCalendarAdapter? = null
     private var pagerYearAdapter: PagerYearCalendarAdapter? = null
+
+    private var mCurrentStartPeriod = CalendarUtil.startWeekMs(System.currentTimeMillis())
+    private var mCurrentYear = CalendarUtil.startYear(System.currentTimeMillis()).toLong()
 
     override fun setEvent() {
     }
@@ -46,11 +46,11 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
 
         viewPager2()
-        handleChart()
+        handleChartCompletionRate()
     }
 
     private var mChartType = 1
-    private fun handleChart() {
+    private fun handleChartCompletionRate() {
 
         binding.btnWeek.setOnClickListener {
             mChartType = 1
@@ -262,9 +262,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     }
 
-    private var mCurrentStartPeriod = CalendarUtil.startWeekMs(System.currentTimeMillis())
-    private var mCurrentYear = CalendarUtil.startYear(System.currentTimeMillis()).toLong()
-
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun resolveNextPeriod(type: Int) {
         val currentDay = Calendar.getInstance()
@@ -295,8 +292,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         drawChart(mChartType, mCurrentStartPeriod)
 
     }
-
-
 
     private fun validateStatsBtn(startPeriod: Long) {
                 if (startPeriod < 0) {
@@ -491,7 +486,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             }
     }
 
-
     @SuppressLint("SimpleDateFormat")
     private fun updateTitleYear(monthYear: MonthCalendarModel?) {
         if (monthYear == null) return
@@ -503,25 +497,19 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     private fun getDataForMonth(): MutableList<MonthCalendarModel> {
         val list = mutableListOf<MonthCalendarModel>()
-        list.add(MonthCalendarModel(9, 2023))
-        list.add(MonthCalendarModel(10, 2023))
-        list.add(MonthCalendarModel(11, 2023))
-        list.add(MonthCalendarModel(12, 2023))
-        list.add(MonthCalendarModel(1, 2024))
-        list.add(MonthCalendarModel(2, 2024))
-        list.add(MonthCalendarModel(3, 2024))
-        list.add(MonthCalendarModel(4, 2024))
-        list.add(MonthCalendarModel(5, 2024))
-        list.add(MonthCalendarModel(6, 2024))
+        var startMonth = CalendarUtil.startMonthMs(SPF.getStartOpenTime(requireContext()))
+        val currentMonth = CalendarUtil.startMonthMs(System.currentTimeMillis())
+        while (startMonth <= currentMonth) {
+            list.add(MonthCalendarModel(CalendarUtil.getMonth(startMonth)+1, CalendarUtil.getYear(startMonth)))
+            startMonth = CalendarUtil.nextMonth(startMonth)
+        }
         return list
     }
 
 
     private fun getDataForYear(): MutableList<MonthCalendarModel> {
         val list = mutableListOf<MonthCalendarModel>()
-//        list.add(MonthCalendarModel(1, 2023))
         list.add(MonthCalendarModel(1, 2024))
-//        list.add(MonthCalendarModel(1, 2025))
         return list
     }
 }

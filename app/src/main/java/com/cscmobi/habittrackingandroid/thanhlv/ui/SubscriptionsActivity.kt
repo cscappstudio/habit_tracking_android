@@ -18,6 +18,7 @@ import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.cscmobi.habittrackingandroid.R
@@ -40,6 +41,7 @@ import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.model.LogEventPurchaseModel
 import com.thanhlv.fw.spf.SPF
+import java.text.NumberFormat
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -145,6 +147,8 @@ class SubscriptionsActivity : BaseActivity2() {
             binding.imgDiscount.backgroundTintList = ColorStateList.valueOf(
                 Color.parseColor("#DFCE75")
             )
+            SELECTED_SUBS = monthlyID
+            launchPurchaseFlow(SELECTED_SUBS)
         }
 
         binding.btnYearly.setOnClickListener {
@@ -155,6 +159,9 @@ class SubscriptionsActivity : BaseActivity2() {
             binding.btnYearly.elevation = DisplayUtils.dpToPx2(12f)
             binding.btnLifetime.elevation = 0f
             binding.imgDiscount.backgroundTintList = null
+
+            SELECTED_SUBS = yearlyID
+            launchPurchaseFlow(SELECTED_SUBS)
         }
 
         binding.btnLifetime.setOnClickListener {
@@ -167,10 +174,14 @@ class SubscriptionsActivity : BaseActivity2() {
             binding.btnMonthly.elevation = 0f
             binding.btnYearly.elevation = 0f
             binding.btnLifetime.elevation = DisplayUtils.dpToPx2(12f)
+
+            SELECTED_SUBS = lifetimeID
+            launchPurchaseFlow(SELECTED_SUBS)
         }
     }
 
     override fun loadData() {
+        connectGooglePlayBilling()
     }
 
     private fun trackingPurchase(purchase: Purchase, productDetail: ProductDetails) {
@@ -250,7 +261,6 @@ class SubscriptionsActivity : BaseActivity2() {
     fun fillSubscription() {
         try {
             var filled = 0
-//            listSubs.clear()
             for (i in productDetails.indices) {
                 if (productDetails[i] == null) return
                 val id = productDetails[i]!!.productId
@@ -262,61 +272,44 @@ class SubscriptionsActivity : BaseActivity2() {
                 ) price =
                     getPrice(productDetails[i]!!.subscriptionOfferDetails!![0].pricingPhases.pricingPhaseList)
                 if (id == monthlyID) {
-//                    listSubs.add(
-//                        SubsModel(
-//                            0,
-//                            getString(R.string.monthly),
-//                            price!!,
-//                            getString(R.string.automatically_renewed),
-//                            false,
-//                            id
-//                        )
-//                    )
                     filled++
+                    binding.tvPriceMonthly.text = price
                 }
                 if (id == yearlyID) {
-//                    listSubs.add(
-//                        SubsModel(
-//                            1,
-//                            getString(R.string.yearly),
-//                            price!!,
-//                            getString(R.string.automatically_renewed),
-//                            true,
-//                            id
-//                        )
-//                    )
+                    binding.tvPriceYearly.text = price
+                    binding.tvPriceYearlyOriginal.text = calcuPriceOriginal(
+                        maxPrice,
+                        currencyCode,
+                        50
+                    )
                     filled++
                 }
                 if (id == lifetimeID) {
-//                    listSubs.add(
-//                        SubsModel(
-//                            2,
-//                            getString(R.string.lifetime),
-//                            price!!,
-//                            getString(R.string.once_payment),
-//                            false,
-//                            id
-//                        )
-//                    )
+                    binding.tvPriceLifetime.text = price
                     filled++
                 }
             }
-//            listSubs.sortWith { o1, o2 -> o1.index.compareTo(o2.index) }
             if (filled >= 3) {
-//                subsAdapter?.updateData(listSubs)
-//                binding.slider.isUserInputEnabled = true
-//                binding.slider.setCurrentItem(1, true)
 
-//                Handler(Looper.getMainLooper()).postDelayed({
-//                    binding.slider.setCurrentItem(1, true)
-//                }, 200)
-//                SELECTED_SUBS = listSubs[1].keyID
+                SELECTED_SUBS = yearlyID
                 binding.btnBuyNow.isEnabled = true
             }
         } catch (ignored: Exception) {
         }
     }
 
+
+    private fun calcuPriceOriginal(priceAmount: Long, currencyCode: String, percent: Long): String {
+        return try {
+            val priceValue = priceAmount / (10000 * (100 - percent)).toDouble()
+            val format = NumberFormat.getCurrencyInstance()
+            format.maximumFractionDigits = 2
+            format.currency = Currency.getInstance(currencyCode)
+            format.format(priceValue)
+        } catch (e: Exception) {
+            "$0.99"
+        }
+    }
 
     private var maxPrice: Long = -1
     private var currencyCode = ""
@@ -335,7 +328,16 @@ class SubscriptionsActivity : BaseActivity2() {
         return formatPrice
     }
 
+
+    private val purchasesUpdatedListener =
+        PurchasesUpdatedListener { billingResult: BillingResult, purchases: List<Purchase>? ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null)
+                for (purchase in purchases) handlePurchase(purchase)
+        }
     private fun connectGooglePlayBilling() {
+
+        billingClient = BillingClient.newBuilder(this).setListener(purchasesUpdatedListener)
+            .enablePendingPurchases().build()
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) querySubs()
@@ -403,27 +405,27 @@ class SubscriptionsActivity : BaseActivity2() {
     override fun onResume() {
         super.onResume()
         MyUtils.hideNavigationBar(this)
-//        billingClient.queryPurchasesAsync(
-//            QueryPurchasesParams.newBuilder()
-//                .setProductType(BillingClient.ProductType.SUBS).build()
-//        ) { billingResult: BillingResult, list: List<Purchase> ->
-//            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && list.isNotEmpty())
-//                for (purchase in list)
-//                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
-//                        handlePurchase(purchase)
-//
-//        }
-//
-//        billingClient.queryPurchasesAsync(
-//            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP)
-//                .build()
-//        ) { billingResult2: BillingResult, list2: List<Purchase> ->
-//            if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK && list2.isNotEmpty())
-//                for (purchase in list2)
-//                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
-//                        handlePurchase(purchase)
-//
-//        }
+        billingClient.queryPurchasesAsync(
+            QueryPurchasesParams.newBuilder()
+                .setProductType(BillingClient.ProductType.SUBS).build()
+        ) { billingResult: BillingResult, list: List<Purchase> ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && list.isNotEmpty())
+                for (purchase in list)
+                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
+                        handlePurchase(purchase)
+
+        }
+
+        billingClient.queryPurchasesAsync(
+            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP)
+                .build()
+        ) { billingResult2: BillingResult, list2: List<Purchase> ->
+            if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK && list2.isNotEmpty())
+                for (purchase in list2)
+                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged)
+                        handlePurchase(purchase)
+
+        }
     }
 
     private var gotoHome = true
@@ -449,9 +451,9 @@ class SubscriptionsActivity : BaseActivity2() {
             }
         }
     }
-//    @SuppressLint("MissingSuperCall")
-//    @Deprecated("Deprecated in Java")
-//    override fun onBackPressed() {
-//    }
+    @SuppressLint("MissingSuperCall")
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+    }
 
 }
