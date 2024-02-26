@@ -23,7 +23,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        CollectionViewModel(get(),get())
+        CollectionViewModel(get(),get(),androidContext())
     }
 
     viewModel {

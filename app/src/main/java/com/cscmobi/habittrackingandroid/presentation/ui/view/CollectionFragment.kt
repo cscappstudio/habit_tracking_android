@@ -65,6 +65,7 @@ class CollectionFragment :
                         listTasks.clear()
                       it.collection.forEach {
                           it.task?.let { tasks ->
+
                               listTasks.addAll(tasks)
                           }
                       }

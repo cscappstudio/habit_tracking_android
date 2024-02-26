@@ -36,13 +36,13 @@ class ChangeLanguageActivity : BaseActivity2() {
             binding.btnBackHeader.visibility = View.GONE
         }
         listLanguage.add(binding.checkEnglish)
-        listLanguage.add(binding.checkFilipino)
+        listLanguage.add(binding.checkJapan)
         listLanguage.add(binding.checkFrench)
         listLanguage.add(binding.checkGermany)
         listLanguage.add(binding.checkHindi)
         listLanguage.add(binding.checkSpanish)
-        listLanguage.add(binding.checkThailand)
-        listLanguage.add(binding.checkVietnam)
+        listLanguage.add(binding.checkKo)
+        listLanguage.add(binding.checkRusian)
         listLanguage.add(binding.checkPortuguese)
 
         binding.tvUsa.rippleEffect()
@@ -140,13 +140,13 @@ class ChangeLanguageActivity : BaseActivity2() {
         listLanguage.forEach { it.visibility = View.GONE }
         when (currentLanguage) {
             "en" -> listLanguage[0].visibility = View.VISIBLE
-            "fil" -> listLanguage[1].visibility = View.VISIBLE
+            "ja" -> listLanguage[1].visibility = View.VISIBLE
             "fr" -> listLanguage[2].visibility = View.VISIBLE
             "de" -> listLanguage[3].visibility = View.VISIBLE
             "hi" -> listLanguage[4].visibility = View.VISIBLE
             "es" -> listLanguage[5].visibility = View.VISIBLE
-            "th" -> listLanguage[6].visibility = View.VISIBLE
-            "vi" -> listLanguage[7].visibility = View.VISIBLE
+            "ko" -> listLanguage[6].visibility = View.VISIBLE
+            "ru" -> listLanguage[7].visibility = View.VISIBLE
             "pt" -> listLanguage[8].visibility = View.VISIBLE
         }
     }

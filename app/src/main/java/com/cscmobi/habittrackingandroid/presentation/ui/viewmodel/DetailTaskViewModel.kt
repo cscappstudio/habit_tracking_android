@@ -1,7 +1,9 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
 import com.cscmobi.habittrackingandroid.data.model.DataTaskHistory
 import com.cscmobi.habittrackingandroid.data.model.RemindTask
@@ -243,7 +245,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
     }
 
 
-    fun showRepeatString(repeat: TaskRepeat?): String {
+    fun showRepeatString(repeat: TaskRepeat?,context: Context): String {
 
         if (repeat != null && repeat.isOn == true) {
             var days: String = when (repeat.type) {
@@ -268,20 +270,20 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
                 else -> if ((repeat.frequency ?: 0) > 1) "days" else "day"
             }
 
-            return  "Repeat: every $frequency $type $days"
+            return  "${context.getString(R.string.repeat)}: every $frequency $type $days"
 
         }
-        return    "Repeat: No Repeat"
+        return context.getString(R.string.repeat_no_repeat)
     }
 
-    fun showReminder(remindTask: RemindTask?): String {
+    fun showReminder(remindTask: RemindTask?,context: Context): String {
        if (remindTask != null && remindTask.isOpen == true) {
            val formattedTime = String.format("%d:%02d %s", remindTask.hour, remindTask.minute, remindTask.unit)
 
-          return "Reminder: $formattedTime"
+          return "${context.getString(R.string.reminder)}: $formattedTime"
        }
 
-        return  "Reminder: No Reminder"
+        return context.getString(R.string.reminder_no_reminder)
     }
 
 

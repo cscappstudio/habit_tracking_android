@@ -50,7 +50,7 @@ import java.util.Date
 import kotlin.math.roundToInt
 
 
-class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
+class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val detailTaskViewModel: DetailTaskViewModel by viewModel()
 
     val childFragment: CustomDetailTaskCalenderFragment = CustomDetailTaskCalenderFragment()
@@ -251,10 +251,10 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
             var rate = ((finishDay.toFloat() / listDataTaskHistory.size.toFloat()) * 100).toInt()
 
-            binding.txtStreak.text = "$currentStreak days"
-            binding.layoutSteak1.txtDay.text = "$finishDay days"
-            binding.layoutSteak2.txtDay.text = "$missDay days"
-            binding.layoutSteak3.txtDay.text = "$longStreak days"
+            binding.txtStreak.text = "$currentStreak ${getString(R.string.days)}"
+            binding.layoutSteak1.txtDay.text = "$finishDay ${getString(R.string.days)}"
+            binding.layoutSteak2.txtDay.text = "$missDay ${getString(R.string.days)}"
+            binding.layoutSteak3.txtDay.text = "$longStreak ${getString(R.string.days)}"
             binding.layoutSteak4.txtDay.text = "$rate %"
 
             childFragment.setData(listDataTaskHistory)
@@ -273,8 +273,8 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             binding.ivTask.imageTintList = ColorStateList.valueOf(Color.parseColor(it.color))
             binding.frIvTask.setBackgroundApla(it.color ?: "#33EBB2BD", 20)
             Log.d("TESTDATA", it.toString())
-            binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate)
-            binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind)
+            binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate,this)
+            binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind,this)
             binding.txtNameTask.text = it.name
 
             binding.txtNoteTask.text = it.note
@@ -294,7 +294,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
                 binding.ctlProgressGoal.visibility = View.VISIBLE
                 binding.txtProgress.text = (it.goal!!.currentProgress ?: 0).toString()
-                binding.txtGoalTarget.text = "Goal: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"
+                binding.txtGoalTarget.text = "${getString(R.string.goal)}: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"
 
             }
 

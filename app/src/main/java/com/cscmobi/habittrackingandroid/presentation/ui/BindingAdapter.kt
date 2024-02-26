@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.presentation.ui
 
 
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -36,6 +37,17 @@ fun setDrawableString(iv: AppCompatImageView, path: String) {
 fun setDrawableAsset(iv: AppCompatImageView, path: String) {
     val drawable = Utils.loadImageFromAssets(iv.context,path)
     iv.setImageDrawable(drawable)
+}
+
+@BindingAdapter("custom:setText")
+fun setText(tv: TextView,s: String) {
+    try {
+        val resourceValue = tv.context.getString(s.toInt())
+        tv.setText(resourceValue)
+    }catch (e: Exception) {
+        tv.setText(s)
+
+    }
 }
 
 

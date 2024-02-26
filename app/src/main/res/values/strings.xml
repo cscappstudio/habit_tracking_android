@@ -140,6 +140,11 @@
     <string name="enter_how_often_you_want_the_task_to_repeat">Enter how often you want the task to repeat</string>
     <string name="enter_name_tag">Enter name tag</string>
     <string name="create">CREATE</string>
+    <string name="habits">habits</string>
+    <string name="days">days</string>
+    <string name="repeat_no_repeat">Repeat: No Repeat</string>
+    <string name="reminder_no_reminder">Reminder: No Reminder</string>
+    <string name="reminder">Reminder</string>
 
 
 </resources>

@@ -1,2 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="app_name" translatable="false">Habit Goals</string>
+    <string name="full_app_name" translatable="false">Habit Goals: Habit Tracker</string>
+
+    <string name="worksans_semibold">worksans_semibold</string>
+
+    <string name="hindi" translatable="false">हिन्दी</string>
+    <string name="german" translatable="false">Deutsch</string>
+    <string name="united_states" translatable="false">English</string>
+    <string name="portuguese" translatable="false">Português</string>
+    <string name="japanese" translatable="false">日本語</string>
+    <string name="korean" translatable="false">한국인</string>
+    <string name="french" translatable="false">Français</string>
+    <string name="spanish" translatable="false">Español</string>
+    <string name="rusian" translatable="false">Русский</string>
+
+    <string name="latest_version">Последняя версия</string>
+    <string name="please_update">Пожалуйста, обновите</string>
+    <string name="you_re_almost_done">Вы почти закончили!</string>
+    <string name="today">Сегодня</string>
+    <string name="challenge">Задание</string>
+    <string name="tasks">Задачи</string>
+    <string name="home">Главная</string>
+    <string name="progress">Прогресс</string>
+    <string name="profile">Профиль</string>
+    <string name="swipe_left_to_edit_pause_or_delete_your_task">Проведите влево для редактирования, приостановки или удаления задачи</string>
+    <string name="pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready">Приостановка задачи не разрушает вашу серию. Вы можете возобновить ее, когда будете готовы.</string>
+    <string name="tap_to_edit">Коснитесь для редактирования</string>
+    <string name="tap_to_delete">Коснитесь для удаления</string>
+    <string name="are_you_sure_you_want_to_delete">Вы уверены, что хотите удалить?</string>
+    <string name="delete_all_will_loss_all_of_task_s_history_amp_future"><![CDATA[Удаление всех потеряет всю историю и будущее задачи]]></string>
+    <string name="delete_future_task_only">Удалить только будущую задачу</string>
+    <string name="delete_all">Удалить все</string>
+    <string name="for_1_day">На 1 день</string>
+    <string name="for_3_days">На 3 дня</string>
+    <string name="for_7_days">На 7 дней</string>
+    <string name="until_i_change_it">До изменения</string>
+    <string name="awesome">Отлично!</string>
+    <string name="there_are_no_projects_yet_please_add_a_project_now">Пока нет проектов, добавьте проект сейчас</string>
+    <string name="basic_info">Основная информация</string>
+    <string name="finish">Завершить</string>
+    <string name="check_list">Список задач</string>
+    <string name="current_streak">Текущая серия</string>
+    <string name="finished">Завершено</string>
+    <string name="missed">Пропущено</string>
+    <string name="long_streak">Длинная серия</string>
+    <string name="rate">Оценка</string>
+    <string name="collection">Коллекция</string>
+    <string name="all">Все</string>
+    <string name="create_my_own">Создать свой</string>
+    <string name="practice_affirmations">Практика утверждений</string>
+    <string name="practice_visualization">Практика визуализации</string>
+    <string name="meditate">Медитация</string>
+    <string name="make_the_bed">Застелить кровать</string>
+    <string name="brush_teeth">Чистка зубов</string>
+    <string name="drink_water">Пить воду</string>
+    <string name="eat_breakfast">Завтрак</string>
+    <string name="pray">Молитва</string>
+    <string name="take_a_shower">Принять душ</string>
+    <string name="take_vitamins">Принять витамины</string>
+    <string name="warm_and_cozy_drink">Теплый и уютный напиток</string>
+    <string name="skincare">Уход за кожей</string>
+    <string name="reflect_on_my_day">Рефлексия о моем дне</string>
+    <string name="stretch">Растяжка</string>
+    <string name="aroma_candle">Ароматическая свеча</string>
+    <string name="make_bed">Застелить постель</string>
+    <string name="laundry">Прачечная</string>
+    <string name="sweep_or_vacuum">Подметание или пылесос</string>
+    <string name="task_out_trash">Выбросить мусор</string>
+    <string name="meal_prep">Приготовление еды</string>
+    <string name="water_plants">Поливание растений</string>
+    <string name="fruit_and_veggies">Фрукты и овощи</string>
+    <string name="limit_sugar">Ограничение сахара</string>
+    <string name="no_alcohol">Без алкоголя</string>
+    <string name="get_enough_sleep">Получить достаточно сна</string>
+    <string name="set_goals">Установить цели</string>
+    <string name="review_material">Просмотр материала</string>
+    <string name="take_note">Записать</string>
+    <string name="brainstorming">Мозговой штурм</string>
+    <string name="prioritize_tasks">Определение приоритетов задач</string>
+    <string name="study_groups">Учебные группы</string>
+    <string name="drink_tea">Пить чай</string>
+    <string name="watch_movie">Смотреть фильм</string>
+    <string name="music_on">Музыка включена</string>
+    <string name="yoga">Йога</string>
+    <string name="paint_or_draw">Рисовать или рисовать</string>
+    <string name="read">Читать</string>
+    <string name="jogging">Джоггинг</string>
+    <string name="running">Бег</string>
+    <string name="full_body_stretching">Растяжка всего тела</string>
+    <string name="swimming">Плавание</string>
+    <string name="cycling">Велосипед</string>
+    <string name="hit_the_gym">Посетить тренажерный зал</string>
+    <string name="create_shopping_list">Создать список покупок</string>
+    <string name="set_saving_goal">Установить цель по сбережениям</string>
+    <string name="track_expense">Отслеживать расходы</string>
+    <string name="pay_the_bills">Оплатить счета</string>
+    <string name="check_investment">Проверить инвестиции</string>
+    <string name="review_subscriptions">Обзор подписок</string>
+    <string name="try_something_new">Попробовать что-то новое</string>
+    <string name="practice_a_new_skill">Оттачивать новый навык</string>
+    <string name="volunteer">Волонтировать</string>
+    <string name="listen_to_podcast">Слушать подкаст</string>
+    <string name="wam_up">Разминка</string>
+    <string name="burpees">Берпи</string>
+    <string name="pushups">Отжимания</string>
+    <string name="core_leg_workout"><![CDATA[Тренировка ядра и ног]]></string>
+    <string name="upper_body_tranning">Тренировка верхней части тела</string>
+    <string name="core_strength_tranning">Тренировка силы ядра</string>
+    <string name="squats">Приседания</string>
+    <string name="nighttime">Ночное время</string>
+    <string name="morning_routine">Утренняя рутина</string>
+    <string name="heathy_lifestyle">Здоровый образ жизни</string>
+    <string name="daily_chores">Ежедневные дела</string>
+    <string name="stress_relief">Снятие стресса</string>
+    <string name="study">Учеба</string>
+    <string name="personal_finance">Личные финансы</string>
+    <string name="staying_fit">Поддержание формы</string>
+    <string name="self_improvement">Самосовершенствование</string>
+    <string name="create_my_collection">Создать свою коллекцию</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="create_collection">СОЗДАТЬ КОЛЛЕКЦИЮ</string>
+    <string name="next">Далее</string>
+    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">Выберите одно из доступных изображений, которое лучше всего подходит для вашего контента</string>
+    <string name="new_habit">Новая привычка</string>
+    <string name="note">Заметка</string>
+    <string name="goal">Цель</string>
+    <string name="repeat">Повтор</string>
+    <string name="frequency">Частота</string>
+    <string name="end_date">Дата завершения</string>
+    <string name="get_reminders">Получать напоминания</string>
+    <string name="tag">Метка</string>
+    <string name="add_to_routine">Добавить в рутину</string>
+    <string name="choose_icon">Выберите значок</string>
+    <string name="create_new">Создать новый</string>
+    <string name="week">Неделя</string>
+    <string name="enter_how_often_you_want_the_task_to_repeat">Укажите, как часто вы хотите повторять задачу</string>
+    <string name="enter_name_tag">Введите имя тега</string>
+    <string name="create">СОЗДАТЬ</string>
+    <string name="habits" >Привычки</string>
+    <string name="days">Дни</string>
+    <string name="repeat_no_repeat">Повтор: Нет повторений</string>
+    <string name="reminder_no_reminder">Напоминание: Без напоминания</string>
+    <string name="reminder">Напоминание</string>
+
+</resources>

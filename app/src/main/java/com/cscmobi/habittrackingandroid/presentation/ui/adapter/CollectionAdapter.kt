@@ -74,9 +74,26 @@ class CollectionAdapter(private val items: MutableList<HabitCollection>,private 
         fun bind(item: HabitCollection, onItemClickAdapter: OnItemClickPositionListener) {
 
             binding.ivCollection.setDrawableString(item.image!!)
-            binding.txtCollection.text = item.name
-            binding.llBg.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(binding.root.context,item.resColorBg ?: R.color.blue))
 
+//            if (item.name.isIn) {
+//                val resourceValue = binding.root.context.getString(resourceId)
+//                // Now, resourceValue contains the string resource corresponding to "aaaa"
+//                binding.txtCollection.text =  resourceValue
+//            } else {
+//                // Handle the case where the resource with the specified name is not found
+//               // binding.txtCollection.text =  item.name
+//                binding.txtCollection.text =  item.name
+//            }
+            try {
+                val resourceValue = binding.root.context.getString(item.name.toInt())
+                binding.txtCollection.text = resourceValue
+            }catch (e: Exception) {
+                binding.txtCollection.text =  item.name
+
+            }
+
+
+            binding.llBg.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(binding.root.context,item.resColorBg ?: R.color.blue))
             binding.root.setOnClickListener {
                 onItemClickAdapter.onItemClick(adapterPosition)
             }

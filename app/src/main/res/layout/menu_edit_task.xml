@@ -19,7 +19,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:text="@string/edit"
             android:textColor="@color/black"
             android:fontFamily="@font/worksans_semibold"
@@ -35,7 +35,7 @@
 
         <TextView
             android:id="@+id/tv_delete"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:text="@string/delete"
             android:textColor="@color/coral_red"
             android:fontFamily="@font/worksans_semibold"

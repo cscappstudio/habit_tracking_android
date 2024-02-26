@@ -1,2 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="app_name" translatable="false">Habit Goals</string>
+    <string name="full_app_name" translatable="false">Habit Goals: Habit Tracker</string>
+
+    <string name="worksans_semibold">worksans_semibold</string>
+
+    <string name="hindi" translatable="false">हिन्दी</string>
+    <string name="german" translatable="false">Deutsch</string>
+    <string name="united_states" translatable="false">English</string>
+    <string name="portuguese" translatable="false">Português</string>
+    <string name="japanese" translatable="false">日本語</string>
+    <string name="korean" translatable="false">한국인</string>
+    <string name="french" translatable="false">Français</string>
+    <string name="spanish" translatable="false">Español</string>
+    <string name="rusian" translatable="false">Русский</string>
+
+    <string name="latest_version">Última versão</string>
+    <string name="please_update">Por favor, atualize</string>
+    <string name="you_re_almost_done">Você está quase lá!</string>
+    <string name="today">Hoje</string>
+    <string name="challenge">Desafio</string>
+    <string name="tasks">Tarefas</string>
+    <string name="home">Início</string>
+    <string name="progress">Progresso</string>
+    <string name="profile">Perfil</string>
+    <string name="swipe_left_to_edit_pause_or_delete_your_task">Deslize para a esquerda para editar, pausar ou excluir sua tarefa</string>
+    <string name="pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready">Pausar uma tarefa não quebra sua sequência. Você pode retomar quando estiver pronto.</string>
+    <string name="tap_to_edit">Toque para editar</string>
+    <string name="tap_to_delete">Toque para excluir</string>
+    <string name="are_you_sure_you_want_to_delete">Tem certeza de que deseja excluir?</string>
+    <string name="delete_all_will_loss_all_of_task_s_history_amp_future"><![CDATA[Excluir tudo resultará na perda de todo o histórico e futuro da tarefa]]></string>
+    <string name="delete_future_task_only">Excluir apenas tarefa futura</string>
+    <string name="delete_all">Excluir tudo</string>
+    <string name="for_1_day">Por 1 dia</string>
+    <string name="for_3_days">Por 3 dias</string>
+    <string name="for_7_days">Por 7 dias</string>
+    <string name="until_i_change_it">Até eu mudar</string>
+    <string name="awesome">Incrível!</string>
+    <string name="there_are_no_projects_yet_please_add_a_project_now">Ainda não há projetos, por favor, adicione um projeto agora</string>
+    <string name="basic_info">Informações básicas</string>
+    <string name="finish">Concluir</string>
+    <string name="check_list">Lista de verificação</string>
+    <string name="current_streak">Sequência atual</string>
+    <string name="finished">Concluído</string>
+    <string name="missed">Perdido</string>
+    <string name="long_streak">Sequência longa</string>
+    <string name="rate">Avaliar</string>
+    <string name="collection">Coleção</string>
+    <string name="all">Todos</string>
+    <string name="create_my_own">Criar o meu</string>
+    <string name="practice_affirmations">Praticar afirmações</string>
+    <string name="practice_visualization">Praticar visualização</string>
+    <string name="meditate">Meditar</string>
+    <string name="make_the_bed">Arrumar a cama</string>
+    <string name="brush_teeth">Escovar os dentes</string>
+    <string name="drink_water">Beber água</string>
+    <string name="eat_breakfast">Tomar café da manhã</string>
+    <string name="pray">Orar</string>
+    <string name="take_a_shower">Tomar banho</string>
+    <string name="take_vitamins">Tomar vitaminas</string>
+    <string name="warm_and_cozy_drink">Bebida quente e aconchegante</string>
+    <string name="skincare">Cuidados com a pele</string>
+    <string name="reflect_on_my_day">Refletir sobre o meu dia</string>
+    <string name="stretch">Alongar</string>
+    <string name="aroma_candle">Vela aromática</string>
+    <string name="make_bed">Fazer a cama</string>
+    <string name="laundry">Lavanderia</string>
+    <string name="sweep_or_vacuum">Varrer ou aspirar</string>
+    <string name="task_out_trash">Tirar o lixo</string>
+    <string name="meal_prep">Preparar refeição</string>
+    <string name="water_plants">Regar as plantas</string>
+    <string name="fruit_and_veggies">Frutas e vegetais</string>
+    <string name="limit_sugar">Limitar açúcar</string>
+    <string name="no_alcohol">Sem álcool</string>
+    <string name="get_enough_sleep">Dormir o suficiente</string>
+    <string name="set_goals">Estabelecer metas</string>
+    <string name="review_material">Revisar material</string>
+    <string name="take_note">Fazer anotação</string>
+    <string name="brainstorming">Brainstorming</string>
+    <string name="prioritize_tasks">Priorizar tarefas</string>
+    <string name="study_groups">Grupos de estudo</string>
+    <string name="drink_tea">Beber chá</string>
+    <string name="watch_movie">Assistir filme</string>
+    <string name="music_on">Música ligada</string>
+    <string name="yoga">Yoga</string>
+    <string name="paint_or_draw">Pintar ou desenhar</string>
+    <string name="read">Ler</string>
+    <string name="jogging">Corrida leve</string>
+    <string name="running">Corrida</string>
+    <string name="full_body_stretching">Alongamento para o corpo inteiro</string>
+    <string name="swimming">Natação</string>
+    <string name="cycling">Ciclismo</string>
+    <string name="hit_the_gym">Ir para a academia</string>
+    <string name="create_shopping_list">Criar lista de compras</string>
+    <string name="set_saving_goal">Definir meta de economia</string>
+    <string name="track_expense">Acompanhar despesas</string>
+    <string name="pay_the_bills">Pagar as contas</string>
+    <string name="check_investment">Verificar investimentos</string>
+    <string name="review_subscriptions">Revisar assinaturas</string>
+    <string name="try_something_new">Experimentar algo novo</string>
+    <string name="practice_a_new_skill">Praticar uma nova habilidade</string>
+    <string name="volunteer">Ser voluntário</string>
+    <string name="listen_to_podcast">Ouvir podcast</string>
+    <string name="wam_up">Aquecimento</string>
+    <string name="burpees">Burpees</string>
+    <string name="pushups">Flexões</string>
+    <string name="core_leg_workout"><![CDATA[Exercício para o Core & Pernas]]></string>
+    <string name="upper_body_tranning">Treino para a parte superior do corpo</string>
+    <string name="core_strength_tranning">Treino de fortalecimento do Core</string>
+    <string name="squats">Agachamentos</string>
+    <string name="nighttime">Noite</string>
+    <string name="morning_routine">Rotina matinal</string>
+    <string name="heathy_lifestyle">Estilo de vida saudável</string>
+    <string name="daily_chores">Tarefas diárias</string>
+    <string name="stress_relief">Alívio do estresse</string>
+    <string name="study">Estudar</string>
+    <string name="personal_finance">Finanças pessoais</string>
+    <string name="staying_fit">Manter-se em forma</string>
+    <string name="self_improvement">Autoaperfeiçoamento</string>
+    <string name="create_my_collection">Criar minha coleção</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Excluir</string>
+    <string name="create_collection">CRIAR COLEÇÃO</string>
+    <string name="next">PRÓXIMO</string>
+    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">Escolha uma das imagens disponíveis que melhor se adapta ao seu conteúdo</string>
+    <string name="new_habit">Novo hábito</string>
+    <string name="note">Nota</string>
+    <string name="goal">Meta</string>
+    <string name="repeat">Repetir</string>
+    <string name="frequency">Frequência</string>
+    <string name="end_date">Data de término</string>
+    <string name="get_reminders">Receber lembretes</string>
+    <string name="tag">Tag</string>
+    <string name="add_to_routine">Adicionar à rotina</string>
+    <string name="choose_icon">Escolher ícone</string>
+    <string name="create_new">Criar novo</string>
+    <string name="week">Semana</string>
+    <string name="enter_how_often_you_want_the_task_to_repeat">Informe com que frequência deseja que a tarefa se repita</string>
+    <string name="enter_name_tag">Informe a etiqueta de nome</string>
+    <string name="create">CRIAR</string>
+    <string name="habits" >Hábitos</string>
+    <string name="days">dias</string>
+    <string name="repeat_no_repeat">Repetir: Sem repetição</string>
+    <string name="reminder_no_reminder">Lembrete: Sem lembrete</string>
+    <string name="reminder">Lembrete</string>
+
+</resources>

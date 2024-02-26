@@ -38,8 +38,15 @@ class DetailCollectionFragment :
             collectionViewModel.state.collect {
                 when (it) {
                     is CollectionState.Collection -> {
-                        binding.txtCollection.text = it.data.name
-                        binding.txtNumberTask.text = "${it.data.task!!.size.toString()} habits"
+                        binding.txtCollection.text =try {
+                            val resourceValue = binding.root.context.getString(it.data.name.toInt())
+                            it.data.name = resourceValue
+                            resourceValue
+                        } catch (e: Exception) {
+                            it.data.name = it.data.name
+                            it.data.name
+                        }
+                        binding.txtNumberTask.text = "${it.data.task!!.size.toString()} ${getString(R.string.habits)}"
                         binding.ivCollection.setDrawableString(it.data.image!!)
                         initAdapter(it.data.task as ArrayList<Task>)
                         if (it.data.isEdit) binding.ivEdit.visibility =
@@ -72,6 +79,15 @@ class DetailCollectionFragment :
     }
 
     private fun initAdapter(list: ArrayList<Task>) {
+        list.forEach {
+            it.name = try {
+                val resourceValue = binding.root.context.getString(it.name.toInt())
+                resourceValue
+            } catch (e: Exception) {
+                it.name
+            }
+        }
+
         detailCollectionAdapter = BaseBindingAdapter(
             R.layout.item_detail_collection,
             layoutInflater,

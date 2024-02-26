@@ -1,2 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="app_name" translatable="false">Habit Goals</string>
+    <string name="full_app_name" translatable="false">Habit Goals: Habit Tracker</string>
+
+    <string name="worksans_semibold">worksans_semibold</string>
+
+    <string name="hindi" translatable="false">हिन्दी</string>
+    <string name="german" translatable="false">Deutsch</string>
+    <string name="united_states" translatable="false">English</string>
+    <string name="portuguese" translatable="false">Português</string>
+    <string name="japanese" translatable="false">日本語</string>
+    <string name="korean" translatable="false">한국인</string>
+    <string name="french" translatable="false">Français</string>
+    <string name="spanish" translatable="false">Español</string>
+    <string name="rusian" translatable="false">Русский</string>
+
+    <string name="latest_version">최신 버전</string>
+    <string name="please_update">업데이트 해주세요</string>
+    <string name="you_re_almost_done">거의 다 끝났어요!</string>
+    <string name="today">오늘</string>
+    <string name="challenge">도전</string>
+    <string name="tasks">할 일</string>
+    <string name="home">홈</string>
+    <string name="progress">진행 상황</string>
+    <string name="profile">프로필</string>
+    <string name="swipe_left_to_edit_pause_or_delete_your_task">왼쪽으로 스와이프하여 작업 편집, 일시 중지 또는 삭제</string>
+    <string name="pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready">작업을 일시 중지해도 연속성이 깨지지 않습니다. 준비되면 계속할 수 있습니다.</string>
+    <string name="tap_to_edit">편집하려면 탭</string>
+    <string name="tap_to_delete">삭제하려면 탭</string>
+    <string name="are_you_sure_you_want_to_delete">정말로 삭제하시겠습니까?</string>
+    <string name="delete_all_will_loss_all_of_task_s_history_amp_future">모두 삭제하면 작업의 모든 기록 및 미래가 손실됩니다</string>
+    <string name="delete_future_task_only">미래 작업만 삭제</string>
+    <string name="delete_all">모두 삭제</string>
+    <string name="for_1_day">1일 동안</string>
+    <string name="for_3_days">3일 동안</string>
+    <string name="for_7_days">7일 동안</string>
+    <string name="until_i_change_it">바꿀 때까지</string>
+    <string name="awesome">멋져요!</string>
+    <string name="there_are_no_projects_yet_please_add_a_project_now">아직 프로젝트가 없습니다. 지금 프로젝트를 추가하세요</string>
+    <string name="basic_info">기본 정보</string>
+    <string name="finish">완료</string>
+    <string name="check_list">체크 리스트</string>
+    <string name="current_streak">현재 스트릭</string>
+    <string name="finished">완료됨</string>
+    <string name="missed">놓친 일</string>
+    <string name="long_streak">긴 스트릭</string>
+    <string name="rate">평가</string>
+    <string name="collection">컬렉션</string>
+    <string name="all">전체</string>
+    <string name="create_my_own">내 것 만들기</string>
+    <string name="practice_affirmations">긍정적인 말 실천</string>
+    <string name="practice_visualization">시각화 연습</string>
+    <string name="meditate">명상</string>
+    <string name="make_the_bed">침대 정리</string>
+    <string name="brush_teeth">이빨 닦기</string>
+    <string name="drink_water">물 마시기</string>
+    <string name="eat_breakfast">아침 식사</string>
+    <string name="pray">기도</string>
+    <string name="take_a_shower">샤워하기</string>
+    <string name="take_vitamins">비타민 복용</string>
+    <string name="warm_and_cozy_drink">따뜻하고 아늑한 음료</string>
+    <string name="skincare">스킨케어</string>
+    <string name="reflect_on_my_day">나의 하루를 되돌아보기</string>
+    <string name="stretch">스트레칭</string>
+    <string name="aroma_candle">아로마 캔들</string>
+    <string name="make_bed">침대 정리</string>
+    <string name="laundry">빨래</string>
+    <string name="sweep_or_vacuum">쓸거나 청소기 돌리기</string>
+    <string name="task_out_trash">쓰레기 처리</string>
+    <string name="meal_prep">식사 준비</string>
+    <string name="water_plants">식물에 물 주기</string>
+    <string name="fruit_and_veggies">과일 및 야채</string>
+    <string name="limit_sugar">설탕 제한</string>
+    <string name="no_alcohol">주류 금지</string>
+    <string name="get_enough_sleep">충분한 휴식 취하기</string>
+    <string name="set_goals">목표 설정</string>
+    <string name="review_material">자료 검토</string>
+    <string name="take_note">노트 작성</string>
+    <string name="brainstorming">브레인스토밍</string>
+    <string name="prioritize_tasks">작업 우선순위 정하기</string>
+    <string name="study_groups">스터디 그룹</string>
+    <string name="drink_tea">차 마시기</string>
+    <string name="watch_movie">영화 보기</string>
+    <string name="music_on">음악 틀기</string>
+    <string name="yoga">요가</string>
+    <string name="paint_or_draw">그림 그리기</string>
+    <string name="read">독서</string>
+    <string name="jogging">조깅</string>
+    <string name="running">러닝</string>
+    <string name="full_body_stretching">전신 스트레칭</string>
+    <string name="swimming">수영</string>
+    <string name="cycling">사이클링</string>
+    <string name="hit_the_gym">헬스장 가기</string>
+    <string name="create_shopping_list">쇼핑 목록 만들기</string>
+    <string name="set_saving_goal">저축 목표 설정</string>
+    <string name="track_expense">지출 추적</string>
+    <string name="pay_the_bills">계산서 지불</string>
+    <string name="check_investment">투자 확인</string>
+    <string name="review_subscriptions">구독 내역 검토</string>
+    <string name="try_something_new">새로운 것 시도하기</string>
+    <string name="practice_a_new_skill">새 기술 연습</string>
+    <string name="volunteer">자원봉사</string>
+    <string name="listen_to_podcast">팟캐스트 듣기</string>
+    <string name="wam_up">웜업</string>
+    <string name="burpees">버피</string>
+    <string name="pushups">푸시업</string>
+    <string name="core_leg_workout"><![CDATA[코어 및 다리 운동]]></string>
+    <string name="upper_body_tranning">상체 트레이닝</string>
+    <string name="core_strength_tranning">코어 강화 트레이닝</string>
+    <string name="squats">스쿼트</string>
+    <string name="nighttime">야간</string>
+    <string name="morning_routine">아침 루틴</string>
+    <string name="heathy_lifestyle">건강한 생활</string>
+    <string name="daily_chores">일상적인 일</string>
+    <string name="stress_relief">스트레스 해소</string>
+    <string name="study">공부</string>
+    <string name="personal_finance">개인 재무</string>
+    <string name="staying_fit">체력 유지</string>
+    <string name="self_improvement">자기 개발</string>
+    <string name="create_my_collection">내 컬렉션 만들기</string>
+    <string name="edit">편집</string>
+    <string name="delete">삭제</string>
+    <string name="create_collection">컬렉션 만들기</string>
+    <string name="next">다음</string>
+    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">컨텐츠에 가장 적합한 이미지 선택</string>
+    <string name="new_habit">새로운 습관</string>
+    <string name="note">메모</string>
+    <string name="goal">목표</string>
+    <string name="repeat">반복</string>
+    <string name="frequency">빈도</string>
+    <string name="end_date">종료 날짜</string>
+    <string name="get_reminders">알림 받기</string>
+    <string name="tag">태그</string>
+    <string name="add_to_routine">루틴에 추가</string>
+    <string name="choose_icon">아이콘 선택</string>
+    <string name="create_new">새로 만들기</string>
+    <string name="week">주</string>
+    <string name="enter_how_often_you_want_the_task_to_repeat">작업을 얼마나 자주 반복하길 원하십니까?</string>
+    <string name="enter_name_tag">이름 태그 입력</string>
+    <string name="create">만들기</string>
+    <string name="habits" >습관</string>
+    <string name="days">일</string>
+    <string name="repeat_no_repeat">반복: 반복 없음</string>
+    <string name="reminder_no_reminder">알림: 알림 없음</string>
+    <string name="reminder">알림</string>
+
+</resources>

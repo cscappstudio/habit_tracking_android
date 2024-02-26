@@ -426,7 +426,7 @@
                 tools:ignore="ContentDescription" />
 
             <ImageView
-                android:id="@+id/check_filipino"
+                android:id="@+id/check_japan"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
@@ -439,7 +439,7 @@
                 tools:ignore="ContentDescription" />
 
             <ImageView
-                android:id="@+id/check_thailand"
+                android:id="@+id/check_ko"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
@@ -478,7 +478,7 @@
                 tools:ignore="ContentDescription" />
 
             <ImageView
-                android:id="@+id/check_vietnam"
+                android:id="@+id/check_rusian"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"

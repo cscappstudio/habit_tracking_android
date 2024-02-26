@@ -1,2 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="app_name" translatable="false">Habit Goals</string>
+    <string name="full_app_name" translatable="false">Habit Goals: Habit Tracker</string>
+
+    <string name="worksans_semibold">worksans_semibold</string>
+
+    <string name="hindi" translatable="false">हिन्दी</string>
+    <string name="german" translatable="false">Deutsch</string>
+    <string name="united_states" translatable="false">English</string>
+    <string name="portuguese" translatable="false">Português</string>
+    <string name="japanese" translatable="false">日本語</string>
+    <string name="korean" translatable="false">한국인</string>
+    <string name="french" translatable="false">Français</string>
+    <string name="spanish" translatable="false">Español</string>
+    <string name="rusian" translatable="false">Русский</string>
+
+    <string name="latest_version">最新バージョン</string>
+    <string name="please_update">アップデートしてください</string>
+    <string name="you_re_almost_done">もうすぐ終わりです！</string>
+    <string name="today">今日</string>
+    <string name="challenge">チャレンジ</string>
+    <string name="tasks">タスク</string>
+    <string name="home">ホーム</string>
+    <string name="progress">進捗</string>
+    <string name="profile">プロフィール</string>
+    <string name="swipe_left_to_edit_pause_or_delete_your_task">タスクを編集、一時停止、または削除するには左にスワイプ</string>
+    <string name="pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready">タスクを一時停止しても連続記録は途切れません。準備ができたら再開できます。</string>
+    <string name="tap_to_edit">編集するにはタップ</string>
+    <string name="tap_to_delete">削除するにはタップ</string>
+    <string name="are_you_sure_you_want_to_delete">本当に削除しますか？</string>
+    <string name="delete_all_will_loss_all_of_task_s_history_amp_future">全て削除すると、タスクの履歴と未来が失われます</string>
+    <string name="delete_future_task_only">未来のタスクのみを削除</string>
+    <string name="delete_all">全て削除</string>
+    <string name="for_1_day">1日のため</string>
+    <string name="for_3_days">3日のため</string>
+    <string name="for_7_days">7日のため</string>
+    <string name="until_i_change_it">変更するまで</string>
+    <string name="awesome">素晴らしい！</string>
+    <string name="there_are_no_projects_yet_please_add_a_project_now">まだプロジェクトがありません。今すぐプロジェクトを追加してください</string>
+    <string name="basic_info">基本情報</string>
+    <string name="finish">完了</string>
+    <string name="check_list">チェックリスト</string>
+    <string name="current_streak">現在の連続日数</string>
+    <string name="finished">完了</string>
+    <string name="missed">逃した</string>
+    <string name="long_streak">長期連続</string>
+    <string name="rate">評価</string>
+    <string name="collection">コレクション</string>
+    <string name="all">すべて</string>
+    <string name="create_my_own">独自の作成</string>
+    <string name="practice_affirmations">アファーメーションの練習</string>
+    <string name="practice_visualization">視覚化の練習</string>
+    <string name="meditate">瞑想</string>
+    <string name="make_the_bed">ベッドを整える</string>
+    <string name="brush_teeth">歯を磨く</string>
+    <string name="drink_water">水を飲む</string>
+    <string name="eat_breakfast">朝食を食べる</string>
+    <string name="pray">祈る</string>
+    <string name="take_a_shower">シャワーを浴びる</string>
+    <string name="take_vitamins">ビタミンを摂る</string>
+    <string name="warm_and_cozy_drink">温かくて心地よい飲み物</string>
+    <string name="skincare">スキンケア</string>
+    <string name="reflect_on_my_day">今日の振り返り</string>
+    <string name="stretch">ストレッチ</string>
+    <string name="aroma_candle">アロマキャンドル</string>
+    <string name="make_bed">ベッドを作る</string>
+    <string name="laundry">洗濯</string>
+    <string name="sweep_or_vacuum">掃除または掃除機をかける</string>
+    <string name="task_out_trash">ゴミ出し</string>
+    <string name="meal_prep">食事の準備</string>
+    <string name="water_plants">植物に水をやる</string>
+    <string name="fruit_and_veggies">フルーツと野菜</string>
+    <string name="limit_sugar">糖分制限</string>
+    <string name="no_alcohol">アルコール禁止</string>
+    <string name="get_enough_sleep">十分な睡眠をとる</string>
+    <string name="set_goals">目標を設定する</string>
+    <string name="review_material">教材の確認</string>
+    <string name="take_note">メモをとる</string>
+    <string name="brainstorming">アイデア出し</string>
+    <string name="prioritize_tasks">タスクの優先順位付け</string>
+    <string name="study_groups">勉強グループ</string>
+    <string name="drink_tea">お茶を飲む</string>
+    <string name="watch_movie">映画を観る</string>
+    <string name="music_on">音楽を聴く</string>
+    <string name="yoga">ヨガ</string>
+    <string name="paint_or_draw">絵を描く</string>
+    <string name="read">読書</string>
+    <string name="jogging">ジョギング</string>
+    <string name="running">ランニング</string>
+    <string name="full_body_stretching">全身ストレッチ</string>
+    <string name="swimming">水泳</string>
+    <string name="cycling">サイクリング</string>
+    <string name="hit_the_gym">ジムに行く</string>
+    <string name="create_shopping_list">買い物リストを作成</string>
+    <string name="set_saving_goal">貯金の目標を設定</string>
+    <string name="track_expense">支出を追跡</string>
+    <string name="pay_the_bills">請求書を支払う</string>
+    <string name="check_investment">投資を確認</string>
+    <string name="review_subscriptions">定期購読を確認</string>
+    <string name="try_something_new">新しいことを試す</string>
+    <string name="practice_a_new_skill">新しいスキルを練習</string>
+    <string name="volunteer">ボランティア</string>
+    <string name="listen_to_podcast">ポッドキャストを聴く</string>
+    <string name="wam_up">ウォームアップ</string>
+    <string name="burpees">バーピー</string>
+    <string name="pushups">プッシュアップ</string>
+    <string name="core_leg_workout"><![CDATA[コア＆レッグワークアウト]]></string>
+    <string name="upper_body_tranning">上半身トレーニング</string>
+    <string name="core_strength_tranning">コア強化トレーニング</string>
+    <string name="squats">スクワット</string>
+    <string name="nighttime">夜間</string>
+    <string name="morning_routine">朝のルーティン</string>
+    <string name="heathy_lifestyle">健康的なライフスタイル</string>
+    <string name="daily_chores">日常の雑用</string>
+    <string name="stress_relief">ストレス解消</string>
+    <string name="study">勉強</string>
+    <string name="personal_finance">個人の財政</string>
+    <string name="staying_fit">フィットでいること</string>
+    <string name="self_improvement">自己改善</string>
+    <string name="create_my_collection">私のコレクションを作成</string>
+    <string name="edit">編集</string>
+    <string name="delete">削除</string>
+    <string name="create_collection">コレクションを作成</string>
+    <string name="next">次へ</string>
+    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">コンテンツに最も適した利用可能な画像を選択</string>
+    <string name="new_habit">新しい習慣</string>
+    <string name="note">メモ</string>
+    <string name="goal">目標</string>
+    <string name="repeat">繰り返す</string>
+    <string name="frequency">頻度</string>
+    <string name="end_date">終了日</string>
+    <string name="get_reminders">リマインダーを受け取る</string>
+    <string name="tag">タグ</string>
+    <string name="add_to_routine">ルーティンに追加</string>
+    <string name="choose_icon">アイコンを選択</string>
+    <string name="create_new">新規作成</string>
+    <string name="week">週</string>
+    <string name="enter_how_often_you_want_the_task_to_repeat">タスクを繰り返す頻度を入力</string>
+    <string name="enter_name_tag">名前タグを入力</string>
+    <string name="create">作成</string>
+    <string name="habits" >習慣</string>
+    <string name="days">日々</string>
+    <string name="repeat_no_repeat">繰り返し：繰り返し無し</string>
+    <string name="reminder_no_reminder">リマインダー：リマインダーなし</string>
+    <string name="reminder">リマインダー</string>
+
+</resources>

@@ -1,7 +1,9 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.Tag
@@ -33,7 +35,8 @@ import kotlinx.coroutines.flow.flowOf
 
 class CollectionViewModel constructor(
     private val repository: CollectionRepository,
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    private val context: Context
 ) :
     BaseViewModel() {
 
@@ -44,7 +47,7 @@ class CollectionViewModel constructor(
 
     var taskCollection = Task()
 
-    private  var listCollectionName = mutableListOf<String>()
+    private var listCollectionName = mutableListOf<String>()
 
     init {
         handleIntent()
@@ -52,9 +55,9 @@ class CollectionViewModel constructor(
 
     fun setUp() {}
 
-     fun isExistCollectionName(name: String) : Boolean {
-        var  validName =  listCollectionName.filter { it == name }
-         Log.d("VALIDD", validName.toString())
+    fun isExistCollectionName(name: String): Boolean {
+        var validName = listCollectionName.filter { it == name }
+        Log.d("VALIDD", validName.toString())
         return !validName.isNullOrEmpty()
     }
 
@@ -101,7 +104,7 @@ class CollectionViewModel constructor(
                 delay(500L)
             }
         } catch (e: Exception) {
-            Log.d("UPDATECOLLECT",e.message.toString())
+            Log.d("UPDATECOLLECT", e.message.toString())
 
         }
 
@@ -145,18 +148,20 @@ class CollectionViewModel constructor(
         viewModelScope.launch {
             _state.value = CollectionState.Loading
             try {
-               combine(
-                   repository.getListLocalCollection(),
+                combine(
+                    repository.getListLocalCollection(),
                     databaseRepository.getAllCollection()
                 ) { localCollection, databaseCollection ->
                     val collections = mutableListOf<HabitCollection>()
+
                     collections.addAll(localCollection)
-                   databaseCollection.forEach {
-                     it.isEdit = true
-                   }
+                    databaseCollection.forEach {
+                        it.isEdit = true
+                    }
                     collections.addAll(databaseCollection)
-                   listCollectionName = collections.map { it.name }.toMutableList()
-                   _state.value = CollectionState.Collections(collections)
+                    listCollectionName = collections.map { it.name }.toMutableList()
+                    _state.value = CollectionState.Collections(collections)
+                    Log.d("FETCHCOLLECTION", collections.toString())
                 }.collect()
 
 
@@ -173,7 +178,7 @@ class CollectionViewModel constructor(
         _state.value = CollectionState.Collection(data)
     }
 
-     fun deleteTask(task: Task, deleteType: Int) = viewModelScope.launch {
+    fun deleteTask(task: Task, deleteType: Int) = viewModelScope.launch {
         try {
             if (deleteType == 0) {
                 databaseRepository.updateTask(task)
@@ -186,6 +191,7 @@ class CollectionViewModel constructor(
 
         }
     }
+
     fun deleteTaskInHistory(date: Long, taskId: Int) {
         try {
             viewModelScope.launch(Dispatchers.IO) {
@@ -209,22 +215,22 @@ class CollectionViewModel constructor(
 
     fun deleteTaskInCollection(task: Task) = CoroutineScope(Dispatchers.IO).launch {
         task.collection?.let {
-           var collection =  async {databaseRepository.getCollectionByName(it)   } .await()
-               if (collection != null) {
-                   var newTask = collection.task?.toMutableList()
-                   newTask?.remove(task)
+            var collection = async { databaseRepository.getCollectionByName(it) }.await()
+            if (collection != null) {
+                var newTask = collection.task?.toMutableList()
+                newTask?.remove(task)
 
-                   val mCollection = collection.copy(task = newTask)
-                   databaseRepository.updateCollection(mCollection)
-                   passCollectionItem(mCollection)
-               }
+                val mCollection = collection.copy(task = newTask)
+                databaseRepository.updateCollection(mCollection)
+                passCollectionItem(mCollection)
+            }
 
         }
     }
 
     fun updateTaskCollection(task: Task) = CoroutineScope(Dispatchers.IO).launch {
         task.collection?.let {
-            var collection =  async {databaseRepository.getCollectionByName(it)   } .await()
+            var collection = async { databaseRepository.getCollectionByName(it) }.await()
             if (collection != null) {
                 var newTask = collection.task?.toMutableList()
                 newTask?.set(task.index, task)
@@ -237,6 +243,7 @@ class CollectionViewModel constructor(
         }
 
     }
+
     fun tag(): MutableList<Tag> {
         return mutableListOf(
             Tag("No tag"),
