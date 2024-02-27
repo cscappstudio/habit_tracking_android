@@ -340,7 +340,6 @@
         android:background="@drawable/shape_gradient_header"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/tv_settings"
         style="@style/Text_700_Bold"

@@ -24,21 +24,24 @@
 
         <TextView
             android:id="@+id/txt_new_habit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginEnd="20dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/montserratalternates_bold"
             android:text="@string/new_habit"
             android:textColor="@color/bottle_green"
             android:textSize="@dimen/_16ssp"
-            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toStartOf="@+id/ll_create_task"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_header" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_create_task"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_120sdp"
             android:orientation="horizontal"
+            android:maxWidth="200dp"
             android:paddingStart="@dimen/_9sdp"
             android:paddingEnd="@dimen/_7sdp"
             android:layout_marginEnd="@dimen/_20sdp"

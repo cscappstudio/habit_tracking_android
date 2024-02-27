@@ -144,12 +144,11 @@ class CollectionViewModel constructor(
     }
 
     private fun fetchCollections() {
-
         viewModelScope.launch {
             _state.value = CollectionState.Loading
             try {
                 combine(
-                    repository.getListLocalCollection(),
+                    flowOf(repository.getListLocalCollection()),
                     databaseRepository.getAllCollection()
                 ) { localCollection, databaseCollection ->
                     val collections = mutableListOf<HabitCollection>()
@@ -170,6 +169,8 @@ class CollectionViewModel constructor(
             }
         }
     }
+
+
 
     fun <T> merge(vararg flows: Flow<T>): Flow<T> = flowOf(*flows).flattenMerge()
 

@@ -32,11 +32,15 @@
         <TextView
             android:id="@+id/txt_collection"
             android:layout_width="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:gravity="center"
+
             android:text="Nighttime"
+
             android:layout_marginBottom="@dimen/_20sdp"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
-            android:fontFamily="@font/montserratalternates_bold"
+            android:fontFamily="@font/worksans_semibold"
             android:textSize="@dimen/_11ssp"
             android:layout_height="wrap_content"/>
 

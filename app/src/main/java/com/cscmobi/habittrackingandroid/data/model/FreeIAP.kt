@@ -28,7 +28,6 @@ data class FreeIAP(
         return  !isSkip
     }
 
-
     fun saveToPreference(activity: Activity) {
         activity.getMySharedPreferences().edit().putString(FREEIAP,toJson())
     }

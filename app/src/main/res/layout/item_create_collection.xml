@@ -38,10 +38,12 @@
                 android:layout_marginTop="@dimen/_13sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/montserratalternates_medium"
+                android:fontFamily="@font/worksans_regular"
                 android:text="@string/create_my_collection"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:textSize="@dimen/_9ssp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>

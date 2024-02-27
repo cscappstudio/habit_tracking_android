@@ -44,6 +44,7 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
         base = base.createConfigurationContext(config)
         super.attachBaseContext(base)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutRes()) as VB
