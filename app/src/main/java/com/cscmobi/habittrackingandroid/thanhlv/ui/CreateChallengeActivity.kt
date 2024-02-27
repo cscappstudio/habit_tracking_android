@@ -1,41 +1,21 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
-import com.cscmobi.habittrackingandroid.data.model.Tasks
 import com.cscmobi.habittrackingandroid.databinding.ActivityCreateChallengeBinding
-import com.cscmobi.habittrackingandroid.databinding.ActivityOnboardBinding
-import com.cscmobi.habittrackingandroid.databinding.ActivityQuestionFoBinding
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
+import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomSheetCollectionFragment
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.AddTaskChallengeAdapter
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.DetailChallengeAdapter
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.OnBoardAdapter
-import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
-import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
-import com.cscmobi.habittrackingandroid.thanhlv.model.OnBoardModel
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
-import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
-import com.thanhlv.fw.helper.RunUtils
-import com.thanhlv.fw.spf.SPF
-import kotlinx.coroutines.runBlocking
-import java.util.*
-import kotlin.collections.ArrayList
+import com.thanhlv.fw.helper.MyUtils
 
 class CreateChallengeActivity : BaseActivity2() {
 
@@ -47,12 +27,52 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     override fun initView() {
+        mImgChallenge = R.drawable.bg_add_icon
+        binding.bgAddImg.setImageResource(mImgChallenge)
+        listDayView.add(binding.btnMon)
+        listDayView.add(binding.btnTue)
+        listDayView.add(binding.btnWed)
+        listDayView.add(binding.btnThu)
+        listDayView.add(binding.btnFri)
+        listDayView.add(binding.btnSat)
+        listDayView.add(binding.btnSun)
+//        listDayView.add(binding.btnAllDay)
         recyclerView()
     }
 
+    var listDayText = arrayListOf<String>(
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    )
+    var listDayState = arrayListOf<Boolean>(false, false, false, false, false, false, false, false)
+    private var listDayView = arrayListOf<TextView>()
+
+    private var mImgChallenge = 0
     override fun controllerView() {
         binding.btnBackHeader.setOnClickListener {
             onBackPressed()
+        }
+        binding.bgAddImg.setOnClickListener {
+            val bottomSheetFragment = BottomSheetCollectionFragment()
+            binding.btnMon
+
+            bottomSheetFragment.listener =
+                object : BottomSheetCollectionFragment.IBottomCollection {
+                    override fun next(resDrawable: Int) {
+                        //
+                        binding.bgAddImg.setImageResource(resDrawable)
+                        binding.icPlusAva.visibility = View.GONE
+                        mImgChallenge = resDrawable
+                    }
+
+                }
+
+            bottomSheetFragment.show(supportFragmentManager, "")
         }
         binding.edtCycle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -62,12 +82,76 @@ class CreateChallengeActivity : BaseActivity2() {
             }
 
             override fun afterTextChanged(editable: Editable) {
-                val cycleNum = binding.edtCycle.text.toString().toIntOrNull() ?: 0
-                if (cycleNum <= 0) return
                 generateData()
             }
         })
 
+        binding.btnRepeat.setOnClickListener {
+            spinnerRepeatDay()
+        }
+
+        binding.btnMon.setOnClickListener {
+            clickDayView(0, binding.btnMon)
+        }
+        binding.btnTue.setOnClickListener {
+            clickDayView(1, binding.btnTue)
+        }
+        binding.btnWed.setOnClickListener {
+            clickDayView(2, binding.btnWed)
+        }
+        binding.btnThu.setOnClickListener {
+            clickDayView(3, binding.btnThu)
+        }
+        binding.btnFri.setOnClickListener {
+            clickDayView(4, binding.btnFri)
+        }
+        binding.btnSat.setOnClickListener {
+            clickDayView(5, binding.btnSat)
+        }
+        binding.btnSun.setOnClickListener {
+            clickDayView(6, binding.btnSun)
+        }
+    }
+
+
+    private fun spinnerRepeatDay() {
+        if (binding.selectRepeatDay.visibility == View.GONE) {
+            binding.icSpinRepeat.animate().rotationBy(180f).setDuration(150).start()
+            MyUtils.expandView(binding.selectRepeatDay, 200, 64)
+        } else {
+            binding.icSpinRepeat.animate().rotationBy(-180f).setDuration(150).start()
+            MyUtils.collapseView(binding.selectRepeatDay, 200, 0)
+        }
+    }
+
+    private fun clickDayView(day: Int, view: TextView) {
+        listDayState[day] = !listDayState[day]
+        if (listDayState[day]) {
+            view.backgroundTintList = ColorStateList.valueOf(
+                Color.parseColor("#CC54BA8F")
+            )
+            view.setTextColor(Color.parseColor("#ffffff"))
+        } else {
+            view.backgroundTintList = ColorStateList.valueOf(
+                Color.parseColor("#F5F5F5")
+            )
+            view.setTextColor(Color.parseColor("#b5b5b5"))
+        }
+
+        var textRepeat = "Repeat on:"
+        var notAllDay = 0
+        for (i in 0..6) {
+            if (listDayState[i]) {
+                textRepeat = textRepeat + " " + listDayText[i] + ","
+                notAllDay++
+            }
+        }
+        if (notAllDay == 0 || notAllDay == 7) {
+            binding.tvRepeatDay.text = "Repeat every day"
+        } else {
+            textRepeat = textRepeat.substring(0, textRepeat.length - 1)
+            binding.tvRepeatDay.text = textRepeat
+        }
     }
 
     private var mData = mutableListOf<CreateTaskChallenge>()

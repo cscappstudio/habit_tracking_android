@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
+import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ItemTaskTimelineFullBinding
-import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
-import com.cscmobi.habittrackingandroid.thanhlv.model.TaskTimelineModel
 
 class DetailChallengeAdapter(private var mContext: Context) :
     RecyclerView.Adapter<DetailChallengeAdapter.ViewHolder>() {

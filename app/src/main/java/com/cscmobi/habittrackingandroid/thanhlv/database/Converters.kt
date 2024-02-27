@@ -2,7 +2,6 @@ package com.cscmobi.habittrackingandroid.thanhlv.database
 
 import androidx.room.TypeConverter
 import com.cscmobi.habittrackingandroid.data.model.*
-import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.data.model.CheckList
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.Goal
@@ -113,12 +112,12 @@ class Converters {
 
 
     @TypeConverter
-    fun fromTaskInChallenge(tasks: List<Tasks>?): String {
+    fun fromTaskInChallenge(tasks: List<TaskInChallenge>?): String {
         return Json.encodeToString(tasks ?: emptyList())
     }
 
     @TypeConverter
-    fun toTaskInChallenge(taskInChallenge: String): List<Tasks> {
+    fun toTaskInChallenge(taskInChallenge: String): List<TaskInChallenge> {
         return Json.decodeFromString(taskInChallenge)
     }
 

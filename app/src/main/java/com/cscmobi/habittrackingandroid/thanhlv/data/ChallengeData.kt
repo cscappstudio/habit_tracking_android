@@ -2,9 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.data
 
 import android.content.Context
 import com.cscmobi.habittrackingandroid.data.model.ChallengeDays
-import com.cscmobi.habittrackingandroid.data.model.Tasks
 import com.google.gson.Gson
-import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.MyUtils.Companion.readJsonAsset
 import org.json.JSONArray
 import org.json.JSONObject
