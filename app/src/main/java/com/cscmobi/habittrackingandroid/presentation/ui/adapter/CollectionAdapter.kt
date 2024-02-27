@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +19,11 @@ import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import java.util.Locale
 
-class CollectionAdapter(private val items: MutableList<HabitCollection>,private val onItemClickAdapter: OnItemClickPositionListener) :
+class CollectionAdapter(
+    private val context: Context,
+    private val items: MutableList<HabitCollection>,
+    private val onItemClickAdapter: OnItemClickPositionListener
+) :
     ListAdapter<HabitCollection, RecyclerView.ViewHolder>(CollectionAdapter.DIFF_CALLBACK()),
     Filterable {
 
@@ -84,16 +89,22 @@ class CollectionAdapter(private val items: MutableList<HabitCollection>,private 
 //               // binding.txtCollection.text =  item.name
 //                binding.txtCollection.text =  item.name
 //            }
-            try {
-                val resourceValue = binding.root.context.getString(item.name.toInt())
-                binding.txtCollection.text = resourceValue
-            }catch (e: Exception) {
-                binding.txtCollection.text =  item.name
+//            try {
+//                val resourceValue = binding.root.context.getString(item.name.toInt())
+//                binding.txtCollection.text = resourceValue
+//            }catch (e: Exception) {
+//                binding.txtCollection.text =  item.name
+//
+//            }
 
-            }
+            binding.txtCollection.text = item.name
 
-
-            binding.llBg.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(binding.root.context,item.resColorBg ?: R.color.blue))
+            binding.llBg.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    item.resColorBg ?: R.color.blue
+                )
+            )
             binding.root.setOnClickListener {
                 onItemClickAdapter.onItemClick(adapterPosition)
             }
@@ -160,7 +171,7 @@ class CollectionAdapter(private val items: MutableList<HabitCollection>,private 
         }
     }
 
-    fun onFilter(list: MutableList<HabitCollection>, constraint: String) : List<HabitCollection>{
+    fun onFilter(list: MutableList<HabitCollection>, constraint: String): List<HabitCollection> {
         val filterPattern = constraint.lowercase(Locale.getDefault())
 
         val filteredList = list.filter {
@@ -169,7 +180,7 @@ class CollectionAdapter(private val items: MutableList<HabitCollection>,private 
 
         }.toMutableList()
 
-        filteredList.add(0,HabitCollection())
+        filteredList.add(0, HabitCollection())
 
         return filteredList
 

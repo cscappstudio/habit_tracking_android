@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.AssetManager
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -15,6 +16,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.spf.SPF
 import org.threeten.bp.LocalDate
@@ -23,6 +25,7 @@ import java.io.InputStream
 import java.io.Serializable
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 
 object Utils {
@@ -234,6 +237,31 @@ object Utils {
         this ?: return
         val parentView = parent as? ViewGroup ?: return
         parentView.removeView(this)
+    }
+
+    fun Context.resetResouceConfig(): Context {
+        val currentLanguage = SPF.getLanguage(this) ?: "en"
+        var conf: Configuration = resources.configuration
+        conf = Configuration(conf)
+        conf.setLocale(Locale(currentLanguage))
+        return createConfigurationContext(conf)
+    }
+
+
+    fun Context.mgetString(locale: Locale, @StringRes resId: Int, vararg formatArgs: Any): String {
+        var conf: Configuration = resources.configuration
+        conf = Configuration(conf)
+        conf.setLocale(locale)
+        val localizedContext = createConfigurationContext(conf)
+        return localizedContext.resources.getString(resId, *formatArgs)
+    }
+
+    fun Context.mgetString(locale: Locale, @StringRes resId: Int): String {
+        var conf: Configuration = resources.configuration
+        conf = Configuration(conf)
+        conf.setLocale(locale)
+        val localizedContext = createConfigurationContext(conf)
+        return localizedContext.resources.getString(resId)
     }
 }
 

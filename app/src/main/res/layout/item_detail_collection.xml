@@ -29,7 +29,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
-        custom:setText="@{item.name}"
+        android:text="@{item.name}"
         android:layout_marginHorizontal="@dimen/_13sdp"
         android:layout_gravity="center_vertical"
 
