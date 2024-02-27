@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:onClick="@{v -> listener.onItemClicked(position)}"
             android:checked="@{item.status}"
-            android:button="@drawable/custom_checklist_checkbox"
+            android:button="@drawable/custom_checklist_checkbox2"
             android:layout_height="wrap_content"/>
 
         <TextView

@@ -6,7 +6,6 @@ import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -14,12 +13,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter2
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.databinding.FragmentCollectionBinding
-import com.cscmobi.habittrackingandroid.presentation.ItemBaseListener
 import com.cscmobi.habittrackingandroid.presentation.ItemDetailCollection
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
@@ -29,18 +26,20 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionView
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils
+import com.cscmobi.habittrackingandroid.utils.Utils.mgetString
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
+import java.util.Locale
 import kotlin.math.hypot
 
 class CollectionFragment :
     BaseFragment<FragmentCollectionBinding>(FragmentCollectionBinding::inflate) {
 
     //    private val collectionViewModel: CollectionViewModel by viewModel()
-   private val collectionViewModel  by activityViewModels<CollectionViewModel>()
-    private  var collectionAdapter: CollectionAdapter? = null
+    private val collectionViewModel by activityViewModels<CollectionViewModel>()
+    private var collectionAdapter: CollectionAdapter? = null
     private var detailCollectionAdapter: BaseBindingAdapter2<Task>? = null
     var listTasks = mutableListOf<Task>()
     var listCollections = mutableListOf<HabitCollection>()
@@ -49,10 +48,7 @@ class CollectionFragment :
     override fun initView(view: View) {
 
         binding.layoutHeader.ivSearch.visibility = View.VISIBLE
-
-        //
         initTasksAdapter()
-
 
         lifecycleScope.launch {
             collectionViewModel.userIntent.send(CollectionIntent.FetchCollection)
@@ -60,17 +56,16 @@ class CollectionFragment :
             collectionViewModel.state.collect {
                 when (it) {
                     is CollectionState.Collections -> {
-                        listCollections = it.collection.toMutableList()
+                        listCollections.clear()
+                        listCollections= it.collection.toMutableList()
+                        listTasks.clear()
+                        listCollections.forEach {
+                            it.task?.let { tasks ->
+                                listTasks.addAll(tasks)
+                            }
+                        }
                         listCollections.add(0, HabitCollection())
                         initCollectionAdapter()
-                        listTasks.clear()
-                      it.collection.forEach {
-                          it.task?.let { tasks ->
-
-                              listTasks.addAll(tasks)
-                          }
-                      }
-
                     }
 
                     else -> {}
@@ -99,45 +94,64 @@ class CollectionFragment :
 
     private fun setUpSearchView() {
         binding.searchView.clearFocus()
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-              return  false
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
 
                 if (isCollectionSelect) {
                     collectionAdapter?.filter?.filter(newText)
                 } else detailCollectionAdapter?.filter?.filter(newText)
 
-                return  true
+                if (newText.isNullOrEmpty())   {
+                    binding.searchView.clearFocus()
+                    binding.searchView.visibility = View.GONE
+                }
+
+                return true
             }
         })
     }
 
 
     private fun initCollectionAdapter() {
-        collectionAdapter = CollectionAdapter(listCollections ,object : OnItemClickPositionListener {
-            override fun onItemClick(position: Int) {
-                if(position == 0 ){
-                    lifecycleScope.launch {
-                        collectionViewModel.userIntent.send(CollectionIntent.NotCreateCollection)
-                    }
+//
 
-                    (requireActivity() as NewHabitActivity).let {
-                        it.replaceFragment(it.createCollectionFragment,CreateCollectionFragment.TAG)
-                    }
+        collectionAdapter = CollectionAdapter(
+            requireContext(),
+            listCollections,
+            object : OnItemClickPositionListener {
+                override fun onItemClick(position: Int) {
+                    if (position == 0) {
+                        lifecycleScope.launch {
+                            collectionViewModel.userIntent.send(CollectionIntent.NotCreateCollection)
+                        }
 
-                } else {
-                    lifecycleScope.launch {
-                        collectionViewModel.userIntent.send(CollectionIntent.PassItemCollection(collectionAdapter!!.currentList[position]))
+                        (requireActivity() as NewHabitActivity).let {
+                            it.replaceFragment(
+                                it.createCollectionFragment,
+                                CreateCollectionFragment.TAG
+                            )
+                        }
+
+                    } else {
+                        lifecycleScope.launch {
+                            collectionViewModel.userIntent.send(
+                                CollectionIntent.PassItemCollection(
+                                    collectionAdapter!!.currentList[position]
+                                )
+                            )
+                        }
+                        (requireActivity() as NewHabitActivity).replaceFragment(
+                            DetailCollectionFragment(),
+                            "Test"
+                        )
                     }
-                    (requireActivity() as NewHabitActivity).replaceFragment(DetailCollectionFragment(),"Test")
                 }
-            }
 
-        })
+            })
 
 
 
@@ -147,6 +161,7 @@ class CollectionFragment :
     }
 
     private fun initTasksAdapter() {
+        layoutInflater.context
         detailCollectionAdapter = BaseBindingAdapter2<Task>(
             R.layout.item_detail_collection,
             layoutInflater,
@@ -158,9 +173,9 @@ class CollectionFragment :
                 override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
                     return oldItem == newItem
                 }
-            },  originalData = listTasks
+            }, originalData = listTasks
         )
-        detailCollectionAdapter?.setListener(object: ItemDetailCollection<Task> {
+        detailCollectionAdapter?.setListener(object : ItemDetailCollection<Task> {
             override fun onItemClicked(item: Task) {
                 (requireActivity() as NewHabitActivity).let {
                     if (item.notBelongDefaultCollection)
@@ -169,9 +184,13 @@ class CollectionFragment :
                     else
                         it.newHabitFragment.newHabitFragmentState =
                             NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
-                    it.addFragmentNotHide(it.newHabitFragment,NewHabitFragment.TAG)
+                    it.addFragmentNotHide(it.newHabitFragment, NewHabitFragment.TAG)
                     lifecycleScope.launch {
-                        collectionViewModel.userIntent.send(CollectionIntent.PassTaskfromCollection(item))
+                        collectionViewModel.userIntent.send(
+                            CollectionIntent.PassTaskfromCollection(
+                                item
+                            )
+                        )
 
                     }
                 }
@@ -181,7 +200,8 @@ class CollectionFragment :
                 lifecycleScope.launch {
                     var clone = item.copy(startDate = Calendar.getInstance().time.time)
                     collectionViewModel.userIntent.send(CollectionIntent.CreateTaskToRoutine(clone))
-                    Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
 
@@ -209,8 +229,9 @@ class CollectionFragment :
 
         binding.llCreateTask.setOnClickListener {
             (requireActivity() as NewHabitActivity).let {
-                it.newHabitFragment.newHabitFragmentState = NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
-                it.replaceFragment(it.newHabitFragment,NewHabitFragment.TAG)
+                it.newHabitFragment.newHabitFragmentState =
+                    NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
+                it.replaceFragment(it.newHabitFragment, NewHabitFragment.TAG)
             }
         }
 
@@ -223,7 +244,8 @@ class CollectionFragment :
             toggleSearchView()
         }
 
-        val closeButton: View? = binding.searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
+        val closeButton: View? =
+            binding.searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
         closeButton?.setOnClickListener {
 
             toggleSearchView()
@@ -242,7 +264,10 @@ class CollectionFragment :
 
     private fun showSearchView() {
 
-        val endRadius = hypot(binding.searchView.width.toDouble(), binding.searchView.height.toDouble()).toFloat()
+        val endRadius = hypot(
+            binding.searchView.width.toDouble(),
+            binding.searchView.height.toDouble()
+        ).toFloat()
 
         val anim = ViewAnimationUtils.createCircularReveal(
             binding.searchView,
@@ -269,7 +294,9 @@ class CollectionFragment :
         binding.searchView.setQuery("", false)
 
 
-        val startRadius = Math.hypot(binding.searchView.width.toDouble(), binding.searchView.height.toDouble()).toFloat()
+        val startRadius =
+            Math.hypot(binding.searchView.width.toDouble(), binding.searchView.height.toDouble())
+                .toFloat()
 
         val anim = ViewAnimationUtils.createCircularReveal(
             binding.searchView,
@@ -309,8 +336,10 @@ class CollectionFragment :
 
             binding.btnCollection.elevation = 20f
             binding.btnAll.elevation = 0f
-            binding.btnCollection.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
-            binding.btnAll.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
+            binding.btnCollection.typeface =
+                ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
+            binding.btnAll.typeface =
+                ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
 
             binding.btnAll.setTextColor(
                 ContextCompat.getColor(
@@ -343,8 +372,10 @@ class CollectionFragment :
 
             binding.btnAll.elevation = 20f
             binding.btnCollection.elevation = 0f
-            binding.btnAll.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
-            binding.btnCollection.typeface = ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
+            binding.btnAll.typeface =
+                ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
+            binding.btnCollection.typeface =
+                ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
 
             binding.btnCollection.setTextColor(
                 ContextCompat.getColor(
@@ -358,5 +389,10 @@ class CollectionFragment :
                 )
             )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listCollections = mutableListOf()
     }
 }

@@ -49,7 +49,7 @@ class MyApplication : ApplicationLocale(), Application.ActivityLifecycleCallback
             androidContext(this@MyApplication)
             modules(listOf(viewModelModule, repositoryModule, databaseModule))
         }
-
+        context = this
         AndroidThreeTen.init(this)
 
 //        val dao: Dao = get()
