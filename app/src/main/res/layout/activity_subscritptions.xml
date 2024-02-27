@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#36947A">
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_onboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_mood_great"
+        app:layout_constraintBottom_toTopOf="@id/btn_subs"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/btn_back_header"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/shape_circle_fill"
+        android:backgroundTint="#E1ECEC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_x_close_24"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_transparent"
+        app:layout_constraintBottom_toTopOf="@id/btn_subs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabBackground="@drawable/dot_indicator_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:tabMaxWidth="16dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_subs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_top_round_30"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <TextView
+            android:id="@+id/btn_buy_now"
+            style="@style/Text_700_Bold"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="42dp"
+            android:background="@drawable/shape_round_30_fill"
+            android:backgroundTint="#01100C"
+            android:gravity="center"
+            android:text="TRY FOR FREE"
+            android:elevation="10dp"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/btn_lifetime"
+            style="@style/Text_600_Bold"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/bg_subs_unselect"
+            android:elevation="0dp"
+            android:gravity="center_vertical"
+            android:outlineSpotShadowColor="@color/black_50"
+            android:paddingStart="24dp"
+            android:text="LIFETIME"
+            android:textColor="#09392D"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_buy_now"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+
+        <TextView
+            android:id="@+id/tv_price_lifetime"
+            style="@style/Text_600_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:elevation="12dp"
+            android:text="..."
+            android:textColor="#09392D"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_lifetime"
+            app:layout_constraintEnd_toEndOf="@id/btn_lifetime"
+            app:layout_constraintTop_toTopOf="@id/btn_lifetime"
+            app:layout_constraintVertical_bias="0.2"
+            tools:ignore="UnusedAttribute" />
+
+
+        <TextView
+            android:id="@+id/tv_des_lifetime"
+            style="@style/Text_600"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:elevation="12dp"
+            android:text="Lifetime subscription"
+            android:textColor="#b5b5b5"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_lifetime"
+            app:layout_constraintEnd_toEndOf="@id/btn_lifetime"
+            app:layout_constraintTop_toTopOf="@id/btn_lifetime"
+            app:layout_constraintVertical_bias="0.72"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/btn_yearly"
+            style="@style/Text_600_Bold"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_subs_selected"
+            android:elevation="12dp"
+            android:outlineSpotShadowColor="@color/black_50"
+            android:paddingStart="24dp"
+            android:paddingTop="14dp"
+            android:text="YEARLY"
+            android:textColor="#09392D"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_lifetime"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_price_yearly"
+            style="@style/Text_600_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:elevation="12dp"
+            android:text="..."
+            android:textColor="#09392D"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_yearly"
+            app:layout_constraintEnd_toEndOf="@id/btn_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_price_yearly_original"
+            style="@style/Text_600_Med"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:elevation="12dp"
+            android:textColor="#B5B5B5"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_yearly"
+            app:layout_constraintEnd_toStartOf="@id/tv_price_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_des_yearly"
+            style="@style/Text_600_Med"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:elevation="12dp"
+            android:text="Free trial 3-day"
+            android:textColor="#54BA8F"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_yearly"
+            app:layout_constraintStart_toStartOf="@id/btn_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly"
+            app:layout_constraintVertical_bias=".72"
+            tools:ignore="UnusedAttribute" />
+
+        <ImageView
+            android:id="@+id/img_discount"
+            android:layout_width="100dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/img_label_discount_subs"
+            android:elevation="12dp"
+            app:layout_constraintEnd_toEndOf="@id/btn_yearly"
+            app:layout_constraintTop_toTopOf="@id/btn_yearly" />
+
+        <ImageView
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="22dp"
+            android:elevation="12dp"
+            android:src="@drawable/img_poper"
+            app:layout_constraintBottom_toBottomOf="@id/img_discount"
+            app:layout_constraintStart_toStartOf="@id/img_discount"
+            app:layout_constraintTop_toTopOf="@id/img_discount" />
+
+        <TextView
+            android:id="@+id/tv_discount"
+            style="@style/Text_600_Med"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:elevation="12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="42dp"
+            android:text="SALE 70%"
+            android:textColor="#393E3C"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/img_discount"
+            app:layout_constraintEnd_toEndOf="@id/img_discount"
+            app:layout_constraintStart_toStartOf="@id/img_discount"
+            app:layout_constraintTop_toTopOf="@id/img_discount"
+            tools:ignore="UnusedAttribute" />
+
+
+        <TextView
+            android:id="@+id/btn_monthly"
+            style="@style/Text_600_Bold"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_subs_unselect"
+            android:elevation="0dp"
+            android:gravity="center_vertical"
+            android:outlineSpotShadowColor="@color/black_50"
+            android:paddingStart="24dp"
+            android:text="MONTHLY"
+            android:textColor="#09392D"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_yearly"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_price_monthly"
+            style="@style/Text_600_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:elevation="12dp"
+            android:text="..."
+            android:textColor="#09392D"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_monthly"
+            app:layout_constraintEnd_toEndOf="@id/btn_monthly"
+            app:layout_constraintTop_toTopOf="@id/btn_monthly"
+            app:layout_constraintVertical_bias="0.2"
+            tools:ignore="UnusedAttribute" />
+
+
+        <TextView
+            android:id="@+id/tv_des_monthly"
+            style="@style/Text_600"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:elevation="12dp"
+            android:text="Automatic renewal"
+            android:textColor="#b5b5b5"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_monthly"
+            app:layout_constraintEnd_toEndOf="@id/btn_monthly"
+            app:layout_constraintTop_toTopOf="@id/btn_monthly"
+            app:layout_constraintVertical_bias="0.72"
+            tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/tv_des"
+            style="@style/Text_500_Med"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="3-day free trial, then auto-renews at 16,99$/ year"
+            android:textColor="#393E3C"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_monthly"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,6 +80,9 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMood(item: Mood)
 
+    @Update
+    suspend fun updateMood(item: Mood)
+
 
 
     @Query("SELECT * FROM history")

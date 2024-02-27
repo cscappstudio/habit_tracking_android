@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityMoodTodayBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.FeelingTagAdapter
+import com.cscmobi.habittrackingandroid.thanhlv.data.MoodData
+import com.cscmobi.habittrackingandroid.thanhlv.data.MoodData.Companion.mDescribeList
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
+import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity.Companion.mAllMoods
 import com.thanhlv.fw.helper.MyUtils
 import kotlinx.coroutines.runBlocking
 import java.util.*
@@ -29,6 +32,8 @@ class TodayMoodActivity : BaseActivity2() {
     }
 
     override fun loadData() {
+        val moodData = MoodData(this)
+        println("thanhlv ooooooooooooooo ======= " + mDescribeList.size)
     }
 
     override fun initView() {
@@ -71,21 +76,43 @@ class TodayMoodActivity : BaseActivity2() {
 
     private fun createMoodSuccess() {
         val listDescribe = ArrayList<String>()
-        mListDescribe.forEach { if (it.selected) listDescribe.add(it.feeling) }
+        mListDescribe.forEach { if (it.selected) listDescribe.add(it.describe) }
         val listBecause = ArrayList<String>()
-        mListBecause.forEach { if (it.selected) listBecause.add(it.feeling) }
-        val newMood = Mood(
-            Date(),
-            currentMood,
-            listDescribe.toList(),
-            listBecause.toList(),
-            binding.edtNote.text.toString()
-        )
+        mListBecause.forEach { if (it.selected) listBecause.add(it.describe) }
+
         runBlocking {
-            AppDatabase.getInstance(applicationContext).dao().insertMood(newMood)
-            println("thanhlv  AppDatabase.getInstance(applicationContext).dao().insertMood(newMood)")
+            val existTodayMood = existToday()
+            if (existTodayMood == null) {
+                val newMood = Mood(
+                    Date().time,
+                    currentMood,
+                    listDescribe.toList(),
+                    listBecause.toList(),
+                    binding.edtNote.text.toString()
+                )
+                AppDatabase.getInstance(applicationContext).dao().insertMood(newMood)
+            } else {
+                existTodayMood.state = currentMood
+                existTodayMood.describe = listDescribe.toList()
+                existTodayMood.becauseOf = listBecause.toList()
+                existTodayMood.note = binding.edtNote.text.toString()
+                AppDatabase.getInstance(applicationContext).dao().updateMood(existTodayMood)
+            }
         }
 
+    }
+
+    private fun existToday(): Mood? {
+        mAllMoods.forEach {
+            val today = Calendar.getInstance()
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = it.date
+            if (calendar[Calendar.DAY_OF_MONTH] == today[Calendar.DAY_OF_MONTH]
+                && calendar[Calendar.MONTH] == today[Calendar.MONTH]
+                && calendar[Calendar.YEAR] == today[Calendar.YEAR]
+            ) return it
+        }
+        return null
     }
 
     override fun onBackPressed() {
@@ -145,7 +172,7 @@ class TodayMoodActivity : BaseActivity2() {
             binding.btnNext.isEnabled = true
             binding.btnNext.backgroundTintList =
                 ColorStateList.valueOf(Color.parseColor("#54BA8F"))
-        }, 500)
+        }, 200)
         when (mood) {
             1 -> {
                 binding.tvMood.text = "Great"
@@ -216,67 +243,38 @@ class TodayMoodActivity : BaseActivity2() {
         val list = mutableListOf<FeelingTagModel>()
         when (mood) {
             1 -> {
-                list.add(FeelingTagModel("Confident", false))
-                list.add(FeelingTagModel("Energetic", false))
-                list.add(FeelingTagModel("Excited", false))
-                list.add(FeelingTagModel("Grateful", false))
-                list.add(FeelingTagModel("Hopeful", false))
-                list.add(FeelingTagModel("Joyful", false))
-                list.add(FeelingTagModel("Loved", false))
-                list.add(FeelingTagModel("Optimistic", false))
-                list.add(FeelingTagModel("Proud", false))
-                list.add(FeelingTagModel("Satisfied", false))
+                mDescribeList.forEach {
+                    if (it.mood == "great")
+                        list.add(it)
+                }
             }
 
             2 -> {
-                list.add(FeelingTagModel("Comfortable", false))
-                list.add(FeelingTagModel("Confident", false))
-                list.add(FeelingTagModel("Energetic", false))
-                list.add(FeelingTagModel("Excited", false))
-                list.add(FeelingTagModel("Hopeful", false))
-                list.add(FeelingTagModel("Loved", false))
-                list.add(FeelingTagModel("Optimistic", false))
-                list.add(FeelingTagModel("Proud", false))
-                list.add(FeelingTagModel("Relaxed", false))
-                list.add(FeelingTagModel("Satisfied", false))
+                mDescribeList.forEach {
+                    if (it.mood == "good")
+                        list.add(it)
+                }
             }
 
             3 -> {
-                list.add(FeelingTagModel("Bored", false))
-                list.add(FeelingTagModel("Busy", false))
-                list.add(FeelingTagModel("Calm", false))
-                list.add(FeelingTagModel("Confused", false))
-                list.add(FeelingTagModel("Fine", false))
-                list.add(FeelingTagModel("Nervous", false))
-                list.add(FeelingTagModel("Nonchalant", false))
-                list.add(FeelingTagModel("Positive", false))
-                list.add(FeelingTagModel("Relaxed", false))
+                mDescribeList.forEach {
+                    if (it.mood == "neutral")
+                        list.add(it)
+                }
             }
 
             4 -> {
-                list.add(FeelingTagModel("Anxious", false))
-                list.add(FeelingTagModel("Disappointed", false))
-                list.add(FeelingTagModel("Dissatisfied", false))
-                list.add(FeelingTagModel("Distracted", false))
-                list.add(FeelingTagModel("Gloomy", false))
-                list.add(FeelingTagModel("Nervous", false))
-                list.add(FeelingTagModel("Sad", false))
-                list.add(FeelingTagModel("Stressed", false))
-                list.add(FeelingTagModel("Tired", false))
-                list.add(FeelingTagModel("Worried", false))
+                mDescribeList.forEach {
+                    if (it.mood == "not_great")
+                        list.add(it)
+                }
             }
 
             5 -> {
-                list.add(FeelingTagModel("Angry", false))
-                list.add(FeelingTagModel("Depressed", false))
-                list.add(FeelingTagModel("Frustrated", false))
-                list.add(FeelingTagModel("Hopeless", false))
-                list.add(FeelingTagModel("Hurt", false))
-                list.add(FeelingTagModel("Lonely", false))
-                list.add(FeelingTagModel("Miserable", false))
-                list.add(FeelingTagModel("Overwhelmed", false))
-                list.add(FeelingTagModel("Sad", false))
-                list.add(FeelingTagModel("Worried", false))
+                mDescribeList.forEach {
+                    if (it.mood == "bad")
+                        list.add(it)
+                }
             }
         }
 
@@ -285,21 +283,10 @@ class TodayMoodActivity : BaseActivity2() {
 
     private fun getDataBecause(): MutableList<FeelingTagModel> {
         val list = mutableListOf<FeelingTagModel>()
-        list.add(FeelingTagModel("work", false))
-        list.add(FeelingTagModel("school", false))
-        list.add(FeelingTagModel("family", false))
-        list.add(FeelingTagModel("friend", false))
-        list.add(FeelingTagModel("pet", false))
-        list.add(FeelingTagModel("Fitness", false))
-        list.add(FeelingTagModel("health", false))
-        list.add(FeelingTagModel("Finances", false))
-        list.add(FeelingTagModel("Hobbies", false))
-        list.add(FeelingTagModel("Sleep", false))
-        list.add(FeelingTagModel("Achievements", false))
-        list.add(FeelingTagModel("Weather", false))
-        list.add(FeelingTagModel("Food", false))
-        list.add(FeelingTagModel("News", false))
-        list.add(FeelingTagModel("others", false))
+        mDescribeList.forEach {
+            if (it.mood == "because_of")
+                list.add(it)
+        }
         return list
     }
 

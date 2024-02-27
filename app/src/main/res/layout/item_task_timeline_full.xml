@@ -6,13 +6,13 @@
     android:layout_height="125dp">
 
     <ImageView
-        android:id="@+id/ava_day"
-        android:layout_width="36dp"
+        android:id="@+id/vector_timeline"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="12dp"
         app:layout_constraintDimensionRatio="36:140"
         android:scaleType="fitXY"
-        android:src="@drawable/node_long_future"
+        android:src="@drawable/ic_timeline_start_fill"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -28,7 +28,7 @@
         android:textSize="15.5sp"
         app:layout_constraintHeight_max="76dp"
         android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@id/ava_day"
+        app:layout_constraintStart_toEndOf="@id/vector_timeline"
         app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="p" />
 
@@ -42,86 +42,38 @@
         android:elevation="12dp"
         android:outlineSpotShadowColor="@color/black_30"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ava_day"
+        app:layout_constraintStart_toEndOf="@id/vector_timeline"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UnusedAttribute">
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/Text_600_Bold"
-            android:layout_width="wrap_content"
+            style="@style/Text_600"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="18dp"
             android:gravity="center_vertical"
-            android:text="Great"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="2"
             android:textColor="#1F005F"
             android:textSize="15sp"
             app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/ava_alarm"
+            app:layout_constraintStart_toEndOf="@id/icon_task"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:targetApi="p" />
 
-        <TextView
-            android:id="@+id/tv_feeling"
-            style="@style/Text_600"
-            android:layout_width="70dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/gnt_fill_shape_round_20"
-            android:backgroundTint="#33EDCA15"
-            android:gravity="center"
-            android:text="Great"
-            android:textColor="#EDCA15"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/ava_alarm"
-            tools:targetApi="p" />
-
-        <TextView
-            android:id="@+id/tv_because"
-            style="@style/Text_600"
-            android:layout_width="70dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/gnt_fill_shape_round_20"
-            android:backgroundTint="#33EDCA15"
-            android:gravity="center"
-            android:text="Great"
-            android:textColor="#EDCA15"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/tv_feeling"
-            tools:targetApi="p" />
-
-        <TextView
-            android:id="@+id/tv_etc"
-            style="@style/Text_600"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:text="..."
-            android:textColor="#EDCA15"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/tv_because"
-            tools:targetApi="p" />
 
 
         <ImageView
-            android:id="@+id/ava_alarm"
+            android:id="@+id/icon_task"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="@dimen/_10sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_mood_1"
+            android:src="@drawable/ic_mood_great"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"

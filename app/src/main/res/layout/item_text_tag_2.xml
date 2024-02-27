@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Text_500"
+    android:id="@+id/tv_title"
     android:layout_width="match_parent"
     android:layout_height="35dp"
     android:layout_margin="5dp"

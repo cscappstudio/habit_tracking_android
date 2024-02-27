@@ -18,16 +18,10 @@ import com.cscmobi.habittrackingandroid.databinding.ItemTextTagBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 
-class FeelingTag2Adapter(private var mContext: Context) :
+class FeelingTag2Adapter(private var mContext: Context, var mList: ArrayList<String>) :
     RecyclerView.Adapter<FeelingTag2Adapter.ViewHolder>() {
     class ViewHolder(var binding: ItemTextTag2Binding) : RecyclerView.ViewHolder(binding.root)
-    private var mList = mutableListOf<FeelingTagModel>()
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(list: MutableList<FeelingTagModel>) {
-        this.mList = list
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -41,10 +35,12 @@ class FeelingTag2Adapter(private var mContext: Context) :
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (mList.isEmpty()) return
+        holder.binding.tvTitle.text = mList[position]
+
     }
 
     override fun getItemCount(): Int {
-        if (mList.isEmpty()) return 5
         return mList.size
     }
 }

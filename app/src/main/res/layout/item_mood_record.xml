@@ -17,6 +17,23 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
+
+    <TextView
+        android:id="@+id/tv_day"
+        style="@style/Text_600_Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:textColor="#54BA8F"
+        android:textSize="14sp"
+        app:layout_constraintHeight_max="76dp"
+        app:layout_constraintStart_toStartOf="@id/ava_day"
+        app:layout_constraintEnd_toEndOf="@id/ava_day"
+        app:layout_constraintTop_toTopOf="@id/ava_day"
+        app:layout_constraintBottom_toBottomOf="@id/ava_day"
+        tools:targetApi="p" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="65dp"
@@ -39,19 +56,19 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
-            android:text="Great"
             android:textColor="#1F005F"
             android:textSize="15sp"
             app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/ava_alarm"
+            app:layout_constraintStart_toEndOf="@id/ic_mood"
             app:layout_constraintTop_toTopOf="parent"
             tools:targetApi="p" />
 
         <TextView
-            android:id="@+id/tv_feeling"
+            android:id="@+id/tv_des"
             style="@style/Text_600"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:paddingHorizontal="12dp"
             android:layout_marginStart="6dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/gnt_fill_shape_round_20"
@@ -62,14 +79,15 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/ava_alarm"
+            app:layout_constraintStart_toEndOf="@id/ic_mood"
             tools:targetApi="p" />
 
         <TextView
             android:id="@+id/tv_because"
             style="@style/Text_600"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:paddingHorizontal="12dp"
             android:layout_marginStart="6dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/gnt_fill_shape_round_20"
@@ -80,7 +98,7 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_max="76dp"
-            app:layout_constraintStart_toEndOf="@id/tv_feeling"
+            app:layout_constraintStart_toEndOf="@id/tv_des"
             tools:targetApi="p" />
 
         <TextView
@@ -92,6 +110,7 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="..."
+            android:visibility="gone"
             android:textColor="#EDCA15"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,7 +120,7 @@
 
 
         <ImageView
-            android:id="@+id/ava_alarm"
+            android:id="@+id/ic_mood"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"

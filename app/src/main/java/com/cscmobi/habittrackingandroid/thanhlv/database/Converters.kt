@@ -91,20 +91,25 @@ class Converters {
         return Json.decodeFromString(checkListString)
     }
 
-//    @TypeConverter
-//    fun fromTaskInDayList(taskInDayList: List<TaskInDay>?): String? {
-//        return if (taskInDayList == null) null else Json.encodeToString(taskInDayList)
-//    }
+    @TypeConverter
+    fun fromRepeatChallenge(history: List<Int>?): String {
+        return Json.encodeToString(history ?: emptyList())
+    }
 
-//    @TypeConverter
-//    fun fromHistory(history: List<History>?): String {
-//        return Json.encodeToString(history ?: emptyList())
-//    }
-//
-//    @TypeConverter
-//    fun toHistory(historyString: String): List<History> {
-//        return Json.decodeFromString(historyString)
-//    }
+    @TypeConverter
+    fun toRepeatChallenge(historyString: String): List<Int> {
+        return Json.decodeFromString(historyString)
+    }
+
+    @TypeConverter
+    fun fromChallengeDays(history: List<ChallengeDays>?): String {
+        return Json.encodeToString(history ?: emptyList())
+    }
+
+    @TypeConverter
+    fun toChallengeDays(historyString: String): List<ChallengeDays> {
+        return Json.decodeFromString(historyString)
+    }
 
 
     @TypeConverter
@@ -126,10 +131,6 @@ class Converters {
     fun toTaskInDayList(taskInDayListJson: String?): List<TaskInDay>? {
         return taskInDayListJson?.let { Json.decodeFromString(it) }
     }
-
-
-
-
 
     @TypeConverter
     fun fromChallengeJoinedHistory(joinedHistory: List<ChallengeJoinedHistory>?): String {
@@ -193,7 +194,4 @@ object DateSerializer : KSerializer<Date> {
         val dateString = getDateFormat().format(value)
         encoder.encodeString(dateString)
     }
-
-
 }
-

@@ -12,7 +12,7 @@ import java.util.*
 @Serializable
 @Entity
 data class Mood(
-    @ColumnInfo(name = "date") @Contextual @Serializable(with = DateSerializer::class) var date: Date,
+    @ColumnInfo(name = "date")  var date: Long = 0,
     @ColumnInfo(name = "state") var state: Int,
     @ColumnInfo(name = "describe") var describe: List<String>,
     @ColumnInfo(name = "becauseOf") var becauseOf: List<String>,

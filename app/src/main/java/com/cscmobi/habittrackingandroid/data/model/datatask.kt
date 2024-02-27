@@ -94,10 +94,23 @@ data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long, var isPause:
 
 
 @Serializable
-data class Tasks(var name: String = "", var id: Int)
+data class Tasks(
+    var name: String = "",
+    var description: String = "",
+    var icon: String = "",
+    var color: String = "",
+    var taskNo: Int,
+    var id: Int
+)
 
 @Serializable
-data class ChallengeJoinedHistory( var date: Long? =null, var finished: Boolean = false)
+data class ChallengeDays(
+    var dayNo: Int = 0,
+    var tasks: List<Tasks> ? = null
+)
+
+@Serializable
+data class ChallengeJoinedHistory(var date: Long = 0, var finished: Boolean = false)
 
 
 

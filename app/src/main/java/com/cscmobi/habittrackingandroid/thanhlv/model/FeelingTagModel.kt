@@ -5,4 +5,4 @@ import android.icu.util.Calendar
 import android.os.Build
 import java.text.SimpleDateFormat
 
-data class FeelingTagModel(var feeling: String, var selected: Boolean = false)
+data class FeelingTagModel(var mood: String, var describe: String, var selected: Boolean = false)

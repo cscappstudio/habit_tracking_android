@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +25,10 @@ class MyChallengeAdapter(private var mContext: Context) :
         fun onClickItem(challenge: Challenge)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: MutableList<Challenge>?) {
         if (data != null) this.mList = data
+        notifyDataSetChanged()
     }
 
     fun setCallBack(callback: MyChallengeCallback) {
@@ -54,7 +57,7 @@ class MyChallengeAdapter(private var mContext: Context) :
         if (itemData.image.isEmpty())
             holder.binding.imgCover.setImageResource(R.drawable.img_target)
         else
-            holder.binding.imgCover.setImageResource(itemData.image.toInt())
+            holder.binding.imgCover.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(itemData.image)))
     }
 
     override fun getItemCount(): Int {
