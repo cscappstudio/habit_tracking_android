@@ -29,9 +29,11 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     private var pagerYearAdapter: PagerYearCalendarAdapter? = null
 
     private var mCurrentStartPeriod = CalendarUtil.startWeekMs(System.currentTimeMillis())
-    private var mCurrentYear = CalendarUtil.startYear(System.currentTimeMillis()).toLong()
+    private var mCurrentYear = CalendarUtil.startYearMs(System.currentTimeMillis())
+    private var mCurrentMonth = CalendarUtil.startMonthMs(System.currentTimeMillis())
 
     override fun setEvent() {
+
     }
 
     override fun initView(view: View) {
@@ -46,7 +48,69 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
 
         viewPager2()
+        handleMonthCalendar()
         handleChartCompletionRate()
+        handleYearStats()
+    }
+
+    private fun handleMonthCalendar() {
+        validateMonthCalendarBtn(mCurrentMonth)
+        binding.btnPreviousMonth.setOnClickListener {
+            resolvePreviousMonth()
+        }
+        binding.btnNextMonth.setOnClickListener {
+            resolveNextMonth()
+        }
+
+    }
+
+    private fun resolveNextMonth() {
+        mCurrentMonth = CalendarUtil.nextMonth(mCurrentMonth)
+        binding.tvMonth.text = CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(mCurrentMonth)
+        validateMonthCalendarBtn(mCurrentMonth)
+    }
+
+    private fun resolvePreviousMonth() {
+        mCurrentMonth = CalendarUtil.previousMonth(mCurrentMonth)
+        binding.tvMonth.text = CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(mCurrentMonth)
+        validateMonthCalendarBtn(mCurrentMonth)
+        //
+    }
+
+    private fun validateMonthCalendarBtn(startPeriod: Long) {
+        if (startPeriod < 0) {
+            binding.btnNextPeriod.alpha = 0.3f
+            binding.btnNextPeriod.isEnabled = false
+            if (CalendarUtil.startMonth(System.currentTimeMillis())
+                > CalendarUtil.startMonth(SPF.getStartOpenTime(requireContext()))
+            ) {
+                binding.btnPreviousMonth.alpha = 1f
+                binding.btnPreviousMonth.isEnabled = true
+            } else {
+                binding.btnPreviousMonth.alpha = 0.3f
+                binding.btnPreviousMonth.isEnabled = false
+            }
+        } else {
+            if (CalendarUtil.startMonth(startPeriod)
+                > CalendarUtil.startMonth(SPF.getStartOpenTime(requireContext()))
+            ) {
+                binding.btnPreviousMonth.alpha = 1f
+                binding.btnPreviousMonth.isEnabled = true
+            } else {
+                binding.btnPreviousMonth.alpha = 0.3f
+                binding.btnPreviousMonth.isEnabled = false
+            }
+
+            if (CalendarUtil.startMonth(startPeriod) <
+                CalendarUtil.startMonth(System.currentTimeMillis())
+            ) {
+                binding.btnNextMonth.alpha = 1f
+                binding.btnNextMonth.isEnabled = true
+            } else {
+                binding.btnNextMonth.alpha = 0.3f
+                binding.btnNextMonth.isEnabled = false
+            }
+        }
     }
 
     private var mChartType = 1
@@ -97,20 +161,11 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         validateBtn(mChartType, -1)
         drawChart(mChartType, -1)
 
-
         binding.btnNextPeriod.setOnClickListener {
             resolveNextPeriod(mChartType)
         }
         binding.btnPreviousPeriod.setOnClickListener {
             resolvePreviousPeriod(mChartType)
-        }
-        validateStatsBtn(mCurrentYear)
-        binding.btnPreviousYear.setOnClickListener {
-            resolvePreviousYearStats()
-        }
-
-        binding.btnNextYear.setOnClickListener {
-            resolveNextYearStats()
         }
     }
 
@@ -291,6 +346,17 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         validateBtn(mChartType, mCurrentStartPeriod)
         drawChart(mChartType, mCurrentStartPeriod)
 
+    }
+
+
+    private fun handleYearStats() {
+        validateStatsBtn(mCurrentYear)
+        binding.btnPreviousYear.setOnClickListener {
+            resolvePreviousYearStats()
+        }
+        binding.btnNextYear.setOnClickListener {
+            resolveNextYearStats()
+        }
     }
 
     private fun validateStatsBtn(startPeriod: Long) {

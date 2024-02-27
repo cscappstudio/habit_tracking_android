@@ -51,6 +51,14 @@ class CalendarUtil {
             calendar[Calendar.DAY_OF_MONTH] = 1
             return calendar.timeInMillis
         }
+
+        fun startYearMs(ms: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+            calendar[Calendar.DAY_OF_YEAR] = 1
+            return calendar.timeInMillis
+        }
+
         fun startMonth(ms: Long): Int {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
