@@ -36,7 +36,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".thanhlv.ui.OnboardActivity"
+            android:name=".thanhlv.ui.SplashActivity"
             android:exported="true"
 
             android:theme="@style/FullScreenTheme">
@@ -70,6 +70,11 @@
         <!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
         <!--            </intent-filter>-->
         <!--        </service>-->
+
+        <activity
+            android:name=".thanhlv.ui.OnboardActivity"
+            android:exported="true"
+            android:theme="@style/FullScreenTheme" />
 
         <activity
             android:name=".thanhlv.ui.SubscriptionsActivity"
@@ -112,10 +117,6 @@
             android:name=".thanhlv.ui.QuestionFO2Activity"
             android:exported="true"
             android:theme="@style/FullScreenTheme" />
-<!--        <activity-->
-<!--            android:name=".thanhlv.ui.OnboardActivity"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@style/FullScreenTheme" />-->
 
         <activity
             android:name=".thanhlv.ui.CreateChallengeActivity"

@@ -14,6 +14,9 @@
     <string name="french" translatable="false">Français</string>
     <string name="spanish" translatable="false">Español</string>
     <string name="rusian" translatable="false">Русский</string>
+    <string name="filipino" translatable="false">Filipino</string>
+    <string name="thailand" translatable="false">Thailand</string>
+    <string name="vietnamese" translatable="false">Vietnam</string>
 
 
     <string name="latest_version">Latest version</string>
