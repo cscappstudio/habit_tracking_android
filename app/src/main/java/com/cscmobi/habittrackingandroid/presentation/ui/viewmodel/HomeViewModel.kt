@@ -226,6 +226,8 @@ class HomeViewModel(
 
     private fun fetchTasksbyCategory(tag: String) {
         viewModelScope.launch {
+            Log.d("fetchTasksByDate", "fetchTasksByDate")
+
             _state.value = try {
                 if (tag == "All") HomeState.Tasks(tasks)
                 else

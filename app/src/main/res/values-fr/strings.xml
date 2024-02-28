@@ -152,5 +152,28 @@
     <string name="you_just_hit_2_day_habit_streak">Vous venez d\'atteindre une séquence de 2 jours d\'habitude !</string>
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">La constance est la clé, et vous êtes sur la bonne voie. Continuez à écraser ces objectifs ! 💪🌟</string>
     <string name="claim_badge">RÉCLAMER L\'INSIGNE</string>
+    <string name="billing_is_not_connected_please_try_again">La facturation n\'est pas connectée, veuillez réessayer</string>
+    <string name="monthly">Mensuel</string>
+    <string name="yearly">Annuel</string>
+    <string name="lifetime">À vie</string>
+    <string name="automatically_renewed">Renouvelé automatiquement</string>
+    <string name="once_payment">Paiement unique</string>
+    <string name="your_opinion_matters_to_us">Votre avis compte pour nous !</string>
+    <string name="enjoying_the_app">Vous appréciez l\'application ?</string>
+    <string name="the_best_we_can_get">Le meilleur que nous puissions obtenir</string>
+    <string name="not_now">Pas maintenant</string>
+    <string name="submit">Soumettre</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">Veuillez laisser des commentaires pour nous aider à améliorer le produit</string>
+    <string name="thanks_for_submitting_a_review">Merci d\'avoir soumis une critique !</string>
+    <string name="please_rate_us_on_app_store">Veuillez nous évaluer sur l\'App Store</string>
+    <string name="settings">Paramètres</string>
+    <string name="change_your_character">Changez votre personnage</string>
+    <string name="subscription">Abonnement</string>
+    <string name="notification">Notification</string>
+    <string name="language">Langue</string>
+    <string name="share_app">Partager l\'application</string>
+    <string name="privacy">Confidentialité</string>
+    <string name="about">À propos de</string>
+    <string name="you_ve_done_all_the_n_tasks_today">Vous avez fait toutes les tâches\n aujourd\'hui.</string>
 
 </resources>

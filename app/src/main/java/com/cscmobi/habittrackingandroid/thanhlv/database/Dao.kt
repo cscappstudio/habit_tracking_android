@@ -27,8 +27,6 @@ interface Dao {
     @Query("SELECT * FROM Task")
     suspend fun getAllTask(): List<Task>
 
-
-
     @Query("SELECT * FROM task")
     fun getAll(): Flow<List<Task>>
 

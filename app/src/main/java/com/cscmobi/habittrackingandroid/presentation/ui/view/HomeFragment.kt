@@ -45,6 +45,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
+import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
@@ -178,14 +179,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
         }
-
     }
 
 
     override fun onResume() {
         super.onResume()
-
-
 
         observeState()
         with(requireActivity().getMySharedPreferences()) {
@@ -299,12 +297,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         binding.llTask.visibility = View.VISIBLE
                         binding.adView.visibility = View.GONE
 
-
                         if (!hasInitChip) {
+
                             val categories = arrayListOf<String>()
                             categories.add("All")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
                             initChips(categories)
+                            setUpView(listTask)
 
                             hasInitChip = true
                         }
@@ -316,7 +315,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         initTaskAdapter()
                         setUpChallenge()
 
-                        setUpView(listTask)
                         binding.isTasksEmpty = false
 
 
@@ -530,10 +528,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    fun setUpTask() {
-
-    }
-
     fun setUpChallenge() {
 
         tasksChallenge = listTask.filter { !it.challenge.isNullOrEmpty() }.map {
@@ -675,7 +669,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             override fun skip(item: Task, p: Int) {
                 if (!freeIAP.canSkip(requireActivity())) {
-                    Toast.makeText(requireContext(), "Go to premium", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireActivity(), SubscriptionsActivity::class.java)
+                    startActivity(intent)
                     return
                 }
 
@@ -840,6 +835,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 )
 
                 if (it == "All") {
+                    chip.isChecked = true
                     changeChipState(true, chip)
 
                 } else {
@@ -851,10 +847,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 chip.setOnCheckedChangeListener { compoundButton, b ->
 
                     if (chip.isChecked) {
-                        lifecycleScope.launch {
-
-                            homeViewModel.userIntent.send(HomeIntent.FetchTasksbyCategory(chip.tag.toString()))
-                        }
+                        listNormalTask = if (chip.tag.toString() != "All") {
+                            listTask.filter { it.challenge.isNullOrEmpty() && it.tag == chip.tag.toString() }.toMutableList()
+                        } else listTask.filter { it.challenge.isNullOrEmpty() }.toMutableList()
+                        listNormalTask.add(1, Task(id = IDLE, name = "ads"))
+                        taskAdapter.submitList(listNormalTask)
+                        //lifecycleScope.launch {
+                           // homeViewModel.userIntent.send(HomeIntent.FetchTasksbyCategory(chip.tag.toString()))
+                       // }
                         changeChipState(true, chip)
 
                     } else {

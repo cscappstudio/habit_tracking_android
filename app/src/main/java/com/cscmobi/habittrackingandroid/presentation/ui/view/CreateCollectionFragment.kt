@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.util.Log
 import android.view.Gravity
@@ -25,6 +26,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivit
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
@@ -167,7 +169,8 @@ class CreateCollectionFragment :
         binding.llAddTask.setOnClickListener {
             if (!SPF.isProApp(requireContext())) {
                 if (newTasks.size >=3 ) {
-                    Toast.makeText(requireContext(), "go to premium screen", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireActivity(), SubscriptionsActivity::class.java)
+                    startActivity(intent)
                     return@setOnClickListener
                 }
             }
