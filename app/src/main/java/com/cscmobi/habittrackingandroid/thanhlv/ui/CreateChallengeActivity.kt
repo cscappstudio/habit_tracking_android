@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.databinding.ActivityCreateChallengeBindi
 import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomSheetCollectionFragment
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.AddTaskChallengeAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
+import com.google.gson.Gson
 import com.thanhlv.fw.helper.MyUtils
 
 class CreateChallengeActivity : BaseActivity2() {
@@ -36,11 +37,10 @@ class CreateChallengeActivity : BaseActivity2() {
         listDayView.add(binding.btnFri)
         listDayView.add(binding.btnSat)
         listDayView.add(binding.btnSun)
-//        listDayView.add(binding.btnAllDay)
         recyclerView()
     }
 
-    var listDayText = arrayListOf<String>(
+    private var listDayText = arrayListOf(
         "Monday",
         "Tuesday",
         "Wednesday",
@@ -49,7 +49,7 @@ class CreateChallengeActivity : BaseActivity2() {
         "Saturday",
         "Sunday"
     )
-    var listDayState = arrayListOf<Boolean>(false, false, false, false, false, false, false, false)
+    private var listDayState = arrayListOf(false, false, false, false, false, false, false, false)
     private var listDayView = arrayListOf<TextView>()
 
     private var mImgChallenge = 0
@@ -69,7 +69,6 @@ class CreateChallengeActivity : BaseActivity2() {
                         binding.icPlusAva.visibility = View.GONE
                         mImgChallenge = resDrawable
                     }
-
                 }
 
             bottomSheetFragment.show(supportFragmentManager, "")
@@ -211,15 +210,38 @@ class CreateChallengeActivity : BaseActivity2() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == 868) {
-            finish()
-//            intent.action = "create_new_task"
-//            startActivity(intent)
+            val mTaskNew =
+                Gson().fromJson<CreateTaskChallenge>(
+                    result.data?.getStringExtra("data_new_task_result"),
+                    CreateTaskChallenge::class.java
+                )
+            updateRecycler(mTaskNew)
         }
+    }
+
+    private fun updateRecycler(mTaskNew: CreateTaskChallenge?) {
+
+        var ii = 0
+        var day_ = 1
+        for (i in 0 until mData.size) {
+            if (mData[i].day == mTaskNew?.day && mData[i].type == mTaskNew.type ) {
+                mData[i] = mTaskNew
+                if (mData[i].type == 0) mData[i].type = 2
+                if (mData[i].type == 1) mData[i].type = 3
+                ii = i
+                day_ = mTaskNew.day
+                break
+            }
+        }
+        mData.add(ii+1, CreateTaskChallenge(day_, 1))
+        adapter?.setData(mData)
+
     }
 
     private fun addNewTask(item: CreateTaskChallenge) {
         val intent = Intent(this, CreateNewTaskChallengeActivity::class.java)
-        intent.action = "create_new_task"
+//        intent.action = "create_new_task"
+        intent.putExtra("data", Gson().toJson(item))
         resultActivityCallback.launch(intent)
     }
 }

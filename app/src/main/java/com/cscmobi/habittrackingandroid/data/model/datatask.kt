@@ -4,28 +4,6 @@ import androidx.annotation.Keep
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.serialization.Serializable
 
-//data class Task (
-//    val name: String,
-//    val icon: Int,
-//    val color: Int = R.color.white,
-//    val goal: Goal = Goal(),
-//    val tag: String = "",
-//    var id: Int = 0,
-//
-//    )
-
-enum class StatusTask(status: Int) {
-    NOTDO(-1),
-    DOING(0),
-    DONE(1)
-}
-
-enum class TypeGoal {
-    TypeOneTime(),
-    TypebyTimes()
-}
-
-
 @Keep
 @Serializable
 data class Goal(
@@ -80,11 +58,7 @@ data class ColorTask(val resId: Int, var isSelected: Boolean = false)
 data class TaskInDay(
     var taskId: Int = 0,
     var progress: Int = 0,
-//    var currentStreak: Int = 0,
-//    var longStreak: Int = 0,
-    var progressGoal: Int = 0,
-//    var target: Int = 1,
-  //  var visible:Boolean = true
+    var progressGoal: Int = 0
     )
 
 

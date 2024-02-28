@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -8,12 +9,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.cscmobi.habittrackingandroid.databinding.ActivityCreateNewTaskChallengeBinding
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
 import com.google.gson.Gson
 
 class CreateNewTaskChallengeActivity : BaseActivity2() {
 
     private lateinit var binding: ActivityCreateNewTaskChallengeBinding
+    private var mTaskNew : CreateTaskChallenge ? =null
 
     override fun setupScreen() {
         binding = ActivityCreateNewTaskChallengeBinding.inflate(layoutInflater)
@@ -21,6 +24,9 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
     }
 
     override fun loadData() {
+        mTaskNew =
+            Gson().fromJson<CreateTaskChallenge>(intent.getStringExtra("data"), CreateTaskChallenge::class.java)
+        println("thanhlv override fun loadData() {  ==CreateNewTaskChallengeActivity=== " + mTaskNew?.day)
     }
 
     override fun initView() {
@@ -54,6 +60,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
 
         popupEmoji.callback = object : PopupChoseEmojiTask.Callback{
             override fun clickChange(ava: String) {
+                mIconTask = ava
                 binding.icAva.setImageBitmap(BitmapFactory.decodeStream(assets.open(ava)))
             }
         }
@@ -61,10 +68,6 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
             popupEmoji.show(supportFragmentManager, "")
         }
 
-
-        binding.btnCreate.setOnClickListener {
-
-        }
 
         binding.btnCreate.setOnClickListener {
             createNewTask()
@@ -88,10 +91,15 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
 
     }
 
+    var mIconTask = "apple.png"
+
     private fun createNewTask() {
-        val newTask = CreateTaskChallenge(1, 0)
-        intent.putExtra("data_new_task", Gson().toJson(newTask))
-        setResult(868, null)
+        mTaskNew?.name = binding.edtName.text.toString()
+        mTaskNew?.icon = mIconTask
+        val intent = Intent(this, CreateChallengeActivity::class.java)
+        intent.putExtra("data_new_task_result", Gson().toJson(mTaskNew))
+        setResult(868, intent)
+        finish()
     }
 
     private fun resolveColorButton(color: Int) {
@@ -101,6 +109,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
             )
         }
         btnColorView[color - 1].backgroundTintList = null
+        mTaskNew?.color = btnColor[color - 1]
     }
 
     private val btnColor = arrayListOf<String>()
