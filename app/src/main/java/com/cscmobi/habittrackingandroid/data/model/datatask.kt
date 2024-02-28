@@ -1,9 +1,7 @@
 package com.cscmobi.habittrackingandroid.data.model
 
 import androidx.annotation.Keep
-import com.cscmobi.habittrackingandroid.thanhlv.database.DateSerializer
-import kotlinx.serialization.Contextual
-import java.util.Date
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.serialization.Serializable
 
 //data class Task (
@@ -94,23 +92,37 @@ data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long, var isPause:
 
 
 @Serializable
-data class Tasks(
+data class TaskInChallenge(
     var name: String = "",
     var description: String = "",
     var icon: String = "",
     var color: String = "",
     var taskNo: Int,
+    var dayNo: Int,
     var id: Int
-)
+) {
+    fun parserToTask(): Task {
+        val task = Task()
+        task.name = name
+        task.color = color
+        task.ava = icon
+        return task
+    }
+}
 
 @Serializable
 data class ChallengeDays(
     var dayNo: Int = 0,
-    var tasks: List<Tasks> ? = null
+    var tasks: List<TaskInChallenge> ? = null
 )
 
+data class TaskTimelineModel (
+    var task: TaskInChallenge,
+    var type: Int=0, // 0 = đầu, 1 = giữa, 2 = cuối
+    var status: Int=0 // 0 = chưa đến, 1 = done, 2 = chưa done, 3 đã done
+)
 @Serializable
-data class ChallengeJoinedHistory(var date: Long = 0, var finished: Boolean = false)
+data class ChallengeJoinedHistory(var date: Long, var state: Int = 0) // state = 0: tham gia chưa hoàn thành, = 1 hoàn thành, = 2 đã cancel
 
 
 

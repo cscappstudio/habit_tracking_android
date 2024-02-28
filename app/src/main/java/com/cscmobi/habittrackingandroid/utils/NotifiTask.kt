@@ -2,28 +2,20 @@ package com.cscmobi.habittrackingandroid.utils
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import androidx.work.await
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
-import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
@@ -81,7 +73,7 @@ object NotifiTask {
             try {
 
 
-                db?.dao()?.getAll()?.collect {
+                db?.dao()?.getAllTask()?.collect {
                     var tasks =
                         it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
 

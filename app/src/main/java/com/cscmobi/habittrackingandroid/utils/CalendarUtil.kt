@@ -44,6 +44,13 @@ class CalendarUtil {
             if (calendar.timeInMillis > ms) calendar[Calendar.DAY_OF_YEAR] -= 7
             return calendar.timeInMillis
         }
+        fun nextDay(ms: Long): Long {// start from monday
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+            calendar[Calendar.DAY_OF_YEAR] +=1
+            return calendar.timeInMillis
+        }
+
 
         fun startMonthMs(ms: Long): Long {
             val calendar = Calendar.getInstance()

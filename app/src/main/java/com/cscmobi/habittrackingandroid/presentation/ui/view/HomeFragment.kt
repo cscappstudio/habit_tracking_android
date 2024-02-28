@@ -372,7 +372,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                 name = it.challenge!!,
                                 stateDone = (it.goal?.currentProgress
                                     ?: 0) >= (it.goal?.target ?: 1),
-                                requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
+                                it.imgChallenge
                             )
                         }.toMutableList()
                         challengeHomeAdpater.submitList(tasksChallenge)
@@ -537,7 +537,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 name = it.challenge!!,
                 stateDone = (it.goal?.currentProgress
                     ?: 0) >= (it.goal?.target ?: 1),
-                requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
+                it.imgChallenge
             )
         }.toMutableList()
 

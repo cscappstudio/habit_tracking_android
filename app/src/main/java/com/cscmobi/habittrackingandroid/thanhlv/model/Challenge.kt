@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.cscmobi.habittrackingandroid.data.model.ChallengeDays
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
-import com.cscmobi.habittrackingandroid.data.model.Tasks
 import kotlinx.serialization.Serializable
 
 @Serializable

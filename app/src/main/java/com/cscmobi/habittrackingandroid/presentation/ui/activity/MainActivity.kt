@@ -2,7 +2,6 @@ package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
 import android.content.Intent
 import android.widget.Toast
-import androidx.datastore.preferences.core.preferencesOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
@@ -69,7 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
             if (NotifiTask.db == null)
                 NotifiTask.db = appDatabase
-            NotifiTask.db?.dao()?.getAll()?.collect {
+            NotifiTask.db?.dao()?.getAllTask()?.collect {
                 taskSize = it.size
                 var task = it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
                 if (task.isNullOrEmpty()) return@collect
