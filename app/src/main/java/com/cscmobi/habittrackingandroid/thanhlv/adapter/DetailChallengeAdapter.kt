@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ItemTaskTimelineFullBinding
+import com.thanhlv.fw.helper.DisplayUtils
 
 class DetailChallengeAdapter(private var mContext: Context) :
     RecyclerView.Adapter<DetailChallengeAdapter.ViewHolder>() {
@@ -23,10 +24,11 @@ class DetailChallengeAdapter(private var mContext: Context) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: MutableList<TaskTimelineModel>){
+    fun setData(data: MutableList<TaskTimelineModel>) {
         this.mList = data
         notifyDataSetChanged()
     }
+
     fun setCallBack(callback: MoodRecordCallback) {
         this.mCallBack = callback
     }
@@ -41,7 +43,7 @@ class DetailChallengeAdapter(private var mContext: Context) :
         )
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (mList.isEmpty()) return
         val item = mList[position]
@@ -50,30 +52,40 @@ class DetailChallengeAdapter(private var mContext: Context) :
         }
 
         holder.binding.tvTitle.text = item.task.name
-        holder.binding.tvDay.visibility = if (item.task.taskNo == 0) View.VISIBLE else View.GONE
-        if (item.type == 0 ) {
+//        holder.binding.tvDay.visibility = if (item.task.taskNo == 0) View.VISIBLE else View.GONE
+
+        if (item.task.taskNo == 0) {
+            holder.binding.tvDay.visibility = View.VISIBLE
+
+            holder.binding.tvDay.text = "Day " + item.task.dayNo.toString()
+            holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(119f)
+        } else {
+            holder.binding.tvDay.visibility = View.GONE
+            holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(96f)
+        }
+        if (item.type == 0) {
             if (item.status == 0)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_fill)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
             if (item.status == 1)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_current_fill)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
             if (item.status == 2)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_current)
-        } else if (item.type == 1 )  {
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
+        } else if (item.type == 1) {
             if (item.status == 0)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
             if (item.status == 1)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_current_fill)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
             if (item.status == 2)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_current)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
             if (item.status == 3)
                 holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
-        } else if (item.type == 2 )  {
+        } else if (item.type == 2) {
             if (item.status == 0)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
             if (item.status == 1)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end_fill)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
             if (item.status == 2)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end_current)
+                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_between_old_fill)
         }
 
     }

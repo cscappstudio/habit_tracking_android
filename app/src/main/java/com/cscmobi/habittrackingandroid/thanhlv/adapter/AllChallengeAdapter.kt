@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.adjust.sdk.Util
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ItemAllChallengeBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemMonthCalendarBinding
@@ -14,6 +15,7 @@ import com.cscmobi.habittrackingandroid.databinding.ItemMoodRecordBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemMyChallengeBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
+import com.cscmobi.habittrackingandroid.utils.Utils
 
 class AllChallengeAdapter(private var mContext: Context) :
     RecyclerView.Adapter<AllChallengeAdapter.ViewHolder>() {
@@ -56,7 +58,8 @@ class AllChallengeAdapter(private var mContext: Context) :
         if (itemData.image.isEmpty())
             holder.binding.imgCover.setImageResource(R.drawable.img_target)
         else
-            holder.binding.imgCover.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(itemData.image)))
+            holder.binding.imgCover.setImageDrawable(Utils.loadImageFromAssets(mContext, itemData.image))
+//            holder.binding.imgCover.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(itemData.image)))
     }
 
     override fun getItemCount(): Int {

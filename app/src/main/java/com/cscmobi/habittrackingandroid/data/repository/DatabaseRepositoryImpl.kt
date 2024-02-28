@@ -8,28 +8,27 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
     override suspend fun insertTask(task: Task) {
-        dao.insert(task)
+        dao.insertTask(task)
 
     }
 
     override suspend fun getAllTask(): Flow<List<Task>> {
-        return dao.getAll()
+        return dao.getAllTask()
     }
 
     override suspend fun updateTask(task: Task) {
-        dao.update(task)
+        dao.updateTask(task)
     }
 
     override suspend fun getTaskById(id: Int): Flow<Task> {
-        return  dao.findById(id)
+        return  dao.findTaskById(id)
     }
 
     override suspend fun deleteTask(task: Task) {
-        dao.delete(task)
+        dao.deleteTask(task)
     }
 
     override suspend fun getHistorybyDate(date: Long): Flow<History?> {
@@ -37,7 +36,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
     }
 
     override suspend fun loadAllByIds(id: IntArray): Flow<List<Task>> {
-        return  dao.loadAllByIds(tasksId = id)
+        return  dao.loadAllTaskByIds(tasksId = id)
     }
 
     override suspend fun insertCollection(collection: HabitCollection) {

@@ -17,8 +17,6 @@ import com.cscmobi.habittrackingandroid.utils.FakeData.generateRandomTasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Calendar
 
 
 @Database(entities = [Task::class, Challenge::class, History::class, HabitCollection::class, Mood::class], version = 1, exportSchema = false)
@@ -70,7 +68,7 @@ abstract class AppDatabase : RoomDatabase() {
                 )
 
 
-                    database?.dao()?.insertAll(*randomTasks.toTypedArray())
+                    database?.dao()?.insertAllTask(*randomTasks.toTypedArray())
                     database?.dao()?.insertAllHistory(*histories.toTypedArray())
 
           //  }

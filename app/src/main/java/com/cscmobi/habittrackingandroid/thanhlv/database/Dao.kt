@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
@@ -24,39 +23,36 @@ interface Dao {
     @Delete
     suspend fun deleteWorldTime(task: Task)
 
-    @Query("SELECT * FROM Task")
-    suspend fun getAllTask(): List<Task>
-
-
-
     @Query("SELECT * FROM task")
-    fun getAll(): Flow<List<Task>>
+    fun getAllTask(): Flow<List<Task>>
 
     @Query("SELECT * FROM task WHERE id IN (:tasksId)")
-     fun loadAllByIds(tasksId: IntArray): Flow<List<Task>>
+     fun loadAllTaskByIds(tasksId: IntArray): Flow<List<Task>>
 
     @Query("SELECT * FROM task WHERE name LIKE :name")
-     fun findByName(name: String): Flow<Task>
+     fun findTaskByName(name: String): Flow<Task>
 
     @Query("SELECT * FROM task WHERE id=:id")
-     fun findById(id: Int): Flow<Task>
+     fun findTaskById(id: Int): Flow<Task>
     @Insert
-    suspend fun insertAll(vararg users: Task)
+    suspend fun insertAllTask(vararg users: Task)
 
     @Insert
     suspend fun insertAllHistory(vararg data: History)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(item: Task)
+    suspend fun insertTask(item: Task)
 
     @Update
-    suspend fun update(item: Task)
+    suspend fun updateTask(item: Task)
 
     @Delete
-    suspend fun delete(user: Task)
+    suspend fun deleteTask(user: Task)
 
 
 
+    @Query("SELECT * FROM task")
+    fun getAllTask2(): List<Task>
     @Query("SELECT * FROM Challenge")
     suspend fun getAllChallenge(): List<Challenge>
 

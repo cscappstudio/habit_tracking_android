@@ -6,15 +6,17 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
+import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailChallengeBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.DetailChallengeAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
-import com.cscmobi.habittrackingandroid.thanhlv.model.TaskTimelineModel
+import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.google.gson.Gson
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,11 +55,11 @@ class DetailChallengeActivity : BaseActivity2() {
             if (!mChallenge?.joinedHistory.isNullOrEmpty()) {
                 binding.btnStartChallenge.visibility = View.GONE
                 binding.btnOptionTop.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.btnStartChallenge.visibility = View.VISIBLE
                 binding.btnOptionTop.visibility = View.GONE
-                binding.progressBar.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
             }
 
         }
@@ -81,12 +83,21 @@ class DetailChallengeActivity : BaseActivity2() {
 
     private fun joinChallenge(mChallenge: Challenge?) {
         if (mChallenge == null) return
-
         runBlocking {
             val joined = ChallengeJoinedHistory(System.currentTimeMillis())
-            mChallenge.joinedHistory = listOf(joined)
+            if (mChallenge.joinedHistory.isNullOrEmpty()) mChallenge.joinedHistory = listOf(joined)
+            else {
+                val tem = mChallenge.joinedHistory
+                tem!!.toMutableList().add(joined)
+                mChallenge.joinedHistory = tem.toList()
+            }
+
+            resolverDataJoinChallenge(mChallenge)
             AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge)
-            delay(500)
+
+            //update task challenge to task all
+
+            delay(600)
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
             newMyChallenges.sortByDescending {
@@ -95,7 +106,74 @@ class DetailChallengeActivity : BaseActivity2() {
             }
 
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
+            println(
+                "thanhlv 9999999999999 ========= " +
+                        AppDatabase.getInstance(applicationContext).dao().getAllTask2().size
+            )
         }
+    }
+
+    private suspend fun resolverDataJoinChallenge(challenge: Challenge) {
+        if (challenge.repeat.isNullOrEmpty()) challenge.repeat = listOf(2, 3, 4, 5, 6, 7, 1)
+        val listDate = getListDateFill(challenge.repeat!!, challenge.duration, challenge.cycle)
+        var startDate = 0
+
+        while (startDate < challenge.duration) {
+            challenge.days?.forEach {
+                it.tasks?.forEach { _task ->
+                    val task = _task.parserToTask()
+                    task.challenge = challenge.name
+                    task.startDate = listDate[startDate]
+                    task.imgChallenge = challenge.image
+                    task.endDate.isOpen = true
+                    task.endDate.endDate = task.startDate!!
+                    AppDatabase.getInstance(applicationContext).dao().insertTask(task)
+                }
+                startDate++
+            }
+        }
+
+    }
+
+    private fun getListDateFill(repeat: List<Int>, duration: Int, cycle: Int): List<Long> {
+        var today = System.currentTimeMillis()
+        val thisWeek = arrayListOf<Long>()
+        var startWeek = CalendarUtil.startWeekMs(today)
+        thisWeek.add(startWeek)
+        for (i in 3..8) {
+            startWeek = CalendarUtil.nextDay(startWeek)
+            thisWeek.add(startWeek)
+        }
+        thisWeek.forEach {
+            if (!repeat.contains(CalendarUtil.dayOfWeek(it)))
+                thisWeek.remove(it)
+        }
+
+        thisWeek.forEach {
+            if (today >= it) {
+                today = it
+                return@forEach
+            }
+        }
+
+        val listDate = arrayListOf<Long>()
+        val n = duration / cycle
+        for (i in 0..n) {
+            val tem = thisWeek
+            for (j in 0 until tem.size) {
+                tem[j] = tem[j] + i * 7 * 24 * 60 * 60 * 1000L
+            }
+            listDate.addAll(tem)
+        }
+        val tem = arrayListOf<Long>()
+        listDate.forEach {
+            if (it >= today) tem.add(it)
+            if (tem.size == duration) return@forEach
+        }
+
+//        listDate.subList(0, duration - 1)
+
+        return tem
     }
 
     private var adapter: DetailChallengeAdapter? = null
@@ -114,8 +192,8 @@ class DetailChallengeActivity : BaseActivity2() {
 
         mChallenge?.days?.forEach { _it ->
             _it.tasks?.forEach {
+                it.dayNo = _it.dayNo
                 val new = TaskTimelineModel(it)
-
                 new.type = 1
                 new.status = 0
                 temp.add(new)
