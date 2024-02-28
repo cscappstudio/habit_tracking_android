@@ -27,13 +27,14 @@ interface Dao {
     fun getAllTask(): Flow<List<Task>>
 
     @Query("SELECT * FROM task WHERE id IN (:tasksId)")
-     fun loadAllTaskByIds(tasksId: IntArray): Flow<List<Task>>
+    fun loadAllTaskByIds(tasksId: IntArray): Flow<List<Task>>
 
     @Query("SELECT * FROM task WHERE name LIKE :name")
-     fun findTaskByName(name: String): Flow<Task>
+    fun findTaskByName(name: String): Flow<Task>
 
     @Query("SELECT * FROM task WHERE id=:id")
-     fun findTaskById(id: Int): Flow<Task>
+    fun findTaskById(id: Int): Flow<Task>
+
     @Insert
     suspend fun insertAllTask(vararg users: Task)
 
@@ -50,9 +51,9 @@ interface Dao {
     suspend fun deleteTask(user: Task)
 
 
+    @Query("SELECT * FROM Challenge WHERE name LIKE :name")
+    suspend fun findChallengeByName(name: String): Challenge
 
-    @Query("SELECT * FROM task")
-    fun getAllTask2(): List<Task>
     @Query("SELECT * FROM Challenge")
     suspend fun getAllChallenge(): List<Challenge>
 
@@ -68,8 +69,6 @@ interface Dao {
     suspend fun updateChallenge(item: Challenge)
 
 
-
-
     @Query("SELECT * FROM Mood")
     suspend fun getMood(): List<Mood>
 
@@ -80,12 +79,11 @@ interface Dao {
     suspend fun updateMood(item: Mood)
 
 
-
     @Query("SELECT * FROM history")
-    fun getAllHistory() : Flow<List<History>>
+    fun getAllHistory(): Flow<List<History>>
 
     @Query("SELECT * FROM history WHERE date=:date")
-    fun getHistorybyDate(date: Long) : Flow<History?>
+    fun getHistorybyDate(date: Long): Flow<History?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHistory(item: History)
@@ -127,13 +125,13 @@ interface Dao {
 
     @Query("UPDATE history SET taskInDay = :newTaskInDay WHERE id = :id")
 
-    suspend fun deleteTaskinHistory(id: Int,newTaskInDay: List<TaskInDay>)
+    suspend fun deleteTaskinHistory(id: Int, newTaskInDay: List<TaskInDay>)
 
     @Query("SELECT * FROM history WHERE date >= :startDate")
-    fun getHistoryWithDate(startDate: Long) : Flow<List<History>>
+    fun getHistoryWithDate(startDate: Long): Flow<List<History>>
 
     @Query("SELECT * FROM HabitCollection WHERE nameCollection = :name")
-    suspend fun findCollectionByName(name: String) : HabitCollection?
+    suspend fun findCollectionByName(name: String): HabitCollection?
 
 
 }

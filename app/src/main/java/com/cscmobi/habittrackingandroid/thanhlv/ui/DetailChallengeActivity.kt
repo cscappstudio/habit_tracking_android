@@ -106,10 +106,7 @@ class DetailChallengeActivity : BaseActivity2() {
             }
 
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
-            println(
-                "thanhlv 9999999999999 ========= " +
-                        AppDatabase.getInstance(applicationContext).dao().getAllTask2().size
-            )
+
         }
     }
 
@@ -149,29 +146,30 @@ class DetailChallengeActivity : BaseActivity2() {
                 thisWeek.remove(it)
         }
 
-        thisWeek.forEach {
-            if (today >= it) {
-                today = it
-                return@forEach
+        for (i in 0 until thisWeek.size)
+            if (today <= thisWeek[i]) {
+                today = thisWeek[i]
+                break
             }
-        }
 
         val listDate = arrayListOf<Long>()
         val n = duration / cycle
         for (i in 0..n) {
-            val tem = thisWeek
+            val tem = kotlin.collections.ArrayList(thisWeek)
             for (j in 0 until tem.size) {
                 tem[j] = tem[j] + i * 7 * 24 * 60 * 60 * 1000L
             }
             listDate.addAll(tem)
         }
         val tem = arrayListOf<Long>()
-        listDate.forEach {
-            if (it >= today) tem.add(it)
-            if (tem.size == duration) return@forEach
+        var nn = 0
+        for (i in 0 until listDate.size){
+            if (listDate[i] >= today) {
+                tem.add(listDate[i])
+                nn++
+            }
+            if (nn == duration) break
         }
-
-//        listDate.subList(0, duration - 1)
 
         return tem
     }
@@ -201,9 +199,9 @@ class DetailChallengeActivity : BaseActivity2() {
         }
         if (temp.isEmpty()) return mutableListOf()
         temp[0].type = 0
-        temp[0].status = 0
+        temp[0].status = 2
         temp[1].type = 1
-        temp[1].status = 2
+        temp[1].status = 0
 
         temp[temp.size - 1].type = 2
         temp[temp.size - 1].status = 0
