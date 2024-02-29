@@ -153,4 +153,28 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">Постоянство - ключ, и вы на верном пути. Продолжайте разгромлять эти цели! 💪🌟</string>
     <string name="claim_badge">ПОЛУЧИТЬ ЗНАК</string>
 
+    <string name="billing_is_not_connected_please_try_again">Оплата не подключена, пожалуйста, попробуйте снова</string>
+    <string name="monthly">Ежемесячно</string>
+    <string name="yearly">Ежегодно</string>
+    <string name="lifetime">Пожизненно</string>
+    <string name="automatically_renewed">Автоматическое продление</string>
+    <string name="once_payment">Однократная оплата</string>
+    <string name="your_opinion_matters_to_us">Ваше мнение важно для нас!</string>
+    <string name="enjoying_the_app">Наслаждаетесь приложением?</string>
+    <string name="the_best_we_can_get">Лучшее, что мы можем получить</string>
+    <string name="not_now">Не сейчас</string>
+    <string name="submit">Отправить</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">Пожалуйста, оставьте отзыв, чтобы помочь нам улучшить продукт</string>
+    <string name="thanks_for_submitting_a_review">Спасибо за предоставленный отзыв!</string>
+    <string name="please_rate_us_on_app_store">Оцените нас в App Store</string>
+    <string name="settings">Настройки</string>
+    <string name="change_your_character">Изменить своего персонажа</string>
+    <string name="subscription">Подписка</string>
+    <string name="notification">Уведомление</string>
+    <string name="language">Язык</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="privacy">Конфиденциальность</string>
+    <string name="about">О приложении</string>
+    <string name="you_ve_done_all_the_n_tasks_today">Вы выполнили все\n задачи сегодня.</string>
+
 </resources>

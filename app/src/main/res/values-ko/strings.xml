@@ -152,5 +152,28 @@
     <string name="you_just_hit_2_day_habit_streak">2일간의 습관 스트릭을 이루었습니다!</string>
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">일관성이 중요하며 당신은 올바른 길에 있습니다. 그 목표를 계속 이루어 가세요! 💪🌟</string>
     <string name="claim_badge">뱃지 청구</string>
+    <string name="billing_is_not_connected_please_try_again">빌링이 연결되지 않았습니다. 다시 시도하세요.</string>
+    <string name="monthly">매월</string>
+    <string name="yearly">매년</string>
+    <string name="lifetime">평생</string>
+    <string name="automatically_renewed">자동 갱신</string>
+    <string name="once_payment">일회성 결제</string>
+    <string name="your_opinion_matters_to_us">당신의 의견은 우리에게 중요합니다!</string>
+    <string name="enjoying_the_app">앱을 즐기고 계신가요?</string>
+    <string name="the_best_we_can_get">우리가 얻을 수 있는 최고</string>
+    <string name="not_now">지금은 아니요</string>
+    <string name="submit">제출</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">제품을 개선하는 데 도움이 되는 피드백을 남겨주세요</string>
+    <string name="thanks_for_submitting_a_review">리뷰를 제출해 주셔서 감사합니다!</string>
+    <string name="please_rate_us_on_app_store">App Store에서 평가해 주세요</string>
+    <string name="settings">설정</string>
+    <string name="change_your_character">캐릭터 변경</string>
+    <string name="subscription">구독</string>
+    <string name="notification">알림</string>
+    <string name="language">언어</string>
+    <string name="share_app">앱 공유</string>
+    <string name="privacy">개인정보 처리방침</string>
+    <string name="about">정보</string>
+    <string name="you_ve_done_all_the_n_tasks_today">오늘은 모든 작업을\n 완료했습니다.</string>
 
 </resources>

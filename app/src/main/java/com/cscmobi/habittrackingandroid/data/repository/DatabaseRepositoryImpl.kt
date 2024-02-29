@@ -4,10 +4,13 @@ import android.util.Log
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.thanhlv.database.Dao
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
     override suspend fun insertTask(task: Task) {
@@ -24,7 +27,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
     }
 
     override suspend fun getTaskById(id: Int): Flow<Task> {
-        return  dao.findTaskById(id)
+        return dao.findTaskById(id)
     }
 
     override suspend fun deleteTask(task: Task) {
@@ -36,7 +39,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
     }
 
     override suspend fun loadAllByIds(id: IntArray): Flow<List<Task>> {
-        return  dao.loadAllTaskByIds(tasksId = id)
+        return dao.loadAllTaskByIds(tasksId = id)
     }
 
     override suspend fun insertCollection(collection: HabitCollection) {
@@ -44,7 +47,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
     }
 
     override suspend fun getAllCollection(): Flow<List<HabitCollection>> {
-       return dao.getAllCollection()
+        return dao.getAllCollection()
     }
 
     override suspend fun updateCollection(collection: HabitCollection) {
@@ -74,16 +77,28 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         dao.updateHistory(history)
     }
 
-    override suspend fun deleteTaskInHistory(id: Int,newTaskInDay: List<TaskInDay>) {
+    override suspend fun deleteTaskInHistory(id: Int, newTaskInDay: List<TaskInDay>) {
         dao.deleteTaskinHistory(id, newTaskInDay)
     }
 
     override suspend fun getHistoryWithDate(startDate: Long): Flow<List<History>> {
-       return dao.getHistoryWithDate(startDate)
+        return dao.getHistoryWithDate(startDate)
     }
 
     override suspend fun getCollectionByName(name: String): HabitCollection? {
         return dao.findCollectionByName(name)
+    }
+
+    override suspend fun findAllChallengesByName(names: List<String>): Flow<List<Challenge>> {
+        return dao.findAllChallengesByName(names)
+    }
+
+    override suspend fun getMyChallenge(): Flow<List<Challenge>> {
+        return flowOf(dao.getMyChallenge())
+    }
+
+    override suspend fun updateChallenge(item: Challenge) {
+        dao.updateChallenge(item)
     }
 
 

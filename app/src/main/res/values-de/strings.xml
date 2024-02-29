@@ -151,10 +151,29 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">Kontinuität ist entscheidend, und du bist auf dem richtigen Weg. Zerquetsche weiterhin diese Ziele! 💪🌟</string>
     <string name="claim_badge">ABZEICHEN BEANSPRUCHEN</string>
 
-
-
-
-
+    <string name="billing_is_not_connected_please_try_again">Die Abrechnung ist nicht verbunden. Bitte versuchen Sie es erneut.</string>
+    <string name="monthly">Monatlich</string>
+    <string name="yearly">Jährlich</string>
+    <string name="lifetime">Lebenslang</string>
+    <string name="automatically_renewed">Automatisch verlängert</string>
+    <string name="once_payment">Einmalige Zahlung</string>
+    <string name="your_opinion_matters_to_us">Ihre Meinung ist uns wichtig!</string>
+    <string name="enjoying_the_app">Genießen Sie die App?</string>
+    <string name="the_best_we_can_get">Das Beste, was wir bekommen können</string>
+    <string name="not_now">Nicht jetzt</string>
+    <string name="submit">Absenden</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">Bitte hinterlassen Sie Feedback, um uns bei der Verbesserung des Produkts zu helfen</string>
+    <string name="thanks_for_submitting_a_review">Vielen Dank für das Einreichen einer Bewertung!</string>
+    <string name="please_rate_us_on_app_store">Bitte bewerten Sie uns im App Store</string>
+    <string name="settings">Einstellungen</string>
+    <string name="change_your_character">Ändern Sie Ihren Charakter</string>
+    <string name="subscription">Abonnement</string>
+    <string name="notification">Benachrichtigung</string>
+    <string name="language">Sprache</string>
+    <string name="share_app">App teilen</string>
+    <string name="privacy">Datenschutz</string>
+    <string name="about">Über</string>
+    <string name="you_ve_done_all_the_n_tasks_today">Du hast heute alle \nAufgaben erledigt.</string>
 
 
 </resources>

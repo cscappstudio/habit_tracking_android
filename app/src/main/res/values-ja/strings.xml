@@ -153,4 +153,29 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">一貫性が重要であり、あなたは正しい道を進んでいます。それらの目標を粉砕し続けてください！ 💪🌟</string>
     <string name="claim_badge">バッジを請求</string>
 
+    <string name="billing_is_not_connected_please_try_again">請再試一次，結帳未連線</string>
+    <string name="monthly">每月</string>
+    <string name="yearly">每年</string>
+    <string name="lifetime">終身</string>
+    <string name="automatically_renewed">自動續訂</string>
+    <string name="once_payment">一次性付款</string>
+    <string name="your_opinion_matters_to_us">您的意見對我們很重要！</string>
+    <string name="enjoying_the_app">喜歡這個應用程式嗎？</string>
+    <string name="the_best_we_can_get">我們能得到的最好</string>
+    <string name="not_now">現在不是</string>
+    <string name="submit">提交</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">請留下反饋以幫助我們改進產品</string>
+    <string name="thanks_for_submitting_a_review">感謝您提交評論！</string>
+    <string name="please_rate_us_on_app_store">請在應用商店給我們評分</string>
+    <string name="settings">設定</string>
+    <string name="change_your_character">更改您的角色</string>
+    <string name="subscription">訂閱</string>
+    <string name="notification">通知</string>
+    <string name="language">語言</string>
+    <string name="share_app">分享應用程式</string>
+    <string name="privacy">隱私</string>
+    <string name="about">關於</string>
+    <string name="you_ve_done_all_the_n_tasks_today"> 今日はすべてのタスクを完\n了\しました。</string>
+
+
 </resources>

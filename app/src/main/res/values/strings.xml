@@ -173,5 +173,14 @@
     <string name="please_leave_feedback_to_help_us_improve_product">Please leave feedback to help us improve product</string>
     <string name="thanks_for_submitting_a_review">Thanks for submitting a review!</string>
     <string name="please_rate_us_on_app_store">Please rate us on App Store</string>
+    <string name="settings">Settings</string>
+    <string name="change_your_character">Change your character</string>
+    <string name="subscription">Subscription</string>
+    <string name="notification">Notification</string>
+    <string name="language">Language</string>
+    <string name="share_app">Share app</string>
+    <string name="privacy">Privacy</string>
+    <string name="about">About</string>
+    <string name="you_ve_done_all_the_n_tasks_today">You’ve done all the\n tasks today.</string>
 
 </resources>

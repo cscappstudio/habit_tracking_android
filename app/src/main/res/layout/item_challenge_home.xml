@@ -121,6 +121,8 @@
             android:id="@+id/iv_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{v -> listener.onDone(item,position)}"
+
             android:src="@drawable/bg_done_check"
             android:visibility="@{!item.stateDone ? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@id/btn_done"
