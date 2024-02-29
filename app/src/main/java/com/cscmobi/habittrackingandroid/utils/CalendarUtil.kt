@@ -134,6 +134,13 @@ class CalendarUtil {
         }
 
         @SuppressLint("SimpleDateFormat")
+        fun getTitleDayMonth(ms: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+            return SimpleDateFormat("MMM d").format(calendar.time)
+        }
+
+        @SuppressLint("SimpleDateFormat")
         fun getTitleWeek(ms: Long): String {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = startWeekMs(ms)

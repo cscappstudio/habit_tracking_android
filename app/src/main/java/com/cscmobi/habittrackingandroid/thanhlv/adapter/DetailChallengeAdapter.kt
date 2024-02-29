@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ItemTaskTimelineFullBinding
+import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.thanhlv.fw.helper.DisplayUtils
 
 class DetailChallengeAdapter(private var mContext: Context) :
@@ -56,8 +57,9 @@ class DetailChallengeAdapter(private var mContext: Context) :
 
         if (item.task.taskNo == 0) {
             holder.binding.tvDay.visibility = View.VISIBLE
-
-            holder.binding.tvDay.text = "Day " + item.task.dayNo.toString()
+            if (item.task.startDate == null)
+                holder.binding.tvDay.text = "Day " + item.task.dayNo.toString()
+            else holder.binding.tvDay.text = CalendarUtil.getTitleDayMonth(item.task.startDate!!)
             holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(119f)
         } else {
             holder.binding.tvDay.visibility = View.GONE

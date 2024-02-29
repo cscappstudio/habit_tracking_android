@@ -16,7 +16,6 @@ import com.google.gson.Gson
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,7 +23,7 @@ import kotlin.collections.ArrayList
 
 class DetailChallengeActivity : BaseActivity2() {
     private lateinit var binding: ActivityDetailChallengeBinding
-    private var mChallenge: Challenge? = null
+    private var mChallenge: Challenge ? = null
 
     override fun setupScreen() {
         binding = ActivityDetailChallengeBinding.inflate(layoutInflater)
@@ -71,7 +70,7 @@ class DetailChallengeActivity : BaseActivity2() {
         }
 
         binding.btnStartChallenge.setOnClickListener {
-            joinChallenge(mChallenge)
+            joinChallenge()
             finish()
         }
 
@@ -81,101 +80,90 @@ class DetailChallengeActivity : BaseActivity2() {
         }
     }
 
-    private fun joinChallenge(mChallenge: Challenge?) {
+    private fun joinChallenge() {
         if (mChallenge == null) return
         runBlocking {
             val joined = ChallengeJoinedHistory(System.currentTimeMillis())
-            if (mChallenge.joinedHistory.isNullOrEmpty()) mChallenge.joinedHistory = listOf(joined)
+            if (mChallenge!!.joinedHistory.isEmpty()) mChallenge!!.joinedHistory = listOf(joined)
             else {
-                val tem = mChallenge.joinedHistory
-                tem!!.toMutableList().add(joined)
-                mChallenge.joinedHistory = tem.toList()
+                val tem = mChallenge!!.joinedHistory
+                tem.toMutableList().add(joined)
+                mChallenge!!.joinedHistory = tem.toList()
             }
 
-            resolverDataJoinChallenge(mChallenge)
-            AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge)
+            resolverDataJoinChallenge()
+            AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
 
             //update task challenge to task all
-
             delay(600)
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
             newMyChallenges.sortByDescending {
-                val last = it.joinedHistory!!.size
-                it.joinedHistory!![last - 1].date
+                it.joinedHistory.last().date
             }
 
-            ChallengeFragment.allChallenges.postValue(AppDatabase.getInstance(applicationContext).dao().getAllChallenge())
+            ChallengeFragment.allChallenges.postValue(
+                AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+            )
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
-
         }
     }
 
-    private suspend fun resolverDataJoinChallenge(challenge: Challenge) {
-        if (challenge.repeat.isNullOrEmpty()) challenge.repeat = listOf(2, 3, 4, 5, 6, 7, 1)
-        val listDate = getListDateFill(challenge.repeat!!, challenge.duration, challenge.cycle)
+    private suspend fun resolverDataJoinChallenge() {
+        if (mChallenge == null) return
+        if (mChallenge!!.repeat.isEmpty()) mChallenge!!.repeat = listOf(2, 3, 4, 5, 6, 7, 1)
+        val listDate = getListDateFill(mChallenge!!.repeat, mChallenge!!.duration)
         var startDate = 0
 
-        while (startDate < challenge.duration/challenge.cycle) {
-            challenge.days?.forEach {
+        var out = false
+        for (i in 1..mChallenge!!.duration / mChallenge!!.cycle) {
+            mChallenge!!.days.forEach {
                 it.tasks?.forEach { _task ->
                     val task = _task.parserToTask()
-                    task.challenge = challenge.name
+                    task.challenge = mChallenge!!.name
                     task.startDate = listDate[startDate]
-                    task.imgChallenge = challenge.image
+                    task.imgChallenge = mChallenge!!.image
                     task.endDate.isOpen = true
                     task.endDate.endDate = task.startDate!!
                     AppDatabase.getInstance(applicationContext).dao().insertTask(task)
+                    _task.startDate = task.startDate
                 }
                 startDate++
+                if (listDate[startDate] - listDate[0] > mChallenge!!.duration * 24 * 60 * 60 * 1000) {
+                    out = true
+                    return@forEach
+                }
             }
+            if (out) break
         }
-
     }
 
-    private fun getListDateFill(repeat: List<Int>, duration: Int, cycle: Int): List<Long> {
-        var today = System.currentTimeMillis()
-        var thisWeek = arrayListOf<Long>()
-        var startWeek = CalendarUtil.startWeekMs(today)
-        thisWeek.add(startWeek)
-        for (i in 3..8) {
-            startWeek = CalendarUtil.nextDay(startWeek)
-            thisWeek.add(startWeek)
-        }
-        val temW = arrayListOf<Long>()
-        thisWeek.forEach {
-            if (repeat.contains(CalendarUtil.dayOfWeek(it)))
-                temW.add(it)
-        }
-        thisWeek = arrayListOf<Long>()
-        thisWeek = temW
-
-        for (i in 0 until thisWeek.size)
-            if (today <= thisWeek[i]) {
-                today = thisWeek[i]
-                break
-            }
-
-        val listDate = arrayListOf<Long>()
-        val n = duration / cycle
-        for (i in 0..n) {
-            val tem = kotlin.collections.ArrayList(thisWeek)
-            for (j in 0 until tem.size) {
-                tem[j] = tem[j] + i * 7 * 24 * 60 * 60 * 1000L
-            }
-            listDate.addAll(tem)
+    private fun getListDateFill(repeat: List<Int>, duration: Int): List<Long> {
+        var startDate = System.currentTimeMillis()
+        var nextDay = CalendarUtil.startWeekMs(startDate)
+        var rangeDate = arrayListOf<Long>()
+        rangeDate.add(nextDay)
+        for (i in 0..duration + 7) {
+            nextDay = CalendarUtil.nextDay(nextDay)
+            rangeDate.add(nextDay)
         }
         val tem = arrayListOf<Long>()
-        var nn = 0
-        for (i in 0 until listDate.size){
-            if (listDate[i] >= today) {
-                tem.add(listDate[i])
-                nn++
-            }
-            if (nn == duration) break
+        rangeDate.forEach {
+            if (repeat.contains(CalendarUtil.dayOfWeek(it))) tem.add(it)
         }
 
-        return tem
+        rangeDate = arrayListOf<Long>()
+        for (i in 0 until tem.size)
+            if (startDate <= tem[i]) {
+                startDate = tem[i]
+                break
+            }
+        tem.forEach {
+            if (it >= startDate) {
+                rangeDate.add(it)
+            }
+        }
+        return rangeDate
     }
 
     private var adapter: DetailChallengeAdapter? = null

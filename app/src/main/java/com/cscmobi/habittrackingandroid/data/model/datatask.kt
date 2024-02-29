@@ -19,7 +19,7 @@ data class Goal(
 @Serializable
 data class EndDate(
     var isOpen: Boolean? = false,
-     var endDate: Long? = null
+    var endDate: Long? = null
 
 )
 
@@ -59,10 +59,10 @@ data class TaskInDay(
     var taskId: Int = 0,
     var progress: Int = 0,
     var progressGoal: Int = 0
-    )
+)
 
 
-data class DataTaskHistory(val taskInDay: TaskInDay,val date: Long, var isPause: Boolean = false)
+data class DataTaskHistory(val taskInDay: TaskInDay, val date: Long, var isPause: Boolean = false)
 
 
 @Serializable
@@ -73,13 +73,15 @@ data class TaskInChallenge(
     var color: String = "",
     var taskNo: Int,
     var dayNo: Int,
-    var id: Int
+    var id: Int,
+    var startDate: Long? = null
 ) {
     fun parserToTask(): Task {
         val task = Task()
         task.name = name
         task.color = color
         task.ava = icon
+        this.id = task.id
         return task
     }
 }
@@ -87,16 +89,20 @@ data class TaskInChallenge(
 @Serializable
 data class ChallengeDays(
     var dayNo: Int = 0,
-    var tasks: List<TaskInChallenge> ? = null
+    var tasks: List<TaskInChallenge>? = null
 )
 
-data class TaskTimelineModel (
+data class TaskTimelineModel(
     var task: TaskInChallenge,
-    var type: Int=0, // 0 = đầu, 1 = giữa, 2 = cuối
-    var status: Int=0 // 0 = chưa đến, 1 = done, 2 = chưa done, 3 đã done
+    var type: Int = 0, // 0 = đầu, 1 = giữa, 2 = cuối
+    var status: Int = 0 // 0 = chưa đến, 1 = done, 2 = chưa done, 3 đã done
 )
+
 @Serializable
-data class ChallengeJoinedHistory(var date: Long, var state: Int = 0) // state = 0: tham gia chưa hoàn thành, = 1 hoàn thành, = 2 đã cancel
+data class ChallengeJoinedHistory(
+    var date: Long,
+    var state: Int = 0
+) // state = 0: tham gia chưa hoàn thành, = 1 hoàn thành, = 2 đã cancel
 
 
 
