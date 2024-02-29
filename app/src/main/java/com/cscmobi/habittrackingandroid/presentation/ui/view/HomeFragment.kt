@@ -144,8 +144,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     lastHistory = if (it.size == 1) it[0] else it.last()
                 }
-
-
         }
 
         lifecycleScope.launch {
