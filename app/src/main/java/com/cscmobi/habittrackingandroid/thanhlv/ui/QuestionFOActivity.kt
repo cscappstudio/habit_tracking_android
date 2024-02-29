@@ -63,8 +63,9 @@ class QuestionFOActivity : BaseActivity2() {
                 }
 //                    Handler().postDelayed({
                 runBlocking {
-                    ChallengeFragment.allChallenges =
+                    ChallengeFragment.allChallenges.postValue(
                         AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                    )
                     ChallengeFragment.myChallenges.postValue(
                         AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
                     )

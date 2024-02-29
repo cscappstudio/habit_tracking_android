@@ -30,6 +30,7 @@ class AllChallengeAdapter(private var mContext: Context) :
 
     fun setData(data: MutableList<Challenge>?) {
         if (data != null) this.mList = data
+        notifyDataSetChanged()
     }
 
     fun setCallBack(callback: AllChallengeCallback) {

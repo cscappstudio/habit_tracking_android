@@ -20,14 +20,14 @@ data class Challenge(
     @ColumnInfo(name = "cycle")
     var cycle: Int = 0,
     @ColumnInfo(name = "repeat")
-    var repeat: List<Int>? = null,
+    var repeat: List<Int> = listOf(2,3,4,5,6,7,1),
     @ColumnInfo(name = "joinedHistory")
-    var joinedHistory: List<ChallengeJoinedHistory>? = null,
+    var joinedHistory: List<ChallengeJoinedHistory> = listOf(),
     @ColumnInfo(name = "finish")
     var finish: Boolean = false,
 
     @ColumnInfo(name = "tasks")
-    var days: List<ChallengeDays>? = null
+    var days: List<ChallengeDays> = listOf()
 ) {
     @PrimaryKey(true)
     var id = 0

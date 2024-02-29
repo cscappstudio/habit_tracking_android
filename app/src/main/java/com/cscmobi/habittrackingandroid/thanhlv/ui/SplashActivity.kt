@@ -64,8 +64,10 @@ class SplashActivity : BaseActivity2() {
         RunUtils.runInBackground {
             runBlocking {
                 runBlocking {
-                    ChallengeFragment.allChallenges =
-                        AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                    ChallengeFragment.allChallenges
+                        .postValue(
+                            AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                        )
                     ChallengeFragment.myChallenges
                         .postValue(
                             AppDatabase.getInstance(applicationContext).dao().getMyChallenge()

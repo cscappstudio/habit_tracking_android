@@ -105,6 +105,7 @@ class DetailChallengeActivity : BaseActivity2() {
                 it.joinedHistory!![last - 1].date
             }
 
+            ChallengeFragment.allChallenges.postValue(AppDatabase.getInstance(applicationContext).dao().getAllChallenge())
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
 
         }
@@ -115,7 +116,7 @@ class DetailChallengeActivity : BaseActivity2() {
         val listDate = getListDateFill(challenge.repeat!!, challenge.duration, challenge.cycle)
         var startDate = 0
 
-        while (startDate < challenge.duration) {
+        while (startDate < challenge.duration/challenge.cycle) {
             challenge.days?.forEach {
                 it.tasks?.forEach { _task ->
                     val task = _task.parserToTask()
@@ -134,17 +135,20 @@ class DetailChallengeActivity : BaseActivity2() {
 
     private fun getListDateFill(repeat: List<Int>, duration: Int, cycle: Int): List<Long> {
         var today = System.currentTimeMillis()
-        val thisWeek = arrayListOf<Long>()
+        var thisWeek = arrayListOf<Long>()
         var startWeek = CalendarUtil.startWeekMs(today)
         thisWeek.add(startWeek)
         for (i in 3..8) {
             startWeek = CalendarUtil.nextDay(startWeek)
             thisWeek.add(startWeek)
         }
+        val temW = arrayListOf<Long>()
         thisWeek.forEach {
-            if (!repeat.contains(CalendarUtil.dayOfWeek(it)))
-                thisWeek.remove(it)
+            if (repeat.contains(CalendarUtil.dayOfWeek(it)))
+                temW.add(it)
         }
+        thisWeek = arrayListOf<Long>()
+        thisWeek = temW
 
         for (i in 0 until thisWeek.size)
             if (today <= thisWeek[i]) {

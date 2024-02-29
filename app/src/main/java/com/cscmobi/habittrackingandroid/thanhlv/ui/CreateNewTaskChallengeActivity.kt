@@ -8,15 +8,18 @@ import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import com.cscmobi.habittrackingandroid.databinding.ActivityCreateNewTaskChallengeBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
+import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.gson.Gson
 
 class CreateNewTaskChallengeActivity : BaseActivity2() {
 
     private lateinit var binding: ActivityCreateNewTaskChallengeBinding
-    private var mTaskNew : CreateTaskChallenge ? =null
+    private var mTaskNew: CreateTaskChallenge? = null
+    private var mTaskOriginal: CreateTaskChallenge? = null
 
     override fun setupScreen() {
         binding = ActivityCreateNewTaskChallengeBinding.inflate(layoutInflater)
@@ -25,7 +28,14 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
 
     override fun loadData() {
         mTaskNew =
-            Gson().fromJson<CreateTaskChallenge>(intent.getStringExtra("data"), CreateTaskChallenge::class.java)
+            Gson().fromJson<CreateTaskChallenge>(
+                intent.getStringExtra("data"),
+                CreateTaskChallenge::class.java
+            )
+
+        if (intent != null && intent.action != null && intent.action == "action_edit") {
+            mTaskOriginal = mTaskNew
+        }
         println("thanhlv override fun loadData() {  ==CreateNewTaskChallengeActivity=== " + mTaskNew?.day)
     }
 
@@ -40,6 +50,22 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
         btnColor.add("#EEC9AA")
         btnColor.add("#BEE4B8")
         btnColor.add("#CFB2EB")
+        if (mTaskNew?.color.isNullOrEmpty()) mTaskNew?.color = "#B6D6DD"
+        else {
+            binding.icAva.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor(mTaskNew?.color))
+        }
+        if (!mTaskNew?.name.isNullOrEmpty()) {
+            binding.edtName.setText(mTaskNew?.name!!)
+        }
+        if (!mTaskNew?.icon.isNullOrEmpty()) {
+            binding.icAva.setImageDrawable(Utils.loadImageFromAssets(this, mTaskNew?.icon!!))
+            binding.icAva.imageTintList = ColorStateList.valueOf(Color.WHITE)
+        }
+        if (mTaskOriginal != null) {
+            binding.btnCreate.text = "SAVE"
+            validateData()
+        }
     }
 
     private val popupEmoji = PopupChoseEmojiTask()
@@ -55,10 +81,11 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
             }
 
             override fun afterTextChanged(editable: Editable) {
+                validateData()
             }
         })
 
-        popupEmoji.callback = object : PopupChoseEmojiTask.Callback{
+        popupEmoji.callback = object : PopupChoseEmojiTask.Callback {
             override fun clickChange(ava: String) {
                 mIconTask = ava
                 binding.icAva.setImageBitmap(BitmapFactory.decodeStream(assets.open(ava)))
@@ -91,15 +118,34 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
 
     }
 
-    var mIconTask = "apple.png"
+    var mIconTask = "avatask/apple.png"
 
     private fun createNewTask() {
+        validateData()
         mTaskNew?.name = binding.edtName.text.toString()
         mTaskNew?.icon = mIconTask
-        val intent = Intent(this, CreateChallengeActivity::class.java)
-        intent.putExtra("data_new_task_result", Gson().toJson(mTaskNew))
-        setResult(868, intent)
+
+        val intent2 = Intent(this, CreateChallengeActivity::class.java)
+        intent2.putExtra("data_new_task_result", Gson().toJson(mTaskNew))
+
+        if (mTaskOriginal != null) {
+            setResult(999, intent2)
+        } else setResult(868, intent2)
         finish()
+    }
+
+    private fun validateData() {
+        if (binding.edtName.text.toString().isEmpty()) {
+            binding.edtName.requestFocus()
+            Toast.makeText(this, "Please type name of task!", Toast.LENGTH_SHORT).show()
+            binding.btnCreate.isEnabled = false
+            binding.btnCreate.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#b5b5b5"))
+            return
+        }
+
+        binding.btnCreate.isEnabled = true
+        binding.btnCreate.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#54BA8F"))
     }
 
     private fun resolveColorButton(color: Int) {

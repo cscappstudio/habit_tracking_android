@@ -16,8 +16,8 @@ class ChallengeData(var mContext: Context) {
         var image: String = "",
         var duration: Int = 7,
         var cycle: Int = 0,
-        var repeat: List<Int>? = null,
-        var days: List<ChallengeDays>? = null
+        var repeat: List<Int> = listOf(),
+        var days: List<ChallengeDays> = listOf()
     )
 
     companion object {

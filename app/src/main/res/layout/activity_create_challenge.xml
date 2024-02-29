@@ -118,6 +118,7 @@
 
                 <EditText
                     android:id="@+id/text_note"
+                    style="@style/Text_600"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
@@ -128,6 +129,7 @@
                     android:isScrollContainer="true"
                     android:maxLength="100"
                     android:maxLines="3"
+                    android:hint="Type description"
                     android:padding="16dp"
                     android:textColor="#393E3C"
                     android:textSize="13sp"
@@ -178,6 +180,7 @@
 
                 <EditText
                     android:id="@+id/edt_duration"
+                    style="@style/Text_600"
                     android:layout_width="70dp"
                     android:layout_height="36dp"
                     android:layout_marginEnd="10dp"
@@ -192,7 +195,7 @@
                     android:paddingHorizontal="16dp"
                     android:textColor="#393E3C"
                     android:textColorHint="@color/gray"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/days_duration"
                     app:layout_constraintHeight_max="50dp"
@@ -239,6 +242,7 @@
 
                 <EditText
                     android:id="@+id/edt_cycle"
+                    style="@style/Text_600"
                     android:layout_width="70dp"
                     android:layout_height="36dp"
                     android:layout_marginEnd="10dp"
@@ -253,7 +257,7 @@
                     android:paddingHorizontal="16dp"
                     android:textColor="#393E3C"
                     android:textColorHint="@color/gray"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/days_cycle"
                     app:layout_constraintHeight_max="50dp"

@@ -16,9 +16,9 @@ class ChallengeFragment :
     BaseFragment<FragmentChallengeBinding>(FragmentChallengeBinding::inflate) {
 
     companion object {
-//        var myChallenges: List<Challenge>? = null
+        //        var myChallenges: List<Challenge>? = null
         var myChallenges = MutableLiveData<List<Challenge>>()
-        var allChallenges: List<Challenge>? = null
+        var allChallenges = MutableLiveData<List<Challenge>>()
     }
 
     private var myChallengeAdapter: MyChallengeAdapter? = null
@@ -26,7 +26,7 @@ class ChallengeFragment :
 
     override fun initView(view: View) {
         allChallengeAdapter = AllChallengeAdapter(requireContext())
-        allChallengeAdapter?.setData(allChallenges as MutableList<Challenge>?)
+//        allChallengeAdapter?.setData(allChallenges as MutableList<Challenge>?)
         allChallengeAdapter?.setCallBack(object : AllChallengeAdapter.AllChallengeCallback {
             override fun onClickItem(challenge: Challenge) {
                 val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
@@ -38,6 +38,13 @@ class ChallengeFragment :
         binding.rcAllChallenge.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rcAllChallenge.adapter = allChallengeAdapter
         binding.rcAllChallenge.overScrollMode = View.OVER_SCROLL_NEVER
+        allChallenges.observe(this) { list ->
+            println("thanhlv allChallenges.observe " + list.size)
+            if (!list.isNullOrEmpty()) {
+                allChallengeAdapter?.setData(list as MutableList<Challenge>?)
+            }
+        }
+
 
         myChallengeAdapter = MyChallengeAdapter(requireContext())
 //        myChallengeAdapter?.setData(myChallenges as MutableList<Challenge>?)
