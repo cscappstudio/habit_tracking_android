@@ -48,6 +48,7 @@ interface ItemChallengeHomeListener<T> :  BaseBindingAdapter.BaseBindingListener
     fun onItemClicked(item: T, p: Int)
 
     fun onDone(item: T, p: Int)
+
 }
 
 interface ItemTaskCollection<T> : ItemBaseWithPostitionListener<T> {

@@ -27,6 +27,7 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.ChallengeHomeItem
+import com.cscmobi.habittrackingandroid.data.model.ChallengeTask
 import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.model.WeekCalenderItem
@@ -42,12 +43,14 @@ import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.DetailChallengeActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
+import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
@@ -69,8 +72,11 @@ import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.spf.SPF
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
@@ -104,6 +110,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
     var currentHistory: History? = null
     private var calenderDialogHomeFragment = CalenderDialogHomeFragment()
+    private var challengeTaskMap: Map<String, List<ChallengeTask>> = mapOf()
+    private var challenges = mutableListOf<Challenge>()
+
     override fun initView(view: View) {
         binding.isTasksEmpty = true
 
@@ -117,26 +126,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         lifecycleScope.launch {
             homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
-            homeViewModel.histories.collect {
-                if (it.isNullOrEmpty()) return@collect
 
-                it.forEach {
-                    data.forEach { weekData ->
-                        if (it.date!!.toDate() == weekData.localDate!!.toDate()) {
-                            var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
-                            var tasksNum = it.taskInDay.size
+                homeViewModel.histories.collect {
+                    if (it.isNullOrEmpty()) return@collect
+                    it.forEach {
+                        data.forEach { weekData ->
+                            if (it.date!!.toDate() == weekData.localDate!!.toDate()) {
+                                var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
+                                var tasksNum = it.taskInDay.size
 
-                            weekData.progress = calTaskProgress(tasksFinishNum, tasksNum)
+                                weekData.progress = calTaskProgress(tasksFinishNum, tasksNum)
+
+                            }
 
                         }
-
                     }
+
+                    lastHistory = if (it.size == 1) it[0] else it.last()
                 }
-
-                lastHistory = if (it.size == 1) it[0] else it.last()
-            }
-
         }
+
+        lifecycleScope.launch {
+            homeViewModel.challenges.collect {
+                challenges = it
+
+            }
+        }
+
+
+
+
+
         calenderDialogHomeFragment.actionDateSelect = {
             currentDate = it.toDate()
             Log.d("chaulq_____currentDate", Date(currentDate).toString())
@@ -183,15 +203,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
         }
-
     }
 
 
     override fun onResume() {
         super.onResume()
-
-
-
         observeState()
         with(requireActivity().getMySharedPreferences()) {
 
@@ -264,6 +280,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
 
+        lifecycleScope.launch {
+            homeViewModel.challengeTaskMap.collect {
+                challengeTaskMap = it
+            }
+        }
+
+
     }
 
     fun getDatesofWeek() {
@@ -300,30 +323,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.state.collect { state ->
                 when (state) {
                     is HomeState.Tasks -> {
-                        binding.isTasksEmpty = false
                         binding.llTask.visibility = View.VISIBLE
                         binding.adView.visibility = View.GONE
 
-
                         if (!hasInitChip) {
+
                             val categories = arrayListOf<String>()
                             categories.add("All")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
                             initChips(categories)
+                            setUpView(listTask)
 
                             hasInitChip = true
                         }
-
-                        binding.isTasksEmpty = false
 
                         listTask.clear()
                         listTask = state.tasks.toMutableList()
                         initTaskAdapter()
                         setUpChallenge()
-
-                        setUpView(listTask)
-                        binding.isTasksEmpty = false
-
 
                         lifecycleScope.launch {
 
@@ -402,7 +419,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun showAds() {
         if (isShowAds(requireContext())) {
-            binding.llTask.visibility = View.GONE
+//            binding.llTask.visibility = View.GONE
             binding.adView.visibility = View.VISIBLE
             AdMobUtils.createNativeAd(
                 binding.root.context,
@@ -410,13 +427,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 binding.adView,
                 object : AdMobUtils.Companion.LoadAdCallback {
                     override fun onLoaded(ad: Any?) {
+
                     }
 
                     override fun onLoadFailed() {
-                        binding.llTask.visibility = View.VISIBLE
+                        //  binding.llTask.visibility = View.VISIBLE
                         binding.adView.visibility = View.GONE
+                        binding.ivPencil.visibility = View.VISIBLE
+                        binding.txtNotask.visibility = View.VISIBLE
+
                     }
                 })
+        } else {
+            binding.ivPencil.visibility = View.VISIBLE
+            binding.txtNotask.visibility = View.VISIBLE
         }
     }
 
@@ -535,10 +559,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    fun setUpTask() {
-
-    }
-
     fun setUpChallenge() {
 
         tasksChallenge = listTask.filter { !it.challenge.isNullOrEmpty() }.map {
@@ -616,11 +636,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun onDone(item: ChallengeHomeItem, p: Int) {
+                if (currentDate != Helper.currentDate.toDate()) {
+                    return
+                }
+
                 item.stateDone = !item.stateDone
+                challengeHomeAdpater.notifyItemChanged(p)
+
+
+                var isChallengeDone = true
+                challengeTaskMap[item.name]?.forEach {
+
+                    if (it.infoTask.id == item.idTask) {
+                        it.infoTask.status = item.stateDone
+                        isChallengeDone = it.infoTask.status
+
+
+                    }
+                    if (!it.infoTask.status) {
+                        isChallengeDone = false
+                        return@forEach
+                    }
+
+                }
+
+
                 lifecycleScope.launch {
                     currentHistory?.let { currentHistory ->
                         listTask.find { it.id == item.idTask }?.let {
-                            it.goal?.currentProgress = it.goal?.target!!
+                            it.goal?.currentProgress = if (item.stateDone) it.goal?.target!! else 0
                             currentHistory.taskInDay = getTasksInday(listTask)
                             var tasksFinishNum =
                                 currentHistory.taskInDay.filter { it.progress == 100 }.size
@@ -633,13 +677,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             setUpView(listTask)
 
                         }
-                        weekAdapter.notifyItemChanged(currentPosWeek)
-
 
                     }
+
                     delay(500L)
                 }
-                challengeHomeAdpater.notifyItemChanged(p)
+                val currentChallenge = challenges.find { it.name == item.name }
+                currentChallenge?.let {
+                    it.joinedHistory?.last()?.state = if (isChallengeDone) 1 else 0
+                    homeViewModel.updateChallenge(it)
+                }
             }
         })
         challengeHomeAdpater.submitList(tasksChallenge)
@@ -685,7 +732,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             override fun skip(item: Task, p: Int) {
                 if (!freeIAP.canSkip(requireActivity())) {
-                    Toast.makeText(requireContext(), "Go to premium", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireActivity(), SubscriptionsActivity::class.java)
+                    startActivity(intent)
                     return
                 }
 
@@ -818,7 +866,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         if (listNormalTask.isNotEmpty()) {
             if (Utils.isShowAds(requireContext()))
                 listNormalTask.add(1, Task(id = IDLE, name = "ads"))
+            binding.isTasksEmpty = false
+
         } else {
+            binding.isTasksEmpty = true
+
             showAds()
         }
 
@@ -850,6 +902,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 )
 
                 if (it == "All") {
+                    chip.isChecked = true
                     changeChipState(true, chip)
 
                 } else {
@@ -861,10 +914,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 chip.setOnCheckedChangeListener { compoundButton, b ->
 
                     if (chip.isChecked) {
-                        lifecycleScope.launch {
-
-                            homeViewModel.userIntent.send(HomeIntent.FetchTasksbyCategory(chip.tag.toString()))
-                        }
+                        listNormalTask = if (chip.tag.toString() != "All") {
+                            listTask.filter { it.challenge.isNullOrEmpty() && it.tag == chip.tag.toString() }
+                                .toMutableList()
+                        } else listTask.filter { it.challenge.isNullOrEmpty() }.toMutableList()
+                        listNormalTask.add(1, Task(id = IDLE, name = "ads"))
+                        taskAdapter.submitList(listNormalTask)
+                        //lifecycleScope.launch {
+                        // homeViewModel.userIntent.send(HomeIntent.FetchTasksbyCategory(chip.tag.toString()))
+                        // }
                         changeChipState(true, chip)
 
                     } else {

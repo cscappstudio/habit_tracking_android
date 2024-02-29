@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProfileFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
+import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.AlarmUtils
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Helper
@@ -68,7 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (NotifiTask.db == null)
                 NotifiTask.db = appDatabase
             NotifiTask.db?.dao()?.getAllTask()?.collect {
-                taskSize = it.size
+                taskSize = it.filter { it.challenge.isNullOrEmpty() }.size
                 var task = it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
                 if (task.isNullOrEmpty()) return@collect
                 taskFilter.clear()
@@ -156,8 +157,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     ) {
                         val getReward = freeIAP.rewardTimes
                         if (getReward >= Constant.MAXGETREWARD) {
-                            Toast.makeText(this@MainActivity, "go to premium", Toast.LENGTH_SHORT)
-                                .show()
+                            val intent = Intent(this,SubscriptionsActivity::class.java)
+                            startActivity(intent)
                         } else {
                             AdMobUtils.createRewardAds(
                                 this@MainActivity,

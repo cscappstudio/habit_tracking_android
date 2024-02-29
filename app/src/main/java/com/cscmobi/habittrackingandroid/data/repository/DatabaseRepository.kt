@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.data.repository
 
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.flow.Flow
@@ -43,5 +44,9 @@ interface DatabaseRepository {
 
     suspend fun getCollectionByName(name: String) : HabitCollection?
 
+    suspend fun findAllChallengesByName(name:List<String>) : Flow<List<Challenge>>
 
+    suspend fun getMyChallenge() : Flow<List<Challenge>>
+
+    suspend fun updateChallenge(item: Challenge)
 }

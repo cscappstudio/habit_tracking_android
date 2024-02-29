@@ -53,25 +53,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
     ): View? {
         binding = CalenderCustomBinding.inflate(inflater, container, false)
         binding.vRoot.visibility = View.INVISIBLE
-//        binding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                val displayMetrics = DisplayMetrics()
-//                requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
-//                val screenWidth = displayMetrics.widthPixels * 0.7
-//
-//                binding.root.layoutParams.width = screenWidth.toInt()
-//
-//                binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                binding.vRoot.visibility = View.VISIBLE
-//
-//            }
-//        })
-
-
-
-
-
-
 
         setMonthView()
         binding.ivPrevios.setOnClickListener {
@@ -88,7 +69,7 @@ class CalenderDialogHomeFragment : DialogFragment() {
         super.onStart()
         val displayMetrics = DisplayMetrics()
         requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val screenWidth = displayMetrics.widthPixels * 0.7
+        val screenWidth = displayMetrics.widthPixels * 0.9
 
         binding.root.layoutParams.width = screenWidth.toInt()
         binding.vRoot.visibility = View.VISIBLE

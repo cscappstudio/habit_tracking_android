@@ -153,4 +153,28 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">सहजता कुंजी है, और आप सही रास्ते पर हैं। उन लक्ष्यों को कुचलते रहें! 💪🌟</string>
     <string name="claim_badge">इन्सिग्निया का दावा करें</string>
 
+    <string name="billing_is_not_connected_please_try_again">बिलिंग कनेक्ट नहीं है, कृपया पुनः प्रयास करें</string>
+    <string name="monthly">मासिक</string>
+    <string name="yearly">वार्षिक</string>
+    <string name="lifetime">जीवन</string>
+    <string name="automatically_renewed">स्वच्छ रूप से नवीनीकृत</string>
+    <string name="once_payment">एक बार का भुगतान</string>
+    <string name="your_opinion_matters_to_us">आपकी राय हमare के लिए महत्वपूर्ण है!</string>
+    <string name="enjoying_the_app">ऐप का आनंद लेना?</string>
+    <string name="the_best_we_can_get">हमare सबसे अच्छा प्राप्त कर सकते हैं</string>
+    <string name="not_now">अभी नहीं</string>
+    <string name="submit">प्रस्तुत करें</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">कृपया हमें उत्पाद को सुधारने में मदद करने के लिए प्रतिक्रिया दें</string>
+    <string name="thanks_for_submitting_a_review">समीक्षा प्रस्तुत करने के लिए धन्यवाद!</string>
+    <string name="please_rate_us_on_app_store">कृपया हमें App Store पर मूल्यांकन करें</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="change_your_character">अपने पात्र को बदलें</string>
+    <string name="subscription">सदस्यता</string>
+    <string name="notification">सूचना</string>
+    <string name="language">भाषा</string>
+    <string name="share_app">ऐप साझा करें</string>
+    <string name="privacy">गोपनीयता</string>
+    <string name="about">बारे में</string>
+    <string name="you_ve_done_all_the_n_tasks_today">आपने आज सभी कार्य\n किए हैं।</string>
+
 </resources>

@@ -133,5 +133,7 @@ interface Dao {
     @Query("SELECT * FROM HabitCollection WHERE nameCollection = :name")
     suspend fun findCollectionByName(name: String): HabitCollection?
 
+    @Query("SELECT * FROM Challenge WHERE joinedHistory != \"[]\" AND name IN (:names)")
+    fun findAllChallengesByName(names: List<String>): Flow<List<Challenge>>
 
 }

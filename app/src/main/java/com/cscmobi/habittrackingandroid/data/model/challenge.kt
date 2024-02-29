@@ -8,3 +8,11 @@ data class ChallengeHomeItem(
     var stateDone: Boolean = false,
     var srcImage: String
 )
+
+
+data class ChallengeTask(
+    val challengeName: String = "",
+    var infoTask: InfoTask
+)
+
+data class InfoTask(val id: Int, val target:Int ,var status: Boolean = false)

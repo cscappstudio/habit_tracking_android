@@ -46,13 +46,13 @@ class ProfileFragment :
         if (SPF.getLanguage(requireContext()) != null) {
             when (SPF.getLanguage(requireContext())) {
                 "en" -> binding.tvLanguage.text = getString(R.string.united_states)
-                "fil" -> binding.tvLanguage.text = getString(R.string.filipino)
+                "ja" -> binding.tvLanguage.text = getString(R.string.japanese)
                 "fr" -> binding.tvLanguage.text = getString(R.string.french)
                 "de" -> binding.tvLanguage.text = getString(R.string.german)
                 "hi" -> binding.tvLanguage.text = getString(R.string.hindi)
                 "es" -> binding.tvLanguage.text = getString(R.string.spanish)
-                "th" -> binding.tvLanguage.text = getString(R.string.thailand)
-                "vi" -> binding.tvLanguage.text = getString(R.string.vietnamese)
+                "ko" -> binding.tvLanguage.text = getString(R.string.korean)
+                "ru" -> binding.tvLanguage.text = getString(R.string.rusian)
                 "pt" -> binding.tvLanguage.text = getString(R.string.portuguese)
             }
         }

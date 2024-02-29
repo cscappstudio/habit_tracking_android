@@ -153,5 +153,31 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">La consistencia es clave y estás en el camino correcto. ¡Sigue aplastando esos objetivos! 💪🌟</string>
     <string name="claim_badge">RECLAMAR INSIGNIA</string>
 
+    <string name="billing_is_not_connected_please_try_again">La facturación no está conectada, por favor inténtalo de nuevo</string>
+
+    <string name="monthly">Mensual</string>
+    <string name="yearly">Anual</string>
+    <string name="lifetime">Vitalicio</string>
+    <string name="automatically_renewed">Renovación automática</string>
+    <string name="once_payment">Pago único</string>
+
+    <string name="your_opinion_matters_to_us">¡Tu opinión es importante para nosotros!</string>
+    <string name="enjoying_the_app">¿Disfrutas la aplicación?</string>
+    <string name="the_best_we_can_get">Lo mejor que podemos obtener</string>
+    <string name="not_now">Ahora no</string>
+    <string name="submit">Enviar</string>
+    <string name="please_leave_feedback_to_help_us_improve_product">Por favor, deja tu opinión para ayudarnos a mejorar el producto</string>
+    <string name="thanks_for_submitting_a_review">¡Gracias por enviar una reseña!</string>
+    <string name="please_rate_us_on_app_store">Por favor, califícanos en la App Store</string>
+    <string name="settings">Configuración</string>
+    <string name="change_your_character">Cambia tu personaje</string>
+    <string name="subscription">Suscripción</string>
+    <string name="notification">Notificación</string>
+    <string name="language">Idioma</string>
+    <string name="share_app">Compartir aplicación</string>
+    <string name="privacy">Privacidad</string>
+    <string name="about">Acerca de</string>
+    <string name="you_ve_done_all_the_n_tasks_today">Has completado todas las\n tareas hoy.</string>
+
 
 </resources>

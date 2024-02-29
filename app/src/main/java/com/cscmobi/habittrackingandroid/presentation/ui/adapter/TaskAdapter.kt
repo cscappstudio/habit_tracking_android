@@ -34,30 +34,37 @@ import java.util.Date
 import kotlin.random.Random
 
 
-class TaskAdapter(private val activity: Activity,private val onItemClickAdapter: ItemTaskWithEdit<Task>) :
+class TaskAdapter(
+    private val activity: Activity,
+    private val onItemClickAdapter: ItemTaskWithEdit<Task>
+) :
     ListAdapter<Task, TaskAdapter.ViewHolder>(DIFF_CALLBACK()) {
     private val binderHelper = ViewBinderHelper()
 
     var date: Long = Helper.currentDate.toDate()
 
 
-   inner  class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
 
             if (item.id == IDLE && layoutPosition == 1) {
-              binding.swipeLayout.visibility = View.GONE
-              binding.adView.visibility = View.VISIBLE
-                AdMobUtils.createNativeAd(binding.root.context,binding.root.context.getString(R.string.native_id),binding.adView,object : AdMobUtils.Companion.LoadAdCallback {
-                    override fun onLoaded(ad: Any?) {
+                binding.swipeLayout.visibility = View.GONE
+                binding.adView.visibility = View.VISIBLE
+                AdMobUtils.createNativeAd(
+                    binding.root.context,
+                    binding.root.context.getString(R.string.native_id),
+                    binding.adView,
+                    object : AdMobUtils.Companion.LoadAdCallback {
+                        override fun onLoaded(ad: Any?) {
 
-                    }
+                        }
 
-                    override fun onLoadFailed() {
+                        override fun onLoadFailed() {
 //                        currentList.removeAt(1)
 //                        notifyItemRemoved(1)
-                    }
+                        }
 
-                })
+                    })
 
             } else {
                 binding.swipeLayout.visibility = View.VISIBLE
@@ -79,24 +86,24 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
             item.ava?.let { binding.shapeableImageView.setDrawableString(it) }
             binding.txtNameTask.text = item.name
 
-            binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+            binding.shapeableImageView.backgroundTintList =
+                ColorStateList.valueOf(Color.TRANSPARENT)
 
-            if (item.pauseDate != null || item.pause != 0 ){
+            if (item.pauseDate != null || item.pause != 0) {
                 var c = Calendar.getInstance()
                 c.time = Date(item.pauseDate!!)
                 c.add(Calendar.DAY_OF_MONTH, item.pause)
 
-                if (date in  item.pauseDate!!.toDate() .. c.time.time) {
+                if (date in item.pauseDate!!.toDate()..c.time.time) {
                     binding.ivPlay.visibility = View.VISIBLE
                     binding.rdCheck.visibility = View.GONE
                     isPause = true
-                } else  {
+                } else {
                     binding.ivPlay.visibility = View.GONE
                     binding.rdCheck.visibility = View.VISIBLE
                     isPause = false
                 }
-            }
-            else {
+            } else {
                 binding.ivPlay.visibility = View.GONE
                 binding.rdCheck.visibility = View.VISIBLE
                 isPause = false
@@ -108,7 +115,6 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                     binding.txtGoal.visibility = View.VISIBLE
                     binding.txtUnit.text = it.unit
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
-
 
 
                 } else {
@@ -124,7 +130,8 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                         ColorStateList.valueOf(Color.parseColor(item.color))
                     binding.txtNameTask.setTextColor(Color.WHITE)
 
-                    binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+                    binding.shapeableImageView.backgroundTintList =
+                        ColorStateList.valueOf(Color.TRANSPARENT)
                     binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
                     binding.line.visibility = View.VISIBLE
                     binding.txtUnit.setTextColor(Color.WHITE)
@@ -133,8 +140,18 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                 } else {
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
 
-                    binding.txtGoal.setTextColor(ContextCompat.getColor(binding.root.context,R.color.dark_gray))
-                    binding.txtUnit.setTextColor(ContextCompat.getColor(binding.root.context,R.color.grey))
+                    binding.txtGoal.setTextColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.dark_gray
+                        )
+                    )
+                    binding.txtUnit.setTextColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.grey
+                        )
+                    )
 
                     binding.txtGoal.setSpanTextView(R.color.coral_red)
                     binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
@@ -145,7 +162,8 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                         )
                     )
 
-                    binding.shapeableImageView.backgroundTintList = ColorStateList.valueOf(Color.parseColor(item.color))
+                    binding.shapeableImageView.backgroundTintList =
+                        ColorStateList.valueOf(Color.parseColor(item.color))
                     binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
                     binding.line.visibility = View.INVISIBLE
                     binding.rdCheck.isChecked = false
@@ -158,10 +176,9 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                         return@setOnClickListener
                     }
 
-                   onItemClickAdapter.onItemChange(layoutPosition,item,binding.rdCheck.isChecked)
+                    onItemClickAdapter.onItemChange(layoutPosition, item, binding.rdCheck.isChecked)
 
                 }
-
 
 
 //                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -179,7 +196,7 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
 
                         binding.ivPlay.visibility = View.VISIBLE
 
-                    } else  binding.rdCheck.visibility = View.VISIBLE
+                    } else binding.rdCheck.visibility = View.VISIBLE
 
 
                     binding.frMenu.visibility = View.INVISIBLE
@@ -191,18 +208,30 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                     binding.frMenu.visibility = View.VISIBLE
 
                     BubbleShowCaseSequence()
-                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivSkip,
-                            binding.root.context.getString(
-                                R.string.pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready
-                            ),"showcase_skip")) //First BubbleShowCase to show
-                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivEdit,
-                            binding.root.context.getString(
-                                R.string.tap_to_edit
-                            ),"showcase_edit")) //Second BubbleShowCase to show
-                        .addShowCase(activity.createBubbleShowCaseBuilder(binding.ivvDelete,
-                            binding.root.context.getString(
-                                R.string.tap_to_delete
-                            ),"showcase_delete")) //Third BubbleShowCase to show
+                        .addShowCase(
+                            activity.createBubbleShowCaseBuilder(
+                                binding.ivSkip,
+                                binding.root.context.getString(
+                                    R.string.pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready
+                                ), "showcase_skip"
+                            )
+                        ) //First BubbleShowCase to show
+                        .addShowCase(
+                            activity.createBubbleShowCaseBuilder(
+                                binding.ivEdit,
+                                binding.root.context.getString(
+                                    R.string.tap_to_edit
+                                ), "showcase_edit"
+                            )
+                        ) //Second BubbleShowCase to show
+                        .addShowCase(
+                            activity.createBubbleShowCaseBuilder(
+                                binding.ivvDelete,
+                                binding.root.context.getString(
+                                    R.string.tap_to_delete
+                                ), "showcase_delete"
+                            )
+                        ) //Third BubbleShowCase to show
                         .show() //Display the ShowCaseSequence
 //                    BubbleShowCaseBuilder(activity) //Activity instance
 //                        .title("foo") //Any title for the bubble view
@@ -211,10 +240,9 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
                 }
 
                 override fun onSlide(view: SwipeRevealLayout?, slideOffset: Float) {
-                    if (isPause)  binding.ivPlay.visibility = View.INVISIBLE
-                        else
-                    binding.rdCheck.visibility = View.INVISIBLE
-
+                    if (isPause) binding.ivPlay.visibility = View.INVISIBLE
+                    else
+                        binding.rdCheck.visibility = View.INVISIBLE
 
 
                 }
@@ -238,7 +266,7 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
             }
 
             binding.ivPlay.setOnClickListener {
-                onItemClickAdapter.onResume(layoutPosition,item)
+                onItemClickAdapter.onResume(layoutPosition, item)
                 binding.ivPlay.visibility = View.GONE
                 binding.rdCheck.visibility = View.VISIBLE
 
@@ -247,7 +275,6 @@ class TaskAdapter(private val activity: Activity,private val onItemClickAdapter:
 
 
         }
-
 
 
     }

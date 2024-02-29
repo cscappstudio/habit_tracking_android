@@ -1,19 +1,17 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseActivity
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.ActivityNewhabitBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CollectionFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CreateCollectionFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.google.android.gms.ads.FullScreenContentCallback
