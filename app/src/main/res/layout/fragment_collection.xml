@@ -39,7 +39,7 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_create_task"
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="@dimen/_130sdp"
             android:orientation="horizontal"
             android:maxWidth="200dp"
             android:paddingStart="@dimen/_9sdp"

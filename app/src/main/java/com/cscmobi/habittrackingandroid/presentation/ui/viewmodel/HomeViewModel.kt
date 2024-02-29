@@ -3,12 +3,15 @@ package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
+import com.cscmobi.habittrackingandroid.data.model.ChallengeTask
+import com.cscmobi.habittrackingandroid.data.model.InfoTask
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
@@ -21,6 +24,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
@@ -53,9 +57,21 @@ class HomeViewModel(
     val currentHistory: StateFlow<History>
         get() = _currentHistory
 
+
+    private val _challenges = MutableStateFlow<MutableList<Challenge>>(mutableListOf())
+    val challenges: StateFlow<MutableList<Challenge>>
+        get() = _challenges
+
+
+    private val _challengeTaskMap = MutableStateFlow< Map<String, List<ChallengeTask>>>(mapOf())
+    val challengeTaskMap: StateFlow< Map<String, List<ChallengeTask>>>
+        get() = _challengeTaskMap
+//    var : Map<String?, List<Task>> = mapOf()
+
     init {
         handleIntent()
         getAllHistory()
+        getMyChallenge()
     }
 
     fun insertTaskHistory(history: History, date: Long? = null) {
@@ -81,25 +97,45 @@ class HomeViewModel(
         //  _currentHistory.value = history
     }
 
+    fun getMyChallenge() = viewModelScope.launch(Dispatchers.IO) {
+        databaseRepository.getMyChallenge().collect{
+            _challenges.value = it.toMutableList()
+        }
+    }
+
+    fun updateChallenge(challenge: Challenge) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.updateChallenge(challenge)
+        }
+    }
+
 
      fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
-
 
         databaseRepository.getAllHistory().collect {
             if (it.isEmpty()) return@collect
 
-            Log.d("AAAA", it.toString())
-
             var histories = it.toMutableList()
-            databaseRepository.getAllTask().collect{
-                task ->
-                var currentDayStreak = 0
+            databaseRepository.getAllTask().collect{ tasks ->
+                val challengeTaskMap = tasks.filter { !it.challenge.isNullOrEmpty() }.map{ChallengeTask(it.challenge!!, InfoTask(it.id,it.goal!!.target))}.groupBy { it.challengeName }
 
+                histories.forEach { history ->
+                    challengeTaskMap.forEach { t, u ->
+                        u.forEach {  challengeTask ->
+                            val validIndex = history.taskInDay.indexOfFirst { it.taskId ==  challengeTask.infoTask.id}
+                            if (validIndex != -1)  challengeTask.infoTask.status = history.taskInDay[validIndex].progress >= challengeTask.infoTask.target
+                        }
+                    }
+                }
+
+
+
+                var currentDayStreak = 0
                 for (i in histories.size-1 downTo 0) {
                     var taskFinish = true
 
                    histories[i].taskInDay.forEach { taskInDay ->
-                       task.find { it.id == taskInDay.taskId }?.let {
+                       tasks.find { it.id == taskInDay.taskId }?.let {
                            if (it.goal!!.target != taskInDay.progressGoal){
                                taskFinish = false
                            }
@@ -115,20 +151,14 @@ class HomeViewModel(
                 println("chaulqalo___$currentDayStreak")
                 histories.last().currentStreakDay = currentDayStreak
                 _histories.value = histories
+                _challengeTaskMap.value = challengeTaskMap
+
             }
 
 //            _histories.value = it.toMutableList()
 
         }
     }
-
-
-
-
-
-
-
-
 
     private fun handleIntent() {
         viewModelScope.launch {

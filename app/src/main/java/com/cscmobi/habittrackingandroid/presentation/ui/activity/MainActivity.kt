@@ -69,7 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (NotifiTask.db == null)
                 NotifiTask.db = appDatabase
             NotifiTask.db?.dao()?.getAllTask()?.collect {
-                taskSize = it.size
+                taskSize = it.filter { it.challenge.isNullOrEmpty() }.size
                 var task = it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
                 if (task.isNullOrEmpty()) return@collect
                 taskFilter.clear()
