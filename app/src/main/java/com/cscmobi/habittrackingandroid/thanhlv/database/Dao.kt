@@ -55,7 +55,7 @@ interface Dao {
     suspend fun getAllChallenge(): List<Challenge>
 
 
-    @Query("SELECT * FROM Challenge WHERE joinedHistory != \"[]\"")
+    @Query("SELECT * FROM Challenge WHERE joinedHistory != \"null\"")
     suspend fun getMyChallenge(): List<Challenge>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
