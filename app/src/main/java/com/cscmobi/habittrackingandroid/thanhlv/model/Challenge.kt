@@ -22,7 +22,7 @@ data class Challenge(
     @ColumnInfo(name = "repeat")
     var repeat: List<Int> = listOf(2,3,4,5,6,7,1),
     @ColumnInfo(name = "joinedHistory")
-    var joinedHistory: List<ChallengeJoinedHistory> = listOf(),
+    var joinedHistory: ChallengeJoinedHistory?=null,
     @ColumnInfo(name = "finish")
     var finish: Boolean = false,
 

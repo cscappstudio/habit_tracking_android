@@ -32,6 +32,7 @@ import org.threeten.bp.LocalDate
 import java.time.temporal.TemporalField
 import java.util.Calendar
 import java.util.Date
+import kotlin.math.roundToInt
 
 
 class HomeViewModel(
@@ -93,6 +94,12 @@ class HomeViewModel(
     }
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
+        var taskDoneSize = 0
+        history.taskInDay.forEach {
+           if (it.progressGoal == 100) taskDoneSize ++
+        }
+
+        history.progressDay = (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
         databaseRepository.updateHistory(history)
         //  _currentHistory.value = history
     }
@@ -276,7 +283,6 @@ class HomeViewModel(
 
             databaseRepository.getAllTask().collect {
                 try {
-                    Log.d("fetchTasksByDate", it.toString())
 
                     var taskFilter = it.filter { validateTask(it, date, false) }
 
@@ -287,6 +293,7 @@ class HomeViewModel(
                     else
                         _state.value = HomeState.Tasks(tasks)
 
+                    Log.d("fetchTasksByDate", tasks.size.toString())
 
                     // _state.value = HomeState.TaskInChallenge(taskFilter)
 

@@ -52,7 +52,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     .setImageBitmap(BitmapFactory.decodeStream(assets.open(mChallenge?.image!!)))
             else binding.imgChallenge.setImageResource(R.drawable.img_target)
 
-            if (!mChallenge?.joinedHistory.isNullOrEmpty()) {
+            if (mChallenge?.joinedHistory != null) {
                 binding.btnStartChallenge.visibility = View.GONE
                 binding.btnOptionTop.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.VISIBLE
@@ -85,12 +85,7 @@ class DetailChallengeActivity : BaseActivity2() {
         if (mChallenge == null) return
         runBlocking {
             val joined = ChallengeJoinedHistory(System.currentTimeMillis())
-            if (mChallenge!!.joinedHistory.isEmpty()) mChallenge!!.joinedHistory = listOf(joined)
-            else {
-                val tem = mChallenge!!.joinedHistory
-                tem.toMutableList().add(joined)
-                mChallenge!!.joinedHistory = tem.toList()
-            }
+            mChallenge!!.joinedHistory = joined
 
             resolverDataJoinChallenge()
             AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
@@ -100,7 +95,7 @@ class DetailChallengeActivity : BaseActivity2() {
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
             newMyChallenges.sortByDescending {
-                it.joinedHistory.last().date
+                it.joinedHistory?.date
             }
 
             ChallengeFragment.allChallenges.postValue(

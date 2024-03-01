@@ -682,9 +682,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     delay(500L)
                 }
-                val currentChallenge = challenges.find { it.name == item.name }
+                val currentChallenge = challenges.find { it.id == item.idTask }
                 currentChallenge?.let {
-                    it.joinedHistory?.last()?.state = if (isChallengeDone) 1 else 0
+                    it.joinedHistory?.state = if (isChallengeDone) 1 else 0
                     homeViewModel.updateChallenge(it)
                 }
             }
