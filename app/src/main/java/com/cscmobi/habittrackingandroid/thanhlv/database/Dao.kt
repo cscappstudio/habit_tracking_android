@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
@@ -27,13 +28,13 @@ interface Dao {
     fun getAllTask(): Flow<List<Task>>
 
     @Query("SELECT * FROM task WHERE id IN (:tasksId)")
-    fun loadAllTaskByIds(tasksId: IntArray): Flow<List<Task>>
+    fun loadAllTaskByIds(tasksId: LongArray): Flow<List<Task>>
 
     @Query("SELECT * FROM task WHERE name LIKE :name")
     fun findTaskByName(name: String): Flow<Task>
 
     @Query("SELECT * FROM task WHERE id=:id")
-    fun findTaskById(id: Int): Flow<Task>
+    fun findTaskById(id: Long): Flow<Task>
 
     @Insert
     suspend fun insertAllTask(vararg users: Task)
@@ -41,8 +42,9 @@ interface Dao {
     @Insert
     suspend fun insertAllHistory(vararg data: History)
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTask(item: Task)
+    suspend fun insertTask(item: Task) : Long
 
     @Update
     suspend fun updateTask(item: Task)
@@ -125,7 +127,7 @@ interface Dao {
 
     @Query("UPDATE history SET taskInDay = :newTaskInDay WHERE id = :id")
 
-    suspend fun deleteTaskinHistory(id: Int, newTaskInDay: List<TaskInDay>)
+    suspend fun deleteTaskinHistory(id: Long, newTaskInDay: List<TaskInDay>)
 
     @Query("SELECT * FROM history WHERE date >= :startDate")
     fun getHistoryWithDate(startDate: Long): Flow<List<History>>

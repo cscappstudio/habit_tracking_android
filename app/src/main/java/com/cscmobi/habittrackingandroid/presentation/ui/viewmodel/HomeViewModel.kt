@@ -199,9 +199,9 @@ class HomeViewModel(
 //
 //    }
 
-    suspend fun fetchUser(taskIds: List<Int>): Flow<List<Task>> {
+    suspend fun fetchUser(taskIds: List<Long>): Flow<List<Task>> {
         return GlobalScope.async(Dispatchers.IO) {
-            databaseRepository.loadAllByIds(taskIds.toIntArray())
+            databaseRepository.loadAllByIds(taskIds.toLongArray())
         }.await()
     }
 
@@ -214,7 +214,7 @@ class HomeViewModel(
     }
 
 
-    fun deleteTaskInHistory(date: Long, taskId: Int) {
+    fun deleteTaskInHistory(date: Long, taskId: Long) {
         try {
             viewModelScope.launch(Dispatchers.IO) {
                 databaseRepository.getHistoryWithDate(date).collect {

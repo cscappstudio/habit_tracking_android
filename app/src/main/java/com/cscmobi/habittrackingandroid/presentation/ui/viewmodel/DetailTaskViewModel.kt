@@ -131,7 +131,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
         }
     }
 
-    fun deleteTaskInHistory(date: Long, taskId: Int) {
+    fun deleteTaskInHistory(date: Long, taskId: Long) {
         try {
             viewModelScope.launch(Dispatchers.IO) {
                 databaseRepository.getHistoryWithDate(date).collect{
@@ -219,7 +219,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
        }
    }
     var listDataTasHistory = mutableListOf<DataTaskHistory>()
-    fun getDetailHistory(history: List<History>, taskId: Int): MutableList<DataTaskHistory> {
+    fun getDetailHistory(history: List<History>, taskId: Long): MutableList<DataTaskHistory> {
         listDataTasHistory.clear()
         history.forEach {
           it.taskInDay?.forEach { taskInfo ->
@@ -232,7 +232,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
     }
 
 
-    fun  getTaskById(id: Int) {
+    fun  getTaskById(id: Long) {
         viewModelScope.launch {
             try {
             databaseRepository.getTaskById(id).collect{

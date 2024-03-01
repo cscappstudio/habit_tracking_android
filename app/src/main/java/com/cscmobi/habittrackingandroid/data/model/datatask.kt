@@ -56,7 +56,7 @@ data class ColorTask(val resId: Int, var isSelected: Boolean = false)
 @Keep
 @Serializable
 data class TaskInDay(
-    var taskId: Int = 0,
+    var taskId: Long = 0,
     var progress: Int = 0, //thực hiện
     var progressGoal: Int = 0 //% hoàn thành
 )
@@ -73,7 +73,7 @@ data class TaskInChallenge(
     var color: String = "",
     var taskNo: Int,
     var dayNo: Int,
-    var id: Int,
+    var id: Long,
     var startDate: Long? = null
 ) {
     fun parserToTask(): Task {

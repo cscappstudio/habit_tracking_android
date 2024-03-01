@@ -30,7 +30,7 @@ data class Challenge(
     var days: List<ChallengeDays> = listOf()
 ) {
     @PrimaryKey(true)
-    var id = 0
+    var id = 0L
 }
 
 

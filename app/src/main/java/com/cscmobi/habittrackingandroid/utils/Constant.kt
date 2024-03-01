@@ -8,7 +8,7 @@ object Constant {
     const val TASKNAME = "TaskName"
     const val IDHISTORY = "IDHISTORY"
 
-    const val  IDLE = -2
+    const val  IDLE = -2L
     const val SUBTASK = "SUBTASK"
     const val  FIRSTSHOWUSECASE = "FIRSTSHOWUSECASE"
 

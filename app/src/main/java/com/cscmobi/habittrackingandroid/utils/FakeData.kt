@@ -38,7 +38,7 @@ object FakeData {
         return calendar.timeInMillis
     }
 
-    fun generateRandomTasks(startDate: Long, endDate: Long, numberOfTasks: Int): List<Task> {
+    fun generateRandomTasks(startDate: Long, endDate: Long, numberOfTasks: Long): List<Task> {
         val random = Random()
         val tasks = ArrayList<Task>()
 

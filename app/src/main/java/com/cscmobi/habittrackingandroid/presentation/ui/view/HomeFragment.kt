@@ -368,7 +368,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.currentHistory.collect {
                 val listTask = this@HomeFragment.listTask.filter { it.id != IDLE }.toMutableList()
                 if (it.id != IDLE) {
-                    if (it.id != -1) {
+                    if (it.id != -1L) {
                         currentHistory = it
 
                         if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
@@ -721,7 +721,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
                     currentHistory?.let {
-                        bundle.putInt(Constant.IDHISTORY, it.id)
+                        bundle.putLong(Constant.IDHISTORY, it.id)
 
                     }
                     this.putExtras(bundle)

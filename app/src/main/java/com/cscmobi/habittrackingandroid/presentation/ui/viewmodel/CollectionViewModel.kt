@@ -193,7 +193,7 @@ class CollectionViewModel constructor(
         }
     }
 
-    fun deleteTaskInHistory(date: Long, taskId: Int) {
+    fun deleteTaskInHistory(date: Long, taskId: Long) {
         try {
             viewModelScope.launch(Dispatchers.IO) {
                 databaseRepository.getHistoryWithDate(date).collect {

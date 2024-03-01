@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity
 data class HabitCollection(
-    @PrimaryKey(true) var id: Int = 0,
+    @PrimaryKey(true) var id: Long = 0,
     @ColumnInfo(name = "image")
     var image: String? = "",
     @ColumnInfo(name = "nameCollection")
