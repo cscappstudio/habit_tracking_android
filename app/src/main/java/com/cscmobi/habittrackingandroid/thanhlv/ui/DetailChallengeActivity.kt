@@ -128,7 +128,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     task.endDate.endDate = task.startDate!!
                     val taskId = AppDatabase.getInstance(applicationContext).dao().insertTask(task)
                     mChallenge!!.days[j].tasks!![k].startDate = task.startDate
-                    mChallenge!!.days[j].tasks!![k].startDate = taskId
+                    mChallenge!!.days[j].tasks!![k].id = taskId
                 }
                 CalendarUtil
                 startDate++
