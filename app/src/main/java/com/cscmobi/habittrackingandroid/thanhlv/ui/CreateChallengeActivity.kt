@@ -61,7 +61,7 @@ class CreateChallengeActivity : BaseActivity2() {
     private var mRepeatData = arrayListOf(2, 3, 4, 5, 6, 7, 1)
     private var listDayView = arrayListOf<TextView>()
 
-    private var mImgChallenge = ""
+    private var mImgChallenge = "album_collection1.png"
     override fun controllerView() {
         binding.btnStartChallenge.setOnClickListener {
             performCreateChallenge()
@@ -136,7 +136,7 @@ class CreateChallengeActivity : BaseActivity2() {
             val challenge = Challenge()
             challenge.name = binding.edtName.text.toString()
             challenge.description = binding.textNote.text.toString()
-            challenge.image = ""
+            challenge.image = mImgChallenge
             challenge.duration = binding.edtDuration.text.toString().toInt()
             challenge.cycle = binding.edtCycle.text.toString().toInt()
             challenge.repeat = mRepeatData
