@@ -3,7 +3,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.intent
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 
 sealed class DetailTaskIntent {
-    data class FetchTaskbyId(val id: Int): DetailTaskIntent()
+    data class FetchTaskbyId(val id: Long): DetailTaskIntent()
 
     data class fetchHistoryByTask(val task: Task) : DetailTaskIntent()
 

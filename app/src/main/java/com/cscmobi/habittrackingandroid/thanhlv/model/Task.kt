@@ -17,7 +17,7 @@ import java.util.Date
 @Serializable
 @Entity
 data class Task(
-    @PrimaryKey(true) var id: Int = 0,
+    @PrimaryKey(true) var id: Long = 0,
     @ColumnInfo(name = "name") var name: String = "New Task",
     @ColumnInfo(name = "color") var color: String? = "#B6D6DD",
     @ColumnInfo(name = "ava") var ava: String? = "",
@@ -47,5 +47,4 @@ data class Task(
 
     @ColumnInfo (name = "img_challenge") var imgChallenge: String = ""
 ) {
-
 }

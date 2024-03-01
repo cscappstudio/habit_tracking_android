@@ -62,7 +62,7 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private var currentProgress = 0
     private var currentGoal = 0
     var currentTaskHistory: History? = null
-    var historyId = -1
+    var historyId = -1L
     var progressStep = 1f
 
     override fun getLayoutRes(): Int {
@@ -104,7 +104,7 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
             }
 
-            historyId = it.getInt(Constant.IDHISTORY, -1)
+            historyId =it.getLong(Constant.IDHISTORY, -1L)
 
 
             if (Helper.chooseDate > Helper.currentDate.toDate()) {
@@ -141,7 +141,7 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             detailTaskViewModel.history.collect {
                 if (it.isNotEmpty()) {
                     Log.d("DEBUGHISTORY", it.toString())
-                    if (historyId != -1)
+                    if (historyId != -1L)
                         currentTaskHistory = it.find { it.id == historyId }
                     setUpTaskHistoryData(detailTaskViewModel.getDetailHistory(it, currentTask.id))
                 }

@@ -2,7 +2,7 @@ package com.cscmobi.habittrackingandroid.data.model
 
 
 data class ChallengeHomeItem(
-    val idTask:Int = 0,
+    val idTask:Long = 0,
     val note: String,
     val name: String,
     var stateDone: Boolean = false,
@@ -15,4 +15,4 @@ data class ChallengeTask(
     var infoTask: InfoTask
 )
 
-data class InfoTask(val id: Int, val target:Int ,var status: Boolean = false)
+data class InfoTask(val id: Long, val target:Int ,var status: Boolean = false)

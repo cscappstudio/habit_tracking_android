@@ -108,11 +108,16 @@ object Helper {
         val _date = getDateWithoutHour(date)
 
         if (task.startDate != null) {
-            if (getDateWithoutHour(task.startDate!!) > _date || (task.endDate!!.isOpen == true && task.endDate!!.endDate!! < _date)) {
+            if (getDateWithoutHour(task.startDate!!) > _date) {
                 isValid = false
                 Log.d("isValid", "3 $isValid")
 
             }
+        }
+
+        if  (task.endDate.isOpen == true && task.endDate.endDate!! <= _date) {
+            isValid = false
+            Log.d("isValid", "3 $isValid")
         }
 
 

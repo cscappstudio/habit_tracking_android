@@ -19,7 +19,7 @@ class NotificationHelper(var context: Context) {
         private const val CHANNEL_NOTIFICATION_DEFAULT = "tape_measure_notification_channel"
     }
 
-    enum class NotificationType(val id: Int) {
+    enum class NotificationType(val id: Long) {
         FLASH_SALE(15999), OPEN(12399)
     }
 

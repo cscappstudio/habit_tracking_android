@@ -212,7 +212,7 @@ object Utils {
     }
 
 
-    fun isListChanged(originalList: List<Int>, modifiedList: List<Int>): Boolean {
+    fun isListChanged(originalList: List<Long>, modifiedList: List<Long>): Boolean {
         // Check if the sizes are different
         if (originalList.size != modifiedList.size) {
             return true

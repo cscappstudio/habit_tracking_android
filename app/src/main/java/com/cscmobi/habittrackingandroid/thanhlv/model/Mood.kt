@@ -18,5 +18,5 @@ data class Mood(
     @ColumnInfo(name = "becauseOf") var becauseOf: List<String>,
     @ColumnInfo(name = "note") var note: String = ""
 ) {
-    @PrimaryKey(true) var id: Int = 0
+    @PrimaryKey(true) var id: Long = 0
 }

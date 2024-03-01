@@ -368,7 +368,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.currentHistory.collect {
                 val listTask = this@HomeFragment.listTask.filter { it.id != IDLE }.toMutableList()
                 if (it.id != IDLE) {
-                    if (it.id != -1) {
+                    if (it.id != -1L) {
                         currentHistory = it
 
                         if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
@@ -572,6 +572,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             )
         }.toMutableList()
 
+
         challengeHomeAdpater = BaseBindingAdapter<ChallengeHomeItem>(
             R.layout.item_challenge_home,
             layoutInflater,
@@ -682,9 +683,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     delay(500L)
                 }
-                val currentChallenge = challenges.find { it.name == item.name }
+                val currentChallenge = challenges.find { it.id == item.idTask }
                 currentChallenge?.let {
-                    it.joinedHistory?.last()?.state = if (isChallengeDone) 1 else 0
+                    it.joinedHistory?.state = if (isChallengeDone) 1 else 0
                     homeViewModel.updateChallenge(it)
                 }
             }
@@ -721,7 +722,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
                     currentHistory?.let {
-                        bundle.putInt(Constant.IDHISTORY, it.id)
+                        bundle.putLong(Constant.IDHISTORY, it.id)
 
                     }
                     this.putExtras(bundle)

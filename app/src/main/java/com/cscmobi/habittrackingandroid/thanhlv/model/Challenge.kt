@@ -22,7 +22,7 @@ data class Challenge(
     @ColumnInfo(name = "repeat")
     var repeat: List<Int> = listOf(2,3,4,5,6,7,1), //1 = CN -- Calendar.DAY
     @ColumnInfo(name = "joinedHistory")
-    var joinedHistory: List<ChallengeJoinedHistory> = listOf(),
+    var joinedHistory: ChallengeJoinedHistory?=null,
     @ColumnInfo(name = "finish")
     var finish: Boolean = false,
 
@@ -30,7 +30,7 @@ data class Challenge(
     var days: List<ChallengeDays> = listOf()
 ) {
     @PrimaryKey(true)
-    var id = 0
+    var id = 0L
 }
 
 

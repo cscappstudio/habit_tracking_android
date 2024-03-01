@@ -26,7 +26,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         dao.updateTask(task)
     }
 
-    override suspend fun getTaskById(id: Int): Flow<Task> {
+    override suspend fun getTaskById(id: Long): Flow<Task> {
         return dao.findTaskById(id)
     }
 
@@ -38,7 +38,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         return dao.getHistorybyDate(date)
     }
 
-    override suspend fun loadAllByIds(id: IntArray): Flow<List<Task>> {
+    override suspend fun loadAllByIds(id: LongArray): Flow<List<Task>> {
         return dao.loadAllTaskByIds(tasksId = id)
     }
 
@@ -77,7 +77,7 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         dao.updateHistory(history)
     }
 
-    override suspend fun deleteTaskInHistory(id: Int, newTaskInDay: List<TaskInDay>) {
+    override suspend fun deleteTaskInHistory(id: Long, newTaskInDay: List<TaskInDay>) {
         dao.deleteTaskinHistory(id, newTaskInDay)
     }
 

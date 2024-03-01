@@ -132,12 +132,12 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromChallengeJoinedHistory(joinedHistory: List<ChallengeJoinedHistory>?): String {
-        return Json.encodeToString(joinedHistory ?: emptyList())
+    fun fromChallengeJoinedHistory(joinedHistory: ChallengeJoinedHistory?): String {
+        return Json.encodeToString(joinedHistory)
     }
 
     @TypeConverter
-    fun toChallengeJoinedHistory(joinedHistory: String): List<ChallengeJoinedHistory> {
+    fun toChallengeJoinedHistory(joinedHistory: String): ChallengeJoinedHistory? {
         return Json.decodeFromString(joinedHistory)
     }
 
