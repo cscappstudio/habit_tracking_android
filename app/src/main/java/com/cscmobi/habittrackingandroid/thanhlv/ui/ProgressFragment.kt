@@ -12,6 +12,7 @@ import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentProgressBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerYearCalendarAdapter
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
@@ -23,6 +24,7 @@ import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.thanhlv.fw.helper.RunUtils
 import com.thanhlv.fw.spf.SPF
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,24 +48,31 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         observeData()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun observeData() {
 
         mCurrentStreak.observe(this) { it ->
             println("thanhlv observerData---------mCurrentStreak------- " + it)
+            binding.tvCurrentStreak.text = it.toString()
         }
         mPerfectDay.observe(this) { it ->
             println("thanhlv observerData---------mPerfectDay------- " + it)
+            binding.tvPerfectDay.text = it.toString()
         }
         mCompletionRate.observe(this) { it ->
             println("thanhlv observerData---------mCompletionRate------- " + it)
+            binding.tvCompletionRatePercent.text = it.toString() + " %"
         }
         mLongestStreak.observe(this) { it ->
             println("thanhlv observerData---------mLongestStreak------- " + it)
+
+            binding.tvLongestStreak.text = it.toString()
         }
 
     }
 
     override fun initView(view: View) {
+        loadHistoryData()
 
         binding.bbCurrentStreak
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
@@ -82,6 +91,18 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     }
 
+    private fun loadHistoryData() {
+        runBlocking {
+            val allHistory = AppDatabase.getInstance(requireContext()).dao().getAllHistory2()
+            if (allHistory.isEmpty()) return@runBlocking
+            allHistory.sortedBy { it.date }
+//            allHistory.forEach {
+//                if (it.progressDay >= 100)
+//            }
+        }
+
+    }
+
     private fun handleMonthCalendar() {
         validateMonthCalendarBtn(mCurrentMonth)
         binding.btnPreviousMonth.setOnClickListener {
@@ -93,21 +114,16 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun resolveNextMonth() {
         mCurrentMonth = CalendarUtil.nextMonth(mCurrentMonth)
-        binding.tvMonth.text =
-            CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(
-                mCurrentMonth
-            )
+        binding.tvMonth.text = CalendarUtil.getTitleMonthYear(mCurrentMonth)
         validateMonthCalendarBtn(mCurrentMonth)
     }
 
     private fun resolvePreviousMonth() {
         mCurrentMonth = CalendarUtil.previousMonth(mCurrentMonth)
-        binding.tvMonth.text =
-            CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(
-                mCurrentMonth
-            )
+        binding.tvMonth.text = CalendarUtil.getTitleMonthYear(mCurrentMonth)
         validateMonthCalendarBtn(mCurrentMonth)
         //
     }

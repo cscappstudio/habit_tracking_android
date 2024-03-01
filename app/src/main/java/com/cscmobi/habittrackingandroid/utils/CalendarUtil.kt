@@ -158,6 +158,12 @@ class CalendarUtil {
             calendar.timeInMillis = ms
             return SimpleDateFormat("MMMM").format(calendar.time)
         }
+        @SuppressLint("SimpleDateFormat")
+        fun getTitleMonthYear(ms: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+            return SimpleDateFormat("MMMM YYYY").format(calendar.time)
+        }
 
         @SuppressLint("SimpleDateFormat")
         fun getTitleYear(ms: Long): String {
