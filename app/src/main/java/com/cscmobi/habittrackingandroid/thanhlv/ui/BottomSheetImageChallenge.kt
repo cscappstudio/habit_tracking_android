@@ -66,6 +66,7 @@ class BottomSheetImageChallenge :
         adapter.setCallback(object : ImageChallengeAdapter.ImageChallengeCallback {
             @SuppressLint("NotifyDataSetChanged")
             override fun onClickItem(image: String) {
+
                 adapter.notifyDataSetChanged()
 
                 resDrawablesSelect = image
@@ -93,7 +94,7 @@ class BottomSheetImageChallenge :
             }
         })
         binding.rcvAlbum.adapter = adapter
-        binding.rcvAlbum.layoutManager = LinearLayoutManager(requireContext())
+        binding.rcvAlbum.layoutManager = GridLayoutManager(requireContext(),2)
 
 
         binding.layoutNext.btnSave.setOnClickListener {

@@ -61,7 +61,6 @@ class QuestionFOActivity : BaseActivity2() {
                 ) {
                     generationDataDefault()
                 }
-//                    Handler().postDelayed({
                 runBlocking {
                     ChallengeFragment.allChallenges.postValue(
                         AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
@@ -70,14 +69,13 @@ class QuestionFOActivity : BaseActivity2() {
                         AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
                     )
                 }
-//                    }, 500)
 
             }
         }
 
     }
 
-    suspend fun generationDataDefault() {
+    private suspend fun generationDataDefault() {
         mChallengeDefaultList.forEach {
             val challenge = Challenge()
             challenge.name = it.name

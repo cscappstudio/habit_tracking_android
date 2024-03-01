@@ -1,11 +1,7 @@
 package com.cscmobi.habittrackingandroid.thanhlv.database
 
+import androidx.room.*
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
@@ -41,8 +37,9 @@ interface Dao {
     @Insert
     suspend fun insertAllHistory(vararg data: History)
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTask(item: Task)
+    suspend fun insertTask(item: Task) : Long
 
     @Update
     suspend fun updateTask(item: Task)

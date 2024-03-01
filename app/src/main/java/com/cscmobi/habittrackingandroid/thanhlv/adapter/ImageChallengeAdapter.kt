@@ -44,6 +44,8 @@ class ImageChallengeAdapter(private var mContext: Context, var mList: List<Image
             else
                 holder.binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#F5F5F5"))
         holder.binding.root.setOnClickListener {
+            mList.forEach { it.isSelected = false }
+            mList[position].isSelected = true
             mCallback?.onClickItem(item.image)
         }
     }

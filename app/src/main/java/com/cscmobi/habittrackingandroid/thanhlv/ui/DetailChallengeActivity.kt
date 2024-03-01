@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.PrimaryKey
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
@@ -130,8 +131,10 @@ class DetailChallengeActivity : BaseActivity2() {
                     task.imgChallenge = mChallenge!!.image
                     task.endDate.isOpen = true
                     task.endDate.endDate = task.startDate!!
-                    AppDatabase.getInstance(applicationContext).dao().insertTask(task)
+                    val taskId = AppDatabase.getInstance(applicationContext).dao().insertTask(task)
                     mChallenge!!.days[j].tasks!![k].startDate = task.startDate
+                    mChallenge!!.days[j].tasks!![k].startDate = taskId
+                    println("thanhlv -------------- yyyyyyyyy ==== " + taskId)
                 }
                 CalendarUtil
                 startDate++
