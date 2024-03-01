@@ -5,12 +5,14 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.widget.ViewPager2
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentProgressBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerYearCalendarAdapter
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesMonthLabelAxisX
@@ -32,7 +34,32 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     private var mCurrentYear = CalendarUtil.startYearMs(System.currentTimeMillis())
     private var mCurrentMonth = CalendarUtil.startMonthMs(System.currentTimeMillis())
 
+
+    companion object {
+        var mCurrentStreak = MutableLiveData<Int>()
+        var mPerfectDay = MutableLiveData<Int>()
+        var mCompletionRate = MutableLiveData<Int>()
+        var mLongestStreak = MutableLiveData<Int>()
+    }
+
     override fun setEvent() {
+        observeData()
+    }
+
+    private fun observeData() {
+
+        mCurrentStreak.observe(this) { it ->
+            println("thanhlv observerData---------mCurrentStreak------- " + it)
+        }
+        mPerfectDay.observe(this) { it ->
+            println("thanhlv observerData---------mPerfectDay------- " + it)
+        }
+        mCompletionRate.observe(this) { it ->
+            println("thanhlv observerData---------mCompletionRate------- " + it)
+        }
+        mLongestStreak.observe(this) { it ->
+            println("thanhlv observerData---------mLongestStreak------- " + it)
+        }
 
     }
 
@@ -51,6 +78,8 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         handleMonthCalendar()
         handleChartCompletionRate()
         handleYearStats()
+
+
     }
 
     private fun handleMonthCalendar() {
@@ -66,13 +95,19 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     private fun resolveNextMonth() {
         mCurrentMonth = CalendarUtil.nextMonth(mCurrentMonth)
-        binding.tvMonth.text = CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(mCurrentMonth)
+        binding.tvMonth.text =
+            CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(
+                mCurrentMonth
+            )
         validateMonthCalendarBtn(mCurrentMonth)
     }
 
     private fun resolvePreviousMonth() {
         mCurrentMonth = CalendarUtil.previousMonth(mCurrentMonth)
-        binding.tvMonth.text = CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(mCurrentMonth)
+        binding.tvMonth.text =
+            CalendarUtil.getTitleMonth(mCurrentMonth) + " " + CalendarUtil.getTitleYear(
+                mCurrentMonth
+            )
         validateMonthCalendarBtn(mCurrentMonth)
         //
     }
@@ -360,48 +395,50 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     }
 
     private fun validateStatsBtn(startPeriod: Long) {
-                if (startPeriod < 0) {
-                    binding.btnNextYear.alpha = 0.3f
-                    binding.btnNextYear.isEnabled = false
-                    if (CalendarUtil.startYear(System.currentTimeMillis())
-                        > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
-                    ) {
-                        binding.btnPreviousYear.alpha = 1f
-                        binding.btnPreviousYear.isEnabled = true
-                    } else {
-                        binding.btnPreviousYear.alpha = 0.3f
-                        binding.btnPreviousYear.isEnabled = false
-                    }
-                } else {
-                    if (CalendarUtil.startYear(startPeriod)
-                        > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
-                    ) {
-                        binding.btnPreviousYear.alpha = 1f
-                        binding.btnPreviousYear.isEnabled = true
-                    } else {
-                        binding.btnPreviousYear.alpha = 0.3f
-                        binding.btnPreviousYear.isEnabled = false
-                    }
+        if (startPeriod < 0) {
+            binding.btnNextYear.alpha = 0.3f
+            binding.btnNextYear.isEnabled = false
+            if (CalendarUtil.startYear(System.currentTimeMillis())
+                > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
+            ) {
+                binding.btnPreviousYear.alpha = 1f
+                binding.btnPreviousYear.isEnabled = true
+            } else {
+                binding.btnPreviousYear.alpha = 0.3f
+                binding.btnPreviousYear.isEnabled = false
+            }
+        } else {
+            if (CalendarUtil.startYear(startPeriod)
+                > CalendarUtil.startYear(SPF.getStartOpenTime(requireContext()))
+            ) {
+                binding.btnPreviousYear.alpha = 1f
+                binding.btnPreviousYear.isEnabled = true
+            } else {
+                binding.btnPreviousYear.alpha = 0.3f
+                binding.btnPreviousYear.isEnabled = false
+            }
 
-                    if (CalendarUtil.startYear(startPeriod) <
-                        CalendarUtil.startYear(System.currentTimeMillis())
-                    ) {
-                        binding.btnNextYear.alpha = 1f
-                        binding.btnNextYear.isEnabled = true
-                    } else {
-                        binding.btnNextYear.alpha = 0.3f
-                        binding.btnNextYear.isEnabled = false
-                    }
-                }
+            if (CalendarUtil.startYear(startPeriod) <
+                CalendarUtil.startYear(System.currentTimeMillis())
+            ) {
+                binding.btnNextYear.alpha = 1f
+                binding.btnNextYear.isEnabled = true
+            } else {
+                binding.btnNextYear.alpha = 0.3f
+                binding.btnNextYear.isEnabled = false
+            }
+        }
     }
+
     private fun resolvePreviousYearStats() {
-        mCurrentYear =  CalendarUtil.previousYear(mCurrentYear)
+        mCurrentYear = CalendarUtil.previousYear(mCurrentYear)
         binding.tvYear.text = CalendarUtil.getTitleYear(mCurrentYear)
         validateStatsBtn(mCurrentYear)
         //
     }
+
     private fun resolveNextYearStats() {
-        mCurrentYear =  CalendarUtil.nextYear(mCurrentYear)
+        mCurrentYear = CalendarUtil.nextYear(mCurrentYear)
         binding.tvYear.text = CalendarUtil.getTitleYear(mCurrentYear)
         validateStatsBtn(mCurrentYear)
 //
@@ -566,7 +603,12 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         var startMonth = CalendarUtil.startMonthMs(SPF.getStartOpenTime(requireContext()))
         val currentMonth = CalendarUtil.startMonthMs(System.currentTimeMillis())
         while (startMonth <= currentMonth) {
-            list.add(MonthCalendarModel(CalendarUtil.getMonth(startMonth)+1, CalendarUtil.getYear(startMonth)))
+            list.add(
+                MonthCalendarModel(
+                    CalendarUtil.getMonth(startMonth) + 1,
+                    CalendarUtil.getYear(startMonth)
+                )
+            )
             startMonth = CalendarUtil.nextMonth(startMonth)
         }
         return list

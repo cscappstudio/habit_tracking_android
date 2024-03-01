@@ -20,7 +20,7 @@ data class Challenge(
     @ColumnInfo(name = "cycle")
     var cycle: Int = 0,
     @ColumnInfo(name = "repeat")
-    var repeat: List<Int> = listOf(2,3,4,5,6,7,1),
+    var repeat: List<Int> = listOf(2,3,4,5,6,7,1), //1 = CN -- Calendar.DAY
     @ColumnInfo(name = "joinedHistory")
     var joinedHistory: ChallengeJoinedHistory?=null,
     @ColumnInfo(name = "finish")
