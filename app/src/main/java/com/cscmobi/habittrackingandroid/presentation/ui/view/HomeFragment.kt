@@ -572,6 +572,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             )
         }.toMutableList()
 
+
         challengeHomeAdpater = BaseBindingAdapter<ChallengeHomeItem>(
             R.layout.item_challenge_home,
             layoutInflater,
