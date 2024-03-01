@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
@@ -35,8 +36,8 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     override fun initView() {
-        mImgChallenge = R.drawable.bg_add_icon
-        binding.bgAddImg.setImageResource(mImgChallenge)
+        mImgChallenge = ""
+        binding.bgAddImg.setImageResource(R.drawable.bg_add_icon)
         listDayView.add(binding.btnMon)
         listDayView.add(binding.btnTue)
         listDayView.add(binding.btnWed)
@@ -60,7 +61,7 @@ class CreateChallengeActivity : BaseActivity2() {
     private var mRepeatData = arrayListOf(2, 3, 4, 5, 6, 7, 1)
     private var listDayView = arrayListOf<TextView>()
 
-    private var mImgChallenge = 0
+    private var mImgChallenge = ""
     override fun controllerView() {
         binding.btnStartChallenge.setOnClickListener {
             performCreateChallenge()
@@ -69,14 +70,20 @@ class CreateChallengeActivity : BaseActivity2() {
             onBackPressed()
         }
         binding.bgAddImg.setOnClickListener {
-            val bottomSheetFragment = BottomSheetCollectionFragment()
+            val bottomSheetFragment = BottomSheetImageChallenge()
             binding.btnMon
 
             bottomSheetFragment.listener =
-                object : BottomSheetCollectionFragment.IBottomCollection {
-                    override fun next(resDrawable: Int) {
+                object : BottomSheetImageChallenge.IBottomCollection {
+                    override fun next(resDrawable: String) {
                         //
-                        binding.bgAddImg.setImageResource(resDrawable)
+                        binding.bgAddImg.setImageBitmap(
+                            BitmapFactory.decodeStream(
+                                assets.open(
+                                    resDrawable
+                                )
+                            )
+                        )
                         binding.icPlusAva.visibility = View.GONE
                         mImgChallenge = resDrawable
                     }

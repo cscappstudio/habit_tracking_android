@@ -12,6 +12,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.adapter.DetailChallengeAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
+import com.cscmobi.habittrackingandroid.utils.CalendarUtil.Companion.getDaysBetween
 import com.google.gson.Gson
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
@@ -23,7 +24,7 @@ import kotlin.collections.ArrayList
 
 class DetailChallengeActivity : BaseActivity2() {
     private lateinit var binding: ActivityDetailChallengeBinding
-    private var mChallenge: Challenge ? = null
+    private var mChallenge: Challenge? = null
 
     override fun setupScreen() {
         binding = ActivityDetailChallengeBinding.inflate(layoutInflater)
@@ -117,21 +118,26 @@ class DetailChallengeActivity : BaseActivity2() {
 
         var out = false
         for (i in 1..mChallenge!!.duration / mChallenge!!.cycle) {
-            mChallenge!!.days.forEach {
-                it.tasks?.forEach { _task ->
-                    val task = _task.parserToTask()
+            for (j in 0 until mChallenge!!.days.size) {
+                for (k in 0 until mChallenge!!.days[j].tasks!!.size) {
+                    if (getDaysBetween(listDate[0], listDate[startDate] ) > (mChallenge!!.duration - 1)) {
+                        out = true
+                        break
+                    }
+                    val task = mChallenge!!.days[j].tasks!![k].parserToTask()
                     task.challenge = mChallenge!!.name
                     task.startDate = listDate[startDate]
                     task.imgChallenge = mChallenge!!.image
                     task.endDate.isOpen = true
                     task.endDate.endDate = task.startDate!!
                     AppDatabase.getInstance(applicationContext).dao().insertTask(task)
-                    _task.startDate = task.startDate
+                    mChallenge!!.days[j].tasks!![k].startDate = task.startDate
                 }
+                CalendarUtil
                 startDate++
-                if (listDate[startDate] - listDate[0] > mChallenge!!.duration * 24 * 60 * 60 * 1000) {
+                if (getDaysBetween(listDate[0], listDate[startDate] ) > (mChallenge!!.duration - 1)) {
                     out = true
-                    return@forEach
+                    break
                 }
             }
             if (out) break

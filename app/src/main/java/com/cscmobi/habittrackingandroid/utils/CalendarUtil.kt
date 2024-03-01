@@ -23,6 +23,7 @@ class CalendarUtil {
             calendar.timeInMillis = ms
             return calendar[Calendar.DAY_OF_MONTH]
         }
+
         fun totalDayOfMonth(ms: Long): Int {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
@@ -44,10 +45,11 @@ class CalendarUtil {
             if (calendar.timeInMillis > ms) calendar[Calendar.DAY_OF_YEAR] -= 7
             return calendar.timeInMillis
         }
+
         fun nextDay(ms: Long): Long {// start from monday
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
-            calendar[Calendar.DAY_OF_YEAR] +=1
+            calendar[Calendar.DAY_OF_YEAR] += 1
             return calendar.timeInMillis
         }
 
@@ -175,6 +177,22 @@ class CalendarUtil {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             return calendar[Calendar.YEAR]
+        }
+
+        fun getDaysBetween(start: Long, end: Long): Int {
+
+            if (start > end) return -1
+            val startDay = Calendar.getInstance()
+            startDay.timeInMillis = start
+
+            val endDay = Calendar.getInstance()
+            endDay.timeInMillis = end
+
+            if (endDay[Calendar.YEAR] > startDay[Calendar.YEAR]) {
+                val nhuan = if (startDay[Calendar.YEAR] % 4 == 0) 366 else 365
+                return endDay[Calendar.DAY_OF_YEAR] + nhuan - startDay[Calendar.DAY_OF_YEAR]
+            } else
+                return endDay[Calendar.DAY_OF_YEAR] - startDay[Calendar.DAY_OF_YEAR]
         }
 
     }

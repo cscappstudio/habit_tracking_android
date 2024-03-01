@@ -57,8 +57,8 @@ data class ColorTask(val resId: Int, var isSelected: Boolean = false)
 @Serializable
 data class TaskInDay(
     var taskId: Int = 0,
-    var progress: Int = 0,
-    var progressGoal: Int = 0
+    var progress: Int = 0, //thực hiện
+    var progressGoal: Int = 0 //% hoàn thành
 )
 
 
