@@ -133,4 +133,11 @@ interface Dao {
     @Query("SELECT * FROM Challenge WHERE joinedHistory != \"[]\" AND name IN (:names)")
     fun findAllChallengesByName(names: List<String>): Flow<List<Challenge>>
 
+
+
+    @Query("SELECT * FROM history WHERE date=:date")
+    fun getHistoryByDate2(date: Long): History?
+    @Query("SELECT * FROM history WHERE date >= :startDate")
+    suspend fun getHistoryWithDate2(startDate: Long): List<History>
+
 }

@@ -65,33 +65,37 @@ class DetailChallengeAdapter(private var mContext: Context) :
             holder.binding.tvDay.visibility = View.GONE
             holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(96f)
         }
-        if (item.type == 0) {
-            if (item.status == 0)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_no)
-            if (item.status == 1)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_fill)
-            if (item.status == 2)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_no_fill)
-            if (item.status == 3)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_fill_old)
-        } else if (item.type == 1) {
-            if (item.status == 0)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_no_fill_old)
-            if (item.status == 1)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_fill)
-            if (item.status == 2)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_no_fill)
-            if (item.status == 3)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_fill_old)
-        } else if (item.type == 2) {
-            if (item.status == 0)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end)
-            if (item.status == 1)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end_fill)
-            if (item.status == 2)
-                holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end_no_fill)
+        if (item.type == 3) {
+            holder.binding.vectorTimeline.visibility = View.GONE
+        } else {
+            holder.binding.vectorTimeline.visibility = View.VISIBLE
+            if (item.type == 0) {
+                if (item.status == 0)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_no)
+                if (item.status == 1)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_fill)
+                if (item.status == 2)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_no_fill)
+                if (item.status == 3)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_start_fill_old)
+            } else if (item.type == 1) {
+                if (item.status == 0)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_no_fill_old)
+                if (item.status == 1)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_fill)
+                if (item.status == 2)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_no_fill)
+                if (item.status == 3)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_fill_old)
+            } else if (item.type == 2) {
+                if (item.status == 0)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end)
+                if (item.status == 1)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end_fill)
+                if (item.status == 2)
+                    holder.binding.vectorTimeline.setImageResource(R.drawable.ic_timeline_end_no_fill)
+            }
         }
-
     }
 
     override fun getItemCount(): Int {

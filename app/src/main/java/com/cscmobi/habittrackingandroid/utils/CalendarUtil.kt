@@ -178,6 +178,15 @@ class CalendarUtil {
             calendar.timeInMillis = ms
             return calendar[Calendar.YEAR]
         }
+        fun getStartTimeOfDay(ms: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+             calendar[Calendar.HOUR_OF_DAY] = 0
+             calendar[Calendar.MINUTE] = 0
+             calendar[Calendar.SECOND] = 0
+             calendar[Calendar.MILLISECOND] = 0
+            return calendar.timeInMillis
+        }
 
         fun getDaysBetween(start: Long, end: Long): Int {
 
