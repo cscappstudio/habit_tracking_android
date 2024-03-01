@@ -44,7 +44,6 @@ object FakeData {
 
         for (i in 0..numberOfTasks-1) {
             val t = getRandomType(random)
-
             val task = Task(
                 id = i,
                 name = "Task $i",
