@@ -15,6 +15,8 @@ class PagerMonthCalendarAdapter(fragmentActivity: FragmentActivity) :
     fun setList(list: MutableList<MonthCalendarModel>) {
         this.mList = list
         notifyDataSetChanged()
+
+        println("thanhlv 55555555555 ----222222----- ")
     }
 
     fun getList(): MutableList<MonthCalendarModel> {

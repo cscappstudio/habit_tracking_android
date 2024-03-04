@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity.Companion.mAllMoods
+import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.thanhlv.fw.helper.RunUtils
 import kotlinx.coroutines.runBlocking
 import java.util.Calendar
@@ -48,7 +49,7 @@ class MonthCalendarFragment :
                 recyclerView()
                 adapter?.updateData(getDataList(mMonth, mYear))
                 binding.loadingView.visibility = View.GONE
-            }, 300)
+            }, 200)
         }
     }
 
@@ -75,7 +76,6 @@ class MonthCalendarFragment :
         val list = mutableListOf<DayCalendarModel>()
 
         val calendar = Calendar.getInstance()
-        calendar[Calendar.DAY_OF_MONTH] = 1
         calendar[Calendar.YEAR] = year
         calendar[Calendar.MONTH] = month - 1
         calendar[Calendar.DAY_OF_MONTH] = 1
@@ -137,6 +137,31 @@ class MonthCalendarFragment :
                 }
             }
             list.add(itemDay)
+        }
+
+        runBlocking {
+
+            val thisMonth = Calendar.getInstance()
+            calendar[Calendar.YEAR] = year
+            calendar[Calendar.MONTH] = month - 1
+            calendar[Calendar.DAY_OF_MONTH] = 1
+            val endMonth = CalendarUtil.nextMonth(thisMonth.timeInMillis)
+            val dataMonth = AppDatabase.getInstance(requireContext()).dao()
+                .getHistoryFromAUntilB(CalendarUtil.startMonthMs(thisMonth.timeInMillis), CalendarUtil.startMonthMs(endMonth))
+
+            if (dataMonth.isEmpty()) return@runBlocking
+            dataMonth.sortedBy { it.date }
+
+            list.forEach {
+                dataMonth.forEach { dataFill ->
+                    if (CalendarUtil.sameDay(it.date, dataFill.date!!)) {
+                        it.progress = dataFill.progressDay
+                        it.isPauseAllTask = dataFill.allTaskPause
+                        return@forEach
+                    }
+                }
+            }
+
         }
 
         return list

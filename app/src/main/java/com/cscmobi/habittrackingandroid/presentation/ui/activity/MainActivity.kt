@@ -207,8 +207,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         transaction.hide(fragment4)
 
         fmShow?.let {
-
             transaction.show(it)
+            if (it is ProgressFragment) it.loadHistoryData()
         }
         transaction.commit()
     }

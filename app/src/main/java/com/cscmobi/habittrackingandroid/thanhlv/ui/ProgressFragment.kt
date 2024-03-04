@@ -72,6 +72,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     }
 
     override fun initView(view: View) {
+
         loadHistoryData()
 
         binding.bbCurrentStreak
@@ -91,30 +92,37 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     }
 
-    private fun loadHistoryData() {
+    fun loadHistoryData() {
         runBlocking {
             val allHistory = AppDatabase.getInstance(requireContext()).dao().getAllHistory2()
             if (allHistory.isEmpty()) return@runBlocking
             allHistory.sortedBy { it.date }
+            var streak = 0
             var currentStreak = 0
             var perfectDay = 0
             var longStreak = 0
             for (i in allHistory.indices) {
-                if (allHistory[i].progressDay >= 100) {
-                    currentStreak += 1
+                if (allHistory[i].progressDay >= 100 && !allHistory[i].allTaskPause) {
+                    streak += 1
                     perfectDay += 1
-                    if (longStreak < currentStreak) longStreak = currentStreak
-                } else currentStreak = 0
+                    if (longStreak < streak) longStreak = streak
+                } else if (!allHistory[i].allTaskPause) streak = 0
+                else currentStreak = streak
             }
+            if (streak > 0) currentStreak = streak
 
             mCurrentStreak.postValue(currentStreak)
             mLongestStreak.postValue(longStreak)
             mCompletionRate.postValue(perfectDay * 100 / allHistory.size)
             mPerfectDay.postValue(perfectDay)
 
-
+            updateDataToUI()
         }
+    }
 
+    private fun updateDataToUI() {
+        println("thanhlv 55555555555 --------- " + pagerMonthAdapter)
+        pagerMonthAdapter?.setList(getDataForMonth())
     }
 
     private fun handleMonthCalendar() {
@@ -384,9 +392,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun resolveNextPeriod(type: Int) {
-        val currentDay = Calendar.getInstance()
-        currentDay.timeInMillis = mCurrentStartPeriod
-
         when (type) {
             1 -> {
                 mCurrentStartPeriod = CalendarUtil.nextWeek(mCurrentStartPeriod)
@@ -585,7 +590,10 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         binding.vpMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                updateTitleMonth(pagerMonthAdapter?.getList()?.get(position))
+                if (pagerMonthAdapter?.getList()?.isNotEmpty() == true &&
+                    position < pagerMonthAdapter?.getList()!!.size
+                )
+                    updateTitleMonth(pagerMonthAdapter?.getList()?.get(position))
             }
         })
 

@@ -53,11 +53,22 @@ class CalendarUtil {
             return calendar.timeInMillis
         }
 
-
+        fun endMonthMs(ms: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+            calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.MILLISECOND] = 0
+            return calendar.timeInMillis
+        }
         fun startMonthMs(ms: Long): Long {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
@@ -208,6 +219,14 @@ class CalendarUtil {
                 return endDay[Calendar.DAY_OF_YEAR] + nhuan - startDay[Calendar.DAY_OF_YEAR]
             } else
                 return endDay[Calendar.DAY_OF_YEAR] - startDay[Calendar.DAY_OF_YEAR]
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun sameDay(a: String, b: Long): Boolean {
+            if (a.isEmpty() || b <= 0) return false
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = b
+            return SimpleDateFormat("d/M/yyyy").format(calendar.time) == a
         }
 
     }

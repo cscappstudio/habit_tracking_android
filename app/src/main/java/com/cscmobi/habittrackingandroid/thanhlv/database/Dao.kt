@@ -79,6 +79,9 @@ interface Dao {
     @Query("SELECT * FROM history")
     suspend fun getAllHistory2(): List<History>
 
+    @Query("SELECT * FROM history WHERE date >= :startDate AND date < :endDate")
+    suspend fun getHistoryFromAUntilB(startDate: Long, endDate: Long): List<History>
+
     @Query("SELECT * FROM history")
     fun getAllHistory(): Flow<List<History>>
 
