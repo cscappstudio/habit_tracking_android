@@ -126,11 +126,9 @@ class DetailChallengeActivity : BaseActivity2() {
                     task.endDate.isOpen = true
                     task.endDate.endDate = task.startDate!!
                     val taskID = AppDatabase.getInstance(applicationContext).dao().insertTask(task)
-                    delay(100)
                     mChallenge!!.days[j].tasks!![k].startDate = task.startDate
                     mChallenge!!.days[j].tasks!![k].id = taskID
                 }
-                CalendarUtil
                 startDate++
                 if (getDaysBetween(listDate[0], listDate[startDate] ) > (mChallenge!!.duration - 1)) {
                     out = true

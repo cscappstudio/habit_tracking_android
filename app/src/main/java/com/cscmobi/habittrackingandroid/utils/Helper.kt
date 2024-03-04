@@ -47,22 +47,22 @@ object Helper {
     fun validateTask(task: Task, date: Long, isPauseValidate: Boolean = true): Boolean {
         var isValid = true
 
-        if (isPauseValidate)
-            task.pauseDate?.let {
-                //TODO check puasedate == currentDate then set = null
-                var c = Calendar.getInstance()
-                c.time = Date(it)
-                c.add(Calendar.DAY_OF_MONTH, task.pause)
+        if (isPauseValidate) {
+                task.pauseDate?.let {
+                    //TODO check puasedate == currentDate then set = null
+                    var c = Calendar.getInstance()
+                    c.time = Date(it)
+                    c.add(Calendar.DAY_OF_MONTH, task.pause)
 
-//                if (c.time.time > date ) {
-//                    isValid = false
-//                }
-                if (date in it.toDate()..c.time.time) {
-                    isValid = false
+                    if (date in it.toDate()..c.time.time) {
+                        isValid = false
+                    }
+
+
+                    Log.d("isValid", "1 $isValid")
                 }
+        }
 
-                Log.d("isValid", "1 $isValid")
-            }
 
         task.repeate?.let {
             if (it.isOn == true) {
@@ -115,7 +115,7 @@ object Helper {
             }
         }
 
-        if  (task.endDate.isOpen == true && task.endDate.endDate!! <= _date) {
+        if (task.endDate.isOpen == true && task.endDate.endDate!! < _date) {
             isValid = false
             Log.d("isValid", "3 $isValid")
         }
@@ -148,12 +148,16 @@ object Helper {
     }
 
 
-    fun Activity.createBubbleShowCaseBuilder(v: View,des: String,id: String):  BubbleShowCaseBuilder{
+    fun Activity.createBubbleShowCaseBuilder(
+        v: View,
+        des: String,
+        id: String
+    ): BubbleShowCaseBuilder {
         return BubbleShowCaseBuilder(this) //Activity instance
             .description(des)
             .arrowPosition(BubbleShowCase.ArrowPosition.TOP)
             .targetView(v) //View to point out
-           .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
+            .highlightMode(BubbleShowCase.HighlightMode.VIEW_SURFACE)
             .backgroundColorResourceId(R.color.jade_black)
             .textColor(Color.WHITE) //Bubble Text color
             .descriptionTextSize(14) //Subtitle text size in SP (default value 14sp)
@@ -182,7 +186,6 @@ object Helper {
         var c = Calendar.getInstance()
         return c.get(Calendar.WEEK_OF_MONTH)
     }
-
 
 
 }
