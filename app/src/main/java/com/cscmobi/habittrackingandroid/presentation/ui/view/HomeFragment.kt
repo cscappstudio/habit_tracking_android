@@ -748,6 +748,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     startActivity(intent)
                     return
                 }
+
                 if (!bottomSheetPauseFragment.isAdded)
                     bottomSheetPauseFragment.show(
                         childFragmentManager,
