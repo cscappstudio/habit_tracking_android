@@ -213,7 +213,7 @@
                 app:csb_fontType="1"
                 app:csb_max="100"
                 app:csb_min="0"
-                app:csb_progress="50"
+                app:csb_progress="0"
                 app:csb_progressColor="@color/baby_pink"
                 app:csb_progressWidth="@dimen/_7sdp"
                 app:csb_step="5"

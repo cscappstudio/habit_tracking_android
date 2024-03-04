@@ -94,15 +94,23 @@ class TaskAdapter(
                 c.time = Date(item.pauseDate!!)
                 c.add(Calendar.DAY_OF_MONTH, item.pause)
 
-                if (date in item.pauseDate!!.toDate()..c.time.time) {
+                if (item.pause != -1) {
+                    if (date in item.pauseDate!!.toDate()..c.time.time) {
+                        binding.ivPlay.visibility = View.VISIBLE
+                        binding.rdCheck.visibility = View.GONE
+                        isPause = true
+                    } else {
+                        binding.ivPlay.visibility = View.GONE
+                        binding.rdCheck.visibility = View.VISIBLE
+                        isPause = false
+                    }
+                } else {
                     binding.ivPlay.visibility = View.VISIBLE
                     binding.rdCheck.visibility = View.GONE
                     isPause = true
-                } else {
-                    binding.ivPlay.visibility = View.GONE
-                    binding.rdCheck.visibility = View.VISIBLE
-                    isPause = false
                 }
+
+
             } else {
                 binding.ivPlay.visibility = View.GONE
                 binding.rdCheck.visibility = View.VISIBLE

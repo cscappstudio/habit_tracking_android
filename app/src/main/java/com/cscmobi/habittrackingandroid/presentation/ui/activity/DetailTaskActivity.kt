@@ -50,7 +50,7 @@ import java.util.Date
 import kotlin.math.roundToInt
 
 
-class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
+class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val detailTaskViewModel: DetailTaskViewModel by viewModel()
 
     val childFragment: CustomDetailTaskCalenderFragment = CustomDetailTaskCalenderFragment()
@@ -85,7 +85,6 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         binding.layoutSteak4.ivInfo.setImageResource(R.drawable.ic_steak_rate)
 
 
-
 //        val taskId = intent.getIntExtra(Constant.task_id, -1)
 //        if (taskId != -1) {
 //            lifecycleScope.launch {
@@ -104,14 +103,14 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
             }
 
-            historyId =it.getLong(Constant.IDHISTORY, -1L)
+            historyId = it.getLong(Constant.IDHISTORY, -1L)
 
 
             if (Helper.chooseDate > Helper.currentDate.toDate()) {
-                binding.sbProgress.setOnTouchListener{ _, _ -> true }
-                binding.ivPlus.setOnTouchListener{ _, _ -> true }
-                binding.ivMinus.setOnTouchListener{ _, _ -> true }
-                binding.txtFinish.setOnTouchListener{ _, _ -> true }
+                binding.sbProgress.setOnTouchListener { _, _ -> true }
+                binding.ivPlus.setOnTouchListener { _, _ -> true }
+                binding.ivMinus.setOnTouchListener { _, _ -> true }
+                binding.txtFinish.setOnTouchListener { _, _ -> true }
             }
 
         }
@@ -155,7 +154,8 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             val index = it.taskInDay.indexOfFirst { it.taskId == task.id }
             if (index != -1) {
                 it.taskInDay[index].progressGoal = currentProgress
-                it.taskInDay[index].progress = Helper.calTaskProgress(currentProgress,task.goal!!.target)
+                it.taskInDay[index].progress =
+                    Helper.calTaskProgress(currentProgress, task.goal!!.target)
                 detailTaskViewModel.updateHistory(it)
             }
 
@@ -192,11 +192,13 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             var pauseDate = -1L
             var endPauseDate = -1L
             val c = Calendar.getInstance()
+
             if (currentTask.pauseDate != null) {
                 pauseDate = currentTask.pauseDate!!
 
                 c.time = Date(pauseDate)
-                c.set(Calendar.DAY_OF_MONTH, 3)
+                if (currentTask.pause != -1)
+                    c.add(Calendar.DAY_OF_MONTH, currentTask.pause)
                 endPauseDate = c.time.time
             }
 
@@ -207,46 +209,45 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             Log.d("listDataTaskHistory", listDataTaskHistory.size.toString())
 
             listDataTaskHistory.forEach {
-
                 if (pauseDate != -1L) {
                     if (currentTask.pause == -1) {
-                        if (pauseDate >= it.date) {
-                            missDay++
+                        if (pauseDate <= it.date) {
+//                            missDay++
                             it.isPause = true
                         }
 
                     } else {
                         if (it.date in pauseDate..endPauseDate) {
-                            missDay++
+//                            missDay++
                             it.isPause = true
 
                         }
                     }
 
                 }
+                Log.d("abcvnnn", it.toString())
 
-//                if (currentTask.repeate == null) {
-//
-//                } else {
-//                }
-                if (!it.isPause) {
-                    var progressGoal = if (it.taskInDay.progressGoal > (currentTask.goal?.target
-                            ?: 1)
-                    ) currentTask.goal?.target else it.taskInDay.progressGoal
-                    val progress = (progressGoal!! * 100f / currentTask.goal!!.target).roundToInt()
-                    it.taskInDay.progress = progress
+//                if (!it.isPause) {
+                var progressGoal = if (it.taskInDay.progressGoal > (currentTask.goal?.target
+                        ?: 1)
+                ) currentTask.goal?.target else it.taskInDay.progressGoal
+                val progress = (progressGoal!! * 100f / currentTask.goal!!.target).roundToInt()
+                it.taskInDay.progress = progress
 
-                    if (progress == 100) {
-                        finishDay++
-                        currentStreak++
-                    } else {
+                if (progress == 100) {
+                    finishDay++
+                    currentStreak++
+                } else {
+                    if (!it.isPause) {
                         currentStreak = 0
-                    }
-
-                    if (longStreak < currentStreak) {
-                        longStreak = currentStreak
+                        missDay++
                     }
                 }
+
+                if (longStreak < currentStreak) {
+                    longStreak = currentStreak
+                }
+                //  }
             }
 
             var rate = ((finishDay.toFloat() / listDataTaskHistory.size.toFloat()) * 100).toInt()
@@ -273,20 +274,20 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             binding.ivTask.imageTintList = ColorStateList.valueOf(Color.parseColor(it.color))
             binding.frIvTask.setBackgroundApla(it.color ?: "#33EBB2BD", 20)
             Log.d("TESTDATA", it.toString())
-            binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate,this)
-            binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind,this)
+            binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate, this)
+            binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind, this)
             binding.txtNameTask.text = it.name
 
             binding.txtNoteTask.text = it.note
 
 
             if (it.goal != null) {
-               progressStep = (100 / (it.goal!!.target ?: 1)).toFloat()
+                progressStep = (100 / (it.goal!!.target ?: 1)).toFloat()
 
                 if (it.goal!!.target > 2)
                     binding.sbProgress.step = progressStep
                 binding.sbProgress.progress =
-                    ((it.goal!!.currentProgress ?: 0).toFloat()) *progressStep
+                    ((it.goal!!.currentProgress ?: 0).toFloat()) * progressStep
 
                 currentProgress = (it.goal!!.currentProgress ?: 0)
                 currentGoal = (it.goal!!.target ?: 1)
@@ -294,13 +295,17 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
                 binding.ctlProgressGoal.visibility = View.VISIBLE
                 binding.txtProgress.text = (it.goal!!.currentProgress ?: 0).toString()
-                binding.txtGoalTarget.text = "${getString(R.string.goal)}: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"
+                binding.txtGoalTarget.text =
+                    "${getString(R.string.goal)}: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"
 
             }
 
             it.checklist?.let {
                 checkList = it.toMutableList()
-                Helper.isNewDay = getMySharedPreferences().getLong("currentDDay",-1L) != Helper.currentDate.toDate()
+                Helper.isNewDay = getMySharedPreferences().getLong(
+                    "currentDDay",
+                    -1L
+                ) != Helper.currentDate.toDate()
 
                 if (Helper.isNewDay) {
                     checkList.forEach { cl ->
@@ -429,10 +434,10 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 //            currentProgress = ((100 / currentGoal.toFloat())) .roundToInt()
 //            currentProgress +=  ((binding.sbProgress.step / 10).roundToInt())
 
-            currentProgress += ((1 /progressStep) + 1).roundToInt()
+            currentProgress += ((1 / progressStep) + 1).roundToInt()
             if (currentProgress > currentGoal) {
                 binding.sbProgress.progress = 100f
-            } else binding.sbProgress.progress = currentProgress.toFloat() *progressStep
+            } else binding.sbProgress.progress = currentProgress.toFloat() * progressStep
 
 
             binding.txtProgress.text = currentProgress.toString()
@@ -440,15 +445,15 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
 
         binding.ivMinus.setOnClickListener {
-            currentProgress -= ((1 /progressStep) + 1).roundToInt()
+            currentProgress -= ((1 / progressStep) + 1).roundToInt()
 
             if (currentProgress < 0) {
                 currentProgress = 0
             }
 
 
-            if (currentProgress *progressStep <= 100) {
-                binding.sbProgress.progress = currentProgress *progressStep
+            if (currentProgress * progressStep <= 100) {
+                binding.sbProgress.progress = currentProgress * progressStep
             } else binding.sbProgress.progress = 100f
             binding.txtProgress.text = currentProgress.toString()
 
@@ -456,7 +461,7 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
         binding.txtFinish.setOnClickListener {
             binding.sbProgress.progress = 100f
-            currentProgress = (100f /progressStep).roundToInt()
+            currentProgress = (100f / progressStep).roundToInt()
 
             binding.txtProgress.text = currentProgress.toString()
 
@@ -487,7 +492,7 @@ class   DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             //      detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
             updateTaskHistory(currentTask, currentProgress)
 
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 currentTask.checklist = checkList
                 detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
 

@@ -21,11 +21,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
@@ -94,9 +97,10 @@ class HomeViewModel(
     }
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
+        println("wtfhistoryaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         var taskDoneSize = 0
         history.taskInDay.forEach {
-           if (it.progressGoal == 100) taskDoneSize ++
+           if (it.progress == 100) taskDoneSize ++
         }
 
         history.progressDay = (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
@@ -123,6 +127,8 @@ class HomeViewModel(
             if (it.isEmpty()) return@collect
 
             var histories = it.toMutableList()
+            println("chaulqalo___$histories")
+
             databaseRepository.getAllTask().collect{ tasks ->
                 val challengeTaskMap = tasks.filter { !it.challenge.isNullOrEmpty() }.map{ChallengeTask(it.challenge!!, InfoTask(it.id,it.goal!!.target))}.groupBy { it.challengeName }
 
@@ -278,6 +284,7 @@ class HomeViewModel(
 
 
     private fun fetchTasksByDate(date: Long) {
+
         viewModelScope.launch(Dispatchers.IO) {
             tasks.clear()
 
@@ -286,19 +293,18 @@ class HomeViewModel(
 
                     var taskFilter = it.filter { validateTask(it, date, false) }
 
-                    tasks = taskFilter.toMutableList()
 
+                    tasks = taskFilter.toMutableList()
                     if (tasks.isEmpty())
-                        _state.value = HomeState.Empty
+                        _state.value =  HomeState.Empty
                     else
                         _state.value = HomeState.Tasks(tasks)
 
+
                     Log.d("fetchTasksByDate", tasks.size.toString())
 
-                    // _state.value = HomeState.TaskInChallenge(taskFilter)
-
                 } catch (e: Exception) {
-                    HomeState.Tasks(arrayListOf())
+                    _state.value = HomeState.Tasks(arrayListOf())
                 }
 
 
