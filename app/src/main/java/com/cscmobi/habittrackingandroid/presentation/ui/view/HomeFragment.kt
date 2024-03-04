@@ -1203,7 +1203,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         Helper.chooseDate = currentDate
     }
 
-
     companion object {
         var isSetCurrentDate = false
     }
