@@ -743,11 +743,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
             override fun skip(item: Task, p: Int) {
-//                if (!freeIAP.canSkip(requireActivity())) {
-//                    val intent = Intent(requireActivity(), SubscriptionsActivity::class.java)
-//                    startActivity(intent)
-//                    return
-//                }
+                if (!freeIAP.canSkip(requireActivity())) {
+                    val intent = Intent(requireActivity(), SubscriptionsActivity::class.java)
+                    startActivity(intent)
+                    return
+                }
                 if (!bottomSheetPauseFragment.isAdded)
                     bottomSheetPauseFragment.show(
                         childFragmentManager,
@@ -763,7 +763,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     Toast.makeText(requireContext(), "Update success", Toast.LENGTH_SHORT).show()
                     taskAdapter.notifyItemChanged(p)
                     freeIAP.isSkip = true
+
+                    updateAllTaskPause()
+
                 }
+
 
             }
 
@@ -869,6 +873,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
                 }
                 freeIAP.isSkip = false
+                updateAllTaskPause()
 
             }
 
@@ -1173,27 +1178,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 if (it.isNotEmpty())
                     binding.ivAvatar.setImageResource(it.toInt())
             }
-        } else {
+        }
+    }
 
-            if (listTask.isNotEmpty())
-                currentHistory?.let {
-                    var isAllTaskPause = true
-                    listTask.forEach {
-                        if (it.pause == 0 || it.pauseDate == null) {
-                            isAllTaskPause = false
-                            return@forEach
-                        }
-
+    private fun updateAllTaskPause() {
+        if (listTask.isNotEmpty())
+            currentHistory?.let {
+                var isAllTaskPause = true
+                listTask.forEach {
+                    if (it.pause == 0 || it.pauseDate == null) {
+                        isAllTaskPause = false
+                        return@forEach
                     }
 
-
-                    if (it.allTaskPause != isAllTaskPause) {
-                        it.allTaskPause = isAllTaskPause
-                        homeViewModel.updateHistory(it)
-                    }
                 }
 
-        }
+
+                if (it.allTaskPause != isAllTaskPause) {
+                    it.allTaskPause = isAllTaskPause
+                    homeViewModel.updateHistory(it)
+                }
+            }
     }
 
     override fun onPause() {
