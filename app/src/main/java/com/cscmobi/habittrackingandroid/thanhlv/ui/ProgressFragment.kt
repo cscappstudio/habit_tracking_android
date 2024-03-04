@@ -13,7 +13,6 @@ import com.cscmobi.habittrackingandroid.databinding.FragmentProgressBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerYearCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
-import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesMonthLabelAxisX
@@ -84,7 +83,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         binding.bbPerfectDay
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
 
-        viewPager2()
+//        viewPager2()
         handleMonthCalendar()
         handleChartCompletionRate()
         handleYearStats()
@@ -106,17 +105,20 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     streak += 1
                     perfectDay += 1
                     if (longStreak < streak) longStreak = streak
-                } else if (!allHistory[i].allTaskPause) streak = 0
-                else currentStreak = streak
+                } else {
+                    if (streak > 0) currentStreak = streak
+                    if (!allHistory[i].allTaskPause) streak = 0
+                }
             }
-            if (streak > 0) currentStreak = streak
+
 
             mCurrentStreak.postValue(currentStreak)
             mLongestStreak.postValue(longStreak)
             mCompletionRate.postValue(perfectDay * 100 / allHistory.size)
             mPerfectDay.postValue(perfectDay)
 
-            updateDataToUI()
+//            updateDataToUI()
+            viewPager2()
         }
     }
 
@@ -138,7 +140,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     @SuppressLint("SetTextI18n")
     private fun resolveNextMonth() {
-        mCurrentMonth = CalendarUtil.nextMonth(mCurrentMonth)
+        mCurrentMonth = CalendarUtil.nextMonthMs(mCurrentMonth)
         binding.tvMonth.text = CalendarUtil.getTitleMonthYear(mCurrentMonth)
         validateMonthCalendarBtn(mCurrentMonth)
     }
@@ -284,6 +286,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     }
                 }
             }
+
             2 -> {
                 binding.btnWeek.isEnabled = true
                 binding.btnMonth.isEnabled = false
@@ -322,6 +325,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     }
                 }
             }
+
             3 -> {
                 binding.btnWeek.isEnabled = true
                 binding.btnMonth.isEnabled = true
@@ -401,7 +405,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             }
 
             2 -> {
-                mCurrentStartPeriod = CalendarUtil.nextMonth(mCurrentStartPeriod)
+                mCurrentStartPeriod = CalendarUtil.nextMonthMs(mCurrentStartPeriod)
                 binding.tvPeriod.text = CalendarUtil.getTitleMonth(mCurrentStartPeriod)
                 binding.tvPeriodYear.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
                 binding.tvPeriodYear.visibility = View.VISIBLE
@@ -494,6 +498,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
                 }
             }
+
             3 -> {
                 if (startDate < 0) { //năm hiện tại
                     binding.tvPeriod.text = CalendarUtil.getTitleYear(System.currentTimeMillis())
@@ -505,6 +510,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
                 }
             }
+
             2 -> {
                 if (startDate < 0) { //tháng hiện tại
                     binding.tvPeriod.text = CalendarUtil.getTitleMonth(System.currentTimeMillis())
@@ -546,11 +552,13 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                 radiusColumn = 3
                 interval = 7
             }
+
             3 -> {
                 categories = categoriesYearLabelAxisX
                 radiusColumn = 6
                 interval = 3
             }
+
             else -> {
                 categories = categoriesWeekLabelAxisX
                 radiusColumn = 10
@@ -640,6 +648,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         val list = mutableListOf<MonthCalendarModel>()
         var startMonth = CalendarUtil.startMonthMs(SPF.getStartOpenTime(requireContext()))
         val currentMonth = CalendarUtil.startMonthMs(System.currentTimeMillis())
+        println("thanhlv 55555555555 -----ddddddd---- " + startMonth + " // " + currentMonth)
         while (startMonth <= currentMonth) {
             list.add(
                 MonthCalendarModel(
@@ -647,8 +656,9 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     CalendarUtil.getYear(startMonth)
                 )
             )
-            startMonth = CalendarUtil.nextMonth(startMonth)
+            startMonth = CalendarUtil.nextMonthMs(startMonth)
         }
+
         return list
     }
 

@@ -13,10 +13,10 @@ class PagerMonthCalendarAdapter(fragmentActivity: FragmentActivity) :
 
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list: MutableList<MonthCalendarModel>) {
-        this.mList = list
+        this.mList = ArrayList(list)
         notifyDataSetChanged()
 
-        println("thanhlv 55555555555 ----222222----- ")
+        println("thanhlv 55555555555 ----222222----- " + mList.size)
     }
 
     fun getList(): MutableList<MonthCalendarModel> {
@@ -29,6 +29,8 @@ class PagerMonthCalendarAdapter(fragmentActivity: FragmentActivity) :
 
     override fun createFragment(position: Int): Fragment {
         val monthYearModel = mList[position]
+
+        println("thanhlv 55555555555 ----333333----- " + monthYearModel)
         return MonthCalendarFragment.newInstance(monthYearModel.month, monthYearModel.year)
     }
 }

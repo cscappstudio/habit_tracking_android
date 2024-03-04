@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentMonthCalendarBinding
@@ -16,7 +14,6 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity.Companion.mAllMoods
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
-import com.thanhlv.fw.helper.RunUtils
 import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 
@@ -24,7 +21,7 @@ class MonthCalendarFragment :
     BaseFragment<FragmentMonthCalendarBinding>(FragmentMonthCalendarBinding::inflate),
     MonthCalendarAdapter.Callback {
     private var adapter: MonthCalendarAdapter? = null
-    private var mMonth = 1
+    private var mMonth = 3
     private var mYear = 2024
 
     companion object {
@@ -33,6 +30,8 @@ class MonthCalendarFragment :
                 putInt("MONTH_KEY", month)
                 putInt("YEAR_KEY", year)
             }
+
+            println("thanhlv 55555555555 ----444444444----- " + month)
         }
     }
 
@@ -45,11 +44,11 @@ class MonthCalendarFragment :
         if (arguments != null) {
             mMonth = arguments!!.getInt("MONTH_KEY")
             mYear = arguments!!.getInt("YEAR_KEY")
-            Handler(Looper.getMainLooper()).postDelayed({
+//            Handler(Looper.getMainLooper()).postDelayed({
                 recyclerView()
                 adapter?.updateData(getDataList(mMonth, mYear))
                 binding.loadingView.visibility = View.GONE
-            }, 200)
+//            }, 200)
         }
     }
 
@@ -59,10 +58,11 @@ class MonthCalendarFragment :
     }
 
     private fun recyclerView() {
-        adapter = MonthCalendarAdapter(requireContext(), this)
+        if (adapter == null)
+            adapter = MonthCalendarAdapter(requireContext(), this)
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
+//        binding.recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
     }
 
 
@@ -141,16 +141,18 @@ class MonthCalendarFragment :
 
         runBlocking {
 
-            val thisMonth = Calendar.getInstance()
-            calendar[Calendar.YEAR] = year
-            calendar[Calendar.MONTH] = month - 1
-            calendar[Calendar.DAY_OF_MONTH] = 1
-            val endMonth = CalendarUtil.nextMonth(thisMonth.timeInMillis)
+//            val thisMonth = Calendar.getInstance()
+//            calendar[Calendar.YEAR] = year
+//            calendar[Calendar.MONTH] = month - 1
+//            calendar[Calendar.DAY_OF_MONTH] = 1
+            val endMonth = CalendarUtil.nextMonthMs(calendar.timeInMillis)
             val dataMonth = AppDatabase.getInstance(requireContext()).dao()
-                .getHistoryFromAUntilB(CalendarUtil.startMonthMs(thisMonth.timeInMillis), CalendarUtil.startMonthMs(endMonth))
+                .getHistoryFromAUntilB(CalendarUtil.startMonthMs(calendar.timeInMillis), endMonth)
 
             if (dataMonth.isEmpty()) return@runBlocking
             dataMonth.sortedBy { it.date }
+
+            println("thanhlv jjjjjjjjjjj ==== " + dataMonth)
 
             list.forEach {
                 dataMonth.forEach { dataFill ->

@@ -68,6 +68,7 @@ class CalendarUtil {
             calendar[Calendar.DAY_OF_MONTH] = 1
             calendar[Calendar.HOUR_OF_DAY] = 0
             calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
             calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
@@ -111,11 +112,15 @@ class CalendarUtil {
             return calendar.timeInMillis
         }
 
-        fun nextMonth(ms: Long): Long {
+        fun nextMonthMs(ms: Long): Long {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.MONTH] += 1
             calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
