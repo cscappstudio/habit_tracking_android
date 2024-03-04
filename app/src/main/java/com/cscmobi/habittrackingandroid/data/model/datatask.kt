@@ -74,7 +74,8 @@ data class TaskInChallenge(
     var taskNo: Int,
     var dayNo: Int,
     var id: Long,
-    var startDate: Long? = null
+    var startDate: Long? = null,
+    var state: Int = 0 // chưa tham gia, 1 = tham gia đã done, 2= tham gia chưa done, 3 đã done và qua ngày
 ) {
     fun parserToTask(): Task {
         val task = Task()
@@ -102,7 +103,7 @@ data class TaskTimelineModel(
 data class ChallengeJoinedHistory(
     var date: Long,
     var state: Int = 0
-) // state = 0: tham gia chưa hoàn thành, = 1 hoàn thành, = 2 đã cancel
+) // state = 0: tham gia chưa hoàn thành, = 1 tham gia đã hoàn thành, = 2 đã cancel
 
 
 

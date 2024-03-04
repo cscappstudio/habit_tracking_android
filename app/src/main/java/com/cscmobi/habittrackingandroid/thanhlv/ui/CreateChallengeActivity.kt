@@ -142,7 +142,7 @@ class CreateChallengeActivity : BaseActivity2() {
             challenge.repeat = mRepeatData
             challenge.days = listDayTask.toList()
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
-            delay(1000)
+            delay(500)
             val all = AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
 
             println("thanhlv tttttttttttt  ========= " + all.size)

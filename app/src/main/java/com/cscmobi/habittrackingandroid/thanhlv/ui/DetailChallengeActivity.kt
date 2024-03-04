@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.PrimaryKey
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
+import com.cscmobi.habittrackingandroid.data.model.TaskInChallenge
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailChallengeBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.DetailChallengeAdapter
@@ -116,7 +117,11 @@ class DetailChallengeActivity : BaseActivity2() {
         for (i in 1..mChallenge!!.duration / mChallenge!!.cycle) {
             for (j in 0 until mChallenge!!.days.size) {
                 for (k in 0 until mChallenge!!.days[j].tasks!!.size) {
-                    if (getDaysBetween(listDate[0], listDate[startDate] ) > (mChallenge!!.duration - 1)) {
+                    if (getDaysBetween(
+                            listDate[0],
+                            listDate[startDate]
+                        ) > (mChallenge!!.duration - 1)
+                    ) {
                         out = true
                         break
                     }
@@ -130,9 +135,12 @@ class DetailChallengeActivity : BaseActivity2() {
                     mChallenge!!.days[j].tasks!![k].startDate = task.startDate
                     mChallenge!!.days[j].tasks!![k].id = taskId
                 }
-                CalendarUtil
                 startDate++
-                if (getDaysBetween(listDate[0], listDate[startDate] ) > (mChallenge!!.duration - 1)) {
+                if (getDaysBetween(
+                        listDate[0],
+                        listDate[startDate]
+                    ) > (mChallenge!!.duration - 1)
+                ) {
                     out = true
                     break
                 }
@@ -182,24 +190,55 @@ class DetailChallengeActivity : BaseActivity2() {
         if (mChallenge == null) return mutableListOf()
 
         val temp = mutableListOf<TaskTimelineModel>()
+        runBlocking {
+            mChallenge?.days?.forEach { _it ->
+                _it.tasks?.forEach {
+                    it.dayNo = _it.dayNo
+                    if (mChallenge?.joinedHistory != null && it.startDate != null) {
+                        val idTask = it.id
+                        val historyByDate =
+                            AppDatabase.getInstance(applicationContext).dao()
+                                .getHistoryByDate2(CalendarUtil.getStartTimeOfDay(it.startDate!!))
+                        if (historyByDate != null && historyByDate.taskInDay.isNotEmpty()) {
 
-        mChallenge?.days?.forEach { _it ->
-            _it.tasks?.forEach {
-                it.dayNo = _it.dayNo
-                val new = TaskTimelineModel(it)
-                new.type = 1
-                new.status = 0
-                temp.add(new)
+                            var progressTask = -10
+                            historyByDate.taskInDay.forEach { task_ ->
+                                if (task_.taskId == idTask) {
+                                    progressTask = task_.progress
+                                    return@forEach
+                                }
+                            }
+                            if (progressTask == 100) {
+                                it.state = 1
+                                if (getDaysBetween(it.startDate!!, System.currentTimeMillis()) > 0)
+                                    it.state = 3
+                            } else it.state = 2
+                        }
+                    }
+
+                    val new = TaskTimelineModel(it)
+                    new.type = 1
+                    new.status = it.state
+
+                    temp.add(new)
+                }
             }
-        }
-        if (temp.isEmpty()) return mutableListOf()
-        temp[0].type = 0
-        temp[0].status = 2
-        temp[1].type = 1
-        temp[1].status = 0
+            if (temp.isEmpty()) return@runBlocking
 
-        temp[temp.size - 1].type = 2
-        temp[temp.size - 1].status = 0
+            if (temp.size > 1) {
+                if (mChallenge?.joinedHistory == null) {
+                    temp[0].type = 0
+                    temp[0].status = 2
+                    temp[1].type = 1
+                    temp[1].status = 0
+                    temp[temp.size - 1].type = 2
+                    temp[temp.size - 1].status = 0
+                } else {
+                    temp[0].type = 0
+                    temp[temp.size - 1].type = 2
+                }
+            } else temp[0].type = 3
+        }
         return temp
     }
 

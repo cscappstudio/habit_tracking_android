@@ -16,9 +16,7 @@ data class History(
     @ColumnInfo(name = "date")  var date: Long? = 0,
     @ColumnInfo(name = "taskInDay") var taskInDay: List<TaskInDay> = listOf(),
     @ColumnInfo(name = "progressDay") var progressDay: Int = 0 ,//3*100/5 -> int
-    @ColumnInfo(name = "allTaskPause") var allTaskPause: Boolean = false //3*100/5 -> int
-
-//    @ColumnInfo(name = "longStreakDay") var longStreakDay: Int = 0
+    @ColumnInfo(name = "allTaskPause") var allTaskPause: Boolean = false
 ) {
     @Ignore
     var currentStreakDay: Int = 0

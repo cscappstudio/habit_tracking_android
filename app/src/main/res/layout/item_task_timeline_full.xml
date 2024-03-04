@@ -5,6 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="119dp">
 
+
+    <View
+        android:id="@+id/margin_start"
+        android:layout_width="36dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_timeline_between_old_fill"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="36:119"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
+
     <ImageView
         android:id="@+id/vector_timeline"
         android:layout_width="36dp"
@@ -25,7 +37,7 @@
         android:text="Mon"
         android:textColor="#B5B5B5"
         android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@id/vector_timeline"
+        app:layout_constraintStart_toEndOf="@id/margin_start"
         app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="p" />
 
@@ -40,7 +52,7 @@
         android:outlineSpotShadowColor="@color/black_12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/vector_timeline"
+        app:layout_constraintStart_toEndOf="@id/margin_start"
         tools:ignore="UnusedAttribute">
 
         <TextView
