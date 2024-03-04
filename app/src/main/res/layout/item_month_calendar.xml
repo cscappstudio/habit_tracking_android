@@ -17,6 +17,35 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.tomtruyen.circularprogressarc.CircularProgressArc
+        android:id="@+id/circle_progress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="3dp"
+        app:angle_start="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:max_progress="100"
+        app:progress_color="#52B89C"
+        app:background_color="#F5F5F5"
+        app:rounded_corners="true"
+        app:stroke_width="2dp" />
+
+    <ImageView
+        android:id="@+id/img_done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:src="@drawable/ic_progress_done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/img_mood"
         android:layout_width="match_parent"

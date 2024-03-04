@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,10 @@ class MonthCalendarAdapter(private var mContext: Context, private var callback: 
             holder.binding.tvDay.visibility = View.VISIBLE
             holder.binding.imgMood.visibility = View.GONE
         }
+
+//        holder.binding.circleProgress.setProgressColor(Color.parseColor("#b5b5b5"))
+
+        holder.binding.circleProgress.setProgress(80)
 //        holder.binding.root.setOnClickListener {
 //            callback.onClickDayCalendar(ovulationCalendarModel)
 //        }

@@ -96,9 +96,23 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             val allHistory = AppDatabase.getInstance(requireContext()).dao().getAllHistory2()
             if (allHistory.isEmpty()) return@runBlocking
             allHistory.sortedBy { it.date }
-//            allHistory.forEach {
-//                if (it.progressDay >= 100)
-//            }
+            var currentStreak = 0
+            var perfectDay = 0
+            var longStreak = 0
+            for (i in allHistory.indices) {
+                if (allHistory[i].progressDay >= 100) {
+                    currentStreak += 1
+                    perfectDay += 1
+                    if (longStreak < currentStreak) longStreak = currentStreak
+                } else currentStreak = 0
+            }
+
+            mCurrentStreak.postValue(currentStreak)
+            mLongestStreak.postValue(longStreak)
+            mCompletionRate.postValue(perfectDay * 100 / allHistory.size)
+            mPerfectDay.postValue(perfectDay)
+
+
         }
 
     }

@@ -222,6 +222,8 @@ dependencies {
     //showcaseview
     implementation 'com.elconfidencial.bubbleshowcase:bubbleshowcase:+'
 
+    implementation 'com.github.TomTruyen:AndroidCircularProgressArc:1.0.1'
+
 
 
 }
