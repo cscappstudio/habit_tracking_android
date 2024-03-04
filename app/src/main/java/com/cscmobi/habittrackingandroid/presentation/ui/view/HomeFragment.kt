@@ -127,23 +127,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         lifecycleScope.launch {
             homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
 
-                homeViewModel.histories.collect {
-                    if (it.isNullOrEmpty()) return@collect
-                    it.forEach {
-                        data.forEach { weekData ->
-                            if (it.date!!.toDate() == weekData.localDate!!.toDate()) {
-                                var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
-                                var tasksNum = it.taskInDay.size
+            homeViewModel.histories.collect {
+                if (it.isNullOrEmpty()) return@collect
+                it.forEach {
+                    data.forEach { weekData ->
+                        if (it.date!!.toDate() == weekData.localDate!!.toDate()) {
+                            var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
+                            var tasksNum = it.taskInDay.size
 
-                                weekData.progress = calTaskProgress(tasksFinishNum, tasksNum)
-
-                            }
+                            weekData.progress = calTaskProgress(tasksFinishNum, tasksNum)
 
                         }
-                    }
 
-                    lastHistory = if (it.size == 1) it[0] else it.last()
+                    }
                 }
+
+                lastHistory = if (it.size == 1) it[0] else it.last()
+            }
         }
 
         lifecycleScope.launch {
@@ -321,11 +321,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun observeState() {
         lifecycleScope.launch {
             homeViewModel.state.collect { state ->
+
                 when (state) {
                     is HomeState.Tasks -> {
+                        binding.rcvChallenge.visibility = View.VISIBLE
+
                         binding.llTask.visibility = View.VISIBLE
                         binding.adView.visibility = View.GONE
-
+//                        listTask.clear()
+//                        listTask.addAll(state.tasks.toMutableList())
+                        listTask = state.tasks.toMutableList()
                         if (!hasInitChip) {
 
                             val categories = arrayListOf<String>()
@@ -337,20 +342,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             hasInitChip = true
                         }
 
-                        listTask.clear()
-                        listTask = state.tasks.toMutableList()
+
                         initTaskAdapter()
                         setUpChallenge()
+                        println("listaaaaaaaaaaaa_${listTask.size.toString()}")
 
                         lifecycleScope.launch {
-
                             homeViewModel.getHistorybyDate(currentDate)
-                            // homeViewModel.userIntent.send(HomeIntent.InsertTaskHistory(history))
                         }
 
                     }
 
                     is HomeState.Empty -> {
+                        binding.rcvChallenge.visibility = View.GONE
                         binding.isTasksEmpty = true
                         showAds()
 
@@ -366,28 +370,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         lifecycleScope.launch {
             homeViewModel.currentHistory.collect {
-                val listTask = this@HomeFragment.listTask.filter { it.id != IDLE }.toMutableList()
+                listTask = listTask.filter { it.id != IDLE }.toMutableList()
                 if (it.id != IDLE) {
                     if (it.id != -1L) {
                         currentHistory = it
 
-                        if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
 
-
-                            currentHistory!!.taskInDay = getTasksInday(listTask)
-
-                            homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory!!))
-                        }
 
                         data.indexOfFirst { it.localDate!!.toDate() == currentDate }
 
                         it.taskInDay.forEach { taskInDay ->
                             var index = listTask.indexOfFirst { it.id == taskInDay.taskId }
                             if (index != -1) {
+
                                 listTask[index].goal?.currentProgress = taskInDay.progressGoal
+
                             }
 
                         }
+
                         taskAdapter.notifyDataSetChanged()
                         tasksChallenge = listTask.filter { !it.challenge.isNullOrEmpty() }.map {
                             ChallengeHomeItem(
@@ -400,6 +401,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             )
                         }.toMutableList()
                         challengeHomeAdpater.submitList(tasksChallenge)
+
+                        if (isListChanged(it.taskInDay.map { it.taskId }, listTask.map { it.id })) {
+
+
+                            currentHistory!!.taskInDay = getTasksInday(listTask)
+
+                            homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory!!))
+                        }
                     } else {
                         if (currentDate <= Helper.currentDate.toDate()) {
                             var history =
@@ -560,7 +569,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     fun setUpChallenge() {
-
         tasksChallenge = listTask.filter { !it.challenge.isNullOrEmpty() }.map {
             ChallengeHomeItem(
                 idTask = it.id,
@@ -581,7 +589,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     oldItem: ChallengeHomeItem,
                     newItem: ChallengeHomeItem
                 ): Boolean {
-                    return oldItem.idTask == oldItem.idTask
+                    return oldItem.idTask == newItem.idTask
                 }
 
                 override fun areContentsTheSame(
@@ -630,18 +638,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun onItemClicked(item: ChallengeHomeItem, p: Int) {
                 val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
                 runBlocking {
-                    val challenge = AppDatabase.getInstance(requireContext()).dao().findChallengeByName(item.name)
+                    val challenge = AppDatabase.getInstance(requireContext()).dao()
+                        .findChallengeByName(item.name)
                     intent.putExtra("data", Gson().toJson(challenge))
                     startActivity(intent)
                 }
             }
 
             override fun onDone(item: ChallengeHomeItem, p: Int) {
+
                 if (currentDate != Helper.currentDate.toDate()) {
                     return
                 }
-
                 item.stateDone = !item.stateDone
+
                 challengeHomeAdpater.notifyItemChanged(p)
 
 
@@ -709,6 +719,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
     private fun initTaskAdapter() {
+
 //         val goalTargets = homeViewModel.tasks.map { it.goal?.target }
 //         val goalProgress = homeViewModel.tasks.map { it.goal?.currentProgress }
         listNormalTask = listTask.filter { it.challenge.isNullOrEmpty() }.toMutableList()
@@ -738,7 +749,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     return
                 }
 
-                bottomSheetPauseFragment.show(childFragmentManager, bottomSheetPauseFragment.tag)
+                if (!bottomSheetPauseFragment.isAdded)
+                    bottomSheetPauseFragment.show(
+                        childFragmentManager,
+                        bottomSheetPauseFragment.tag
+                    )
                 bottomSheetPauseFragment.actionPause = {
                     item.pause = it
                     item.pauseDate = currentDate
@@ -749,7 +764,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     Toast.makeText(requireContext(), "Update success", Toast.LENGTH_SHORT).show()
                     taskAdapter.notifyItemChanged(p)
                     freeIAP.isSkip = true
+
+                    updateAllTaskPause()
+
                 }
+
 
             }
 
@@ -800,9 +819,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     if (adsIndex != -1 && adsIndex != 1) {
                         listNormalTask.removeAt(adsIndex)
                         listNormalTask.add(1, Task(id = IDLE, name = "ads"))
-                        taskAdapter.notifyDataSetChanged()
-                    } else
-                        taskAdapter?.notifyItemRemoved(p)
+                    }
+                    taskAdapter?.notifyItemRemoved(p)
                     Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
 
                     lifecycleScope.launch {
@@ -856,6 +874,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
                 }
                 freeIAP.isSkip = false
+                updateAllTaskPause()
 
             }
 
@@ -1038,7 +1057,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 data.forEachIndexed { index, item ->
                     item.isSelected = position == index
                 }
-
                 currentDate = date[position].toDate()
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
@@ -1164,11 +1182,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
+    private fun updateAllTaskPause() {
+        if (listTask.isNotEmpty())
+            currentHistory?.let {
+                var isAllTaskPause = true
+                listTask.forEach {
+                    if (it.pause == 0 || it.pauseDate == null) {
+                        isAllTaskPause = false
+                        return@forEach
+                    }
+
+                }
+
+
+                if (it.allTaskPause != isAllTaskPause) {
+                    it.allTaskPause = isAllTaskPause
+                    homeViewModel.updateHistory(it)
+                }
+            }
+    }
+
     override fun onPause() {
         super.onPause()
+
         hasInitChip = false
         Helper.chooseDate = currentDate
-
     }
 
     companion object {

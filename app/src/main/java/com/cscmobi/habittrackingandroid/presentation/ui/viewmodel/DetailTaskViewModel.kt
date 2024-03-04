@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.getDayofMonth
 import com.cscmobi.habittrackingandroid.utils.Utils.getMonth
@@ -27,6 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.Date
 import kotlin.math.abs
 
 class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): BaseViewModel() {
@@ -228,6 +230,35 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
               }
           }
         }
+        return  listDataTasHistory
+    }
+
+    fun getDetailHistoryTest(taskId: Long): MutableList<DataTaskHistory> {
+        listDataTasHistory.clear()
+        val c = Calendar.getInstance()
+        c.time.time = Helper.currentDate.toDate()
+        c.add(Calendar.DAY_OF_MONTH,-1)
+
+//        for (i in 0 ..10) {
+//            listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,100,1),c.time.time))
+//            c.add(Calendar.DAY_OF_MONTH,1)
+//        }
+        listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,100,1),c.time.time))
+        c.add(Calendar.DAY_OF_MONTH,1)
+        listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,50,0),c.time.time))
+        c.add(Calendar.DAY_OF_MONTH,1)
+        listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,0,0),c.time.time))
+        c.add(Calendar.DAY_OF_MONTH,1)
+        listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,30,0),c.time.time))
+        c.add(Calendar.DAY_OF_MONTH,1)
+        listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,100,1),c.time.time))
+        c.add(Calendar.DAY_OF_MONTH,1)
+        listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,0,1),c.time.time))
+        c.add(Calendar.DAY_OF_MONTH,1)
+        listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,100,1),c.time.time))
+        c.add(Calendar.DAY_OF_MONTH,1)
+
+        Log.d("getDetailHistoryTest", listDataTasHistory.toString())
         return  listDataTasHistory
     }
 
