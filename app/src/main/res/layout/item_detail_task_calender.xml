@@ -53,7 +53,7 @@
 
                 android:text="24"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@
         android:layout_gravity="center_vertical"
 
         android:textColor="@color/shadow_gray"
-        android:fontFamily="@font/montserratalternates_semibold"
+        android:fontFamily="@font/worksans_medium"
         android:textSize="@dimen/_11ssp"
         android:layout_height="wrap_content"/>
 

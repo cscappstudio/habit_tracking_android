@@ -4,7 +4,9 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.res.ColorStateList
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewAnimationUtils
+import android.widget.Filter
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -26,18 +28,16 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionView
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils
-import com.cscmobi.habittrackingandroid.utils.Utils.mgetString
 import com.thanhlv.ads.lib.AdMobUtils
-import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 import kotlin.math.hypot
 
+
 class CollectionFragment :
     BaseFragment<FragmentCollectionBinding>(FragmentCollectionBinding::inflate) {
 
-    //    private val collectionViewModel: CollectionViewModel by viewModel()
     private val collectionViewModel by activityViewModels<CollectionViewModel>()
     private var collectionAdapter: CollectionAdapter? = null
     private var detailCollectionAdapter: BaseBindingAdapter2<Task>? = null
@@ -89,17 +89,27 @@ class CollectionFragment :
                         binding.adView.visibility = View.GONE
                     }
                 })
+
         }
     }
 
     private fun setUpSearchView() {
-        binding.searchView.clearFocus()
+
+//        binding.searchView.clearFocus()
+        binding.searchView.setOnQueryTextFocusChangeListener(OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                binding.searchView.setIconified(false);
+//                binding.ivClose.visibility =View.VISIBLE
+
+            }
+        })
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                binding.ivClose.visibility = View.INVISIBLE
 
                 if (isCollectionSelect) {
                     collectionAdapter?.filter?.filter(newText)
@@ -108,6 +118,8 @@ class CollectionFragment :
                 if (newText.isNullOrEmpty())   {
                     binding.searchView.clearFocus()
                     binding.searchView.visibility = View.GONE
+                    binding.txtNewHabit.visibility = View.VISIBLE
+                    binding.llCreateTask.visibility = View.VISIBLE
                 }
 
                 return true
@@ -175,6 +187,33 @@ class CollectionFragment :
                 }
             }, originalData = listTasks
         )
+
+        detailCollectionAdapter?.setFilter(
+            object : Filter() {
+                override fun performFiltering(constraint: CharSequence?): FilterResults {
+                    val filteredList = if (constraint.isNullOrBlank()) {
+                        listTasks
+                    } else {
+                        val filterPattern = constraint.toString().lowercase(Locale.getDefault())
+                        listTasks.filter {
+                            // Implement your filtering logic here
+                            // For example, check if the item contains the constraint in its toString()
+                            it.name.toString().lowercase(Locale.getDefault()).contains(filterPattern)
+                        }
+                    }
+
+                    val results = FilterResults()
+                    results.values = filteredList
+                    return results
+                }
+
+                @Suppress("UNCHECKED_CAST")
+                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                    detailCollectionAdapter?.submitList(results?.values as? List<Task>)
+                    detailCollectionAdapter?.notifyDataSetChanged()
+                }
+            }
+        )
         detailCollectionAdapter?.setListener(object : ItemDetailCollection<Task> {
             override fun onItemClicked(item: Task) {
                 (requireActivity() as NewHabitActivity).let {
@@ -217,14 +256,16 @@ class CollectionFragment :
 
     override fun setEvent() {
         binding.btnCollection.setOnClickListener {
-            lifecycleScope.launch {
-                collectionViewModel.userIntent.send(CollectionIntent.FetchCollection)
-            }
+
             changeStateCollectionButton(true)
+
+                collectionAdapter?.filter?.filter(binding.searchView.query)
         }
 
         binding.btnAll.setOnClickListener {
             changeStateCollectionButton(false)
+            detailCollectionAdapter?.filter?.filter(binding.searchView.query)
+
         }
 
         binding.llCreateTask.setOnClickListener {
@@ -250,19 +291,28 @@ class CollectionFragment :
 
             toggleSearchView()
         }
+
+        binding.ivClose.setOnClickListener {
+            toggleSearchView()
+        }
     }
 
     private fun toggleSearchView() {
         if (binding.searchView.visibility == View.VISIBLE) {
             // If SearchView is visible, hide it
+
             hideSearchView()
         } else {
             // If SearchView is not visible, show it
             showSearchView()
+
         }
     }
 
     private fun showSearchView() {
+        binding.txtNewHabit.visibility = View.GONE
+        binding.llCreateTask.visibility = View.GONE
+        binding.ivClose.visibility =View.VISIBLE
 
         val endRadius = hypot(
             binding.searchView.width.toDouble(),
@@ -292,7 +342,9 @@ class CollectionFragment :
 
     private fun hideSearchView() {
         binding.searchView.setQuery("", false)
-
+        binding.txtNewHabit.visibility = View.VISIBLE
+        binding.llCreateTask.visibility = View.VISIBLE
+        binding.ivClose.visibility =View.GONE
 
         val startRadius =
             Math.hypot(binding.searchView.width.toDouble(), binding.searchView.height.toDouble())
@@ -337,9 +389,9 @@ class CollectionFragment :
             binding.btnCollection.elevation = 20f
             binding.btnAll.elevation = 0f
             binding.btnCollection.typeface =
-                ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
+                ResourcesCompat.getFont(context!!, R.font.worksans_semibold)
             binding.btnAll.typeface =
-                ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
+                ResourcesCompat.getFont(context!!, R.font.worksans_medium)
 
             binding.btnAll.setTextColor(
                 ContextCompat.getColor(
@@ -373,9 +425,9 @@ class CollectionFragment :
             binding.btnAll.elevation = 20f
             binding.btnCollection.elevation = 0f
             binding.btnAll.typeface =
-                ResourcesCompat.getFont(context!!, R.font.montserratalternates_semibold)
+                ResourcesCompat.getFont(context!!, R.font.worksans_semibold)
             binding.btnCollection.typeface =
-                ResourcesCompat.getFont(context!!, R.font.montserratalternates_medium)
+                ResourcesCompat.getFont(context!!, R.font.worksans_medium)
 
             binding.btnCollection.setTextColor(
                 ContextCompat.getColor(

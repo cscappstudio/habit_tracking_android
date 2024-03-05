@@ -66,31 +66,35 @@ class BaseBindingAdapter2<T>(
     )
 
 
-    init {
-        filter = object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val filteredList = if (constraint.isNullOrBlank()) {
-                    originalData
-                } else {
-                    val filterPattern = constraint.toString().lowercase(Locale.getDefault())
-                    originalData.filter {
-                        // Implement your filtering logic here
-                        // For example, check if the item contains the constraint in its toString()
-                        it.toString().lowercase(Locale.getDefault()).contains(filterPattern)
-                    } as ArrayList<T>
-                }
+//    init {
+//        filter = object : Filter() {
+//            override fun performFiltering(constraint: CharSequence?): FilterResults {
+//                val filteredList = if (constraint.isNullOrBlank()) {
+//                    originalData
+//                } else {
+//                    val filterPattern = constraint.toString().lowercase(Locale.getDefault())
+//                    originalData.filter {
+//                        // Implement your filtering logic here
+//                        // For example, check if the item contains the constraint in its toString()
+//                        it.toString().lowercase(Locale.getDefault()).contains(filterPattern)
+//                    } as ArrayList<T>
+//                }
+//
+//                val results = FilterResults()
+//                results.values = filteredList
+//                return results
+//            }
+//
+//            @Suppress("UNCHECKED_CAST")
+//            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+//                submitList(results?.values as? List<T>)
+//                notifyDataSetChanged()
+//            }
+//        }
+//    }
 
-                val results = FilterResults()
-                results.values = filteredList
-                return results
-            }
-
-            @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                submitList(results?.values as? List<T>)
-                notifyDataSetChanged()
-            }
-        }
+    fun setFilter(mfilter: Filter) {
+        filter = mfilter
     }
 
     override fun getFilter(): Filter? = filter

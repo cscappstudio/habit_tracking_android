@@ -13,6 +13,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant
+import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.thanhlv.ads.lib.AdMobUtils
@@ -22,6 +23,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     NewHabitFragment.INewHabitListener {
     private val collectionViewModel: CollectionViewModel by viewModel()
+    private var isLoadInterAds = false
+    private var isRewardLoad = false
+    var taskSize:Int = -1
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_newhabit
@@ -36,35 +40,60 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
         collectionViewModel.setUp()
         addFragment(R.id.fr_container, collectionFragment, "collectionFragment")
 
-       onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+        AdMobUtils.createInterstitialAd(
+            this@NewHabitActivity,
+            getString(R.string.inter_id),
+            object : AdMobUtils.Companion.LoadAdCallback {
+                override fun onLoaded(ad: Any?) {
+                    isLoadInterAds = true
+                }
+
+                override fun onLoadFailed() {
+                    isLoadInterAds = false
+                }
+
+
+            })
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (collectionFragment.isVisible) {
-
-                    AdMobUtils.createInterstitialAd(
-                        this@NewHabitActivity,
-                        getString(R.string.inter_id),
-                        object : AdMobUtils.Companion.LoadAdCallback {
-                            override fun onLoaded(ad: Any?) {
-                                AdMobUtils.showInterstitialAd(this@NewHabitActivity,
-                                    object : FullScreenContentCallback() {
-                                        override fun onAdDismissedFullScreenContent() {
-                                            super.onAdDismissedFullScreenContent()
-                                            finish()
-                                        }
-                                    })
-                            }
-
-                            override fun onLoadFailed() {
-                                finish()
-                            }
-
-
-                        })
+                    if (isLoadInterAds)
+                        AdMobUtils.showInterstitialAd(this@NewHabitActivity,
+                            object : FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    super.onAdDismissedFullScreenContent()
+                                    finish()
+                                }
+                            })
+                    else finish()
                 } else {
                     supportFragmentManager.popBackStack()
                 }
             }
         })
+
+        lifecycleScope.launch {
+            collectionViewModel.taskSize.collect{
+                taskSize = it
+                if (it > 5 && isRewardLoad) {
+                    AdMobUtils.createRewardAds(
+                        this@NewHabitActivity,
+                        getString(R.string.rewardsAdsId),
+                        object : AdMobUtils.Companion.LoadAdCallback {
+                            override fun onLoaded(ad: Any?) {
+                                isRewardLoad = true
+                            }
+
+                            override fun onLoadFailed() {
+                                isRewardLoad = false
+                            }
+
+                        })
+                }
+            }
+        }
+
     }
 
     override fun onResume() {

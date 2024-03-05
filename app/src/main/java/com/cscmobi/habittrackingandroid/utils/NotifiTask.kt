@@ -34,6 +34,10 @@ object NotifiTask {
             PeriodicWorkRequestBuilder<NotifiTaskWorker>(1, TimeUnit.DAYS)
                 .build()
 
+//        val uploadWorkRequest: PeriodicWorkRequest =
+//            PeriodicWorkRequestBuilder<NotifiTaskWorker>(15, TimeUnit.MINUTES)
+//                .build()
+
         val workManager = WorkManager.getInstance(context)
         workManager.enqueueUniquePeriodicWork(
             uniqueWorkName,
@@ -70,14 +74,18 @@ object NotifiTask {
         CoroutineWorker(appContext, workerParams) {
 
         override suspend fun doWork(): Result {
+
             try {
 
 
                 db?.dao()?.getAllTask()?.collect {
+                    println("Worker runnnnnnnnnnnnnnnnnnnnnnnnn")
+
                     var tasks =
                         it.filter { Helper.validateTask(it, Helper.currentDate.toDate()) }
 
                     if (tasks.isNullOrEmpty()) return@collect
+
 
                     delay(1000L)
                     Log.d("Worker", "1 $tasks")
@@ -113,10 +121,20 @@ object NotifiTask {
 
 
         suspend fun insertHistoryifNotExit(tasks: List<Task>) {
+            var isAllTaskPause = true
+            tasks.forEach {
+                if (it.pause == 0 || it.pauseDate == null) {
+                    isAllTaskPause = false
+                    return@forEach
+                }
+
+            }
+
             var date = Utils.getCurrentCalenderWithoutHour().time.time
             var history = History()
             history.date = date
             history.taskInDay = tasks.map { TaskInDay(it.id) }
+            history.allTaskPause = isAllTaskPause
             db?.dao()?.getHistorybyDate(date)?.collect {
                 if (it == null) {
                     db?.dao()?.insertHistory(

@@ -45,15 +45,29 @@ class CollectionViewModel constructor(
     val state: StateFlow<CollectionState>
         get() = _state
 
+
+    private val _taskSize = MutableStateFlow<Int>(-1)
+    val taskSize: StateFlow<Int>
+        get() = _taskSize
+
     var taskCollection = Task()
 
     private var listCollectionName = mutableListOf<String>()
 
     init {
         handleIntent()
+        getAllTask()
     }
 
-    fun setUp() {}
+    private fun getAllTask() = viewModelScope.launch(Dispatchers.IO) {
+        databaseRepository.getAllTask().collect{
+            _taskSize.value = it.size
+        }
+    }
+
+    fun setUp() {
+
+    }
 
     fun isExistCollectionName(name: String): Boolean {
         var validName = listCollectionName.filter { it == name }

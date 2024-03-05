@@ -24,6 +24,7 @@ import kotlin.math.roundToInt
 object Helper {
     var isNewDay = false
     var chooseDate = 0L
+    var isFirstLoadRewardAds = false
 
     var currentDate = LocalDate.now()
     var freeIAP = FreeIAP()
@@ -49,14 +50,15 @@ object Helper {
 
         if (isPauseValidate) {
                 task.pauseDate?.let {
-                    //TODO check puasedate == currentDate then set = null
-                    var c = Calendar.getInstance()
-                    c.time = Date(it)
-                    c.add(Calendar.DAY_OF_MONTH, task.pause)
+                    if (task.pause != -1 ) {
+                        var c = Calendar.getInstance()
+                        c.time = Date(it)
+                        c.add(Calendar.DAY_OF_MONTH, task.pause - 1)
 
-                    if (date in it.toDate()..c.time.time) {
-                        isValid = false
-                    }
+                        if (date in it.toDate()..c.time.time) {
+                            isValid = false
+                        }
+                    } else  isValid = false
 
 
                     Log.d("isValid", "1 $isValid")

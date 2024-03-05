@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.AssetManager
@@ -15,8 +16,10 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat.getSystemService
 import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.spf.SPF
 import org.threeten.bp.LocalDate
@@ -262,6 +265,12 @@ object Utils {
         conf.setLocale(locale)
         val localizedContext = createConfigurationContext(conf)
         return localizedContext.resources.getString(resId)
+    }
+
+
+     fun Activity.showInputMethod(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.showSoftInput(view, 0)
     }
 }
 

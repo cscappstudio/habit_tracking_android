@@ -180,7 +180,6 @@ class CollectionAdapter(
 
         }.toMutableList()
 
-        filteredList.add(0, HabitCollection())
 
         return filteredList
 
