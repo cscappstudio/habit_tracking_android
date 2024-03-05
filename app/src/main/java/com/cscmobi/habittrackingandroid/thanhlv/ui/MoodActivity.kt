@@ -61,11 +61,8 @@ class MoodActivity : BaseActivity2() {
         }
 
         binding.btnNextMonth.setOnClickListener {
-            if (binding.vpMonth.currentItem < mDataMonth.size - 1) {
+            if (binding.vpMonth.currentItem < mDataMonth.size - 2) {
                 binding.vpMonth.currentItem += 1
-                it.alpha = 1f
-            } else {
-                it.alpha = 0.5f
             }
         }
         if (mDataMonth.size == 1) {
@@ -75,9 +72,6 @@ class MoodActivity : BaseActivity2() {
         binding.btnPreviousMonth.setOnClickListener {
             if (binding.vpMonth.currentItem > 0) {
                 binding.vpMonth.currentItem -= 1
-                it.alpha = 1f
-            } else {
-                it.alpha = 0.5f
             }
         }
     }
@@ -92,8 +86,23 @@ class MoodActivity : BaseActivity2() {
         binding.vpMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                updateTitleMonth(pagerMonthAdapter?.getList()?.get(position))
+                updateTitleMonth(mDataMonth[position])
                 showRecyclerView(mDataMonth[position])
+                if (mDataMonth.size > 1 && position < mDataMonth.size - 1) {
+                    binding.btnNextMonth.alpha = 1f
+                    binding.btnNextMonth.isEnabled = true
+                } else {
+                    binding.btnNextMonth.alpha = 0.5f
+                    binding.btnNextMonth.isEnabled = false
+                }
+
+                if (position > 0 && mDataMonth.size > 1) {
+                    binding.btnPreviousMonth.alpha = 1f
+                    binding.btnPreviousMonth.isEnabled = true
+                } else {
+                    binding.btnPreviousMonth.alpha = 0.5f
+                    binding.btnPreviousMonth.isEnabled = false
+                }
             }
         })
         binding.vpMonth.currentItem = mDataMonth.size - 1
@@ -169,7 +178,7 @@ class MoodActivity : BaseActivity2() {
 
         while (calendar[Calendar.YEAR] <= currentTime[Calendar.YEAR]) {
             while (calendar[Calendar.MONTH] <= currentTime[Calendar.MONTH]) {
-                list.add(MonthCalendarModel(calendar[Calendar.MONTH] + 1, calendar[Calendar.YEAR]))
+                list.add(MonthCalendarModel(calendar[Calendar.MONTH] + 1, calendar[Calendar.YEAR], 1))
                 calendar[Calendar.MONTH] += 1
                 if (calendar[Calendar.MONTH] > 11) {
                     calendar[Calendar.MONTH] = 0

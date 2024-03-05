@@ -42,8 +42,10 @@ class MonthCalendarAdapter(private var mContext: Context, private var callback: 
         if (mList.isEmpty()) return
         val itemDay = mList[position]
         holder.binding.tvDay.text = itemDay.getDay()
-        if (itemDay.mood > 0) {
+        if (itemDay.type == 1 || itemDay.mood > 0) {
             holder.binding.tvDay.visibility = View.GONE
+            holder.binding.imgDone.visibility = View.GONE
+            holder.binding.circleProgress.visibility = View.GONE
             holder.binding.imgMood.visibility = View.VISIBLE
             when (itemDay.mood) {
                 1 -> {
@@ -61,7 +63,12 @@ class MonthCalendarAdapter(private var mContext: Context, private var callback: 
                 5 -> {
                     holder.binding.imgMood.setImageResource(R.drawable.ic_mood_bad)
                 }
+                else -> {
+                    holder.binding.imgMood.visibility = View.GONE
+                    holder.binding.tvDay.visibility = View.VISIBLE
+                }
             }
+            if (itemDay.mood > 0)
             holder.binding.imgMood.startAnimation(
                 AnimationUtils.loadAnimation(
                     mContext,

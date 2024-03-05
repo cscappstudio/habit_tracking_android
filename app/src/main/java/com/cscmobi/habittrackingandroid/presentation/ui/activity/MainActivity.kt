@@ -232,5 +232,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     }
 
-
 }

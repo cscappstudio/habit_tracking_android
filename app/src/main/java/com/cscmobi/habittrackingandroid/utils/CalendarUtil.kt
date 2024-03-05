@@ -42,6 +42,10 @@ class CalendarUtil {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             if (calendar.timeInMillis > ms) calendar[Calendar.DAY_OF_YEAR] -= 7
             return calendar.timeInMillis
         }
@@ -77,6 +81,10 @@ class CalendarUtil {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.DAY_OF_YEAR] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
@@ -139,6 +147,10 @@ class CalendarUtil {
             calendar[Calendar.YEAR] += 1
             calendar[Calendar.MONTH] = 0
             calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 

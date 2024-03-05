@@ -33,10 +33,12 @@ class YearCalendarAdapter(private var mContext: Context) :
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position % 20 == 4) {
-            holder.binding.itemDay.background = mContext.getDrawable(R.drawable.bg_item_yearly_calendar_1)
-        } else if (position % 30 == 7) {
+        if (mList.isEmpty()) return
+        val item = mList[position]
+        if (!item.isPauseAllTask && item.progress >= 100) {
             holder.binding.itemDay.background = mContext.getDrawable(R.drawable.bg_item_yearly_calendar_2)
+        } else if (!item.isPauseAllTask && item.progress >= 0) {
+            holder.binding.itemDay.background = mContext.getDrawable(R.drawable.bg_item_yearly_calendar_1)
         }
     }
 

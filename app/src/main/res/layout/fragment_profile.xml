@@ -87,6 +87,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_change_ava" />
 
             <ImageView
+                android:id="@+id/ic_noti"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="24dp"
@@ -96,6 +97,7 @@
                 app:layout_constraintTop_toTopOf="@id/btn_notification" />
 
             <include
+                android:id="@+id/ic_next_noti"
                 layout="@layout/button_next_arrow_layout"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -112,8 +114,6 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-
-
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="@string/notification"
@@ -121,6 +121,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_subscription" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/gr_btn_noti"
+                app:constraint_referenced_ids="btn_notification, ic_noti, ic_next_noti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <ImageView
                 android:layout_width="44dp"

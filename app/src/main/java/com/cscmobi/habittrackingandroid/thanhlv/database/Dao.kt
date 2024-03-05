@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.thanhlv.database
 
+import android.accessibilityservice.AccessibilityService.TakeScreenshotCallback
 import androidx.room.*
 import androidx.room.Dao
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
@@ -81,7 +82,8 @@ interface Dao {
 
     @Query("SELECT * FROM history WHERE date >= :startDate AND date < :endDate")
     suspend fun getHistoryFromAUntilB(startDate: Long, endDate: Long): List<History>
-
+    @Query("SELECT * FROM task")
+    suspend fun getAllTask2(): List<Task>
     @Query("SELECT * FROM history")
     fun getAllHistory(): Flow<List<History>>
 

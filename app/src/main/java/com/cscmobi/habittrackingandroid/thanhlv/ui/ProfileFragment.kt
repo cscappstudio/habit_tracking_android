@@ -2,12 +2,15 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentProfileBinding
+import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
 import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_PASS_REVIEW_APP
 import com.thanhlv.fw.helper.MyClick
@@ -69,7 +72,7 @@ class ProfileFragment :
                 popupChoseAvaProfile.show(childFragmentManager, "")
             }
         })
-        popupChoseAvaProfile.callback = object : PopupChoseAvaProfile.Callback{
+        popupChoseAvaProfile.callback = object : PopupChoseAvaProfile.Callback {
             override fun clickChange(ava: Int) {
                 binding.imgProfile.setImageResource(ava)
                 SPF.setAvaProfile(requireContext(), ava.toString())
@@ -116,34 +119,43 @@ class ProfileFragment :
             clickAbout()
         }
 
+
+        binding.btnNotification.setOnClickListener {
+            if (!(requireActivity() as MainActivity).hasNotificationPermission()) {
+                (requireActivity() as MainActivity).requestNotificationPermission()
+            }
+        }
+        if ((requireActivity() as MainActivity).hasNotificationPermission()) {
+            binding.grBtnNoti.visibility = View.GONE
+        } else  binding.grBtnNoti.visibility = View.VISIBLE
     }
 
-    fun clickRating(){
-                val popupRating = PopupRating.newInstance()
-                popupRating.setCallback(object : PopupRating.ConfirmCallback {
-                    override fun clickNegative() {
-                        MyUtils.hideNavigationBar(requireActivity())
-                        try {
-                            if (!popupRating.isAdded) popupRating.dismissAllowingStateLoss()
-                        } catch (_: Exception) {
-                        }
-                    }
-
-                    override fun clickPositive(value: Float) {
-                        MyUtils.hideNavigationBar(requireActivity())
-                        if (!RemoteConfigs.instance.getConfigValue(KEY_PASS_REVIEW_APP)
-                                .asBoolean() || value > 4
-                        ) {
-                            gotoStore(requireContext())
-                        }
-                    }
-                })
+    fun clickRating() {
+        val popupRating = PopupRating.newInstance()
+        popupRating.setCallback(object : PopupRating.ConfirmCallback {
+            override fun clickNegative() {
+                MyUtils.hideNavigationBar(requireActivity())
                 try {
-                    if (!popupRating.isAdded) popupRating.show(
-                        requireActivity().supportFragmentManager, ""
-                    )
+                    if (!popupRating.isAdded) popupRating.dismissAllowingStateLoss()
                 } catch (_: Exception) {
                 }
+            }
+
+            override fun clickPositive(value: Float) {
+                MyUtils.hideNavigationBar(requireActivity())
+                if (!RemoteConfigs.instance.getConfigValue(KEY_PASS_REVIEW_APP)
+                        .asBoolean() || value > 4
+                ) {
+                    gotoStore(requireContext())
+                }
+            }
+        })
+        try {
+            if (!popupRating.isAdded) popupRating.show(
+                requireActivity().supportFragmentManager, ""
+            )
+        } catch (_: Exception) {
+        }
     }
 
     private fun clickAbout() {
