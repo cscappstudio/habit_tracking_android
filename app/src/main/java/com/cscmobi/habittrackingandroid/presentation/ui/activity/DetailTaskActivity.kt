@@ -49,7 +49,6 @@ import java.util.Calendar
 import java.util.Date
 import kotlin.math.roundToInt
 
-
 class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val detailTaskViewModel: DetailTaskViewModel by viewModel()
 
