@@ -235,8 +235,10 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 it.taskInDay.progress = progress
 
                 if (progress == 100) {
-                    finishDay++
-                    currentStreak++
+                    if (!it.isPause) {
+                        finishDay++
+                        currentStreak++
+                    }
                 } else {
                     if (!it.isPause) {
                         currentStreak = 0
@@ -379,7 +381,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
                 lifecycleScope.launch {
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
-
                 }
                 Toast.makeText(this, "Update success", Toast.LENGTH_SHORT).show()
             }

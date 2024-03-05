@@ -256,7 +256,7 @@ class NewHabitFragment :
 
         task.color?.let {
             colorSelect = Color.parseColor(it)
-            binding.ivHabit.setBackgroundApla(it, 20)
+//            binding.ivHabit.setBackgroundApla(it, 20)
             colorsTask[0].isSelected = false
 
         }

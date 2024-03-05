@@ -34,7 +34,7 @@
                 android:text="@{item}"
                 android:fontFamily="@font/worksans_medium"
                 android:textColor="@color/bottle_green"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 />
         </FrameLayout>
 

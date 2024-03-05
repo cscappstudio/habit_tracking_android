@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="com.android.vending.BILLING" /> &lt;!&ndash; Include this permission any time your app needs location information. &ndash;&gt; -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> &lt;!&ndash; Include only if your app benefits from precise location access. &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <!-- or -->
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />

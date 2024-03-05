@@ -1,6 +1,7 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -19,10 +20,15 @@ import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivit
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
+import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
+import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -38,7 +44,7 @@ class DetailCollectionFragment :
             collectionViewModel.state.collect {
                 when (it) {
                     is CollectionState.Collection -> {
-                        binding.txtCollection.text =try {
+                        binding.txtCollection.text = try {
                             val resourceValue = binding.root.context.getString(it.data.name.toInt())
                             it.data.name = resourceValue
                             resourceValue
@@ -46,7 +52,8 @@ class DetailCollectionFragment :
                             it.data.name = it.data.name
                             it.data.name
                         }
-                        binding.txtNumberTask.text = "${it.data.task!!.size.toString()} ${getString(R.string.habits)}"
+                        binding.txtNumberTask.text =
+                            "${it.data.task!!.size.toString()} ${getString(R.string.habits)}"
                         binding.ivCollection.setDrawableString(it.data.image!!)
                         initAdapter(it.data.task as ArrayList<Task>)
                         if (it.data.isEdit) binding.ivEdit.visibility =
@@ -124,20 +131,56 @@ class DetailCollectionFragment :
             }
 
             override fun onAddTask(item: Task) {
-                lifecycleScope.launch {
-                    var clone = item.copy(startDate = Calendar.getInstance().time.time)
-                    collectionViewModel.userIntent.send(CollectionIntent.CreateTaskToRoutine(clone))
 
-                    Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT).show()
+                if (!SPF.isProApp(requireContext())) {
+                    if ((requireActivity() as NewHabitActivity).taskSize >= Constant.FREEMAXTASK
+                    ) {
+                        val getReward = Helper.freeIAP.rewardTimes
+                        if (getReward >= Constant.MAXGETREWARD) {
+                            val intent =
+                                Intent(requireActivity(), SubscriptionsActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            AdMobUtils.showRewardAds(requireActivity(), object :
+                                FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    super.onAdDismissedFullScreenContent()
+                                    Helper.freeIAP.rewardTimes++
+                                    insertTask(item)
+
+
+                                }
+                            })
+                        }
+                    } else {
+                        insertTask(item)
+                    }
+
+                } else {
+                    insertTask(item)
                 }
-
             }
+
 
         })
         binding.adapter = detailCollectionAdapter
 
         detailCollectionAdapter.setData(list)
 
+    }
+
+    private fun insertTask(item: Task) {
+        lifecycleScope.launch {
+            var clone = item.copy(startDate = Calendar.getInstance().time.time)
+            collectionViewModel.userIntent.send(
+                CollectionIntent.CreateTaskToRoutine(
+                    clone
+                )
+            )
+
+            Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     override fun setEvent() {
