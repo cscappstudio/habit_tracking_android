@@ -36,10 +36,8 @@ class DetailChallengeActivity : BaseActivity2() {
     }
 
     override fun loadData() {
-//        mChallenge = intent.getSerializableExtra("data") as Challenge?
         mChallenge =
             Gson().fromJson<Challenge>(intent.getStringExtra("data"), Challenge::class.java)
-        println("thanhlv override fun loadData() {  ===== " + mChallenge?.id)
     }
 
     @SuppressLint("SetTextI18n")
@@ -49,7 +47,7 @@ class DetailChallengeActivity : BaseActivity2() {
 
             recyclerView()
             binding.tvTitleChallenge.text = mChallenge?.name
-            binding.tvDays.text = mChallenge?.duration.toString() + " days"
+            binding.tvDays.text = mChallenge?.duration.toString() + " " + getString(R.string.days)
             if (!mChallenge?.image.isNullOrEmpty())
                 binding.imgChallenge
                     .setImageBitmap(BitmapFactory.decodeStream(assets.open(mChallenge?.image!!)))
@@ -64,7 +62,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     binding.progressBar.progress = doneTask * 100 / totalTask
                 if (isMissChallenge || isDoneChallenge) {
                     binding.btnStartChallenge.visibility = View.VISIBLE
-                    binding.btnStartChallenge.text = "RESTART CHALLENGE"
+                    binding.btnStartChallenge.text = getString(R.string.restart_challenge)
                 }
             } else {
                 binding.btnStartChallenge.visibility = View.VISIBLE
@@ -110,7 +108,6 @@ class DetailChallengeActivity : BaseActivity2() {
 
                     val history = AppDatabase.getInstance(this@DetailChallengeActivity).dao()
                         .getHistoryByDate2(it.tasks!![0].startDate!!)
-                    println("thanhlv yyyyyyyyyyyyyyyy " + it.tasks!![0].startDate + " ;;;;; " + history)
                     for (i in it.tasks?.indices!!) {
                         if (it.tasks!![i].id != null && it.tasks!![i].startDate != null) {
                             val task = AppDatabase.getInstance(this@DetailChallengeActivity).dao()
@@ -181,6 +178,12 @@ class DetailChallengeActivity : BaseActivity2() {
             resolverDataJoinChallenge()
             recyclerView()
             binding.progressBar.progress = 5
+            val newMyChallenges =
+                ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
+            newMyChallenges.sortByDescending {
+                it.joinedHistory?.date
+            }
+            ChallengeFragment.myChallenges.postValue(newMyChallenges)
         }
 
     }
@@ -192,7 +195,6 @@ class DetailChallengeActivity : BaseActivity2() {
             mChallenge!!.joinedHistory = joined
 
             resolverDataJoinChallenge()
-            AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
 
             //update task challenge to task all
             delay(300)
@@ -202,9 +204,6 @@ class DetailChallengeActivity : BaseActivity2() {
                 it.joinedHistory?.date
             }
 
-//            ChallengeFragment.allChallenges.postValue(
-//                AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-//            )
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
         }
     }
@@ -227,9 +226,6 @@ class DetailChallengeActivity : BaseActivity2() {
                         out = true
                         break
                     }
-//                    if (mChallenge!!.days[j].tasks!![k].id != null)
-//                        AppDatabase.getInstance(applicationContext).dao()
-//                            .deleteTaskById(mChallenge!!.days[j].tasks!![k].id!!)
                     val task = mChallenge!!.days[j].tasks!![k].parserToTask()
                     task.challenge = mChallenge!!.name
                     task.startDate = listDate[startDate]
@@ -252,6 +248,7 @@ class DetailChallengeActivity : BaseActivity2() {
             }
             if (out) break
         }
+        AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
     }
 
     private fun getListDateFill(repeat: List<Int>, duration: Int): List<Long> {
@@ -342,6 +339,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     totalTask += 1
                 }
             }
+            isDoneChallenge = totalTask > 0 && doneTask == totalTask
             if (temp.isEmpty()) return@runBlocking
 
             if (temp.size > 1) {

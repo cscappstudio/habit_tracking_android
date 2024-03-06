@@ -37,10 +37,8 @@ class PopupChoseEmojiTask : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val offsetFromTop = 200
         (dialog as? BottomSheetDialog)?.behavior?.apply {
             isFitToContents = true
-//            expandedOffset = offsetFromTop
             state = BottomSheetBehavior.STATE_EXPANDED
         }
 
@@ -50,7 +48,6 @@ class PopupChoseEmojiTask : BottomSheetDialogFragment() {
     }
 
     private fun initView() {
-//        if (adapter == null) {
             adapter = EmojiAdapter(requireContext(), mListEmoji)
             adapter!!.setCallback(object : EmojiAdapter.EmojiCallback {
                 override fun onClickItem(emoji: String) {
@@ -60,8 +57,6 @@ class PopupChoseEmojiTask : BottomSheetDialogFragment() {
             })
             binding.rcEmoji.adapter = adapter
             binding.rcEmoji.layoutManager = GridLayoutManager(requireContext(), 5)
-//        }
-
     }
 
     private var mListEmoji = listOf<String>()

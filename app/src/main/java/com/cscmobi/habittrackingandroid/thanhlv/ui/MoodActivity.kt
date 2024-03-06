@@ -43,7 +43,6 @@ class MoodActivity : BaseActivity2() {
         super.onResume()
         runBlocking {
             mAllMoods = AppDatabase.getInstance(applicationContext).dao().getMood()
-            println("thanhlv override fun loadData() { ==== " + mAllMoods.size)
         }
         viewPager2()
     }
@@ -78,8 +77,6 @@ class MoodActivity : BaseActivity2() {
 
 
     private fun viewPager2() {
-        println("thanhlv viewPager2viewPager2 ==== " + mAllMoods.size)
-
         pagerMonthAdapter = PagerMonthCalendarAdapter(this)
         binding.vpMonth.adapter = pagerMonthAdapter
         pagerMonthAdapter!!.setList(mDataMonth)
@@ -114,8 +111,6 @@ class MoodActivity : BaseActivity2() {
     fun showRecyclerView(month: MonthCalendarModel) {
         val listMood = getMoodInMonth(month)
 
-        println("thanhlv showRecyclerView ----- " + listMood?.size)
-
         if (listMood.isNullOrEmpty()) {
             binding.showListRecordMood.visibility = View.GONE
             return
@@ -125,10 +120,11 @@ class MoodActivity : BaseActivity2() {
             moodRecordAdapter = MoodRecordAdapter(this)
             moodRecordAdapter?.setCallBack(object : MoodRecordAdapter.MoodRecordCallback {
                 override fun onClickItem(mood: Mood) {
-                    println("thanhlv onClickItem ----- " + mood.date)
-                    val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
-                    intent.putExtra("data_mood", Gson().toJson(mood))
-                    startActivity(intent)
+//                    val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
+//                    intent.putExtra("data_mood", Gson().toJson(mood))
+//                    startActivity(intent)
+                    val popupMoodDetail = PopupDetailMood.newInstance(mood)
+                    popupMoodDetail.show(supportFragmentManager, "")
                 }
 
             })
@@ -137,7 +133,7 @@ class MoodActivity : BaseActivity2() {
         }
         Handler().postDelayed({
             moodRecordAdapter?.setData(listMood)
-        }, 500)
+        }, 200)
 
     }
 

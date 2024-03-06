@@ -9,6 +9,5 @@
     android:backgroundTint="#FEFAE8"
     android:gravity="center"
     android:maxLines="1"
-    android:text="sdfasd"
     android:textColor="#EDCA15"
     android:textSize="14sp" />

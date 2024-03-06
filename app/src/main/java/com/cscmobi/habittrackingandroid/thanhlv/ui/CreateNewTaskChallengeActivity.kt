@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityCreateNewTaskChallengeBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
@@ -36,7 +37,6 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
         if (intent != null && intent.action != null && intent.action == "action_edit") {
             mTaskOriginal = mTaskNew
         }
-        println("thanhlv override fun loadData() {  ==CreateNewTaskChallengeActivity=== " + mTaskNew?.day)
     }
 
     override fun initView() {
@@ -63,7 +63,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
             binding.icAva.imageTintList = ColorStateList.valueOf(Color.WHITE)
         }
         if (mTaskOriginal != null) {
-            binding.btnCreate.text = "SAVE"
+            binding.btnCreate.text = getString(R.string.save)
             validateData()
         }
     }
@@ -137,7 +137,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
     private fun validateData() {
         if (binding.edtName.text.toString().isEmpty()) {
             binding.edtName.requestFocus()
-            Toast.makeText(this, "Please type name of task!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.please_type_name_of_task), Toast.LENGTH_SHORT).show()
             binding.btnCreate.isEnabled = false
             binding.btnCreate.backgroundTintList =
                 ColorStateList.valueOf(Color.parseColor("#b5b5b5"))

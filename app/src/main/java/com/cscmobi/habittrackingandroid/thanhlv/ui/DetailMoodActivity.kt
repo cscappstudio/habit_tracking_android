@@ -27,7 +27,6 @@ class DetailMoodActivity : BaseActivity2() {
     override fun loadData() {
         mMood =
             Gson().fromJson<Mood>(intent.getStringExtra("data_mood"), Mood::class.java)
-        println("thanhlv override fun loadData() {  ===== " + mMood?.date)
     }
 
     override fun initView() {
@@ -41,23 +40,23 @@ class DetailMoodActivity : BaseActivity2() {
 
         when (mMood?.state) {
             2 -> {
-                binding.tvMood.text = "To day was GOOD"
+                binding.tvMood.text = getString(R.string.to_day_was_good)
                 binding.icMood.setImageResource(R.drawable.ic_mood_good)
             }
             3 -> {
-                binding.tvMood.text = "To day was NEUTRAL"
+                binding.tvMood.text = getString(R.string.to_day_was_neutral)
                 binding.icMood.setImageResource(R.drawable.ic_mood_neutral)
             }
             4 -> {
-                binding.tvMood.text = "To day was NOT GREAT"
+                binding.tvMood.text = getString(R.string.to_day_was_not_great)
                 binding.icMood.setImageResource(R.drawable.ic_mood_not_great)
             }
             5 -> {
-                binding.tvMood.text = "To day was BAD"
+                binding.tvMood.text = getString(R.string.to_day_was_bad)
                 binding.icMood.setImageResource(R.drawable.ic_mood_bad)
             }
             else -> {
-                binding.tvMood.text = "To day was GREAT"
+                binding.tvMood.text = getString(R.string.to_day_was_great)
                 binding.icMood.setImageResource(R.drawable.ic_mood_great)
             }
         }

@@ -49,7 +49,7 @@
         android:elevation="20dp"
         android:gravity="center"
         android:outlineSpotShadowColor="@color/black_12"
-        android:text="GET STARTED"
+        android:text="@string/get_started"
         android:textColor="#fff"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

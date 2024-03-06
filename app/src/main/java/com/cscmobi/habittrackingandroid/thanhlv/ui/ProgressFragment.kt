@@ -56,20 +56,15 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     private fun observeData() {
 
         mCurrentStreak.observe(this) { it ->
-            println("thanhlv observerData---------mCurrentStreak------- " + it)
             binding.tvCurrentStreak.text = it.toString()
         }
         mPerfectDay.observe(this) { it ->
-            println("thanhlv observerData---------mPerfectDay------- " + it)
             binding.tvPerfectDay.text = it.toString()
         }
         mCompletionRate.observe(this) { it ->
-            println("thanhlv observerData---------mCompletionRate------- " + it)
             binding.tvCompletionRatePercent.text = it.toString() + "%"
         }
         mLongestStreak.observe(this) { it ->
-            println("thanhlv observerData---------mLongestStreak------- " + it)
-
             binding.tvLongestStreak.text = it.toString()
         }
 
@@ -104,8 +99,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         binding.vpMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-
-                println("thanhlv uuuuuuuuuuuuu --3333333333---------- "+position)
                 if (mDataVPMonth.isNotEmpty() && position < mDataVPMonth.size)
                     updateTitleMonth(mDataVPMonth[position])
                 if (mDataVPMonth.size > 1 && position < mDataVPMonth.size - 1) {

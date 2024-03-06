@@ -151,28 +151,4 @@ class ChangeLanguageActivity : BaseActivity2() {
         }
     }
 
-
-//    ////////////////////////////////////////////////////////
-//    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-//    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context, intent: Intent) {
-//            if (!SPF.isProApp(context)
-//                && RemoteConfigs.instance.getConfigValue(AdsConfigs.KEY_AD_NATIVE_CHANGE_LANGUAGE)
-//                    .asBoolean()
-//            ) {
-//                binding.adView.visibility = View.VISIBLE
-//                createNativeAd(context, BuildConfig.ad_native_full, binding.adView, null)
-//            } else binding.adView.visibility = View.GONE
-//        }
-//    }
-//
-//    override fun onStart() {
-//        super.onStart()
-//        registerReceiver(mReceiver, mIntentFilter)
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        unregisterReceiver(mReceiver)
-//    }
 }

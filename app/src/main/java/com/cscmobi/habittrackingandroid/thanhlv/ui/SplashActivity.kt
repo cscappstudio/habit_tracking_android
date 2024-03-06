@@ -335,13 +335,10 @@ class SplashActivity : BaseActivity2() {
         super.onResume()
         onActive = true
         if (countDownTimer == null && afterCountDown) {
-            println("thanhlv vao luonnnnnnnnnnnn")
             (application as MyApplication).showAdIfAvailable(
                 this@SplashActivity,
                 object : MyApplication.OnShowAdCompleteListener {
                     override fun onShowAdComplete(done: Boolean) {
-
-                        println("thanhlv continueApp onTick 999999995555555555 " + done)
                         afterCountDown = true
                         if (done) {
                             startHome()

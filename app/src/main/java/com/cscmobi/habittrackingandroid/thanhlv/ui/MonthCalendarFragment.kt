@@ -45,11 +45,9 @@ class MonthCalendarFragment :
             mMonth = arguments!!.getInt("MONTH_KEY")
             mYear = arguments!!.getInt("YEAR_KEY")
             mType = arguments!!.getInt("TYPE_KEY")
-//            Handler(Looper.getMainLooper()).postDelayed({
             recyclerView()
             adapter?.updateData(getDataList(mMonth, mYear, mType))
             binding.loadingView.visibility = View.GONE
-//            }, 200)
         }
     }
 

@@ -2,6 +2,9 @@ package com.cscmobi.habittrackingandroid.thanhlv.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,12 +56,16 @@ class DetailChallengeAdapter(private var mContext: Context) :
         }
 
         holder.binding.tvTitle.text = item.task.name
-//        holder.binding.tvDay.visibility = if (item.task.taskNo == 0) View.VISIBLE else View.GONE
+        holder.binding.iconTask.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(item.task.icon)))
+        holder.binding.iconTask.imageTintList = ColorStateList.valueOf(Color.WHITE)
+        holder.binding.iconTask.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(item.task.color))
 
         if (item.task.taskNo == 0) {
             holder.binding.tvDay.visibility = View.VISIBLE
             if (item.task.startDate == null)
-                holder.binding.tvDay.text = "Day " + item.task.dayNo.toString()
+                holder.binding.tvDay.text =
+                    mContext.getString(R.string.day_) + item.task.dayNo.toString()
             else holder.binding.tvDay.text = CalendarUtil.getTitleDayMonth(item.task.startDate!!)
             holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(119f)
         } else {

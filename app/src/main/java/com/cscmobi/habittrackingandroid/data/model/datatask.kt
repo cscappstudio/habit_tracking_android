@@ -70,7 +70,7 @@ data class TaskInChallenge(
     var name: String = "",
     var description: String = "",
     var icon: String = "",
-    var color: String = "",
+    var color: String = "#33EDCA15",
     var taskNo: Int,
     var dayNo: Int,
     var id: Long? = null,

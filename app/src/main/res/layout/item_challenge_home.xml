@@ -19,8 +19,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="198dp"
-    android:layout_height="121dp"
+    android:layout_width="206dp"
+    android:layout_height="128dp"
     android:layout_marginStart="16dp"
     android:layout_marginTop="12dp"
     android:layout_marginBottom="5dp"
@@ -37,15 +37,14 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_target"
-            android:layout_width="120dp"
-            android:layout_height="110dp"
+            android:layout_width="96dp"
+            android:layout_height="88dp"
+            android:layout_marginBottom="8dp"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
             android:scaleType="fitXY"
             app:setDrawableAsset="@{item.srcImage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -54,8 +53,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="10dp"
             android:lineSpacingMultiplier="1.2"
             android:maxLines="2"
             tools:text="Drink water when you wake up"
@@ -75,8 +74,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="6dp"
             android:fontFamily="@font/worksans_medium"
-            android:lineSpacingMultiplier="1.5"
+            android:lineSpacingMultiplier="1.15"
             android:maxLines="2"
             tools:text="Morning glow "
             android:textColor="#B5B5B5"
@@ -85,6 +85,7 @@
 
             app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/img_target"
             app:layout_constraintTop_toBottomOf="@+id/tv_note"
             app:layout_constraintVertical_chainStyle="packed" />
 
