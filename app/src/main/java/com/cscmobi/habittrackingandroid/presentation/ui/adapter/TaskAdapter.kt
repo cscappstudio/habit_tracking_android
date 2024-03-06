@@ -90,11 +90,13 @@ class TaskAdapter(
                 ColorStateList.valueOf(Color.TRANSPARENT)
 
             if (item.pauseDate != null || item.pause != 0) {
-                var c = Calendar.getInstance()
-                c.time = Date(item.pauseDate!!)
-                c.add(Calendar.DAY_OF_MONTH, item.pause)
+
 
                 if (item.pause != -1) {
+                    var c = Calendar.getInstance()
+                    c.time = Date(item.pauseDate!!)
+                    c.add(Calendar.DAY_OF_MONTH, item.pause-1)
+
                     if (date in item.pauseDate!!.toDate()..c.time.time) {
                         binding.ivPlay.visibility = View.VISIBLE
                         binding.rdCheck.visibility = View.GONE

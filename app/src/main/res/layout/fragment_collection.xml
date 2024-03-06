@@ -9,7 +9,7 @@
         <include
             android:id="@+id/layout_header"
             layout="@layout/layout_header" />
-        
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:visibility="invisible"
@@ -17,11 +17,22 @@
             app:searchIcon="@drawable/ic_search_btn"
             app:queryHint="Search Here ..."
             app:iconifiedByDefault="false"
+
             android:background="@drawable/bg_white_corner_20"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/_35sdp"
             android:layout_height="wrap_content"/>
-
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintTop_toTopOf="@id/search_view"
+            app:layout_constraintBottom_toBottomOf="@id/search_view"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_round_close"
+            android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/txt_new_habit"
             android:layout_width="0dp"
@@ -29,10 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="15dp"
-            android:fontFamily="@font/montserratalternates_bold"
+            android:fontFamily="@font/worksans_bold"
             android:text="@string/new_habit"
             android:textColor="@color/bottle_green"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_18ssp"
             app:layout_constraintEnd_toStartOf="@+id/ll_create_task"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_header" />
@@ -88,7 +99,7 @@
             android:elevation="@dimen/_20sdp"
             android:outlineSpotShadowColor="#4DEDCA15"
             android:textColor="@color/white"
-            android:fontFamily="@font/montserratalternates_semibold"
+            android:fontFamily="@font/worksans_semibold"
             android:textSize="@dimen/_10ssp"
             android:layout_marginEnd="@dimen/_14sdp"
             android:textAllCaps="false"
@@ -107,10 +118,10 @@
             android:backgroundTint="@color/white_smoke"
             android:minHeight="0dp"
             android:outlineSpotShadowColor="#4DEDCA15"
-            android:fontFamily="@font/montserratalternates_medium"
+            android:fontFamily="@font/worksans_medium"
             android:textSize="@dimen/_10ssp"
             android:paddingVertical="@dimen/_9sdp"
-            android:text="@string/all"
+            android:text="@string/tasks"
             android:textColor="@color/gray"
             android:textAllCaps="false"
             app:layout_constraintTop_toTopOf="@id/btn_collection"

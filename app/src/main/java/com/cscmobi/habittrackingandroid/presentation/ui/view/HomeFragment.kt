@@ -656,7 +656,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 if (currentDate != Helper.currentDate.toDate()) {
                     return
                 }
-                item.stateDone = !item.stateDone
+
+                tasksChallenge[p].stateDone = !item.stateDone
+//                item.stateDone = !item.stateDone
 
                 challengeHomeAdpater.notifyItemChanged(p)
 

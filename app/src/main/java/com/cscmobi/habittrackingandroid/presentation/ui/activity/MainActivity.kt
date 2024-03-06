@@ -88,6 +88,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initView() {
+
         binding.bottomNavigationView.background = null
         initFragments()
         showFragment(fragment1)
@@ -160,32 +161,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             val intent = Intent(this,SubscriptionsActivity::class.java)
                             startActivity(intent)
                         } else {
-                            AdMobUtils.createRewardAds(
-                                this@MainActivity,
-                                getString(R.string.rewardsAdsId),
-                                object : AdMobUtils.Companion.LoadAdCallback {
-                                    override fun onLoaded(ad: Any?) {
-                                        AdMobUtils.showRewardAds(this@MainActivity, object :
-                                            FullScreenContentCallback() {
-                                            override fun onAdDismissedFullScreenContent() {
-                                                super.onAdDismissedFullScreenContent()
-                                                freeIAP.rewardTimes++
+                            AdMobUtils.showRewardAds(this@MainActivity, object :
+                                FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    super.onAdDismissedFullScreenContent()
+                                    freeIAP.rewardTimes++
+                                    loadRewardAds()
 
-                                                startActivity(
-                                                    Intent(
-                                                        this@MainActivity,
-                                                        NewHabitActivity::class.java
-                                                    )
-                                                )
+                                    startActivity(
+                                        Intent(
+                                            this@MainActivity,
+                                            NewHabitActivity::class.java
+                                        )
+                                    )
 
-                                            }
-                                        })
-                                    }
-
-                                    override fun onLoadFailed() {
-                                    }
-
-                                })
+                                }
+                            })
                         }
                     } else {
                         startActivity(Intent(this@MainActivity, NewHabitActivity::class.java))
@@ -195,6 +186,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             } else
                 startActivity(Intent(this, NewHabitActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!Helper.isFirstLoadRewardAds) {
+            loadRewardAds()
+        }
+    }
+
+    private fun loadRewardAds() {
+        AdMobUtils.createRewardAds(
+            this@MainActivity,
+            getString(R.string.rewardsAdsId),
+            object : AdMobUtils.Companion.LoadAdCallback {
+                override fun onLoaded(ad: Any?) {
+                    Helper.isFirstLoadRewardAds = true
+                }
+
+                override fun onLoadFailed() {
+
+                }
+
+            })
     }
 
     fun showFragment(fmShow: Fragment?) {
