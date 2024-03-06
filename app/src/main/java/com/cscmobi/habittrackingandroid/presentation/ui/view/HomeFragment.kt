@@ -73,6 +73,7 @@ import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -89,6 +90,7 @@ import kotlin.math.roundToInt
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+    private var oldCurrentDate: Long = -1
     private var hasInitChip = false
     private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var taskAdapter: TaskAdapter
@@ -112,6 +114,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var calenderDialogHomeFragment = CalenderDialogHomeFragment()
     private var challengeTaskMap: Map<String, List<ChallengeTask>> = mapOf()
     private var challenges = mutableListOf<Challenge>()
+    private var resetCurrentTasks = false
 
     override fun initView(view: View) {
         binding.isTasksEmpty = true
@@ -140,6 +143,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         }
 
                     }
+
                 }
 
                 lastHistory = if (it.size == 1) it[0] else it.last()
@@ -203,6 +207,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
 
         }
+
+
     }
 
 
@@ -321,6 +327,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun observeState() {
         lifecycleScope.launch {
             homeViewModel.state.collect { state ->
+                if (currentDate < Helper.currentDate.toDate()) oldCurrentDate = currentDate
 
                 when (state) {
                     is HomeState.Tasks -> {
@@ -341,28 +348,56 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                             hasInitChip = true
                         }
-
-
                         initTaskAdapter()
+
                         setUpChallenge()
-                        println("listaaaaaaaaaaaa_${listTask.size.toString()}")
+
+
+                        if (currentDate == Helper.currentDate.toDate() && oldCurrentDate < currentDate) {
+                            currentHistory?.let {
+                                it.taskInDay.forEach { taskInDay ->
+                                    var index = listTask.indexOfFirst { it.id == taskInDay.taskId }
+                                    if (index != -1) {
+
+                                        listTask[index].goal?.currentProgress =
+                                            taskInDay.progressGoal
+                                        println("done aaaaaaaaaaaaaaaaaaaa ${taskInDay.progressGoal}")
+                                    }
+
+                                }
+                               taskAdapter?.notifyDataSetChanged()
+                                tasksChallenge =
+                                    listTask.filter { !it.challenge.isNullOrEmpty() }.map {
+                                        ChallengeHomeItem(
+                                            idTask = it.id,
+                                            note = it.name!!,
+                                            name = it.challenge!!,
+                                            stateDone = (it.goal?.currentProgress
+                                                ?: 0) >= (it.goal?.target ?: 1),
+                                            it.imgChallenge
+                                        )
+                                    }.toMutableList()
+                                challengeHomeAdpater.submitList(tasksChallenge)
+                            }
+                        }
 
                         lifecycleScope.launch {
-                            homeViewModel.getHistorybyDate(currentDate)
-                        }
+                                homeViewModel.getHistorybyDate(currentDate)
+                            }
 
                     }
 
                     is HomeState.Empty -> {
                         binding.rcvChallenge.visibility = View.GONE
                         binding.isTasksEmpty = true
-                        showAds()
+
 
                     }
 
                     else -> {
                     }
                 }
+
             }
 
 
@@ -370,8 +405,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         lifecycleScope.launch {
             homeViewModel.currentHistory.collect {
+                println("resettttttttttttttttttttttttttttttttttt")
                 listTask = listTask.filter { it.id != IDLE }.toMutableList()
-                if (it.id != IDLE) {
+                if (it != null && it.id != IDLE) {
                     if (it.id != -1L) {
                         currentHistory = it
 
@@ -436,7 +472,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 binding.adView,
                 object : AdMobUtils.Companion.LoadAdCallback {
                     override fun onLoaded(ad: Any?) {
-
+                        binding.ivPencil.visibility = View.INVISIBLE
+                        binding.txtNotask.visibility = View.INVISIBLE
                     }
 
                     override fun onLoadFailed() {
@@ -448,8 +485,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
                 })
         } else {
-            binding.ivPencil.visibility = View.VISIBLE
-            binding.txtNotask.visibility = View.VISIBLE
+            if (listNormalTask.isEmpty()) {
+                binding.ivPencil.visibility = View.VISIBLE
+                binding.txtNotask.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -794,7 +833,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         item.endDate?.endDate = c.time.time
                         item.endDate?.isOpen = true
                     }
-                    listTask.removeIf { it.id == item.id }
+                    listNormalTask.removeIf { it.id == item.id }
                     //listTask.removeAt(p)
                     // taskAdapter?.notifyItemRemoved(p)
                     val adsIndex = listNormalTask.indexOfFirst { it.id == IDLE }
@@ -815,7 +854,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }, {
                     // delete all
                     // listTask.removeAt(p)
-                    listTask.removeIf { it.id == item.id }
+                    listNormalTask.removeIf { it.id == item.id }
 
                     val adsIndex = listNormalTask.indexOfFirst { it.id == IDLE }
                     if (adsIndex != -1 && adsIndex != 1) {
@@ -1030,9 +1069,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
                 binding.txtDate.text = dateFormat
             }
+//            lifecycleScope.launch {
+//
+//
+//            }
+
             lifecycleScope.launch {
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+
+
             }
+
+
         }
 
 
