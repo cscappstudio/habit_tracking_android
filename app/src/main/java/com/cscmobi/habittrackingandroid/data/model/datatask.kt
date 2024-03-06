@@ -73,7 +73,7 @@ data class TaskInChallenge(
     var color: String = "",
     var taskNo: Int,
     var dayNo: Int,
-    var id: Long,
+    var id: Long? = null,
     var startDate: Long? = null,
     var state: Int = 0 // chưa tham gia, 1 = tham gia đã done, 2= tham gia chưa done, 3 đã done và qua ngày
 ) {
@@ -103,7 +103,7 @@ data class TaskTimelineModel(
 data class ChallengeJoinedHistory(
     var date: Long,
     var state: Int = 0
-) // state = 0: tham gia chưa hoàn thành, = 1 tham gia đã hoàn thành, = 2 đã cancel
+) // state = 0: tham gia chưa hoàn thành, = 1 tham gia đã hoàn thành, = 2 bị miss task
 
 
 

@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.PrimaryKey
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
-import com.cscmobi.habittrackingandroid.data.model.TaskInChallenge
+import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailChallengeBinding
+import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.DetailChallengeAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
@@ -22,6 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 
 class DetailChallengeActivity : BaseActivity2() {
@@ -58,6 +59,13 @@ class DetailChallengeActivity : BaseActivity2() {
                 binding.btnStartChallenge.visibility = View.GONE
                 binding.btnOptionTop.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.VISIBLE
+                if (doneTask == 0) binding.progressBar.progress = 5
+                else
+                    binding.progressBar.progress = doneTask * 100 / totalTask
+                if (isMissChallenge || isDoneChallenge) {
+                    binding.btnStartChallenge.visibility = View.VISIBLE
+                    binding.btnStartChallenge.text = "RESTART CHALLENGE"
+                }
             } else {
                 binding.btnStartChallenge.visibility = View.VISIBLE
                 binding.btnOptionTop.visibility = View.GONE
@@ -66,6 +74,8 @@ class DetailChallengeActivity : BaseActivity2() {
 
         }
     }
+
+    private var hasReset = true
 
     override fun controllerView() {
         binding.btnBackHeader.setOnClickListener {
@@ -78,9 +88,101 @@ class DetailChallengeActivity : BaseActivity2() {
         }
 
         binding.btnOptionTop.setOnClickListener {
-            val menuDropDown = MenuDropDown(this@DetailChallengeActivity)
+            val menuDropDown = MenuDropDown(this@DetailChallengeActivity, hasReset,
+                {
+                    performResetChallenge()
+                    hasReset = false
+                },
+                {
+                    performCancelChallenge()
+                    finish()
+                }
+            )
             menuDropDown.showAsDropDown(it)
         }
+    }
+
+    private fun performCancelChallenge() {
+        if (mChallenge == null) return
+        runBlocking {
+            mChallenge?.days?.forEach { it ->
+                if (!it.tasks.isNullOrEmpty()) {
+
+                    val history = AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+                        .getHistoryByDate2(it.tasks!![0].startDate!!)
+                    println("thanhlv yyyyyyyyyyyyyyyy " + it.tasks!![0].startDate + " ;;;;; " + history)
+                    for (i in it.tasks?.indices!!) {
+                        if (it.tasks!![i].id != null && it.tasks!![i].startDate != null) {
+                            val task = AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+                                .getTaskById(it.tasks!![i].id!!)
+                            if (history != null) {
+                                for (j in history.taskInDay.indices)
+                                    if (history.taskInDay[j].taskId == it.tasks!![i].id) {
+                                        val newList = history.taskInDay.toMutableList()
+                                        newList.remove(history.taskInDay[j])
+                                        history.taskInDay = newList.toList()
+                                        break
+                                    }
+                                var taskDoneSize = 0
+                                history.taskInDay.forEach {
+                                    if (it.progress == 100) taskDoneSize++
+                                }
+                                history.progressDay = if (history.taskInDay.isEmpty()) 0 else
+                                    (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
+
+//                                if (history.taskInDay.isEmpty()) {
+//                                    val history2 =
+//                                        AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+//                                            .getHistoryByDate2(it.tasks!![0].startDate!!)
+//                                    if (history2 != null)
+//                                        AppDatabase.getInstance(this@DetailChallengeActivity)
+//                                            .dao()
+//                                            .deleteHistory(history2)
+//                                } else
+                                AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+                                    .updateHistory2(
+                                        history.id,
+                                        history.taskInDay,
+                                        history.progressDay
+                                    )
+
+                                HomeFragment.updateChallenge = true
+                            }
+
+                            if (task != null) AppDatabase.getInstance(this@DetailChallengeActivity)
+                                .dao()
+                                .deleteTask(task)
+                            it.tasks!![i].id = null
+                            it.tasks!![i].startDate = null
+                            it.tasks!![i].state = 0
+                        }
+                    }
+                }
+            }
+
+            mChallenge?.joinedHistory = null
+            AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
+            val newMyChallenges =
+                ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
+            newMyChallenges.sortByDescending {
+                it.joinedHistory?.date
+            }
+            ChallengeFragment.myChallenges.postValue(newMyChallenges)
+        }
+    }
+
+    private fun performResetChallenge() {
+
+        if (mChallenge == null) return
+        performCancelChallenge()
+        val joined = ChallengeJoinedHistory(System.currentTimeMillis())
+        mChallenge!!.joinedHistory = joined
+        runBlocking {
+            resolverDataJoinChallenge()
+            recyclerView()
+            binding.progressBar.progress = 5
+        }
+
     }
 
     private fun joinChallenge() {
@@ -93,16 +195,16 @@ class DetailChallengeActivity : BaseActivity2() {
             AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
 
             //update task challenge to task all
-            delay(600)
+            delay(300)
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
             newMyChallenges.sortByDescending {
                 it.joinedHistory?.date
             }
 
-            ChallengeFragment.allChallenges.postValue(
-                AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-            )
+//            ChallengeFragment.allChallenges.postValue(
+//                AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+//            )
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
         }
     }
@@ -125,6 +227,9 @@ class DetailChallengeActivity : BaseActivity2() {
                         out = true
                         break
                     }
+//                    if (mChallenge!!.days[j].tasks!![k].id != null)
+//                        AppDatabase.getInstance(applicationContext).dao()
+//                            .deleteTaskById(mChallenge!!.days[j].tasks!![k].id!!)
                     val task = mChallenge!!.days[j].tasks!![k].parserToTask()
                     task.challenge = mChallenge!!.name
                     task.startDate = listDate[startDate]
@@ -150,12 +255,13 @@ class DetailChallengeActivity : BaseActivity2() {
     }
 
     private fun getListDateFill(repeat: List<Int>, duration: Int): List<Long> {
-        var startDate = System.currentTimeMillis()
+        val startDate = CalendarUtil.startDayMs(System.currentTimeMillis())
+
         var nextDay = CalendarUtil.startWeekMs(startDate)
         var rangeDate = arrayListOf<Long>()
         rangeDate.add(nextDay)
         for (i in 0..duration + 7) {
-            nextDay = CalendarUtil.nextDay(nextDay)
+            nextDay = CalendarUtil.nextDayMs(nextDay)
             rangeDate.add(nextDay)
         }
         val tem = arrayListOf<Long>()
@@ -164,11 +270,6 @@ class DetailChallengeActivity : BaseActivity2() {
         }
 
         rangeDate = arrayListOf<Long>()
-        for (i in 0 until tem.size)
-            if (startDate <= tem[i]) {
-                startDate = tem[i]
-                break
-            }
         tem.forEach {
             if (it >= startDate) {
                 rangeDate.add(it)
@@ -186,11 +287,19 @@ class DetailChallengeActivity : BaseActivity2() {
 
     }
 
+    private var isMissChallenge = false
+    private var isDoneChallenge = true
+    private var totalTask = 0
+    private var doneTask = 0
     private fun getTasks(): MutableList<TaskTimelineModel> {
         if (mChallenge == null) return mutableListOf()
 
         val temp = mutableListOf<TaskTimelineModel>()
         runBlocking {
+            isMissChallenge = false
+            isDoneChallenge = true
+            totalTask = 0
+            doneTask = 0
             mChallenge?.days?.forEach { _it ->
                 _it.tasks?.forEach {
                     it.dayNo = _it.dayNo
@@ -198,10 +307,10 @@ class DetailChallengeActivity : BaseActivity2() {
                         val idTask = it.id
                         val historyByDate =
                             AppDatabase.getInstance(applicationContext).dao()
-                                .getHistoryByDate2(CalendarUtil.getStartTimeOfDay(it.startDate!!))
+                                .getHistoryByDate2(CalendarUtil.startDayMs(it.startDate!!))
                         if (historyByDate != null && historyByDate.taskInDay.isNotEmpty()) {
 
-                            var progressTask = -10
+                            var progressTask = -1
                             historyByDate.taskInDay.forEach { task_ ->
                                 if (task_.taskId == idTask) {
                                     progressTask = task_.progress
@@ -209,10 +318,19 @@ class DetailChallengeActivity : BaseActivity2() {
                                 }
                             }
                             if (progressTask == 100) {
+                                doneTask += 1
                                 it.state = 1
                                 if (getDaysBetween(it.startDate!!, System.currentTimeMillis()) > 0)
                                     it.state = 3
-                            } else it.state = 2
+                            } else {
+                                if (!isMissChallenge)
+                                    isMissChallenge =
+                                        CalendarUtil.startDayMs(it.startDate!!) < CalendarUtil.startDayMs(
+                                            System.currentTimeMillis()
+                                        )
+                                it.state = 2
+                                isDoneChallenge = false
+                            }
                         }
                     }
 
@@ -221,6 +339,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     new.status = it.state
 
                     temp.add(new)
+                    totalTask += 1
                 }
             }
             if (temp.isEmpty()) return@runBlocking

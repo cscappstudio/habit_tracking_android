@@ -3,8 +3,6 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.MutableLiveData
@@ -699,7 +697,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         for (i in 0 until days) {
             temp.add(0)
             dateMonth.add(startMonth)
-            startMonth = CalendarUtil.nextDay(startMonth)
+            startMonth = CalendarUtil.nextDayMs(startMonth)
         }
 
         runBlocking {

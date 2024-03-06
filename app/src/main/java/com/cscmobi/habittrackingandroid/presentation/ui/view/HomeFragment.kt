@@ -18,6 +18,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -407,7 +408,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                             currentHistory!!.taskInDay = getTasksInday(listTask)
 
-                            homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory!!))
+                            if (!updateChallenge) {
+                                homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory!!))
+                            } else {
+                                updateChallenge = false
+                            }
                         }
                     } else {
                         if (currentDate <= Helper.currentDate.toDate()) {
@@ -425,6 +430,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
     }
+
 
     private fun showAds() {
         if (isShowAds(requireContext())) {
@@ -1211,6 +1217,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     companion object {
         var isSetCurrentDate = false
+        var updateChallenge = false
     }
 
 }
