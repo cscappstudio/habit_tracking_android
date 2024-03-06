@@ -153,6 +153,8 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">A consistência é a chave, e você está no caminho certo. Continue esmagando esses objetivos! 💪🌟</string>
     <string name="claim_badge">REIVINDICAR DISTINTIVO</string>
 
+    <string name="notification_access_granted">Notification Access Granted</string>
+    <string name="notification_access_denied">Notification Access Denied</string>
     <string name="billing_is_not_connected_please_try_again">A faturação não está conectada, por favor, tente novamente</string>
     <string name="monthly">Mensal</string>
     <string name="yearly">Anual</string>

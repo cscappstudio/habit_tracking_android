@@ -1,12 +1,17 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityMoodBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.MoodRecordAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
@@ -14,7 +19,11 @@ import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.google.gson.Gson
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
+import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.helper.RunUtils
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
@@ -186,4 +195,40 @@ class MoodActivity : BaseActivity2() {
 
         return list
     }
+
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            loadBanner()
+        }
+    }
+
+    private fun loadBanner() {
+        if (NetworkHelper.isNetworkAvailable(this@MoodActivity)
+            && !SPF.isProApp(this@MoodActivity)
+            && RemoteConfigs.instance.getConfigValue(AppConfigs.KEY_AD_BANNER_MOOD).asBoolean()
+        ) {
+            binding.bannerView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                this@MoodActivity,
+                getString(R.string.admob_banner_collapse_id),
+                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                binding.bannerView,
+                null
+            )
+        } else {
+            binding.bannerView.visibility = View.GONE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(mReceiver)
+    }
+
 }

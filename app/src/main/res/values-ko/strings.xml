@@ -174,6 +174,9 @@
     <string name="share_app">앱 공유</string>
     <string name="privacy">개인정보 처리방침</string>
     <string name="about">정보</string>
+
+    <string name="notification_access_granted">Notification Access Granted</string>
+    <string name="notification_access_denied">Notification Access Denied</string>
     <string name="you_ve_done_all_the_n_tasks_today">오늘은 모든 작업을\n 완료했습니다.</string>
     <string name="to_day_was_good">To day was GOOD</string>
     <string name="to_day_was_neutral">To day was NEUTRAL</string>

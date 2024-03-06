@@ -83,11 +83,9 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         binding.bbPerfectDay
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
 
-
         handleMonthCalendar()
         handleChart()
         handleYearStats()
-
 
     }
 
@@ -724,6 +722,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         isValid =
                             abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % it.frequency == 0
                     }
+
                     "monthly" -> {
                         val checkMonthValid =
                             abs(Utils.getMonth(date) - Utils.getMonth(task.startDate!!)) % it.frequency == 0

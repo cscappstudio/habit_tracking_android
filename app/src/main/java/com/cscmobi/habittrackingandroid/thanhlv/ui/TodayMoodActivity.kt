@@ -1,7 +1,12 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -16,7 +21,12 @@ import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity.Companion.mAllMoods
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
 import com.thanhlv.fw.helper.MyUtils
+import com.thanhlv.fw.helper.NetworkHelper
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
+import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
@@ -289,5 +299,41 @@ class TodayMoodActivity : BaseActivity2() {
         return list
     }
 
+
+
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            loadBanner()
+        }
+    }
+
+    private fun loadBanner() {
+        if (NetworkHelper.isNetworkAvailable(this@TodayMoodActivity)
+            && !SPF.isProApp(this@TodayMoodActivity)
+            && RemoteConfigs.instance.getConfigValue(AppConfigs.KEY_AD_BANNER_LOG_MOOD).asBoolean()
+        ) {
+            binding.bannerView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                this@TodayMoodActivity,
+                getString(R.string.admob_banner_id),
+                AdMobUtils.BANNER_NORMAL,
+                binding.bannerView,
+                null
+            )
+        } else {
+            binding.bannerView.visibility = View.GONE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(mReceiver)
+    }
 
 }

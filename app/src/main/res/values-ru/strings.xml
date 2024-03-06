@@ -153,6 +153,8 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">Постоянство - ключ, и вы на верном пути. Продолжайте разгромлять эти цели! 💪🌟</string>
     <string name="claim_badge">ПОЛУЧИТЬ ЗНАК</string>
 
+    <string name="notification_access_granted">Notification Access Granted</string>
+    <string name="notification_access_denied">Notification Access Denied</string>
     <string name="billing_is_not_connected_please_try_again">Оплата не подключена, пожалуйста, попробуйте снова</string>
     <string name="monthly">Ежемесячно</string>
     <string name="yearly">Ежегодно</string>

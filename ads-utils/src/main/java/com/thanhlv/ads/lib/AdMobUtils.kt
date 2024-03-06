@@ -163,17 +163,20 @@ class AdMobUtils {
             fun onLoaded(ad: Any?)
             fun onLoadFailed()
         }
-
         private fun getAdSize(context: Context, type: Int): AdSize {
-                val display = Resources.getSystem().displayMetrics
-                val widthPixels = display.widthPixels.toFloat()
-                val density = display.density
+            return if (context is Activity) {
+                val display = context.windowManager.defaultDisplay
+                val outMetrics = DisplayMetrics()
+                display.getMetrics(outMetrics)
+                val widthPixels = outMetrics.widthPixels.toFloat()
+                val density = outMetrics.density
                 val adWidth = (widthPixels / density).toInt()
-
-            return when (type) {
-//                BANNER_INLINE -> AdSize.getInlineAdaptiveBannerAdSize(adWidth, 50)
-                BANNER_NORMAL -> AdSize.BANNER
-                else -> AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
+                if (type == BANNER_INLINE) AdSize.getInlineAdaptiveBannerAdSize(
+                    adWidth,
+                    60
+                ) else AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
+            } else {
+                AdSize.FLUID
             }
         }
 

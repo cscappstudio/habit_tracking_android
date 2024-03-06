@@ -153,6 +153,9 @@
     <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">一貫性が重要であり、あなたは正しい道を進んでいます。それらの目標を粉砕し続けてください！ 💪🌟</string>
     <string name="claim_badge">バッジを請求</string>
 
+
+    <string name="notification_access_granted">Notification Access Granted</string>
+    <string name="notification_access_denied">Notification Access Denied</string>
     <string name="billing_is_not_connected_please_try_again">請再試一次，結帳未連線</string>
     <string name="monthly">每月</string>
     <string name="yearly">每年</string>

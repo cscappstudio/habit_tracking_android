@@ -1,9 +1,16 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.BitmapFactory
+import android.net.ConnectivityManager
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
@@ -16,8 +23,14 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil.Companion.getDaysBetween
 import com.google.gson.Gson
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_BANNER_DETAIL_CHALLENGE
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_BANNER_HOME
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
+import com.thanhlv.fw.helper.NetworkHelper
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs.Companion.instance
+import com.thanhlv.fw.spf.SPF.Companion.isProApp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.util.*
@@ -359,4 +372,39 @@ class DetailChallengeActivity : BaseActivity2() {
         return temp
     }
 
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            loadBanner()
+        }
+    }
+
+    private fun loadBanner() {
+            if (NetworkHelper.isNetworkAvailable(this@DetailChallengeActivity)
+                && !isProApp(this@DetailChallengeActivity)
+                && instance.getConfigValue(KEY_AD_BANNER_DETAIL_CHALLENGE).asBoolean()
+            ) {
+                binding.bannerView.visibility = View.VISIBLE
+                AdMobUtils.createBanner(
+                    this@DetailChallengeActivity,
+                    getString(R.string.admob_banner_id),
+                    AdMobUtils.BANNER_NORMAL,
+                    binding.bannerView,
+                    null
+                )
+            } else {
+                binding.bannerView.visibility = View.GONE
+            }
+        }
+
+        override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(mReceiver)
+    }
 }
+

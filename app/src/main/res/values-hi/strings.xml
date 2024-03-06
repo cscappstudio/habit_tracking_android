@@ -176,6 +176,9 @@
     <string name="privacy">गोपनीयता</string>
     <string name="about">बारे में</string>
     <string name="you_ve_done_all_the_n_tasks_today">आपने आज सभी कार्य\n किए हैं।</string>
+
+    <string name="notification_access_granted">Notification Access Granted</string>
+    <string name="notification_access_denied">Notification Access Denied</string>
     <string name="to_day_was_good">To day was GOOD</string>
     <string name="to_day_was_neutral">To day was NEUTRAL</string>
     <string name="to_day_was_not_great">To day was NOT GREAT</string>
