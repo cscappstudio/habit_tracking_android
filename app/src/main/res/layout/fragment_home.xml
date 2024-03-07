@@ -104,9 +104,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/iv_avatar"
-
-            />
+            app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -114,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_9sdp"
             android:background="@drawable/bg_home_1"
             app:layout_constraintDimensionRatio="320:120"
             app:layout_constraintTop_toBottomOf="@id/rcv_week">
@@ -247,6 +245,7 @@
                     android:id="@+id/rcv_challenge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -254,7 +253,6 @@
                     android:id="@+id/svButtonGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:fillViewport="true"
                     android:scrollbars="none"
                     android:visibility="@{isTasksEmpty ? View.GONE : View.VISIBLE}"
@@ -262,9 +260,10 @@
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipgroup_category"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_5sdp"
+                        android:paddingHorizontal="@dimen/_6sdp"
+                        android:paddingBottom="6dp"
                         app:selectionRequired="true"
                         app:singleLine="true"
                         app:singleSelection="true">
@@ -290,18 +289,16 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:adjustViewBounds="true"
-                    android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}"
-
                     android:src="@drawable/ic_pencil"
-                    />
+
+                    android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}" />
 
                 <TextView
                     android:id="@+id/txt_notask"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}"
-
                     android:layout_gravity="center_horizontal"
+
                     android:layout_marginHorizontal="@dimen/_25sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/worksans_regular"
@@ -309,7 +306,7 @@
                     android:textColor="@color/silver_gray"
                     android:textFontWeight="400"
                     android:textSize="12sp"
-                  />
+                    android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}" />
 
                 <com.thanhlv.ads.lib.TemplateNativeView
                     android:id="@+id/adView"
@@ -325,24 +322,26 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_add_mood"
-            android:layout_width="@dimen/_67sdp"
-            android:layout_height="@dimen/_59sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="0dp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_40sdp"
+            android:layout_marginBottom="@dimen/_48sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_icon_add"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintDimensionRatio="H, 33:32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_max="110dp" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:lottie_autoPlay="false"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="false"
             app:lottie_rawRes="@raw/firework" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

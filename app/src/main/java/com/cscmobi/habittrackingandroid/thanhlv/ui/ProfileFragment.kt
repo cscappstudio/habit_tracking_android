@@ -12,6 +12,8 @@ import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentProfileBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
 import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_PASS_REVIEW_APP
 import com.thanhlv.fw.helper.MyClick
 import com.thanhlv.fw.helper.MyUtils
@@ -127,7 +129,7 @@ class ProfileFragment :
         }
         if ((requireActivity() as MainActivity).hasNotificationPermission()) {
             binding.grBtnNoti.visibility = View.GONE
-        } else  binding.grBtnNoti.visibility = View.VISIBLE
+        } else binding.grBtnNoti.visibility = View.VISIBLE
     }
 
     fun clickRating() {
@@ -171,6 +173,17 @@ class ProfileFragment :
                 getString(R.string.please_update),
                 Toast.LENGTH_LONG
             ).show()
+    }
 
+    fun toggleAdView() {
+        if (!SPF.isProApp(requireContext()) && RemoteConfigs.instance.getConfigValue(
+                AppConfigs.KEY_AD_NATIVE_SETTINGS
+            ).asBoolean()
+        ) {
+            binding.adView.visibility = View.VISIBLE
+            AdMobUtils.createNativeAd(
+                requireContext(), getString(R.string.native_id), binding.adView, null
+            )
+        } else binding.adView.visibility = View.GONE
     }
 }

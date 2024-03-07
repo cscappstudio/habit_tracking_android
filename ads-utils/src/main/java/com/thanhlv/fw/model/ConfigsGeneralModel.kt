@@ -8,7 +8,7 @@ class ConfigsGeneralModel {
     var emailSupport = "support@cscmobi.com"
 
     @SerializedName("shareText")
-    var shareText = "Dog Translator: Train & Sounds"
+    var shareText = "Habit Goals: Habit Tracker"
 
     @SerializedName("termsURL")
     var termsURL = "https://cscmobi.com/privacy-policy/"
@@ -23,7 +23,7 @@ class ConfigsGeneralModel {
     var adsPlatform = "admod"
 
     @SerializedName("lastVersion")
-    var lastVersion = "0.0.1"
+    var lastVersion = "0.0.3"
 
     @SerializedName("updateMessage")
     var updateMessage = "Please update to best performance"
@@ -38,7 +38,7 @@ class ConfigsGeneralModel {
     var isForceUpdate = false
 
     @SerializedName("subscription")
-    var subscription = "[{\"name\": \"month\", \"keyID\": \"cscmobi.screencasttv.monthly\"}," +
-            "{\"name\": \"year\",\"keyID\": \"cscmobi.screencasttv.yearly\"}," +
-            "{\"name\": \"lifetime\",\"keyID\": \"cscmobi.casttv.lifetime\"}]"
+    var subscription = "[{\"name\": \"month\", \"keyID\": \"monthly\"}," +
+            "{\"name\": \"year\",\"keyID\": \"yearly\"}," +
+            "{\"name\": \"lifetime\",\"keyID\": \"lifetime\"}]"
 }

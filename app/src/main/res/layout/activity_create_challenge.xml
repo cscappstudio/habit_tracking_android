@@ -30,13 +30,15 @@
     <TextView
         android:id="@+id/tv_title_header"
         style="@style/Text_700_Med"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:maxLines="1"
         android:text="@string/create_a_challenge"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@id/btn_back_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_back_header"
         app:layout_constraintTop_toTopOf="@id/btn_back_header" />
 
     <androidx.core.widget.NestedScrollView
@@ -75,7 +77,7 @@
             <EditText
                 android:id="@+id/edt_name"
                 style="@style/Text_600"
-                android:layout_width="@dimen/_120sdp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:hint="@string/challenge_name"
@@ -125,11 +127,11 @@
                     android:layout_marginTop="6dp"
                     android:background="@drawable/bg_white_round_20"
                     android:gravity="start|top"
+                    android:hint="@string/type_description"
                     android:inputType="textMultiLine"
                     android:isScrollContainer="true"
                     android:maxLength="100"
                     android:maxLines="3"
-                    android:hint="@string/type_description"
                     android:padding="16dp"
                     android:textColor="#393E3C"
                     android:textSize="13sp"

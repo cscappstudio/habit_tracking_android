@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defaults>
     <entry>
+        <key>android_native_settings</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_challenge</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_native_progress</key>
+        <value>true</value>
+    </entry>
+    <entry>
         <key>android_banner_mood</key>
         <value>true</value>
     </entry>

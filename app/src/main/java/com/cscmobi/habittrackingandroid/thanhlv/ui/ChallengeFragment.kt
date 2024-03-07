@@ -5,12 +5,17 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentChallengeBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
 import com.google.gson.Gson
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
+import com.thanhlv.fw.spf.SPF
 
 class ChallengeFragment :
     BaseFragment<FragmentChallengeBinding>(FragmentChallengeBinding::inflate) {
@@ -74,6 +79,19 @@ class ChallengeFragment :
         binding.bgBannerPro.root.setOnClickListener {
             startActivity(Intent(requireContext(), SubscriptionsActivity::class.java))
         }
+    }
+
+
+    fun toggleAdView() {
+        if (!SPF.isProApp(requireContext()) && RemoteConfigs.instance.getConfigValue(
+                AppConfigs.KEY_AD_NATIVE_CHALLENGE
+            ).asBoolean()
+        ) {
+            binding.adView.visibility = View.VISIBLE
+            AdMobUtils.createNativeAd(
+                requireContext(), getString(R.string.native_video_id), binding.adView, null
+            )
+        } else binding.adView.visibility = View.GONE
     }
 }
 

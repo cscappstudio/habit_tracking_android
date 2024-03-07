@@ -48,15 +48,7 @@ class CreateChallengeActivity : BaseActivity2() {
         recyclerView()
     }
 
-    private var listDayText = arrayListOf(
-        getString(R.string.monday),
-        getString(R.string.tuesday),
-        getString(R.string.wednesday),
-        getString(R.string.thursday),
-        getString(R.string.friday),
-        getString(R.string.saturday),
-        getString(R.string.sunday)
-    )
+    private var listDayText = arrayListOf<String>()
     private var listDayState = arrayListOf(false, false, false, false, false, false, false, false)
     private var mRepeatData = arrayListOf(2, 3, 4, 5, 6, 7, 1)
     private var listDayView = arrayListOf<TextView>()
@@ -156,18 +148,31 @@ class CreateChallengeActivity : BaseActivity2() {
         if (cycleNum == 0) {
             binding.rcAddTask.visibility = View.GONE
             binding.edtCycle.requestFocus()
-            Toast.makeText(this, getString(R.string.cycle_must_be_more_than_0), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.cycle_must_be_more_than_0), Toast.LENGTH_SHORT)
+                .show()
             return false
         }
         if (durationNum == 0 || durationNum < cycleNum) {
             binding.edtDuration.requestFocus()
-            Toast.makeText(this, getString(R.string.duration_must_be_more_than_cycle), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.duration_must_be_more_than_cycle),
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         }
         return true
     }
 
     private fun handleSetupRepeat() {
+        listDayText.add(getString(R.string.monday))
+        listDayText.add(getString(R.string.tuesday))
+        listDayText.add(getString(R.string.wednesday))
+        listDayText.add(getString(R.string.thursday))
+        listDayText.add(getString(R.string.friday))
+        listDayText.add(getString(R.string.saturday))
+        listDayText.add(getString(R.string.sunday))
+
         binding.btnRepeat.setOnClickListener {
             spinnerRepeatDay()
         }

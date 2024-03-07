@@ -132,10 +132,9 @@ interface Dao {
     suspend fun updateHistory(history: History)
 
 
-//    @Query("DELETE FROM history WHERE id = :id")
-//    suspend fun deleteHistory(id: Long)
     @Delete
     suspend fun deleteHistory(history: History)
+    
     @Query("UPDATE history SET taskInDay = :newTaskInDay, progressDay = :progressDay WHERE id = :id")
 
     suspend fun updateHistory2(id: Long, newTaskInDay: List<TaskInDay>, progressDay: Int)
