@@ -698,7 +698,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                 challengeHomeAdpater.notifyItemChanged(p)
 
-
                 var isChallengeDone = true
                 challengeTaskMap[item.name]?.forEachIndexed { index, it ->
 
