@@ -121,8 +121,7 @@ class SubscriptionsActivity : BaseActivity2() {
         }, 100, 1200)
 
         binding.btnBuyNow.setOnClickListener {
-            startActivity(Intent(this, QuestionFOActivity::class.java))
-            finish()
+            launchPurchaseFlow(SELECTED_SUBS)
         }
 
         binding.btnBackHeader.setOnClickListener {
