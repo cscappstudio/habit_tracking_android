@@ -60,7 +60,6 @@ class BasicInstrumentationTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testPeriodicWork() {
         // Define input data
         val input = workDataOf("KEY_1" to 1, "KEY_2" to 2)
@@ -71,7 +70,7 @@ class BasicInstrumentationTest {
             .build()
 
         val workManager = WorkManager.getInstance(context)
-        val testDriver = WorkManagerTestInitHelper.getTestDriver()
+        val testDriver = WorkManagerTestInitHelper.getTestDriver(context)
         // Enqueue and wait for result.
         workManager.enqueue(request).result.get()
         // Tells the testing framework the period delay is met
@@ -84,7 +83,7 @@ class BasicInstrumentationTest {
     }
 
     @Test
-    fun testSleepWorker() {
+    fun testWorker() {
         val worker = TestListenableWorkerBuilder<NotifiTask.NotifiTaskWorker>(context).build()
         runBlocking {
             val result = worker.doWork()
