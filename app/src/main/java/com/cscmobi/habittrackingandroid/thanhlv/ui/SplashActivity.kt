@@ -23,6 +23,10 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.thanhlv.fw.constant.AppConfigs.Companion.CURRENT_LANG
 import com.thanhlv.fw.constant.AppConfigs.Companion.HOME_ACTION_RESTART
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_SUBS_LIFETIME
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_SUBS_MONTHLY
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_SUBS_WEEKLY
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_SUBS_YEARLY
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.helper.RunUtils
@@ -56,7 +60,7 @@ class SplashActivity : BaseActivity2() {
             val challengeData = ChallengeData(this)
 
             loadRemoteConfigs()
-//            getPurchaseHistory()
+            getPurchaseHistory()
 //            GSMUtil.retryLoginGSM = 0
 //            GSMUtil.login(this, null)
         }
@@ -177,13 +181,11 @@ class SplashActivity : BaseActivity2() {
         onActive = true
         countDownTimer = object : CountDownTimer(3900, 2500) {
             override fun onTick(millisUntilFinished: Long) {
-                println("thanhlv splassssss onTick ---- " + millisUntilFinished)
                 secondsRemaining = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1
             }
 
             override fun onFinish() {
                 secondsRemaining = 0
-                println("thanhlv splassssss onFinish ---- " + googleMobileAdsConsentManager.canRequestAds)
                 if (googleMobileAdsConsentManager.canRequestAds || !network || isConsentError) continueApp()
             }
         }
@@ -195,8 +197,6 @@ class SplashActivity : BaseActivity2() {
         if (countDownTimer != null) countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(14900, 2500) {
             override fun onTick(millisUntilFinished: Long) {
-
-                println("thanhlv continueApp onTick 99999999 " + millisUntilFinished)
                 if (!onActive) {
                     afterCountDown = true
                     cancel()
@@ -204,7 +204,6 @@ class SplashActivity : BaseActivity2() {
                     return
                 }
                 if (millisUntilFinished < 13000) {
-                    println("thanhlv continueApp onTick 99999999 ")
                     if (!network) {
                         afterCountDown = true
                         cancel()
@@ -215,7 +214,6 @@ class SplashActivity : BaseActivity2() {
                         this@SplashActivity,
                         object : MyApplication.OnShowAdCompleteListener {
                             override fun onShowAdComplete(done: Boolean) {
-                                println("thanhlv continueApp onTick 99999999 " + done)
                                 afterCountDown = true
                                 if (done) {
                                     cancel()
@@ -227,7 +225,6 @@ class SplashActivity : BaseActivity2() {
             }
 
             override fun onFinish() {
-                println("thanhlv continueApp finisssssss")
                 startHome()
             }
         }
@@ -239,7 +236,6 @@ class SplashActivity : BaseActivity2() {
             startActivity(Intent(this, ChangeLanguageActivity::class.java))
             finish()
         } else {
-            println("thanhlv splahhhhhhhhhhhhh continueApp " + popupUpdateDisplayed)
             if (!popupUpdateDisplayed) {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.action = HOME_ACTION_RESTART
@@ -249,68 +245,67 @@ class SplashActivity : BaseActivity2() {
         }
     }
 
-//    private fun getPurchaseHistory() {
-//        purchaseAlready = false
-//        billingClient = BillingClient.newBuilder(this)
-//            .enablePendingPurchases()
-//            .setListener { _, _ -> }
-//            .build()
-//        billingClient?.startConnection(object : BillingClientStateListener {
-//            override fun onBillingServiceDisconnected() {}
-//            override fun onBillingSetupFinished(billingResult: BillingResult) {
-//                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-//                    val queryPurchaseHistoryParams: QueryPurchaseHistoryParams =
-//                        QueryPurchaseHistoryParams.newBuilder()
-//                            .setProductType(BillingClient.ProductType.SUBS).build()
-//                    val purchasesParamsSUBS: QueryPurchasesParams =
-//                        QueryPurchasesParams.newBuilder()
-//                            .setProductType(BillingClient.ProductType.SUBS).build()
-//                    val purchasesParamsINAPP: QueryPurchasesParams =
-//                        QueryPurchasesParams.newBuilder()
-//                            .setProductType(BillingClient.ProductType.INAPP).build()
-//                    billingClient?.queryPurchaseHistoryAsync(
-//                        queryPurchaseHistoryParams
-//                    ) { _, _ ->
-//                        billingClient?.queryPurchasesAsync(
-//                            purchasesParamsSUBS
-//                        ) { billingResult11, list1 ->
-//                            if (billingResult11.responseCode == BillingClient.BillingResponseCode.OK) checkPurchase(
-//                                list1
-//                            )
-//                            billingClient?.queryPurchasesAsync(purchasesParamsINAPP) { billingResult111, list2 ->
-//                                if (billingResult111.responseCode == BillingClient.BillingResponseCode.OK) checkPurchase(
-//                                    list2
-//                                )
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        })
-//    }
+    private fun getPurchaseHistory() {
+        purchaseAlready = false
+        billingClient = BillingClient.newBuilder(this)
+            .enablePendingPurchases()
+            .setListener { _, _ -> }
+            .build()
+        billingClient?.startConnection(object : BillingClientStateListener {
+            override fun onBillingServiceDisconnected() {}
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    val queryPurchaseHistoryParams: QueryPurchaseHistoryParams =
+                        QueryPurchaseHistoryParams.newBuilder()
+                            .setProductType(BillingClient.ProductType.SUBS).build()
+                    val purchasesParamsSUBS: QueryPurchasesParams =
+                        QueryPurchasesParams.newBuilder()
+                            .setProductType(BillingClient.ProductType.SUBS).build()
+                    val purchasesParamsINAPP: QueryPurchasesParams =
+                        QueryPurchasesParams.newBuilder()
+                            .setProductType(BillingClient.ProductType.INAPP).build()
+                    billingClient?.queryPurchaseHistoryAsync(
+                        queryPurchaseHistoryParams
+                    ) { _, _ ->
+                        billingClient?.queryPurchasesAsync(
+                            purchasesParamsSUBS
+                        ) { billingResult11, list1 ->
+                            if (billingResult11.responseCode == BillingClient.BillingResponseCode.OK) checkPurchase(
+                                list1
+                            )
+                            billingClient?.queryPurchasesAsync(purchasesParamsINAPP) { billingResult111, list2 ->
+                                if (billingResult111.responseCode == BillingClient.BillingResponseCode.OK) checkPurchase(
+                                    list2
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
 
-//    private var purchaseAlready = false
-//
-//    private var billingClient: BillingClient? = null
-//    private fun checkPurchase(purchasesList: List<Purchase>?) {
-//        if (!purchasesList.isNullOrEmpty()) {
-//            for (item in purchasesList) {
-//                if (item.products.isNotEmpty() &&
-//                    (item.products[0].equals(KEY_SUBS_YEARLY)
-//                            || item.products[0].equals(KEY_SUBS_WEEKLY)
-//                            || item.products[0].equals(KEY_SUBS_MONTHLY)
-//                            || item.products[0].equals(KEY_SUBS_LIFETIME)
-//                            || item.products[0].equals(KEY_SUBS_YEARLY_SALE))
-//                ) {
-//                    SPF.setProApp(this, true)
-//                    SPF.setCurrentSub(this, item.products[0] /*+ "--" + ss*/)
-//                    purchaseAlready = true
-//                    return
-//                }
-//            }
-//        }
-//        if (!purchaseAlready) SPF.setProApp(this, false)
-//    }
+    private var purchaseAlready = false
+
+    private var billingClient: BillingClient? = null
+    private fun checkPurchase(purchasesList: List<Purchase>?) {
+        if (!purchasesList.isNullOrEmpty()) {
+            for (item in purchasesList) {
+                if (item.products.isNotEmpty() &&
+                    (item.products[0].equals(KEY_SUBS_YEARLY)
+                            || item.products[0].equals(KEY_SUBS_WEEKLY)
+                            || item.products[0].equals(KEY_SUBS_MONTHLY)
+                            || item.products[0].equals(KEY_SUBS_LIFETIME))
+                ) {
+                    SPF.setProApp(this, true)
+                    SPF.setCurrentSub(this, item.products[0] /*+ "--" + ss*/)
+                    purchaseAlready = true
+                    return
+                }
+            }
+        }
+        if (!purchaseAlready) SPF.setProApp(this, false)
+    }
 
     ////////////////////////////////////////////////////////
     private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)

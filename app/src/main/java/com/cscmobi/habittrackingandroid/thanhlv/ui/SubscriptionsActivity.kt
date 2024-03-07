@@ -72,29 +72,29 @@ class SubscriptionsActivity : BaseActivity2() {
         list.add(
             OnBoardModel(
                 R.drawable.img_slide_subs_1,
-                "Unlimited habits",
-                "free user can only have 3 habits/day. Upgrade to Premium for no limit, just habit"
+                getString(R.string.unlimited_habits),
+                getString(R.string.free_user_can_only_have_3_habits_day)
             )
         )
         list.add(
             OnBoardModel(
                 R.drawable.img_slide_subs_2,
-                "Advanced statistics",
-                "Unlock more graph for weekly, monthly and yearly performance"
+                getString(R.string.advanced_statistics),
+                getString(R.string.unlock_more_graph_for_weekly)
             )
         )
         list.add(
             OnBoardModel(
                 R.drawable.img_slide_subs_3,
-                "Custom challenges",
-                "Create your own challenge and tailor habits to fit your life"
+                getString(R.string.custom_challenges),
+                getString(R.string.create_your_own_challenge_and_tailor_habit_to_fit_your_life)
             )
         )
         list.add(
             OnBoardModel(
                 R.drawable.img_slide_subs_4,
-                "No ads",
-                "Zero distractions, 100% focus! Enjoy an ad-free experience with Premium."
+                getString(R.string.no_ads),
+                getString(R.string.zero_distractions)
             )
         )
         return list
@@ -137,6 +137,7 @@ class SubscriptionsActivity : BaseActivity2() {
         })
 
         binding.btnMonthly.setOnClickListener {
+            binding.btnBuyNow.text = getString(R.string.next)
             binding.btnMonthly.setBackgroundResource(R.drawable.bg_subs_selected)
             binding.btnYearly.setBackgroundResource(R.drawable.bg_subs_unselect)
             binding.btnLifetime.setBackgroundResource(R.drawable.bg_subs_unselect)
@@ -151,6 +152,7 @@ class SubscriptionsActivity : BaseActivity2() {
         }
 
         binding.btnYearly.setOnClickListener {
+            binding.btnBuyNow.text = getString(R.string.try_for_free)
             binding.btnMonthly.setBackgroundResource(R.drawable.bg_subs_unselect)
             binding.btnYearly.setBackgroundResource(R.drawable.bg_subs_selected)
             binding.btnLifetime.setBackgroundResource(R.drawable.bg_subs_unselect)
@@ -158,12 +160,13 @@ class SubscriptionsActivity : BaseActivity2() {
             binding.btnYearly.elevation = DisplayUtils.dpToPx2(12f)
             binding.btnLifetime.elevation = 0f
             binding.imgDiscount.backgroundTintList = null
-
             SELECTED_SUBS = yearlyID
             launchPurchaseFlow(SELECTED_SUBS)
         }
 
         binding.btnLifetime.setOnClickListener {
+
+            binding.btnBuyNow.text = getString(R.string.next)
             binding.btnMonthly.setBackgroundResource(R.drawable.bg_subs_unselect)
             binding.btnYearly.setBackgroundResource(R.drawable.bg_subs_unselect)
             binding.btnLifetime.setBackgroundResource(R.drawable.bg_subs_selected)
@@ -333,6 +336,7 @@ class SubscriptionsActivity : BaseActivity2() {
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null)
                 for (purchase in purchases) handlePurchase(purchase)
         }
+
     private fun connectGooglePlayBilling() {
 
         billingClient = BillingClient.newBuilder(this).setListener(purchasesUpdatedListener)
@@ -366,7 +370,7 @@ class SubscriptionsActivity : BaseActivity2() {
 
 
     private var SELECTED_SUBS = ""
-    fun launchPurchaseFlow(productID: String) {
+    private fun launchPurchaseFlow(productID: String) {
         if (SELECTED_SUBS == "") return
         for (i in productDetails.indices) {
             if (productDetails[i]!!.productId == productID) {
@@ -450,6 +454,7 @@ class SubscriptionsActivity : BaseActivity2() {
             }
         }
     }
+
     @SuppressLint("MissingSuperCall")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {

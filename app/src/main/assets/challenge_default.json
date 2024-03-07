@@ -14,7 +14,7 @@
             {
               "name": "Assess your screen time",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -26,7 +26,7 @@
             {
               "name": "Set Screen Time Limits",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -38,7 +38,7 @@
             {
               "name": "Engage in non-screen activities",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -50,7 +50,7 @@
             {
               "name": "Delete Unnecessary Apps",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -62,7 +62,7 @@
             {
               "name": "Call a friend",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -74,7 +74,7 @@
             {
               "name": "Schedule social media time",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -86,7 +86,7 @@
             {
               "name": "Reflect and Plan Ahead",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -108,7 +108,7 @@
             {
               "name": "Acknowledge your feeling",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -120,7 +120,7 @@
             {
               "name": "Practice Mindful Breathing",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -132,7 +132,7 @@
             {
               "name": "Write down your feeling",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -144,7 +144,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -156,7 +156,7 @@
             {
               "name": "Create a structured routine",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -168,7 +168,7 @@
             {
               "name": "Maitain self-care",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -180,7 +180,7 @@
             {
               "name": "Digital Detox",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -202,7 +202,7 @@
             {
               "name": "Build a to-do list",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -214,7 +214,7 @@
             {
               "name": "Write down your distractions",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -226,7 +226,7 @@
             {
               "name": "Focus on one task for 25 mins",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -238,7 +238,7 @@
             {
               "name": "Batch your days",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -250,7 +250,7 @@
             {
               "name": "Refine your workspace",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -272,28 +272,28 @@
             {
               "name": "Drink water when you wake up",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             },
             {
               "name": "Eat a Healthy Breakfast",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 1
             },
             {
               "name": "Stretch and exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 2
             },
             {
               "name": "Make your bed",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 3
             }
@@ -305,28 +305,28 @@
             {
               "name": "Drink water when you wake up",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             },
             {
               "name": "Eat a Healthy Breakfast",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 1
             },
             {
               "name": "Stretch and exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 2
             },
             {
               "name": "Make your bed",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 3
             }
@@ -338,28 +338,28 @@
             {
               "name": "Drink water when you wake up",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             },
             {
               "name": "Eat a Healthy Breakfast",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 1
             },
             {
               "name": "Stretch and exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 2
             },
             {
               "name": "Make your bed",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 3
             }
@@ -371,28 +371,28 @@
             {
               "name": "Drink water when you wake up",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             },
             {
               "name": "Eat a Healthy Breakfast",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 1
             },
             {
               "name": "Stretch and exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 2
             },
             {
               "name": "Make your bed",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 3
             }
@@ -404,28 +404,28 @@
             {
               "name": "Drink water when you wake up",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             },
             {
               "name": "Eat a Healthy Breakfast",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 1
             },
             {
               "name": "Stretch and exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 2
             },
             {
               "name": "Make your bed",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 3
             }
@@ -437,28 +437,28 @@
             {
               "name": "Drink water when you wake up",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             },
             {
               "name": "Eat a Healthy Breakfast",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 1
             },
             {
               "name": "Stretch and exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 2
             },
             {
               "name": "Make your bed",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 3
             }
@@ -470,28 +470,28 @@
             {
               "name": "Drink water when you wake up",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             },
             {
               "name": "Eat a Healthy Breakfast",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 1
             },
             {
               "name": "Stretch and exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 2
             },
             {
               "name": "Make your bed",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 3
             }
@@ -513,7 +513,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -525,7 +525,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -537,7 +537,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -549,7 +549,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -561,7 +561,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -573,7 +573,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -585,7 +585,7 @@
             {
               "name": "Exercise",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -607,7 +607,7 @@
             {
               "name": "Have a date night",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -619,7 +619,7 @@
             {
               "name": "Give more hugs",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -631,7 +631,7 @@
             {
               "name": "Leave your partner a note",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -643,7 +643,7 @@
             {
               "name": "Wrap up a small gift",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -655,7 +655,7 @@
             {
               "name": "Share your perfect day",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -667,7 +667,7 @@
             {
               "name": "List 3 things you're grateful for about your partner",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -689,7 +689,7 @@
             {
               "name": "Create meal plans",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -701,7 +701,7 @@
             {
               "name": "Eat a variety of foods",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -713,7 +713,7 @@
             {
               "name": "Cook at home",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -725,7 +725,7 @@
             {
               "name": "No fast food",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -737,7 +737,7 @@
             {
               "name": "Add more vegetables",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -749,7 +749,7 @@
             {
               "name": "Increase your protein intake",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -761,7 +761,7 @@
             {
               "name": "Vegetarian Day",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -783,7 +783,7 @@
             {
               "name": "Cut Out Sugar",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -795,7 +795,7 @@
             {
               "name": "Cut Out Sugar",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -807,7 +807,7 @@
             {
               "name": "Cut Out Sugar",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -819,7 +819,7 @@
             {
               "name": "Cut Out Sugar",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -831,7 +831,7 @@
             {
               "name": "Cut Out Sugar",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -843,7 +843,7 @@
             {
               "name": "Cut Out Sugar",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
@@ -855,7 +855,7 @@
             {
               "name": "Cut Out Sugar",
               "description": "",
-              "icon": "avatask/fish.png",
+              "icon": "avatask/archery.png",
               "color": "#B6D6DD",
               "taskNo": 0
             }
