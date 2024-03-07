@@ -37,7 +37,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
+abstract class BaseActivity<VB : ViewDataBinding> : AppCompatActivity() {
     @Inject
     protected lateinit var binding: VB
 
@@ -73,32 +73,50 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
     abstract fun initView()
     abstract fun setEvent()
 
-    protected fun addFragment(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
+    protected fun addFragment(
+        @IdRes containerViewId: Int,
+        @NonNull fragment: Fragment,
+        @NonNull fragmentTag: String
+    ) {
         supportFragmentManager.beginTransaction()
-            .add(containerViewId,fragment,fragmentTag)
-            .commit()
-    }
-    protected fun addFragmentNotHide(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
-        supportFragmentManager.beginTransaction()
-            .add(containerViewId,fragment,fragmentTag)
-             .addToBackStack(fragmentTag)
-            .commit()
-    }
-    protected fun replaceFragment(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
-        supportFragmentManager.beginTransaction()
-            .replace(containerViewId,fragment,fragmentTag)
-           .addToBackStack(fragmentTag)
+            .add(containerViewId, fragment, fragmentTag)
             .commit()
     }
 
-//    protected fun showFragment(fr: Fragment) {
+    protected fun addFragmentNotHide(
+        @IdRes containerViewId: Int,
+        @NonNull fragment: Fragment,
+        @NonNull fragmentTag: String
+    ) {
+        supportFragmentManager.beginTransaction()
+            .add(containerViewId, fragment, fragmentTag)
+            .addToBackStack(fragmentTag)
+            .commit()
+    }
+
+    protected fun replaceFragment(
+        @IdRes containerViewId: Int,
+        @NonNull fragment: Fragment,
+        @NonNull fragmentTag: String
+    ) {
+        supportFragmentManager.beginTransaction()
+            .replace(containerViewId, fragment, fragmentTag)
+            .addToBackStack(fragmentTag)
+            .commit()
+    }
+
+    //    protected fun showFragment(fr: Fragment) {
 //        supportFragmentManager.beginTransaction()
 //            .show(fr)
 //            .commit()
 //    }
-    protected fun replaceFragmentNotToBackStack(@IdRes containerViewId: Int, @NonNull fragment: Fragment, @NonNull fragmentTag: String) {
+    protected fun replaceFragmentNotToBackStack(
+        @IdRes containerViewId: Int,
+        @NonNull fragment: Fragment,
+        @NonNull fragmentTag: String
+    ) {
         supportFragmentManager.beginTransaction()
-            .replace(containerViewId,fragment,fragmentTag)
+            .replace(containerViewId, fragment, fragmentTag)
             .commit()
     }
 
@@ -109,6 +127,21 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
     public fun hasNotificationPermission(): Boolean {
         return (ContextCompat.checkSelfPermission(this, NOTIFICATION_PERMISSION)
                 == PackageManager.PERMISSION_GRANTED)
+    }
+
+    open fun shareApp() {
+        MyApplication.ignoreOpenAd = true
+        val sendIntent = Intent(Intent.ACTION_SEND)
+        sendIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            RemoteConfigs.instance.appConfigs.shareText + "\n"
+                    + String.format(
+                "https://play.google.com/store/apps/details?id=%s",
+                packageName
+            )
+        )
+        sendIntent.type = "text/plain"
+        startActivity(Intent.createChooser(sendIntent, "Share to"))
     }
 
     public fun requestNotificationPermission() {
@@ -160,5 +193,9 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        MyUtils.hideNavigationBar(this)
+    }
 
 }
