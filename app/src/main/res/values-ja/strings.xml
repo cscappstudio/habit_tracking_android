@@ -179,6 +179,8 @@
     <string name="privacy">隱私</string>
     <string name="about">關於</string>
     <string name="you_ve_done_all_the_n_tasks_today"> 今日はすべてのタスクを完\n了\しました。</string>
+  
+    <string name="you_just_finished_challenge">チャレンジが終了しました。</string>
     <string name="to_day_was_good">To day was GOOD</string>
     <string name="to_day_was_neutral">To day was NEUTRAL</string>
     <string name="to_day_was_not_great">To day was NOT GREAT</string>
@@ -269,6 +271,5 @@
     <string name="are_you_feeling_bad_today">Are you feeling bad today?</string>
     <string name="add_task">Add task</string>
     <string name="day_">Day </string>
-
 
 </resources>

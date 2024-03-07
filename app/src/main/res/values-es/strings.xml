@@ -178,6 +178,7 @@
     <string name="privacy">Privacidad</string>
     <string name="about">Acerca de</string>
     <string name="you_ve_done_all_the_n_tasks_today">Has completado todas las\n tareas hoy.</string>
+    <string name="you_just_finished_challenge">Acabas de terminar el desafío.</string>
 
     <string name="notification_access_granted">Notification Access Granted</string>
     <string name="notification_access_denied">Notification Access Denied</string>

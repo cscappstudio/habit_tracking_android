@@ -57,8 +57,8 @@ class HomeViewModel(
     val histories: StateFlow<MutableList<History>>
         get() = _histories
 
-    private val _currentHistory = MutableStateFlow<History>(History(id = IDLE))
-    val currentHistory: StateFlow<History>
+    private val _currentHistory = MutableStateFlow<History?>(null)
+    val currentHistory: StateFlow<History?>
         get() = _currentHistory
 
 
@@ -90,7 +90,7 @@ class HomeViewModel(
     fun getHistorybyDate(date: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getHistorybyDate(date).collect {
-                _currentHistory.value = it ?: History(id = -1)
+                _currentHistory.value = it
             }
 
         }
@@ -98,14 +98,22 @@ class HomeViewModel(
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
         println("wtfhistoryaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        var taskDoneSize = 0
-        history.taskInDay.forEach {
-           if (it.progress == 100) taskDoneSize ++
-        }
 
-        history.progressDay = (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
-        databaseRepository.updateHistory(history)
-        //  _currentHistory.value = history
+        if (history.taskInDay.isEmpty())
+        {
+            databaseRepository.deleteHistory(history)
+        }else {
+            var taskDoneSize = 0
+            history.taskInDay.forEach {
+                if (it.progress == 100) taskDoneSize++
+            }
+
+            history.progressDay =
+                (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
+            databaseRepository.updateHistory(history)
+            //  _currentHistory.value = history
+
+        }
     }
 
     fun getMyChallenge() = viewModelScope.launch(Dispatchers.IO) {
@@ -234,10 +242,12 @@ class HomeViewModel(
                     it.forEach { history ->
                         val index = history.taskInDay.indexOfFirst { it.taskId == taskId }
                         if (index != -1) {
+
                             val newTaskInDay = history.taskInDay.toMutableList()
                             newTaskInDay.removeAt(index)
-
-                            databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
+                           // databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
+                            history.taskInDay = newTaskInDay
+                          updateHistory(history)
                         }
                     }
                 }
@@ -296,6 +306,7 @@ class HomeViewModel(
 
 
                     tasks = taskFilter.toMutableList()
+
                     if (tasks.isEmpty())
                         _state.value =  HomeState.Empty
                     else

@@ -49,4 +49,6 @@ interface DatabaseRepository {
     suspend fun getMyChallenge() : Flow<List<Challenge>>
 
     suspend fun updateChallenge(item: Challenge)
+
+    suspend fun deleteHistory(history: History)
 }

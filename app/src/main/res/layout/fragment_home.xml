@@ -290,7 +290,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:adjustViewBounds="true"
-                    android:visibility="gone"
+                    android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}"
+
                     android:src="@drawable/ic_pencil"
                     />
 
@@ -298,10 +299,11 @@
                     android:id="@+id/txt_notask"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}"
+
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="@dimen/_25sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:visibility="gone"
                     android:fontFamily="@font/worksans_regular"
                     android:text="@string/there_are_no_projects_yet_please_add_a_project_now"
                     android:textColor="@color/silver_gray"

@@ -61,7 +61,7 @@ class CollectionViewModel constructor(
 
     private fun getAllTask() = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.getAllTask().collect{
-            _taskSize.value = it.size
+            _taskSize.value = it.filter { it.challenge.isNullOrEmpty() }.size
         }
     }
 

@@ -178,6 +178,7 @@
     <string name="privacy">Конфиденциальность</string>
     <string name="about">О приложении</string>
     <string name="you_ve_done_all_the_n_tasks_today">Вы выполнили все\n задачи сегодня.</string>
+    <string name="you_just_finished_challenge">Вы только что завершили вызов.</string>
     <string name="to_day_was_good">To day was GOOD</string>
     <string name="to_day_was_neutral">To day was NEUTRAL</string>
     <string name="to_day_was_not_great">To day was NOT GREAT</string>

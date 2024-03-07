@@ -379,7 +379,7 @@
                     android:layout_height="500dp">
 
                     <FrameLayout
-                        android:layout_marginTop="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_width="match_parent"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:layout_height="@dimen/_290sdp">
@@ -388,8 +388,8 @@
                             android:layout_width="match_parent"
                             android:layout_gravity="bottom"
                             app:layout_constraintBottom_toBottomOf="@id/frag_container"
-                            app:cardElevation="@dimen/_10sdp"
-                            android:outlineSpotShadowColor="#33000000"
+                            app:cardElevation="@dimen/_16sdp"
+                            android:outlineSpotShadowColor="#29000000"
                             app:cardCornerRadius="@dimen/_16sdp"
                             android:layout_marginHorizontal="@dimen/_20sdp"
                             android:layout_marginBottom="@dimen/_30sdp"
@@ -399,8 +399,8 @@
                             android:layout_width="match_parent"
                             android:layout_gravity="bottom"
                             app:layout_constraintBottom_toBottomOf="@id/frag_container"
-                            app:cardElevation="@dimen/_9sdp"
-                            android:outlineSpotShadowColor="#33000000"
+                            app:cardElevation="@dimen/_15sdp"
+                            android:outlineSpotShadowColor="#29000000"
 
                             app:cardCornerRadius="@dimen/_16sdp"
                             android:layout_marginHorizontal="@dimen/_30sdp"
@@ -410,16 +410,70 @@
 
                         <androidx.fragment.app.FragmentContainerView
                             android:id="@+id/frag_container"
-                            android:elevation="@dimen/_11sdp"
+                            android:elevation="@dimen/_17sdp"
                             android:layout_gravity="top"
+                            android:outlineSpotShadowColor="#29000000"
                             app:layout_constraintTop_toTopOf="parent"
                             android:layout_width="match_parent"
+                            tools:targetApi="p"
                             android:layout_height="wrap_content"/>
 
                     </FrameLayout>
 
                 </FrameLayout>
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_marginHorizontal="@dimen/_10sdp"-->
+<!--                    android:layout_height="wrap_content">-->
 
+<!--                    <View-->
+<!--                    android:id="@+id/bg_calendar_1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="100dp"-->
+<!--                    android:layout_marginStart="@dimen/_20sdp"-->
+<!--                    android:layout_marginTop="100dp"-->
+<!--                    android:layout_marginEnd="@dimen/_20sdp"-->
+<!--                    android:layout_marginBottom="-10dp"-->
+<!--                    android:background="@drawable/bg_white_round_20"-->
+<!--                    android:elevation="18dp"-->
+<!--                    android:outlineSpotShadowColor="@color/black_12"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/bg_calendar_2"-->
+<!--                    app:layout_constraintEnd_toEndOf="@id/bg_calendar_2"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/bg_calendar_2"-->
+<!--                    tools:ignore="UnusedAttribute" />-->
+
+<!--                    <View-->
+<!--                        android:id="@+id/bg_calendar_2"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="100dp"-->
+<!--                        android:layout_marginStart="@dimen/_20sdp"-->
+<!--                        android:layout_marginTop="0dp"-->
+<!--                        android:layout_marginEnd="@dimen/_20sdp"-->
+<!--                        android:layout_marginBottom="-11dp"-->
+<!--                        android:background="@drawable/bg_white_round_20"-->
+<!--                        android:elevation="19dp"-->
+<!--                        android:outlineSpotShadowColor="@color/black_12"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/frag_container"-->
+<!--                        app:layout_constraintEnd_toEndOf="@id/frag_container"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/frag_container"-->
+<!--                        tools:ignore="UnusedAttribute" />-->
+
+<!--                        <androidx.fragment.app.FragmentContainerView-->
+<!--                            android:id="@+id/frag_container"-->
+<!--                            android:elevation="20dp"-->
+<!--                            android:outlineSpotShadowColor="#03000000"-->
+<!--                            android:layout_gravity="top"-->
+<!--                            android:translationY="10dp"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            tools:ignore="UnusedAttribute"-->
+<!--                            />-->
+
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

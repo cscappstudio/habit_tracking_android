@@ -95,7 +95,6 @@
                     android:textSize="@dimen/_11ssp"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:background="@null"
                     app:layout_constraintEnd_toStartOf="@+id/appCompatImageView3"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
