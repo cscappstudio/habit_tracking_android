@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -42,8 +43,8 @@ import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.HomeViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.HomeState
-import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
+import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.DetailChallengeActivity
@@ -358,7 +359,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                     }
 
                                 }
-                               taskAdapter?.notifyDataSetChanged()
+                                taskAdapter?.notifyDataSetChanged()
                                 tasksChallenge =
                                     listTask.filter { !it.challenge.isNullOrEmpty() }.map {
                                         ChallengeHomeItem(
@@ -375,8 +376,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         }
 
                         lifecycleScope.launch {
-                                homeViewModel.getHistorybyDate(currentDate)
-                            }
+                            homeViewModel.getHistorybyDate(currentDate)
+                        }
 
                     }
 
@@ -400,7 +401,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.currentHistory.collect {
                 println("resettttttttttttttttttttttttttttttttttt")
                 listTask = listTask.filter { it.id != IDLE }.toMutableList()
-                if (it != null && it.id != IDLE) {
+                if ( it.id != IDLE) {
                     if (it.id != -1L) {
                         currentHistory = it
 
@@ -699,7 +700,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
                     if (!it.infoTask.status) {
                         isChallengeDone = false
-                        return@forEach
+                        val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
+
+                        runBlocking {
+                            val challenge = AppDatabase.getInstance(requireContext()).dao()
+                                .findChallengeByName(item.name)
+                            intent.putExtra("data", Gson().toJson(challenge))
+                            startActivity(intent)
+                        }
+                        return
                     }
 
                 }
@@ -731,17 +740,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     if (isChallengeDone) {
                         requireActivity().let { mactivity ->
                             with(mactivity.getMySharedPreferences()) {
-                                if (!this.getBoolean("isDialogCongraChallenge${it.name}Shown", false)) {
+                                if (!this.getBoolean(
+                                        "isDialogCongraChallenge${it.name}Shown",
+                                        false
+                                    )
+                                ) {
                                     DialogUtils.showCongratulationDialog(
                                         mactivity,
                                         getString(R.string.congratulation),
                                         SpannableString(getString(R.string.you_just_finished_challenge)),
-                                        getString(R.string.only_78_of_users_have_done_this) )
-                                    this.edit().putBoolean("isDialogCongraChallenge${it.name}Shown", true).apply()
+                                        getString(R.string.only_78_of_users_have_done_this)
+                                    )
+                                    this.edit()
+                                        .putBoolean("isDialogCongraChallenge${it.name}Shown", true)
+                                        .apply()
                                 }
                             }
 
-                    }
+                        }
                     }
 
                     it.joinedHistory?.state = if (isChallengeDone) 1 else 0
@@ -888,9 +904,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
                 if (isChange) {
                     item.goal?.currentProgress = item.goal?.target!!
+
+                    requireActivity().let { mactivity ->
+                        with(mactivity.getMySharedPreferences()) {
+                            if (!this.getBoolean("isDialogCongraTask${item.id}Shown", false)) {
+                                binding.lottie
+                                    .playAnimation();
+                                this.edit().putBoolean("isDialogCongraTask${item.id}Shown", true)
+                                    .apply()
+                            }
+                        }
+
+                    }
                 } else {
                     item.goal?.currentProgress = 0
                 }
+
                 taskAdapter.notifyDataSetChanged()
                 setUpView(listTask)
                 lifecycleScope.launch {
@@ -905,7 +934,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             .progress = calTaskProgress(tasksFinishNum, tasksNum)
 
                         weekAdapter.notifyItemChanged(currentPosWeek)
-
 
                         homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
 

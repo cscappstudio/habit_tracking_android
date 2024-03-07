@@ -91,6 +91,11 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
             .commit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        MyUtils.hideNavigationBar(this)
+    }
+
     open fun shareApp() {
         MyApplication.ignoreOpenAd = true
         val sendIntent = Intent(Intent.ACTION_SEND)

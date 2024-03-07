@@ -18,6 +18,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.ui.ProgressFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.AlarmUtils
 import com.cscmobi.habittrackingandroid.utils.Constant
+import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.freeIAP
 import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
@@ -154,33 +155,42 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun setEvent() {
         binding.fab.setOnClickListener {
             if (!SPF.isProApp(this)) {
-                    if (taskSize >= Constant.FREEMAXTASK
-                    ) {
-                        val getReward = freeIAP.rewardTimes
-                        if (getReward >= Constant.MAXGETREWARD) {
-                            val intent = Intent(this,SubscriptionsActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            AdMobUtils.showRewardAds(this@MainActivity, object :
-                                FullScreenContentCallback() {
-                                override fun onAdDismissedFullScreenContent() {
-                                    super.onAdDismissedFullScreenContent()
-                                    freeIAP.rewardTimes++
-                                    loadRewardAds()
-
-                                    startActivity(
-                                        Intent(
-                                            this@MainActivity,
-                                            NewHabitActivity::class.java
-                                        )
-                                    )
-
-                                }
-                            })
-                        }
+                if (taskSize >= Constant.FREEMAXTASK
+                ) {
+                    val getReward = freeIAP.rewardTimes
+                    if (getReward >= Constant.MAXGETREWARD) {
+                        val intent = Intent(this, SubscriptionsActivity::class.java)
+                        startActivity(intent)
                     } else {
-                        startActivity(Intent(this@MainActivity, NewHabitActivity::class.java))
+//                            AdMobUtils.showRewardAds(this@MainActivity, object :
+//                                FullScreenContentCallback() {
+//                                override fun onAdDismissedFullScreenContent() {
+//                                    super.onAdDismissedFullScreenContent()
+//                                    freeIAP.rewardTimes++
+//                                    loadRewardAds()
+//
+//                                    startActivity(
+//                                        Intent(
+//                                            this@MainActivity,
+//                                            NewHabitActivity::class.java
+//                                        )
+//                                    )
+//
+//                                }
+//                            })
+
+                        DialogUtils.showWatchAdsDialog(this,Constant.MAXGETREWARD.minus(getReward)) {
+                            startActivity(
+                                Intent(
+                                    this@MainActivity,
+                                    NewHabitActivity::class.java
+                                )
+                            )
+                        }
                     }
+                } else {
+                    startActivity(Intent(this@MainActivity, NewHabitActivity::class.java))
+                }
 
 
             } else
