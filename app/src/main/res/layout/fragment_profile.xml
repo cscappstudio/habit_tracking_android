@@ -21,7 +21,7 @@
                 android:id="@+id/img_profile"
                 android:layout_width="168dp"
                 android:layout_height="168dp"
-                android:layout_marginTop="76dp"
+                android:layout_marginTop="68dp"
                 android:src="@drawable/ava_top_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +50,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/img_profile" />
 
+
+            <com.thanhlv.ads.lib.TemplateNativeView
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:elevation="10dp"
+                android:visibility="gone"
+                android:layout_marginTop="12dp"
+                app:gnt_template_type="@layout/gnt_medium_native_inline"
+                app:layout_constraintTop_toBottomOf="@id/tv_change_ava" />
+
             <ImageView
                 android:layout_width="44dp"
                 android:layout_height="44dp"
@@ -74,17 +86,15 @@
                 android:layout_width="0dp"
                 android:layout_height="54dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-
-
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="@string/subscription"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_change_ava" />
+                app:layout_constraintTop_toBottomOf="@id/adView" />
 
             <ImageView
                 android:id="@+id/ic_noti"
@@ -153,8 +163,6 @@
                 android:layout_height="54dp"
                 android:layout_marginEnd="50dp"
                 android:gravity="center_vertical"
-                android:paddingStart="58dp"
-                android:text="English"
                 android:textColor="#b5b5b5"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="@id/btn_language"
@@ -170,8 +178,6 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-
-
                 android:gravity="center_vertical"
                 android:paddingStart="58dp"
                 android:text="@string/language"
@@ -313,7 +319,6 @@
                 android:layout_height="54dp"
                 android:layout_marginEnd="50dp"
                 android:gravity="center_vertical"
-                android:paddingStart="58dp"
                 android:text="v1.0.0"
                 android:textColor="#b5b5b5"
                 android:textSize="13sp"

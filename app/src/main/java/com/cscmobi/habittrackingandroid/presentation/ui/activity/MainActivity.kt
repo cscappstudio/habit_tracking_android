@@ -1,6 +1,11 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -30,6 +35,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -179,7 +186,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //                                }
 //                            })
 
-                        DialogUtils.showWatchAdsDialog(this,Constant.MAXGETREWARD.minus(getReward)) {
+                        DialogUtils.showWatchAdsDialog(
+                            this,
+                            Constant.MAXGETREWARD.minus(getReward)
+                        ) {
                             startActivity(
                                 Intent(
                                     this@MainActivity,
@@ -232,7 +242,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         fmShow?.let {
             transaction.show(it)
-            if (it is ProgressFragment) it.loadHistoryData()
+            if (it is ProgressFragment) {
+                it.loadHistoryData()
+                it.toggleAdView()
+            }
+            if (it is ChallengeFragment) {
+                it.toggleAdView()
+            }
+            if (it is ProfileFragment) {
+                it.toggleAdView()
+            }
         }
         transaction.commit()
     }
@@ -250,10 +269,42 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onStop() {
         super.onStop()
+        unregisterReceiver(mReceiver)
         initNotifiTask()
         isSetUpAlarm = false
         freeIAP.saveToPreference(this)
 
     }
 
+
+    ////////////////////////////////////////////////////////
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (!SPF.isProApp(context)) {
+                toggleAds()
+            }
+        }
+    }
+
+    private fun toggleAds() {
+        val fragments = supportFragmentManager.fragments
+        for (i in fragments.size - 1 downTo 0) {
+            if (fragments[i] is ProgressFragment) {
+                println("thanhlv toggleAdsView ProgressFragment ------------")
+                (fragments[i] as ProgressFragment).toggleAdView()
+                break
+            }
+            if (fragments[i] is ChallengeFragment) {
+                println("thanhlv toggleAdsView ChallengeFragment ------------")
+                (fragments[i] as ChallengeFragment).toggleAdView()
+                break
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
 }

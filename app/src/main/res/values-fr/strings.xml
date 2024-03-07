@@ -250,7 +250,7 @@
     <string name="_3_day_free_trial_then_auto_renews_at_16_99_year">3-day free trial, then auto-renews at 16,99$/ year</string>
     <string name="automatic_renewal">Automatic renewal</string>
     <string name="free_trial_3_day">Free trial 3-day</string>
-    <string name="sale_70">SALE 70%</string>
+    <string name="sale_70">SALE 50%</string>
     <string name="lifetime_subscription">Lifetime subscription</string>
     <string name="try_for_free">TRY FOR FREE</string>
     <string name="how_are_you_feeling_today">How are you feeling today?</string>
@@ -269,5 +269,9 @@
     <string name="are_you_feeling_bad_today">Are you feeling bad today?</string>
     <string name="add_task">Add task</string>
     <string name="day_">Day </string>
+    <string name="in_progress">In progress</string>
+    <string name="many_challenges_waiting_for_you_ahead">Many challenges waiting for you ahead</string>
+    <string name="become_a_premium_member_to_conquer_all_challenges">Become a premium member to conquer all challenges.</string>
+    <string name="try_premium_now">Try Premium Now</string>
 
 </resources>

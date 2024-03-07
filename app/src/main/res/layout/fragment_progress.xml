@@ -34,7 +34,7 @@
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="96dp"
+                android:layout_marginTop="90dp"
                 android:background="@drawable/shape_circle_gradient_1"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
@@ -61,22 +61,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:autoSizeMaxTextSize="16sp"
+                android:autoSizeMinTextSize="13sp"
+                android:autoSizeTextType="uniform"
                 android:elevation="20dp"
                 android:gravity="center"
+                android:maxLines="2"
                 android:paddingHorizontal="16dp"
                 android:text="@string/current_streak"
                 android:textColor="#fff"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/bb_current_streak"
                 app:layout_constraintStart_toStartOf="@id/bb_current_streak"
-                app:layout_constraintTop_toBottomOf="@id/tv_current_streak" />
+                app:layout_constraintTop_toBottomOf="@id/tv_current_streak"
+                tools:ignore="UnusedAttribute" />
 
             <View
                 android:id="@+id/bb_completion_rate"
                 android:layout_width="105dp"
                 android:layout_height="105dp"
-                android:layout_marginStart="102dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="106dp"
+                android:layout_marginTop="6dp"
                 android:background="@drawable/shape_circle_gradient_3"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
@@ -103,16 +108,21 @@
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:autoSizeMaxTextSize="13sp"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeTextType="uniform"
                 android:elevation="20dp"
                 android:gravity="center"
-                android:layout_marginTop="2dp"
-                android:paddingHorizontal="12dp"
+                android:maxLines="2"
+                android:paddingHorizontal="14dp"
                 android:text="@string/completion_rate"
                 android:textColor="#fff"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="@id/bb_completion_rate"
                 app:layout_constraintStart_toStartOf="@id/bb_completion_rate"
-                app:layout_constraintTop_toBottomOf="@id/tv_completion_rate_percent" />
+                app:layout_constraintTop_toBottomOf="@id/tv_completion_rate_percent"
+                tools:ignore="UnusedAttribute" />
 
 
             <View
@@ -120,6 +130,7 @@
                 android:layout_width="76dp"
                 android:layout_height="76dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
                 android:background="@drawable/shape_circle_gradient_4"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
@@ -147,15 +158,20 @@
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:autoSizeMaxTextSize="12sp"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeTextType="uniform"
                 android:elevation="20dp"
                 android:gravity="center"
+                android:maxLines="2"
                 android:paddingHorizontal="12dp"
                 android:text="@string/perfect_day"
                 android:textColor="#fff"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/bb_perfect_day"
                 app:layout_constraintStart_toStartOf="@id/bb_perfect_day"
-                app:layout_constraintTop_toBottomOf="@id/tv_perfect_day" />
+                app:layout_constraintTop_toBottomOf="@id/tv_perfect_day"
+                tools:ignore="UnusedAttribute" />
 
 
             <View
@@ -178,6 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:elevation="20dp"
+                android:lines="1"
                 android:text="..."
                 android:textColor="#fff"
                 android:textSize="24sp"
@@ -190,15 +207,20 @@
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:autoSizeMaxTextSize="12sp"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeTextType="uniform"
                 android:elevation="20dp"
                 android:gravity="center"
+                android:maxLines="2"
                 android:paddingHorizontal="12dp"
                 android:text="@string/longest_streak"
                 android:textColor="#fff"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@id/bb_longest_streak"
                 app:layout_constraintStart_toStartOf="@id/bb_longest_streak"
-                app:layout_constraintTop_toBottomOf="@id/tv_longest_streak" />
+                app:layout_constraintTop_toBottomOf="@id/tv_longest_streak"
+                tools:ignore="UnusedAttribute" />
 
 
             <ImageView
@@ -206,7 +228,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-40dp"
-                android:layout_marginTop="78dp"
+                android:layout_marginTop="72dp"
                 android:layout_marginEnd="-40dp"
                 android:adjustViewBounds="true"
                 android:elevation="20dp"
@@ -252,14 +274,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/bg_white_round_20"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bg_circles"
+                app:layout_constraintTop_toBottomOf="@id/bb_completion_rate"
                 tools:ignore="UnusedAttribute">
 
 
@@ -309,17 +331,28 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.thanhlv.ads.lib.TemplateNativeView
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24dp"
+                android:elevation="10dp"
+                android:visibility="gone"
+                android:layout_marginTop="16dp"
+                app:gnt_template_type="@layout/gnt_medium_video_inline_view"
+                app:layout_constraintTop_toBottomOf="@id/bg_calendar_1" />
+
             <TextView
                 android:id="@+id/tv_completion_rate"
                 style="@style/Text_700_Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="12dp"
                 android:text="@string/completion_rate"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bg_calendar" />
+                app:layout_constraintTop_toBottomOf="@id/adView" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bg_completion_rate"
@@ -472,7 +505,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/yearly_stats"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"

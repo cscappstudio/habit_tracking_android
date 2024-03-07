@@ -255,7 +255,7 @@
     <string name="_3_day_free_trial_then_auto_renews_at_16_99_year">Prueba gratuita de 3 días, luego renovación automática a 16,99$/año</string>
     <string name="automatic_renewal">Renovación automática</string>
     <string name="free_trial_3_day">Prueba gratuita de 3 días</string>
-    <string name="sale_70">¡OFERTA 70%</string>
+    <string name="sale_70">¡OFERTA 50%</string>
     <string name="lifetime_subscription">Suscripción de por vida</string>
     <string name="try_for_free">PRUÉBALO GRATIS</string>
     <string name="how_are_you_feeling_today">¿Cómo te sientes hoy?</string>
@@ -283,6 +283,10 @@
     <string name="create_your_own_challenge_and_tailor_habit_to_fit_your_life">Crea tu propio desafío y adapta hábitos a tu vida</string>
     <string name="no_ads">Sin anuncios</string>
     <string name="zero_distractions">Cero distracciones, ¡100% de enfoque! Disfruta de una experiencia sin anuncios con Premium.</string>
+    <string name="in_progress">In progress</string>
+    <string name="many_challenges_waiting_for_you_ahead">Many challenges waiting for you ahead</string>
+    <string name="become_a_premium_member_to_conquer_all_challenges">Become a premium member to conquer all challenges.</string>
+    <string name="try_premium_now">Try Premium Now</string>
 
 
 </resources>

@@ -76,7 +76,7 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
             2 -> {
                 holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(110f)
                 holder.binding.tvDay.visibility = View.VISIBLE
-                holder.binding.tvDay.text = "Day " + item.day.toString()
+                holder.binding.tvDay.text = mContext.getString(R.string.day_) + item.day.toString()
                 holder.binding.showBtnAdd.visibility = View.GONE
                 holder.binding.showTask.visibility = View.VISIBLE
                 holder.binding.tvTitle.text = item.name
@@ -100,7 +100,7 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
                 holder.binding.icTask.setImageBitmap(
                     BitmapFactory.decodeStream(
                         mContext.assets.open(
-                            item.icon!!
+                            item.icon
                         )
                     )
                 )

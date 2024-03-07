@@ -33,7 +33,7 @@
                 android:id="@+id/bg_banner_pro"
                 layout="@layout/banner_premium_challenge_layout"
                 android:layout_width="0dp"
-                android:layout_height="186dp"
+                android:layout_height="178dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="86dp"
                 android:layout_marginEnd="24dp"
@@ -66,27 +66,46 @@
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/show_my_challenge"
-                app:constraint_referenced_ids="rc_my_challenge, tv_my_challenge"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="rc_my_challenge, tv_my_challenge" />
+
+            <com.thanhlv.ads.lib.TemplateNativeView
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:elevation="10dp"
+                android:paddingHorizontal="24dp"
+                android:visibility="gone"
+                app:gnt_template_type="@layout/gnt_medium_video_inline_view"
+                app:layout_constraintTop_toBottomOf="@id/rc_my_challenge" />
 
             <TextView
                 android:id="@+id/tv_all_challenge"
                 style="@style/Text_700_Bold"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:autoSizeMaxTextSize="16sp"
+                android:autoSizeMinTextSize="14sp"
+                android:autoSizeTextType="uniform"
+                android:maxLines="1"
                 android:text="@string/all_challenge"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/btn_create_challenge"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rc_my_challenge" />
+                app:layout_constraintTop_toBottomOf="@id/adView"
+                tools:ignore="UnusedAttribute" />
 
             <TextView
                 android:id="@+id/btn_create_challenge"
                 style="@style/Text_700"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="24dp"
                 android:autoSizeMaxTextSize="13sp"
                 android:autoSizeMinTextSize="10sp"
@@ -95,17 +114,16 @@
                 android:backgroundTint="#01100C"
                 android:gravity="center"
                 android:maxLines="1"
-                android:paddingStart="36dp"
+                android:paddingStart="32dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="1dp"
-                android:layout_marginTop="4dp"
                 android:text="@string/create_my_own"
                 android:textColor="#fff"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_all_challenge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_all_challenge"
-                app:layout_constraintWidth_max="160dp"
+                app:layout_constraintWidth_max="148dp"
                 tools:ignore="UnusedAttribute" />
 
             <ImageView
