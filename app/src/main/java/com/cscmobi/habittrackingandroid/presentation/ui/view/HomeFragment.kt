@@ -402,7 +402,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             homeViewModel.currentHistory.collect {
                 println("resettttttttttttttttttttttttttttttttttt")
                 listTask = listTask.filter { it.id != IDLE }.toMutableList()
-                if ( it.id != IDLE) {
+                if (it.id != IDLE) {
                     if (it.id != -1L) {
                         currentHistory = it
 
@@ -439,7 +439,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             currentHistory!!.taskInDay = getTasksInday(listTask)
 
                             if (!updateChallenge) {
-                                homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory!!))
+                                homeViewModel.userIntent.send(
+                                    HomeIntent.UpdateHistory(
+                                        currentHistory!!
+                                    )
+                                )
                             } else {
                                 updateChallenge = false
                             }
@@ -694,27 +698,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                 challengeHomeAdpater.notifyItemChanged(p)
 
-
                 var isChallengeDone = true
-                challengeTaskMap[item.name]?.forEach {
+                challengeTaskMap[item.name]?.forEachIndexed { index, it ->
 
                     if (it.infoTask.id == item.idTask) {
-                        it.infoTask.status = item.stateDone
+                        it.infoTask.status = tasksChallenge[p].stateDone
                         isChallengeDone = it.infoTask.status
 
+                        if (index - 1 >= 0 && challengeTaskMap[item.name]?.get(index - 1)?.infoTask?.status == false) {
+                            val intent =
+                                Intent(requireContext(), DetailChallengeActivity::class.java)
+
+                            runBlocking {
+                                val challenge = AppDatabase.getInstance(requireContext()).dao()
+                                    .findChallengeByName(item.name)
+                                intent.putExtra("data", Gson().toJson(challenge))
+                                startActivity(intent)
+                            }
+                            return
+                        }
 
                     }
                     if (!it.infoTask.status) {
                         isChallengeDone = false
-                        val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
 
-                        runBlocking {
-                            val challenge = AppDatabase.getInstance(requireContext()).dao()
-                                .findChallengeByName(item.name)
-                            intent.putExtra("data", Gson().toJson(challenge))
-                            startActivity(intent)
-                        }
-                        return
+                        return@forEachIndexed
                     }
 
                 }
@@ -723,7 +731,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 lifecycleScope.launch {
                     currentHistory?.let { currentHistory ->
                         listTask.find { it.id == item.idTask }?.let {
-                            it.goal?.currentProgress = if (item.stateDone) it.goal?.target!! else 0
+                            it.goal?.currentProgress = if (tasksChallenge[p].stateDone) it.goal?.target!! else 0
                             currentHistory.taskInDay = getTasksInday(listTask)
                             var tasksFinishNum =
                                 currentHistory.taskInDay.filter { it.progress == 100 }.size
@@ -765,7 +773,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                         }
                     }
-
                     it.joinedHistory?.state = if (isChallengeDone) 1 else 0
                     homeViewModel.updateChallenge(it)
                 }
