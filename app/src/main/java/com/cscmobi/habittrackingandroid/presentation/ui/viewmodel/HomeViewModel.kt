@@ -57,8 +57,8 @@ class HomeViewModel(
     val histories: StateFlow<MutableList<History>>
         get() = _histories
 
-    private val _currentHistory = MutableStateFlow<History?>(null)
-    val currentHistory: StateFlow<History?>
+    private val _currentHistory = MutableStateFlow<History>(History(id = IDLE))
+    val currentHistory: StateFlow<History>
         get() = _currentHistory
 
 
@@ -90,18 +90,17 @@ class HomeViewModel(
     fun getHistorybyDate(date: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getHistorybyDate(date).collect {
-                _currentHistory.value = it
+                _currentHistory.value = it ?: History(id = -1)
             }
 
         }
     }
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
-        println("wtfhistoryaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
         if (history.taskInDay.isEmpty())
         {
-            databaseRepository.deleteHistory(history)
+//            databaseRepository.deleteHistory(history)
         }else {
             var taskDoneSize = 0
             history.taskInDay.forEach {

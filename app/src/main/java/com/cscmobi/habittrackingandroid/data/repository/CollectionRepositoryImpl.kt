@@ -5,10 +5,7 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
-import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.resetResouceConfig
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class CollectionRepositoryImpl(val context: Context) : CollectionRepository {
     private var localCollection = listOf<HabitCollection>()
@@ -508,7 +505,7 @@ class CollectionRepositoryImpl(val context: Context) : CollectionRepository {
             ),
             Task(
                 name = context.resources.getString(R.string.pushups).toString(),
-                ava = context.resources.getResourceEntryName(R.drawable.trophy),
+                ava = context.resources.getResourceEntryName(R.drawable.img_trophy),
                 tag = "Hit the Gym",
                 notBelongDefaultCollection = false
 

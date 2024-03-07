@@ -23,6 +23,7 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionStat
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
+import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
@@ -141,16 +142,11 @@ class DetailCollectionFragment :
                                 Intent(requireActivity(), SubscriptionsActivity::class.java)
                             startActivity(intent)
                         } else {
-                            AdMobUtils.showRewardAds(requireActivity(), object :
-                                FullScreenContentCallback() {
-                                override fun onAdDismissedFullScreenContent() {
-                                    super.onAdDismissedFullScreenContent()
-                                    Helper.freeIAP.rewardTimes++
+
+                                DialogUtils.showWatchAdsDialog(requireActivity(),Constant.MAXGETREWARD.minus(getReward)) {
                                     insertTask(item)
-
-
                                 }
-                            })
+
                         }
                     } else {
                         insertTask(item)
