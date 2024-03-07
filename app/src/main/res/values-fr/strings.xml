@@ -175,5 +175,6 @@
     <string name="privacy">Confidentialité</string>
     <string name="about">À propos de</string>
     <string name="you_ve_done_all_the_n_tasks_today">Vous avez fait toutes les tâches\n aujourd\'hui.</string>
+    <string name="you_just_finished_challenge">Vous venez de terminer le défi.</string>
 
 </resources>

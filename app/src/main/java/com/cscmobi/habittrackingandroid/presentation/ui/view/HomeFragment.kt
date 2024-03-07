@@ -36,7 +36,6 @@ import com.cscmobi.habittrackingandroid.presentation.ItemChallengeHomeListener
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.DetailTaskActivity
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.TaskAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.WeekAdapter
@@ -47,7 +46,6 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
-import com.cscmobi.habittrackingandroid.thanhlv.ui.ChallengeFragment
 import com.cscmobi.habittrackingandroid.thanhlv.ui.DetailChallengeActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
@@ -62,7 +60,6 @@ import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.isListChanged
 import com.cscmobi.habittrackingandroid.utils.Utils.isShowAds
-import com.cscmobi.habittrackingandroid.utils.Utils.removeSelf
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import com.elconfidencial.bubbleshowcase.BubbleShowCase
@@ -72,12 +69,8 @@ import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.spf.SPF
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
@@ -736,6 +729,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
                 val currentChallenge = challenges.find { it.id == item.idTask }
                 currentChallenge?.let {
+                    if (isChallengeDone) {
+                        requireActivity().let { mactivity ->
+                            with(mactivity.getMySharedPreferences()) {
+                                if (!this.getBoolean("isDialogCongraChallenge${it.name}Shown", false)) {
+                                    DialogUtils.showCongratulationDialog(
+                                        mactivity,
+                                        getString(R.string.congratulation),
+                                        SpannableString(getString(R.string.you_just_finished_challenge)),
+                                        getString(R.string.only_78_of_users_have_done_this) )
+                                    this.edit().putBoolean("isDialogCongraChallenge${it.name}Shown", true).apply()
+                                }
+                            }
+
+                    }
+                    }
+
                     it.joinedHistory?.state = if (isChallengeDone) 1 else 0
                     homeViewModel.updateChallenge(it)
                 }

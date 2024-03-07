@@ -176,5 +176,6 @@
     <string name="privacy">गोपनीयता</string>
     <string name="about">बारे में</string>
     <string name="you_ve_done_all_the_n_tasks_today">आपने आज सभी कार्य\n किए हैं।</string>
+    <string name="you_just_finished_challenge">आपने अभी हाल ही में चुनौती पूरी की है।</string>
 
 </resources>

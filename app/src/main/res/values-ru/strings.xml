@@ -176,5 +176,6 @@
     <string name="privacy">Конфиденциальность</string>
     <string name="about">О приложении</string>
     <string name="you_ve_done_all_the_n_tasks_today">Вы выполнили все\n задачи сегодня.</string>
+    <string name="you_just_finished_challenge">Вы только что завершили вызов.</string>
 
 </resources>

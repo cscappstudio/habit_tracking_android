@@ -143,4 +143,7 @@ interface Dao {
     @Query("SELECT * FROM history WHERE date >= :startDate")
     suspend fun getHistoryWithDate2(startDate: Long): List<History>
 
+    @Delete
+    suspend fun deleteHistory(history: History)
+
 }

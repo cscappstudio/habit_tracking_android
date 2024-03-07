@@ -101,5 +101,9 @@ class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
         dao.updateChallenge(item)
     }
 
+    override suspend fun deleteHistory(history: History) {
+        dao.deleteHistory(history)
+    }
+
 
 }

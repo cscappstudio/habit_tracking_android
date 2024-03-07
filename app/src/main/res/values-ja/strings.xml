@@ -176,6 +176,7 @@
     <string name="privacy">隱私</string>
     <string name="about">關於</string>
     <string name="you_ve_done_all_the_n_tasks_today"> 今日はすべてのタスクを完\n了\しました。</string>
+    <string name="you_just_finished_challenge">チャレンジが終了しました。</string>
 
 
 </resources>
