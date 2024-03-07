@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defaults>
     <entry>
+        <key>android_banner_mood</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_banner_log_mood</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_banner_language</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>android_banner_detail_challenge</key>
+        <value>true</value>
+    </entry>
+    <entry>
         <key>android_pass_review_app</key>
         <value>false</value>
     </entry>
@@ -112,12 +128,12 @@
         <key>android_appConfigs</key>
         <value>{
             "emailSupport": "support@cscmobi.com",
-            "shareText":"Ruler Camera - AR Tape Measure",
+            "shareText":"Habit Goals: Habit Tracker",
             "termsURL":"https://cscmobi.com/privacy-policy/",
             "privacyURL":"https://cscmobi.com/privacy-policy/",
             "moreAppURL":"https://play.google.com/store/apps/dev?id=9128344770332001884",
             "adsPlatform": "admod",
-            "lastVersion": "0.0.1",
+            "lastVersion": "0.0.2",
             "updateMessage": "Update for new features and best performance",
             "updateURL": "https://play.google.com/store/apps/details?id=%s",
             "showUpdate ": false,

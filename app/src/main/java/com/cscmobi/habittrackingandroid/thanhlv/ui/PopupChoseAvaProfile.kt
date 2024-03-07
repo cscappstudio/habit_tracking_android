@@ -33,10 +33,9 @@ class PopupChoseAvaProfile :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val offsetFromTop = 200
         (dialog as? BottomSheetDialog)?.behavior?.apply {
             isFitToContents = true
-//            expandedOffset = offsetFromTop
+//            expandedOffset = 200
             state = BottomSheetBehavior.STATE_EXPANDED
         }
 

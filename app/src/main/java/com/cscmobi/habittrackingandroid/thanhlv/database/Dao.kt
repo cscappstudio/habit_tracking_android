@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.thanhlv.database
 
+import android.accessibilityservice.AccessibilityService.TakeScreenshotCallback
 import androidx.room.*
 import androidx.room.Dao
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
@@ -47,6 +48,10 @@ interface Dao {
     @Delete
     suspend fun deleteTask(user: Task)
 
+    @Query("DELETE FROM task WHERE id = :id")
+    suspend fun deleteTaskById(id: Long)
+    @Query("SELECT * FROM task WHERE id = :id")
+    suspend fun getTaskById(id: Long): Task?
 
     @Query("SELECT * FROM Challenge WHERE name LIKE :name")
     suspend fun findChallengeByName(name: String): Challenge
@@ -79,6 +84,10 @@ interface Dao {
     @Query("SELECT * FROM history")
     suspend fun getAllHistory2(): List<History>
 
+    @Query("SELECT * FROM history WHERE date >= :startDate AND date < :endDate")
+    suspend fun getHistoryFromAUntilB(startDate: Long, endDate: Long): List<History>
+    @Query("SELECT * FROM task")
+    suspend fun getAllTask2(): List<Task>
     @Query("SELECT * FROM history")
     fun getAllHistory(): Flow<List<History>>
 
@@ -122,6 +131,14 @@ interface Dao {
     @Update
     suspend fun updateHistory(history: History)
 
+
+    @Query("DELETE FROM history WHERE id = :id")
+    suspend fun deleteHistory(id: Long)
+    @Delete
+    suspend fun deleteHistory(history: History)
+    @Query("UPDATE history SET taskInDay = :newTaskInDay, progressDay = :progressDay WHERE id = :id")
+
+    suspend fun updateHistory2(id: Long, newTaskInDay: List<TaskInDay>, progressDay: Int)
 
     @Query("UPDATE history SET taskInDay = :newTaskInDay WHERE id = :id")
 

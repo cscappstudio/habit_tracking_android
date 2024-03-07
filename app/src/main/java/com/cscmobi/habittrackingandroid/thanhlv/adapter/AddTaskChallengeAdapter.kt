@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ItemAddTaskChallengeBinding
 import com.cscmobi.habittrackingandroid.databinding.ItemTaskTimelineFullBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
@@ -79,9 +80,16 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
                 holder.binding.showBtnAdd.visibility = View.GONE
                 holder.binding.showTask.visibility = View.VISIBLE
                 holder.binding.tvTitle.text = item.name
-                holder.binding.icTask.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(item.icon!!)))
+                holder.binding.icTask.setImageBitmap(
+                    BitmapFactory.decodeStream(
+                        mContext.assets.open(
+                            item.icon!!
+                        )
+                    )
+                )
                 holder.binding.icTask.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                holder.binding.icTask.backgroundTintList = ColorStateList.valueOf(Color.parseColor(item.color))
+                holder.binding.icTask.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor(item.color))
             }
             3 -> {
                 holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(86f)
@@ -89,12 +97,19 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
                 holder.binding.showBtnAdd.visibility = View.GONE
                 holder.binding.showTask.visibility = View.VISIBLE
                 holder.binding.tvTitle.text = item.name
-                holder.binding.icTask.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(item.icon!!)))
+                holder.binding.icTask.setImageBitmap(
+                    BitmapFactory.decodeStream(
+                        mContext.assets.open(
+                            item.icon!!
+                        )
+                    )
+                )
                 holder.binding.icTask.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                holder.binding.icTask.backgroundTintList = ColorStateList.valueOf(Color.parseColor(item.color))
+                holder.binding.icTask.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor(item.color))
             }
             else -> {
-                holder.binding.tvDay.text = "Day " + item.day.toString()
+                holder.binding.tvDay.text = mContext.getString(R.string.day_) + item.day.toString()
                 holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(110f)
                 holder.binding.tvDay.visibility = View.VISIBLE
                 holder.binding.showBtnAdd.visibility = View.VISIBLE

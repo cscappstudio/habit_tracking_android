@@ -43,19 +43,25 @@
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/shape_round_30_fill"
         android:backgroundTint="#b5b5b5"
         android:elevation="20dp"
         android:gravity="center"
         android:outlineSpotShadowColor="@color/black_12"
-        android:text="GET STARTED"
+        android:text="@string/get_started"
         android:textColor="#fff"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="UnusedAttribute" />
 
+    <com.thanhlv.ads.lib.TemplateNativeView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:gnt_template_type="@layout/gnt_template_native_onboard"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

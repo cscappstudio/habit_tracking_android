@@ -1,7 +1,12 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -16,7 +21,12 @@ import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity.Companion.mAllMoods
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
 import com.thanhlv.fw.helper.MyUtils
+import com.thanhlv.fw.helper.NetworkHelper
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
+import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,7 +43,6 @@ class TodayMoodActivity : BaseActivity2() {
 
     override fun loadData() {
         val moodData = MoodData(this)
-        println("thanhlv ooooooooooooooo ======= " + mDescribeList.size)
     }
 
     override fun initView() {
@@ -119,7 +128,7 @@ class TodayMoodActivity : BaseActivity2() {
         if (currentStep == 0) super.onBackPressed()
         else {
             if (currentStep == 1 || currentStep == 2) {
-                binding.tvQuestion.text = "How are you feeling today?"
+                binding.tvQuestion.text = getString(R.string.how_are_you_feeling_today)
                 binding.showMoodStep2.visibility = View.GONE
                 binding.showMoodStep1.visibility = View.GONE
                 binding.btnNext.isEnabled = false
@@ -145,7 +154,7 @@ class TodayMoodActivity : BaseActivity2() {
         mListBecause = getDataBecause()
         adapter?.updateData(mListBecause)
         binding.bgNote.visibility = View.VISIBLE
-        binding.tvQuestion.text = "What’s making you feel great?"
+        binding.tvQuestion.text = getString(R.string.what_making_you_feel_great)
         binding.btnNext.isEnabled = false
         binding.btnNext.backgroundTintList =
             ColorStateList.valueOf(Color.parseColor("#B5B5B5"))
@@ -154,7 +163,7 @@ class TodayMoodActivity : BaseActivity2() {
     private fun gotoMoodStep2() {
         currentStep = 2
         binding.btnNext.isEnabled = false
-        binding.tvQuestion.text = "Which describe your feelings?"
+        binding.tvQuestion.text = getString(R.string.which_describe_your_feelings)
         binding.btnNext.backgroundTintList =
             ColorStateList.valueOf(Color.parseColor("#B5B5B5"))
         binding.showMoodStep1.visibility = View.GONE
@@ -175,28 +184,28 @@ class TodayMoodActivity : BaseActivity2() {
         }, 200)
         when (mood) {
             1 -> {
-                binding.tvMood.text = "Great"
-                binding.tvQuestion.text = "Are you feeling great today?"
+                binding.tvMood.text = getString(R.string.great)
+                binding.tvQuestion.text = getString(R.string.are_you_feeling_great_today)
                 binding.imgMoodLarge.setImageResource(R.drawable.ic_mood_great)
             }
             2 -> {
-                binding.tvMood.text = "Good"
-                binding.tvQuestion.text = "Are you feeling good today?"
+                binding.tvMood.text = getString(R.string.good)
+                binding.tvQuestion.text = getString(R.string.are_you_feeling_good_today)
                 binding.imgMoodLarge.setImageResource(R.drawable.ic_mood_good)
             }
             3 -> {
-                binding.tvMood.text = "Neutral"
-                binding.tvQuestion.text = "Are you feeling neutral today?"
+                binding.tvMood.text = getString(R.string.neutral)
+                binding.tvQuestion.text = getString(R.string.are_you_feeling_neutral_today)
                 binding.imgMoodLarge.setImageResource(R.drawable.ic_mood_neutral)
             }
             4 -> {
-                binding.tvMood.text = "Not great"
-                binding.tvQuestion.text = "Are you feeling not great today?"
+                binding.tvMood.text = getString(R.string.not_great)
+                binding.tvQuestion.text = getString(R.string.are_you_feeling_not_great_today)
                 binding.imgMoodLarge.setImageResource(R.drawable.ic_mood_not_great)
             }
             5 -> {
-                binding.tvMood.text = "Bad"
-                binding.tvQuestion.text = "Are you feeling bad today?"
+                binding.tvMood.text = getString(R.string.bad)
+                binding.tvQuestion.text = getString(R.string.are_you_feeling_bad_today)
                 binding.imgMoodLarge.setImageResource(R.drawable.ic_mood_bad)
             }
         }
@@ -290,5 +299,41 @@ class TodayMoodActivity : BaseActivity2() {
         return list
     }
 
+
+
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            loadBanner()
+        }
+    }
+
+    private fun loadBanner() {
+        if (NetworkHelper.isNetworkAvailable(this@TodayMoodActivity)
+            && !SPF.isProApp(this@TodayMoodActivity)
+            && RemoteConfigs.instance.getConfigValue(AppConfigs.KEY_AD_BANNER_LOG_MOOD).asBoolean()
+        ) {
+            binding.bannerView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                this@TodayMoodActivity,
+                getString(R.string.admob_banner_id),
+                AdMobUtils.BANNER_NORMAL,
+                binding.bannerView,
+                null
+            )
+        } else {
+            binding.bannerView.visibility = View.GONE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(mReceiver)
+    }
 
 }

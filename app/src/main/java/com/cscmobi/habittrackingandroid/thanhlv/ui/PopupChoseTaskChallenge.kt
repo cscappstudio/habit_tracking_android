@@ -44,7 +44,7 @@ class PopupChoseTaskChallenge :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var oldTasks = mutableListOf<CreateTaskChallenge>()
+        val oldTasks = mutableListOf<CreateTaskChallenge>()
         CreateChallengeActivity.mDataTaskCreateChallenge.forEach {
             if (it.type == 2 || it.type == 3)
                 oldTasks.add(it)

@@ -245,7 +245,6 @@ class HomeViewModel(
 
                             val newTaskInDay = history.taskInDay.toMutableList()
                             newTaskInDay.removeAt(index)
-
                            // databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
                             history.taskInDay = newTaskInDay
                           updateHistory(history)

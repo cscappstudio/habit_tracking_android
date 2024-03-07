@@ -8,10 +8,15 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityLanguageBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
 import com.thanhlv.fw.constant.AppConfigs.Companion.CHANGE_LANGUAGE
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
+import com.thanhlv.fw.helper.NetworkHelper
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
 
 class ChangeLanguageActivity : BaseActivity2() {
@@ -152,27 +157,39 @@ class ChangeLanguageActivity : BaseActivity2() {
     }
 
 
-//    ////////////////////////////////////////////////////////
-//    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-//    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context, intent: Intent) {
-//            if (!SPF.isProApp(context)
-//                && RemoteConfigs.instance.getConfigValue(AdsConfigs.KEY_AD_NATIVE_CHANGE_LANGUAGE)
-//                    .asBoolean()
-//            ) {
-//                binding.adView.visibility = View.VISIBLE
-//                createNativeAd(context, BuildConfig.ad_native_full, binding.adView, null)
-//            } else binding.adView.visibility = View.GONE
-//        }
-//    }
-//
-//    override fun onStart() {
-//        super.onStart()
-//        registerReceiver(mReceiver, mIntentFilter)
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        unregisterReceiver(mReceiver)
-//    }
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            loadBanner()
+        }
+    }
+
+    private fun loadBanner() {
+        if (NetworkHelper.isNetworkAvailable(this@ChangeLanguageActivity)
+            && !SPF.isProApp(this@ChangeLanguageActivity)
+            && RemoteConfigs.instance.getConfigValue(AppConfigs.KEY_AD_BANNER_LANGUAGE).asBoolean()
+        ) {
+            binding.bannerView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                this@ChangeLanguageActivity,
+                getString(R.string.admob_banner_collapse_id),
+                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                binding.bannerView,
+                null
+            )
+        } else {
+            binding.bannerView.visibility = View.GONE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(mReceiver)
+    }
+
 }

@@ -49,13 +49,13 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     private var listDayText = arrayListOf(
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
+        getString(R.string.monday),
+        getString(R.string.tuesday),
+        getString(R.string.wednesday),
+        getString(R.string.thursday),
+        getString(R.string.friday),
+        getString(R.string.saturday),
+        getString(R.string.sunday)
     )
     private var listDayState = arrayListOf(false, false, false, false, false, false, false, false)
     private var mRepeatData = arrayListOf(2, 3, 4, 5, 6, 7, 1)
@@ -145,7 +145,6 @@ class CreateChallengeActivity : BaseActivity2() {
             delay(500)
             val all = AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
 
-            println("thanhlv tttttttttttt  ========= " + all.size)
             ChallengeFragment.allChallenges.postValue(all)
             finish()
         }
@@ -157,12 +156,12 @@ class CreateChallengeActivity : BaseActivity2() {
         if (cycleNum == 0) {
             binding.rcAddTask.visibility = View.GONE
             binding.edtCycle.requestFocus()
-            Toast.makeText(this, "Cycle must be more than 0.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.cycle_must_be_more_than_0), Toast.LENGTH_SHORT).show()
             return false
         }
         if (durationNum == 0 || durationNum < cycleNum) {
             binding.edtDuration.requestFocus()
-            Toast.makeText(this, "Duration must be more than cycle.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.duration_must_be_more_than_cycle), Toast.LENGTH_SHORT).show()
             return false
         }
         return true
@@ -220,7 +219,7 @@ class CreateChallengeActivity : BaseActivity2() {
             view.setTextColor(Color.parseColor("#b5b5b5"))
         }
 
-        var textRepeat = "Repeat on:"
+        var textRepeat = getString(R.string.repeat_on)
         var notAllDay = 0
         for (i in 0..6) {
             if (listDayState[i]) {
@@ -229,7 +228,7 @@ class CreateChallengeActivity : BaseActivity2() {
             }
         }
         if (notAllDay == 0 || notAllDay == 7) {
-            binding.tvRepeatDay.text = "Repeat every day"
+            binding.tvRepeatDay.text = getString(R.string.repeat_every_day)
             mRepeatData = arrayListOf(2, 3, 4, 5, 6, 7, 1)
         } else {
             textRepeat = textRepeat.substring(0, textRepeat.length - 1)

@@ -1,12 +1,17 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityMoodBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.MoodRecordAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
@@ -14,7 +19,11 @@ import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.google.gson.Gson
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs
+import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.helper.RunUtils
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
@@ -43,7 +52,6 @@ class MoodActivity : BaseActivity2() {
         super.onResume()
         runBlocking {
             mAllMoods = AppDatabase.getInstance(applicationContext).dao().getMood()
-            println("thanhlv override fun loadData() { ==== " + mAllMoods.size)
         }
         viewPager2()
     }
@@ -61,11 +69,8 @@ class MoodActivity : BaseActivity2() {
         }
 
         binding.btnNextMonth.setOnClickListener {
-            if (binding.vpMonth.currentItem < mDataMonth.size - 1) {
+            if (binding.vpMonth.currentItem < mDataMonth.size - 2) {
                 binding.vpMonth.currentItem += 1
-                it.alpha = 1f
-            } else {
-                it.alpha = 0.5f
             }
         }
         if (mDataMonth.size == 1) {
@@ -75,25 +80,35 @@ class MoodActivity : BaseActivity2() {
         binding.btnPreviousMonth.setOnClickListener {
             if (binding.vpMonth.currentItem > 0) {
                 binding.vpMonth.currentItem -= 1
-                it.alpha = 1f
-            } else {
-                it.alpha = 0.5f
             }
         }
     }
 
 
     private fun viewPager2() {
-        println("thanhlv viewPager2viewPager2 ==== " + mAllMoods.size)
-
         pagerMonthAdapter = PagerMonthCalendarAdapter(this)
         binding.vpMonth.adapter = pagerMonthAdapter
         pagerMonthAdapter!!.setList(mDataMonth)
         binding.vpMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                updateTitleMonth(pagerMonthAdapter?.getList()?.get(position))
+                updateTitleMonth(mDataMonth[position])
                 showRecyclerView(mDataMonth[position])
+                if (mDataMonth.size > 1 && position < mDataMonth.size - 1) {
+                    binding.btnNextMonth.alpha = 1f
+                    binding.btnNextMonth.isEnabled = true
+                } else {
+                    binding.btnNextMonth.alpha = 0.5f
+                    binding.btnNextMonth.isEnabled = false
+                }
+
+                if (position > 0 && mDataMonth.size > 1) {
+                    binding.btnPreviousMonth.alpha = 1f
+                    binding.btnPreviousMonth.isEnabled = true
+                } else {
+                    binding.btnPreviousMonth.alpha = 0.5f
+                    binding.btnPreviousMonth.isEnabled = false
+                }
             }
         })
         binding.vpMonth.currentItem = mDataMonth.size - 1
@@ -105,8 +120,6 @@ class MoodActivity : BaseActivity2() {
     fun showRecyclerView(month: MonthCalendarModel) {
         val listMood = getMoodInMonth(month)
 
-        println("thanhlv showRecyclerView ----- " + listMood?.size)
-
         if (listMood.isNullOrEmpty()) {
             binding.showListRecordMood.visibility = View.GONE
             return
@@ -116,10 +129,11 @@ class MoodActivity : BaseActivity2() {
             moodRecordAdapter = MoodRecordAdapter(this)
             moodRecordAdapter?.setCallBack(object : MoodRecordAdapter.MoodRecordCallback {
                 override fun onClickItem(mood: Mood) {
-                    println("thanhlv onClickItem ----- " + mood.date)
-                    val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
-                    intent.putExtra("data_mood", Gson().toJson(mood))
-                    startActivity(intent)
+//                    val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
+//                    intent.putExtra("data_mood", Gson().toJson(mood))
+//                    startActivity(intent)
+                    val popupMoodDetail = PopupDetailMood.newInstance(mood)
+                    popupMoodDetail.show(supportFragmentManager, "")
                 }
 
             })
@@ -128,7 +142,7 @@ class MoodActivity : BaseActivity2() {
         }
         Handler().postDelayed({
             moodRecordAdapter?.setData(listMood)
-        }, 500)
+        }, 200)
 
     }
 
@@ -169,7 +183,7 @@ class MoodActivity : BaseActivity2() {
 
         while (calendar[Calendar.YEAR] <= currentTime[Calendar.YEAR]) {
             while (calendar[Calendar.MONTH] <= currentTime[Calendar.MONTH]) {
-                list.add(MonthCalendarModel(calendar[Calendar.MONTH] + 1, calendar[Calendar.YEAR]))
+                list.add(MonthCalendarModel(calendar[Calendar.MONTH] + 1, calendar[Calendar.YEAR], 1))
                 calendar[Calendar.MONTH] += 1
                 if (calendar[Calendar.MONTH] > 11) {
                     calendar[Calendar.MONTH] = 0
@@ -181,4 +195,40 @@ class MoodActivity : BaseActivity2() {
 
         return list
     }
+
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            loadBanner()
+        }
+    }
+
+    private fun loadBanner() {
+        if (NetworkHelper.isNetworkAvailable(this@MoodActivity)
+            && !SPF.isProApp(this@MoodActivity)
+            && RemoteConfigs.instance.getConfigValue(AppConfigs.KEY_AD_BANNER_MOOD).asBoolean()
+        ) {
+            binding.bannerView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                this@MoodActivity,
+                getString(R.string.admob_banner_collapse_id),
+                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                binding.bannerView,
+                null
+            )
+        } else {
+            binding.bannerView.visibility = View.GONE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(mReceiver)
+    }
+
 }

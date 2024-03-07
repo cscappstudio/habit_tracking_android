@@ -36,7 +36,7 @@
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:maxLines="1"
-        android:text="How are you feeling today?"
+        android:text="@string/how_are_you_feeling_today"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
-        android:text="Share with us how you feel today"
+        android:text="@string/share_with_us_how_you_feel_today"
         android:textColor="#393E3C"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
-        android:text="Great"
+        android:text="@string/great"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@id/btn_mood_great"
         app:layout_constraintStart_toStartOf="@id/btn_mood_great"
@@ -111,7 +111,7 @@
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
-        android:text="Good"
+        android:text="@string/good"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@id/btn_mood_good"
         app:layout_constraintStart_toStartOf="@id/btn_mood_good"
@@ -138,7 +138,7 @@
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
-        android:text="Neutral"
+        android:text="@string/neutral"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@id/btn_mood_neutral"
         app:layout_constraintStart_toStartOf="@id/btn_mood_neutral"
@@ -166,7 +166,7 @@
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
-        android:text="Not great"
+        android:text="@string/not_great"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@id/btn_mood_not_great"
         app:layout_constraintStart_toStartOf="@id/btn_mood_not_great"
@@ -194,7 +194,7 @@
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
-        android:text="Bad"
+        android:text="@string/bad"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@id/btn_mood_bad"
         app:layout_constraintStart_toStartOf="@id/btn_mood_bad"
@@ -333,7 +333,7 @@
         android:elevation="20dp"
         android:gravity="center"
         android:outlineSpotShadowColor="@color/black_12"
-        android:text="NEXT"
+        android:text="@string/next"
         android:textColor="#fff"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -341,5 +341,32 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="UnusedAttribute" />
 
+    <FrameLayout
+        android:id="@+id/banner_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_ad_banner_bottom"
+        android:gravity="center"
+        android:paddingTop="1.5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_max="60dp"
+        app:layout_constraintHeight_min="50dp">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            app:shimmer_auto_start="true">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/black_30" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

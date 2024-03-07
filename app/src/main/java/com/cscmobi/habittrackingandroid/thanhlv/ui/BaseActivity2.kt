@@ -1,13 +1,23 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.MyApplication
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
@@ -214,4 +224,68 @@ abstract class BaseActivity2 : AppCompatActivity() {
         }
         return false
     }
+
+
+
+    val NOTIFICATION_PERMISSION = "android.permission.POST_NOTIFICATIONS"
+    val NOTIFICATION_PERMISSION_CODE = 11255
+    val CHANNEL_NOTIFICATION_DEFAULT = "tape_measure_notification_channel"
+    fun hasNotificationPermission(): Boolean {
+        return (ContextCompat.checkSelfPermission(this, NOTIFICATION_PERMISSION)
+                == PackageManager.PERMISSION_GRANTED)
+    }
+
+    fun requestNotificationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf<String>(NOTIFICATION_PERMISSION),
+            NOTIFICATION_PERMISSION_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (hasNotificationPermission()) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.notification_access_granted),
+                    Toast.LENGTH_SHORT
+                ).show()
+                try {
+                    val notificationManager =
+                        applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        notificationManager.createNotificationChannel(
+                            NotificationChannel(
+                                CHANNEL_NOTIFICATION_DEFAULT,
+                                "Default Channel",
+                                NotificationManager.IMPORTANCE_HIGH
+                            )
+                                .apply {
+                                    setSound(null, null)
+                                    enableLights(false)
+                                    enableVibration(false)
+                                    setShowBadge(false)
+                                }
+                        )
+                    }
+                } catch (ignored: Exception) {
+                }
+            } else Toast.makeText(
+                this,
+                getString(R.string.notification_access_denied),
+                Toast.LENGTH_SHORT
+            ).show()
+            Handler(Looper.getMainLooper()).postDelayed({
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }, 500)
+        }
+    }
+
 }

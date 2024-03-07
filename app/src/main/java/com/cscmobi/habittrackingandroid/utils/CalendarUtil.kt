@@ -42,22 +42,43 @@ class CalendarUtil {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             if (calendar.timeInMillis > ms) calendar[Calendar.DAY_OF_YEAR] -= 7
             return calendar.timeInMillis
         }
 
-        fun nextDay(ms: Long): Long {// start from monday
+        fun nextDayMs(ms: Long): Long {// start from monday
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.DAY_OF_YEAR] += 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
+        fun endMonthMs(ms: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+            calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.MILLISECOND] = 0
+            return calendar.timeInMillis
+        }
 
         fun startMonthMs(ms: Long): Long {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
@@ -65,9 +86,22 @@ class CalendarUtil {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.DAY_OF_YEAR] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
+        fun startDayMs(ms: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = ms
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
+            return calendar.timeInMillis
+        }
         fun startMonth(ms: Long): Int {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
@@ -100,11 +134,15 @@ class CalendarUtil {
             return calendar.timeInMillis
         }
 
-        fun nextMonth(ms: Long): Long {
+        fun nextMonthMs(ms: Long): Long {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
             calendar[Calendar.MONTH] += 1
             calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
@@ -123,6 +161,10 @@ class CalendarUtil {
             calendar[Calendar.YEAR] += 1
             calendar[Calendar.MONTH] = 0
             calendar[Calendar.DAY_OF_MONTH] = 1
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
 
@@ -158,6 +200,7 @@ class CalendarUtil {
             calendar.timeInMillis = ms
             return SimpleDateFormat("MMMM").format(calendar.time)
         }
+
         @SuppressLint("SimpleDateFormat")
         fun getTitleMonthYear(ms: Long): String {
             val calendar = Calendar.getInstance()
@@ -184,15 +227,6 @@ class CalendarUtil {
             calendar.timeInMillis = ms
             return calendar[Calendar.YEAR]
         }
-        fun getStartTimeOfDay(ms: Long): Long {
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = ms
-             calendar[Calendar.HOUR_OF_DAY] = 0
-             calendar[Calendar.MINUTE] = 0
-             calendar[Calendar.SECOND] = 0
-             calendar[Calendar.MILLISECOND] = 0
-            return calendar.timeInMillis
-        }
 
         fun getDaysBetween(start: Long, end: Long): Int {
 
@@ -208,6 +242,14 @@ class CalendarUtil {
                 return endDay[Calendar.DAY_OF_YEAR] + nhuan - startDay[Calendar.DAY_OF_YEAR]
             } else
                 return endDay[Calendar.DAY_OF_YEAR] - startDay[Calendar.DAY_OF_YEAR]
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun sameDay(a: String, b: Long): Boolean {
+            if (a.isEmpty() || b <= 0) return false
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = b
+            return SimpleDateFormat("d/M/yyyy").format(calendar.time) == a
         }
 
     }

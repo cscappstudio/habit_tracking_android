@@ -13,12 +13,15 @@ import com.cscmobi.habittrackingandroid.databinding.FragmentProgressBinding
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.PagerYearCalendarAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
-import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
+import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.MonthCalendarModel
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesMonthLabelAxisX
 import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesWeekLabelAxisX
 import com.cscmobi.habittrackingandroid.utils.ChartUtil.Companion.categoriesYearLabelAxisX
+import com.cscmobi.habittrackingandroid.utils.Helper
+import com.cscmobi.habittrackingandroid.utils.Utils
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
@@ -27,6 +30,7 @@ import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressBinding::inflate) {
     private var pagerMonthAdapter: PagerMonthCalendarAdapter? = null
@@ -52,26 +56,22 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     private fun observeData() {
 
         mCurrentStreak.observe(this) { it ->
-            println("thanhlv observerData---------mCurrentStreak------- " + it)
             binding.tvCurrentStreak.text = it.toString()
         }
         mPerfectDay.observe(this) { it ->
-            println("thanhlv observerData---------mPerfectDay------- " + it)
             binding.tvPerfectDay.text = it.toString()
         }
         mCompletionRate.observe(this) { it ->
-            println("thanhlv observerData---------mCompletionRate------- " + it)
-            binding.tvCompletionRatePercent.text = it.toString() + " %"
+            binding.tvCompletionRatePercent.text = it.toString() + "%"
         }
         mLongestStreak.observe(this) { it ->
-            println("thanhlv observerData---------mLongestStreak------- " + it)
-
             binding.tvLongestStreak.text = it.toString()
         }
 
     }
 
     override fun initView(view: View) {
+        viewPager2()
         loadHistoryData()
 
         binding.bbCurrentStreak
@@ -83,38 +83,106 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
         binding.bbPerfectDay
             .startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.pulse))
 
-        viewPager2()
         handleMonthCalendar()
-        handleChartCompletionRate()
+        handleChart()
         handleYearStats()
-
 
     }
 
-    private fun loadHistoryData() {
+    private fun viewPager2() {
+        mDataVPMonth = getDataForMonth()
+        mDataVPYear = getDataForYear()
+        pagerMonthAdapter = PagerMonthCalendarAdapter(requireActivity())
+        pagerMonthAdapter!!.setList(mDataVPMonth)
+        binding.vpMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (mDataVPMonth.isNotEmpty() && position < mDataVPMonth.size)
+                    updateTitleMonth(mDataVPMonth[position])
+                if (mDataVPMonth.size > 1 && position < mDataVPMonth.size - 1) {
+                    binding.btnNextMonth.alpha = 1f
+                    binding.btnNextMonth.isEnabled = true
+                } else {
+                    binding.btnNextMonth.alpha = 0.3f
+                    binding.btnNextMonth.isEnabled = false
+                }
+
+                if (position > 0 && mDataVPMonth.size > 1) {
+                    binding.btnPreviousMonth.alpha = 1f
+                    binding.btnPreviousMonth.isEnabled = true
+                } else {
+                    binding.btnPreviousMonth.alpha = 0.3f
+                    binding.btnPreviousMonth.isEnabled = false
+                }
+            }
+        })
+
+        pagerYearAdapter = PagerYearCalendarAdapter(requireActivity())
+        pagerYearAdapter!!.setList(mDataVPYear)
+        binding.vpYear.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (mDataVPYear.isNotEmpty() && position < mDataVPYear.size)
+                    updateTitleYear(mDataVPYear[position])
+                if (mDataVPYear.size > 1 && position < mDataVPYear.size - 1) {
+                    binding.btnNextYear.alpha = 1f
+                    binding.btnNextYear.isEnabled = true
+                } else {
+                    binding.btnNextYear.alpha = 0.3f
+                    binding.btnNextYear.isEnabled = false
+                }
+
+                if (position > 0 && mDataVPYear.size > 1) {
+                    binding.btnPreviousYear.alpha = 1f
+                    binding.btnPreviousYear.isEnabled = true
+                } else {
+                    binding.btnPreviousYear.alpha = 0.3f
+                    binding.btnPreviousYear.isEnabled = false
+                }
+            }
+        })
+        binding.vpMonth.adapter = pagerMonthAdapter
+        binding.vpYear.adapter = pagerYearAdapter
+
+        binding.vpMonth.setCurrentItem(mDataVPMonth.size - 1, true)
+        binding.vpYear.setCurrentItem(mDataVPYear.size - 1, true)
+    }
+
+
+    fun loadHistoryData() {
         runBlocking {
             val allHistory = AppDatabase.getInstance(requireContext()).dao().getAllHistory2()
-            if (allHistory.isEmpty()) return@runBlocking
+            if (allHistory.isEmpty()) {
+                reloadViewPager()
+                validateBtn(mChartType, -1)
+                drawChart(mChartType, -1)
+                return@runBlocking
+            }
             allHistory.sortedBy { it.date }
+            var streak = 0
             var currentStreak = 0
             var perfectDay = 0
             var longStreak = 0
             for (i in allHistory.indices) {
-                if (allHistory[i].progressDay >= 100) {
-                    currentStreak += 1
+                if (allHistory[i].progressDay >= 100 && !allHistory[i].allTaskPause) {
+                    streak += 1
                     perfectDay += 1
-                    if (longStreak < currentStreak) longStreak = currentStreak
-                } else currentStreak = 0
+                    if (longStreak < streak) longStreak = streak
+                } else {
+                    if (streak > 0) currentStreak = streak
+                    if (!allHistory[i].allTaskPause) streak = 0
+                }
             }
+            if (streak > 0) currentStreak = streak
 
             mCurrentStreak.postValue(currentStreak)
             mLongestStreak.postValue(longStreak)
             mCompletionRate.postValue(perfectDay * 100 / allHistory.size)
             mPerfectDay.postValue(perfectDay)
-
-
+            reloadViewPager()
+            validateBtn(mChartType, mCurrentStartPeriod)
+            drawChart(mChartType, mCurrentStartPeriod)
         }
-
     }
 
     private fun handleMonthCalendar() {
@@ -130,15 +198,19 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     @SuppressLint("SetTextI18n")
     private fun resolveNextMonth() {
-        mCurrentMonth = CalendarUtil.nextMonth(mCurrentMonth)
+        mCurrentMonth = CalendarUtil.nextMonthMs(mCurrentMonth)
         binding.tvMonth.text = CalendarUtil.getTitleMonthYear(mCurrentMonth)
         validateMonthCalendarBtn(mCurrentMonth)
+        val currentPageMonth = binding.vpMonth.currentItem
+        binding.vpMonth.setCurrentItem(currentPageMonth + 1, true)
     }
 
     private fun resolvePreviousMonth() {
         mCurrentMonth = CalendarUtil.previousMonth(mCurrentMonth)
         binding.tvMonth.text = CalendarUtil.getTitleMonthYear(mCurrentMonth)
         validateMonthCalendarBtn(mCurrentMonth)
+        val currentPageMonth = binding.vpMonth.currentItem
+        binding.vpMonth.setCurrentItem(currentPageMonth - 1, true)
         //
     }
 
@@ -179,8 +251,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
     }
 
     private var mChartType = 1
-    private fun handleChartCompletionRate() {
-
+    private fun handleChart() {
         binding.btnWeek.setOnClickListener {
             mChartType = 1
             mCurrentStartPeriod = System.currentTimeMillis()
@@ -222,10 +293,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                 ColorStateList.valueOf(Color.parseColor("#f5f5f5"))
             drawChart(mChartType, -1)
         }
-
-        validateBtn(mChartType, -1)
-        drawChart(mChartType, -1)
-
         binding.btnNextPeriod.setOnClickListener {
             resolveNextPeriod(mChartType)
         }
@@ -276,6 +343,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     }
                 }
             }
+
             2 -> {
                 binding.btnWeek.isEnabled = true
                 binding.btnMonth.isEnabled = false
@@ -314,6 +382,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     }
                 }
             }
+
             3 -> {
                 binding.btnWeek.isEnabled = true
                 binding.btnMonth.isEnabled = true
@@ -384,9 +453,6 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun resolveNextPeriod(type: Int) {
-        val currentDay = Calendar.getInstance()
-        currentDay.timeInMillis = mCurrentStartPeriod
-
         when (type) {
             1 -> {
                 mCurrentStartPeriod = CalendarUtil.nextWeek(mCurrentStartPeriod)
@@ -396,7 +462,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             }
 
             2 -> {
-                mCurrentStartPeriod = CalendarUtil.nextMonth(mCurrentStartPeriod)
+                mCurrentStartPeriod = CalendarUtil.nextMonthMs(mCurrentStartPeriod)
                 binding.tvPeriod.text = CalendarUtil.getTitleMonth(mCurrentStartPeriod)
                 binding.tvPeriodYear.text = CalendarUtil.getTitleYear(mCurrentStartPeriod)
                 binding.tvPeriodYear.visibility = View.VISIBLE
@@ -482,40 +548,216 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     binding.tvPeriodYear.text =
                         CalendarUtil.getTitleYear(System.currentTimeMillis())
                     binding.tvPeriodYear.visibility = View.VISIBLE
-                    val temp = arrayListOf<Any>()
-                    for (i in 1..7) temp.add((0..10).random() * 10)
-                    mCurrentData = temp.toArray()
-                } else {
+                    val temp = arrayListOf<Any>(0, 0, 0, 0, 0, 0, 0)
+                    runBlocking {
+                        val startWeek = CalendarUtil.startWeekMs(System.currentTimeMillis())
+                        val dataWeek = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startWeek, startWeek + 7 * 24 * 60 * 60 * 1000)
+                        for (i in 2..7)
+                            for (j in dataWeek.indices)
+                                if (CalendarUtil.dayOfWeek(dataWeek[j].date!!) == i) {
+                                    if (!dataWeek[j].allTaskPause) temp[i - 2] =
+                                        dataWeek[j].progressDay
+                                }
+                        for (j in dataWeek.indices)
+                            if (CalendarUtil.dayOfWeek(dataWeek[j].date!!) == 1) {
+                                if (!dataWeek[j].allTaskPause) temp[6] =
+                                    dataWeek[j].progressDay
+                            }
 
+                        mCurrentData = temp.toArray()
+                    }
+                } else {
+                    binding.tvPeriod.text = CalendarUtil.getTitleWeek(startDate)
+                    val temp = arrayListOf<Any>(0, 0, 0, 0, 0, 0, 0)
+                    runBlocking {
+                        val startWeek = CalendarUtil.startWeekMs(startDate)
+                        val dataWeek = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startWeek, startWeek + 7 * 24 * 60 * 60 * 1000)
+                        for (i in 2..7)
+                            for (j in dataWeek.indices)
+                                if (CalendarUtil.dayOfWeek(dataWeek[j].date!!) == i) {
+                                    if (!dataWeek[j].allTaskPause) temp[i - 2] =
+                                        dataWeek[j].progressDay
+                                }
+                        for (j in dataWeek.indices)
+                            if (CalendarUtil.dayOfWeek(dataWeek[j].date!!) == 1) {
+                                if (!dataWeek[j].allTaskPause) temp[6] =
+                                    dataWeek[j].progressDay
+                            }
+
+                        mCurrentData = temp.toArray()
+                    }
                 }
             }
-            3 -> {
-                if (startDate < 0) { //năm hiện tại
-                    binding.tvPeriod.text = CalendarUtil.getTitleYear(System.currentTimeMillis())
-                    binding.tvPeriodYear.visibility = View.GONE
-                    val temp = arrayListOf<Any>()
-                    for (i in 1..12) temp.add((0..10).random() * 10)
-                    mCurrentData = temp.toArray()
-                } else {
 
-                }
-            }
             2 -> {
                 if (startDate < 0) { //tháng hiện tại
                     binding.tvPeriod.text = CalendarUtil.getTitleMonth(System.currentTimeMillis())
                     binding.tvPeriodYear.text =
                         CalendarUtil.getTitleYear(System.currentTimeMillis())
                     binding.tvPeriodYear.visibility = View.VISIBLE
-                    val temp = arrayListOf<Any>()
-                    for (i in 1..CalendarUtil.totalDayOfMonth(System.currentTimeMillis()))
-                        temp.add((0..10).random() * 10)
-
-                    mCurrentData = temp.toArray()
+                    runBlocking {
+                        val startMonth = CalendarUtil.startMonthMs(System.currentTimeMillis())
+                        val nextMonth = CalendarUtil.nextMonthMs(System.currentTimeMillis())
+                        val dataMonth = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startMonth, nextMonth)
+                        mCurrentData = mapDataMonth(
+                            dataMonth,
+                            CalendarUtil.totalDayOfMonth(System.currentTimeMillis())
+                        ).toArray()
+                    }
                 } else {
+                    binding.tvPeriod.text = CalendarUtil.getTitleMonth(startDate)
+                    runBlocking {
+                        val startMonth = CalendarUtil.startMonthMs(startDate)
+                        val nextMonth = CalendarUtil.nextMonthMs(startDate)
+                        val dataMonth = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startMonth, nextMonth)
+                        mCurrentData = mapDataMonth(
+                            dataMonth,
+                            CalendarUtil.totalDayOfMonth(startDate)
+                        ).toArray()
+                    }
+                }
+            }
 
+
+            3 -> {
+                if (startDate < 0) { //năm hiện tại
+                    binding.tvPeriod.text = CalendarUtil.getTitleYear(System.currentTimeMillis())
+                    binding.tvPeriodYear.visibility = View.GONE
+                    runBlocking {
+                        val startYear = CalendarUtil.startYearMs(System.currentTimeMillis())
+                        val nextYear = CalendarUtil.nextYear(System.currentTimeMillis())
+                        val dataYear = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startYear, nextYear)
+                        mCurrentData = mapDataYear(dataYear, startYear).toArray()
+                    }
+                } else {
+                    binding.tvPeriod.text = CalendarUtil.getTitleYear(startDate)
+                    runBlocking {
+                        val startYear = CalendarUtil.startYearMs(startDate)
+                        val nextYear = CalendarUtil.nextYear(startDate)
+                        val dataYear = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startYear, nextYear)
+                        mCurrentData = mapDataYear(dataYear, startYear).toArray()
+                    }
                 }
             }
         }
+    }
+
+    private fun mapDataMonth(dataMonth: List<History>, days: Int): ArrayList<Any> {
+        val temp = arrayListOf<Any>()
+        for (i in 0 until days) temp.add(0)
+        dataMonth.forEach {
+            val day = CalendarUtil.dayOfMonth(it.date!!)
+            if (!it.allTaskPause) temp[day - 1] = it.progressDay
+        }
+        return temp
+    }
+
+    private fun mapDataYear(dataYear: List<History>, startYear: Long): ArrayList<Any> {
+        val temp = arrayListOf<Any>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        val allPerMonth = arrayListOf<Int>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        val donePerMonth = arrayListOf<Int>(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+        dataYear.forEach {
+            val month = CalendarUtil.getMonth(it.date!!)
+            allPerMonth[month] += 1
+            if (!it.allTaskPause && it.progressDay >= 100) donePerMonth[month] += 1
+        }
+        val curYear = CalendarUtil.startYearMs(System.currentTimeMillis())
+        if (curYear == startYear) {
+            val curMonth = CalendarUtil.getMonth(System.currentTimeMillis())
+            allPerMonth[curMonth] = calculatePlusCurrentMonth()
+        }
+        for (i in temp.indices)
+            if (allPerMonth[i] > 0) temp[i] = donePerMonth[i] * 100 / allPerMonth[i]
+        return temp
+    }
+
+    private fun calculatePlusCurrentMonth(): Int {
+        var n = 0
+        val days = CalendarUtil.totalDayOfMonth(System.currentTimeMillis())
+        val temp = arrayListOf<Int>()
+        val dateMonth = arrayListOf<Long>()
+
+        var startMonth = CalendarUtil.startMonthMs(System.currentTimeMillis())
+        for (i in 0 until days) {
+            temp.add(0)
+            dateMonth.add(startMonth)
+            startMonth = CalendarUtil.nextDayMs(startMonth)
+        }
+
+        runBlocking {
+            val allTask = AppDatabase.getInstance(requireContext()).dao().getAllTask2()
+            allTask.forEach {
+                for (i in dateMonth.indices) {
+                    if (haveTaskInDay(it, dateMonth[i]))
+                        temp[i] = 1
+                }
+            }
+
+        }
+
+        for (i in temp.indices) n += temp[i]
+        return n
+    }
+
+
+    private fun haveTaskInDay(task: Task, date: Long): Boolean {
+        var isValid = true
+
+        if (task.pauseDate != null) {
+            if (task.pause == -1) return false
+            if (CalendarUtil.getDaysBetween(task.pauseDate!!, date) <= task.pause) return false
+        }
+
+        task.repeate?.let {
+            if (it.isOn == true) {
+                when (it.type) {
+                    "daily" -> {
+                        isValid =
+                            abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % it.frequency == 0
+                    }
+
+                    "monthly" -> {
+                        val checkMonthValid =
+                            abs(Utils.getMonth(date) - Utils.getMonth(task.startDate!!)) % it.frequency == 0
+                        return if (checkMonthValid) {
+                            val dayValid = it.days?.find { Utils.getDayofMonth(date) == it }
+                            (dayValid != null && dayValid != -1)
+                        } else false
+
+                    }
+
+                    "weekly" -> {
+                        val checkWeekValid =
+                            abs(Utils.getWeek(date) - Utils.getWeek(task.startDate!!)) % it.frequency == 0
+                        return if (checkWeekValid) {
+                            var dayValid = it.days?.find { it == Utils.getDayofWeek(date) }
+                            dayValid != null && dayValid != -1
+                        } else false
+                    }
+                }
+            }
+        }
+
+        val _date = Helper.getDateWithoutHour(date)
+
+        if (task.startDate != null) {
+            if (Helper.getDateWithoutHour(task.startDate!!) > _date) {
+                return false
+            }
+        }
+
+        if (task.endDate.isOpen == true && task.endDate.endDate!! < _date) {
+            return false
+        }
+
+        return isValid
     }
 
     private var mCurrentData = arrayOf<Any>(
@@ -539,13 +781,15 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             2 -> {
                 categories = categoriesMonthLabelAxisX
                 radiusColumn = 3
-                interval = 7
+                interval = 6
             }
+
             3 -> {
                 categories = categoriesYearLabelAxisX
                 radiusColumn = 6
-                interval = 3
+                interval = 1
             }
+
             else -> {
                 categories = categoriesWeekLabelAxisX
                 radiusColumn = 10
@@ -563,6 +807,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                         .showInLegend(true)
                 )
             )
+            .animationDuration(0)
             .categories(categories)
             .borderRadius(radiusColumn)
             .xAxisTickInterval(interval)
@@ -570,38 +815,25 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             .yAxisMax(100)
             .yAxisTitle("")
             .gradientColorEnable(true)
-            .colorsTheme(arrayOf("#54BA8F", "#FB7950", "#54BA8F", "#FB7950"))
+            .colorsTheme(arrayOf("#54BA8F", "#FB7950"))
             .legendEnabled(false) //show series name
 
         binding.aaChartView.aa_drawChartWithChartModel(aaChartModel)
     }
 
-    private fun viewPager2() {
+    private var mDataVPMonth = mutableListOf<MonthCalendarModel>()
+    private var mDataVPYear = mutableListOf<MonthCalendarModel>()
+    private fun reloadViewPager() {
         //for month
-        pagerMonthAdapter = PagerMonthCalendarAdapter(requireActivity())
+
         binding.vpMonth.adapter = pagerMonthAdapter
-//        binding.vpMonth.isSaveEnabled = false
-        pagerMonthAdapter!!.setList(getDataForMonth())
-        binding.vpMonth.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                updateTitleMonth(pagerMonthAdapter?.getList()?.get(position))
-            }
-        })
-
-
-        //for year
-        pagerYearAdapter = PagerYearCalendarAdapter(requireActivity())
         binding.vpYear.adapter = pagerYearAdapter
-//        binding.vpYear.isSaveEnabled = false
-//        binding.vpYear.offscreenPageLimit = 2
-        pagerYearAdapter!!.setList(getDataForYear())
-        binding.vpYear.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                updateTitleYear(pagerYearAdapter?.getList()?.get(position))
-            }
-        })
+        binding.vpMonth.postDelayed({
+            binding.vpMonth.setCurrentItem(mDataVPMonth.size - 1, true)
+        }, 150)
+        binding.vpYear.postDelayed({
+            binding.vpYear.setCurrentItem(mDataVPYear.size - 1, true)
+        }, 150)
 
     }
 
@@ -639,15 +871,23 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                     CalendarUtil.getYear(startMonth)
                 )
             )
-            startMonth = CalendarUtil.nextMonth(startMonth)
+            startMonth = CalendarUtil.nextMonthMs(startMonth)
         }
+
         return list
     }
 
 
     private fun getDataForYear(): MutableList<MonthCalendarModel> {
         val list = mutableListOf<MonthCalendarModel>()
-        list.add(MonthCalendarModel(1, 2024))
+        var startYear = CalendarUtil.startYearMs(SPF.getStartOpenTime(requireContext()))
+        val currentYear = CalendarUtil.startYearMs(System.currentTimeMillis())
+        while (startYear <= currentYear) {
+            list.add(
+                MonthCalendarModel(1, CalendarUtil.getYear(startYear))
+            )
+            startYear = CalendarUtil.nextYear(startYear)
+        }
         return list
     }
 }

@@ -41,20 +41,6 @@ class ChallengeData(var mContext: Context) {
                 item.toString(),
                 ChallengeDefault::class.java
             )
-//            val tempTask = mutableListOf<ChallengeDays>()
-//            val days = JSONObject(item.toString()).getJSONArray("days")
-//            for (j in 0 until days.length()) {
-//                val tasks: JSONArray = JSONObject(days[j].toString()).getJSONArray("tasks")
-//                for (k in 0 until tasks.length()) {
-//                    tempTask.add(
-//                        Gson().fromJson(
-//                            tasks[k].toString(),
-//                            ChallengeDays::class.java
-//                        )
-//                    )
-//                }
-//            }
-//            challenge.days = tempTask.toList()
             list.add(challenge)
         }
 

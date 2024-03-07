@@ -42,15 +42,19 @@ class AppConfigs {
         const val KEY_AD_NATIVE_HOME = "android_native_home"
         const val KEY_AD_NATIVE_SETTINGS = "android_native_settings"
         const val KEY_AD_BANNER_HOME = "android_banner_home"
+        const val KEY_AD_BANNER_DETAIL_CHALLENGE = "android_banner_detail_challenge"
+        const val KEY_AD_BANNER_LANGUAGE = "android_banner_language"
+        const val KEY_AD_BANNER_LOG_MOOD = "android_banner_log_mood"
+        const val KEY_AD_BANNER_MOOD = "android_banner_mood"
         const val KEY_AD_BANNER_SELECT_TOOLS = "android_banner_select_tools"
         const val KEY_AD_BANNER_SELECT_UNIT = "android_banner_select_unit"
         const val KEY_AD_NATIVE_GRANT_PERMISSION = "android_native_grant_permission"
 
         //for subs
-        var KEY_SUBS_WEEKLY = "com.cscmobi.habittracker.habitplanner.weekly"
-        var KEY_SUBS_YEARLY = "com.cscmobi.habittracker.habitplanner.yearly"
-        var KEY_SUBS_MONTHLY = "com.cscmobi.habittracker.habitplanner.monthly"
-        var KEY_SUBS_LIFETIME = "com.cscmobi.habittracker.habitplanner.lifetime"
+        var KEY_SUBS_WEEKLY = "com.cscmobi.habitgoals.weekly"
+        var KEY_SUBS_YEARLY = "com.cscmobi.habitgoals.yearly"
+        var KEY_SUBS_MONTHLY = "com.cscmobi.habitgoals.monthly"
+        var KEY_SUBS_LIFETIME = "com.cscmobi.habitgoals.lifetime"
 
         //for event log
         const val EVENT_CLICK_PREMIUM = "android_click_premium"

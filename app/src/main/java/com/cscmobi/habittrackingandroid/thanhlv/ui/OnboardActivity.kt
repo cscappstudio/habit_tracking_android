@@ -1,11 +1,16 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -14,7 +19,11 @@ import com.cscmobi.habittrackingandroid.databinding.ActivityOnboardBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.OnBoardAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.model.OnBoardModel
+import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_NATIVE_ONBOARD
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
+import com.thanhlv.fw.remoteconfigs.RemoteConfigs
+import com.thanhlv.fw.spf.SPF
 import java.util.*
 
 class OnboardActivity : BaseActivity2() {
@@ -134,4 +143,36 @@ class OnboardActivity : BaseActivity2() {
     override fun onBackPressed() {
     }
 
+    ////////////////////////////////////////////////////////
+    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (!SPF.isProApp(context)
+                && RemoteConfigs.instance.getConfigValue(KEY_AD_NATIVE_ONBOARD).asBoolean()
+            ) {
+                binding.adView.visibility = View.VISIBLE
+                AdMobUtils.createNativeAd(
+                    context,
+                    getString(R.string.native_id),
+                    binding.adView,
+                    null
+                )
+            } else binding.adView.visibility = View.GONE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(mReceiver, mIntentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(mReceiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.adView.destroyNativeAd()
+    }
 }
