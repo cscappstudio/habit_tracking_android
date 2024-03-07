@@ -24,10 +24,8 @@ import java.lang.reflect.Type;
 
 
 public class CircleSeekBar extends View {
-
     public static final int MIN = 0;
     public static final int MAX = 100;
-
     private static final int ANGLE_OFFSET = -90;
     private static final float INVALID_VALUE = -1;
     private static final int TEXT_SIZE_DEFAULT = 72;

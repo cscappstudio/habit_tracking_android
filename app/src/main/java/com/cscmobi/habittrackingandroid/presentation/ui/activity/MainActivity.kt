@@ -50,9 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return R.layout.activity_main
     }
 
-
     fun initNotifiTask() {
-
         lifecycleScope.launch {
             if (NotifiTask.db == null)
                 NotifiTask.db = appDatabase
@@ -117,8 +115,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
             false
-
-
         }
 
         val shapeDrawable: MaterialShapeDrawable =
@@ -129,14 +125,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             .setTopRightCorner(CornerFamily.ROUNDED, Utils.dpToPx(20f, this).toFloat())
             .build()
 
-
-
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(listener);
-
         initAlarm()
-
         freeIAP = FreeIAP.fromJson(this)
-
 
         with(getMySharedPreferences()) {
             if (this.getLong("currentDDay", -1L) != Helper.currentDate.toDate()) {
@@ -162,23 +153,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         val intent = Intent(this, SubscriptionsActivity::class.java)
                         startActivity(intent)
                     } else {
-//                            AdMobUtils.showRewardAds(this@MainActivity, object :
-//                                FullScreenContentCallback() {
-//                                override fun onAdDismissedFullScreenContent() {
-//                                    super.onAdDismissedFullScreenContent()
-//                                    freeIAP.rewardTimes++
-//                                    loadRewardAds()
-//
-//                                    startActivity(
-//                                        Intent(
-//                                            this@MainActivity,
-//                                            NewHabitActivity::class.java
-//                                        )
-//                                    )
-//
-//                                }
-//                            })
-
                         DialogUtils.showWatchAdsDialog(this,Constant.MAXGETREWARD.minus(getReward)) {
                             startActivity(
                                 Intent(
@@ -191,8 +165,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 } else {
                     startActivity(Intent(this@MainActivity, NewHabitActivity::class.java))
                 }
-
-
             } else
                 startActivity(Intent(this, NewHabitActivity::class.java))
         }
@@ -213,7 +185,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 override fun onLoaded(ad: Any?) {
                     Helper.isFirstLoadRewardAds = true
                 }
-
                 override fun onLoadFailed() {
 
                 }

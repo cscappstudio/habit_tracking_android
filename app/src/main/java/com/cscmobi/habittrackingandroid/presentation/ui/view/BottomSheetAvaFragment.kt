@@ -20,8 +20,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetAvaFragment : BottomSheetDialogFragment() {
     var icons =  mutableListOf<String>()
-
-
     var actionGetIcon: ((String) -> Unit)? = null
 
     override fun onCreateView(
@@ -74,7 +72,6 @@ class BottomSheetAvaFragment : BottomSheetDialogFragment() {
             setExpandedOffset(offsetFromTop)
             state = BottomSheetBehavior.STATE_EXPANDED
         }
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -84,9 +81,8 @@ class BottomSheetAvaFragment : BottomSheetDialogFragment() {
                 bottomSheet.setBackgroundResource(android.R.color.transparent)
             }
         }
-
-
     }
+
     private class GridSpacingItemDecoration(
         private val spanCount: Int,
         private val spacing: Int,

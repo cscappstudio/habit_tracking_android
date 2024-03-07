@@ -55,11 +55,7 @@ class CreateCollectionFragment :
 
         hadChangeState = false
         newTasks.clear()
-
         initTaskCollectionAdapter()
-
-
-
 
         bottomSheetFragment.listener = object : BottomSheetCollectionFragment.IBottomCollection {
             override fun next(resDrawable: Int) {
@@ -92,8 +88,6 @@ class CreateCollectionFragment :
     private fun setUpCollection(data: HabitCollection) {
         isEdit = true
         collectionData = data
-//        binding.isShowListTask = true
-
         binding.ivAddIv.visibility = View.GONE
         binding.ivCollection.visibility = View.VISIBLE
         data.image?.let { binding.ivCollection.setDrawableString(it) }
@@ -102,9 +96,7 @@ class CreateCollectionFragment :
         data.task?.let { newTasks.addAll(it) }
         taskCollectionAdapter?.notifyDataSetChanged()
 
-
         binding.layoutCreate.btnSave.text = "SAVE"
-
     }
 
     override fun onResume() {
@@ -114,12 +106,9 @@ class CreateCollectionFragment :
                 if (it is CollectionState.IdleCreateCollection) {
                     setEmptyCollection()
 
-
                 } else if (it is CollectionState.UpdateCollection) {
                     setUpCollection(it.data)
-
                 }
-
             }
         }
     }
@@ -162,7 +151,6 @@ class CreateCollectionFragment :
     override fun setEvent() {
 
         binding.ivAddIv.setOnClickListener {
-
             bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
         }
 
@@ -187,7 +175,7 @@ class CreateCollectionFragment :
         }
 
         binding.layoutCreate.btnSave.setOnClickListener {
-            if (!validateEditText()) {
+            if (!validateCollection()) {
                 return@setOnClickListener
             }
             newTasks.forEachIndexed { index, task ->
@@ -236,20 +224,38 @@ class CreateCollectionFragment :
        }
     }
 
-    private fun validateEditText(): Boolean {
-       if (binding.edtCollection.text.isNullOrEmpty())  {
-           Toast.makeText(requireContext(), "Name is empty", Toast.LENGTH_SHORT).show()
-           return false
-       }
-
-        if (collectionViewModel.isExistCollectionName(binding.edtCollection.text.toString()) && !isEdit) {
-            Toast.makeText(requireContext(), "Name is exist", Toast.LENGTH_SHORT).show()
-
+    private fun validateCollection(): Boolean {
+        if (binding.edtCollection.text.isNullOrEmpty())  {
+            Toast.makeText(requireContext(), "Name is empty", Toast.LENGTH_SHORT).show()
             return false
         }
 
-        return true
+        if (collectionViewModel.isExistCollectionName(binding.edtCollection.text.toString()) && !isEdit) {
+            Toast.makeText(requireContext(), "Name is exist", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (collectionData.image.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Image is empty", Toast.LENGTH_SHORT).show()
+            return  false
+        }
+
+        return  true
     }
+
+//    private fun validateEditText(): Boolean {
+//       if (binding.edtCollection.text.isNullOrEmpty())  {
+//           Toast.makeText(requireContext(), "Name is empty", Toast.LENGTH_SHORT).show()
+//           return false
+//       }
+//
+//        if (collectionViewModel.isExistCollectionName(binding.edtCollection.text.toString()) && !isEdit) {
+//            Toas  t.makeText(requireContext(), "Name is exist", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
+//
+//        return true
+//    }
 
     fun addTask(task: Task) {
         task.startDate = null
@@ -260,12 +266,9 @@ class CreateCollectionFragment :
 
             hadChangeState = true
         }
-
         newTasks.add(task.copy())
         taskCollectionAdapter?.notifyItemInserted(newTasks.size - 1)
-
     }
-
 
     fun setPopUpWindow(v: View,p: Int,e: Task) {
         val popup = CustomEditMenu(requireContext(),{
@@ -273,7 +276,6 @@ class CreateCollectionFragment :
                 it.addFragmentNotHide(it.newHabitFragment, NewHabitFragment.TAG)
                 it.newHabitFragment.newHabitFragmentState = NewHabitFragment.NewHabitFragmentState.EDITTASKCOLLECTION
                 collectionViewModel.taskCollection =newTasks[currentPos]
-
             }
 
         },{
@@ -281,13 +283,11 @@ class CreateCollectionFragment :
             taskCollectionAdapter?.notifyItemRemoved(p)
         })
         popup.showAsDropDown(v)
-
     }
 
     fun editTask(task: Task) {
         newTasks[currentPos] = task
         taskCollectionAdapter?.notifyItemChanged(currentPos)
     }
-
 
 }

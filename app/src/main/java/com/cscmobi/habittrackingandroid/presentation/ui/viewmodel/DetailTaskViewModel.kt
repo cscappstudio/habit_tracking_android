@@ -44,43 +44,6 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
     val history : StateFlow<List<History>>
         get() = _history
 
-//    var fakeDataHistory = mutableListOf(
-//    History(
-//    0,0,
-//    listOf(
-//    TaskInDay(
-//    0,0,0
-//    ),
-//    TaskInDay(3,50,0,0)
-//    )
-//    ),
-//
-//    History(
-//    1,0, listOf(TaskInDay(3,100,1,1))
-//    ),
-//    History(
-//    2,0, listOf(TaskInDay(3,80,1,1))
-//    ),
-//    History(
-//    3,0, listOf(TaskInDay(3,0,0,1))
-//    ),
-//    History(
-//    4,0, listOf(TaskInDay(3,100,1,1))
-//    ),
-//    History(
-//    5, 0,listOf(TaskInDay(3,100,2,2))
-//    ),
-//    History(
-//    6,0, listOf(TaskInDay(3,100,3,3))
-//    ),
-//    History(
-//    7, 0,listOf(TaskInDay(3,66,0,3))
-//    ),
-//    History(
-//    8,0, listOf(TaskInDay(3,100,1,3))
-//    ),
-//    )
-
     init {
         handleIntent()
     }
@@ -90,7 +53,6 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
             userIntent.consumeAsFlow().collect{
                 when(it) {
                     is DetailTaskIntent.FetchTaskbyId -> getTaskById(it.id)
-
                     is DetailTaskIntent.fetchHistoryByTask -> fetchHistoryByTask(it.task)
                     is DetailTaskIntent.UpdateTask -> updateTask(it.task)
                     is DetailTaskIntent.DeleteTask -> deleteTask(it.task,it.typeDelete)
@@ -112,8 +74,6 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.updateHistory(history)
     }
-
-
     /**
      * deleteType = 0 -> delete task in future -> update endDate of task
      * deleteType = 1 -> delete task
@@ -129,7 +89,6 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 
 
         } catch (e: Exception) {
-
         }
     }
 
@@ -156,20 +115,6 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 
    fun fetchHistoryByTask(task: Task) {
        viewModelScope.launch {
-//           try {
-//               var c = Calendar.getInstance()
-//               fakeDataHistory.forEach {
-//                   it.date = c.time.time
-//                   c.add(Calendar.DAY_OF_MONTH,-1)
-//               }
-//
-//               _history.value = fakeDataHistory
-//
-//           }catch (e: Exception) {
-//               _history.value = mutableListOf()
-//           }
-
-
            databaseRepository.getHistoryWithDate(task.startDate!!.toDate()).collect{
                var filterHistory = it.toMutableList()
                 println("chaulq_history______________________________$filterHistory")
@@ -239,10 +184,6 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
         c.time.time = Helper.currentDate.toDate()
         c.add(Calendar.DAY_OF_MONTH,-1)
 
-//        for (i in 0 ..10) {
-//            listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,100,1),c.time.time))
-//            c.add(Calendar.DAY_OF_MONTH,1)
-//        }
         listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,100,1),c.time.time))
         c.add(Calendar.DAY_OF_MONTH,1)
         listDataTasHistory.add(DataTaskHistory(TaskInDay(taskId,50,0),c.time.time))

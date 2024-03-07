@@ -269,5 +269,10 @@
     <string name="are_you_feeling_bad_today">Are you feeling bad today?</string>
     <string name="add_task">Add task</string>
     <string name="day_">Day </string>
+    <string name="more_habits_unlock_now">더 많은 습관? 지금 잠금 해제!</string>
+    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">광고를 시청하여 추가로 2개의 습관 슬롯을 잠금 해제하거나 광고없이 무제한 사용 가능합니다.</string>
+    <string name="watch_ads">광고 시청</string>
+    <string name="go_ad_free">광고 없음</string>
+
 
 </resources>

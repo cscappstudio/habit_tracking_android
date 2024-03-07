@@ -270,5 +270,10 @@
     <string name="are_you_feeling_bad_today">Are you feeling bad today?</string>
     <string name="add_task">Add task</string>
     <string name="day_">Day </string>
+    <string name="more_habits_unlock_now">और आदतें? अब खोलें!</string>
+    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">2 अतिरिक्त आदत स्थान खोलने के लिए एक विज्ञापन देखें\nया अनवरोधित उपयोग के लिए बिना विज्ञापन का चयन करें।</string>
+    <string name="watch_ads">विज्ञापन देखें</string>
+    <string name="go_ad_free">विज्ञापन मुक्त</string>
+
 
 </resources>

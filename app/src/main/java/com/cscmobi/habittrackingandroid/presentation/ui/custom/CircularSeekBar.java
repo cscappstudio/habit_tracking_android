@@ -29,7 +29,6 @@ public class CircularSeekBar extends View {
 
     private static final float HALF_DIVIDER = 0.5f;
     private static final float DEFAULT_SIZE_DIVIDER = 0.15f; // 1/30
-
     public static int INVALID_VALUE = -1;
     public static final int MAX = 100;
     public static final int MIN = 0;
@@ -198,7 +197,6 @@ public class CircularSeekBar extends View {
         sweepGradientMatrix = new Matrix();
         setDrawingCacheEnabled(true); // to retrieve pixel color
 
-
     }
 
     @Override
@@ -267,8 +265,6 @@ public class CircularSeekBar extends View {
         );
 
         indicatorDrawable.draw(canvas);
-
-
         canvas.restore();
     }
 

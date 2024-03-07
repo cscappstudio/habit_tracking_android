@@ -20,7 +20,7 @@
         android:backgroundTint="@color/silver"
         android:paddingStart="@dimen/_20sdp"
         android:paddingTop="@dimen/_5sdp"
-        android:paddingEnd="@dimen/_12sdp"
+        android:paddingEnd="@dimen/_20sdp"
         android:paddingBottom="@dimen/_5sdp">
 
 
@@ -40,10 +40,10 @@
             android:id="@+id/sw_repeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:thumbTint="@drawable/switch_thumb_selector"
-            app:trackTint="@drawable/switch_track_selector"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:thumbTint="@drawable/switch_thumb_selector"
+            app:trackTint="@drawable/switch_track_selector" />
 
         <TextView
             android:id="@+id/txt_daily"
@@ -52,11 +52,11 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:background="@drawable/bg_white_corner_20"
             android:gravity="center"
-            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             android:text="Daily"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toStartOf="@+id/txt_weekly"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt"
             app:layout_constraintWidth_percent="0.3" />
@@ -65,13 +65,13 @@
             android:id="@+id/txt_weekly"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
+            android:layout_marginHorizontal="@dimen/_3sdp"
             android:layout_marginTop="@dimen/_12sdp"
             android:background="@drawable/bg_white_corner_20"
             android:gravity="center"
             android:text="Weekly"
-            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
 
-            android:layout_marginHorizontal="@dimen/_3sdp"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toStartOf="@+id/txt_monthly"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/txt_daily"
@@ -95,88 +95,91 @@
 
         <FrameLayout
             android:id="@+id/fr_content"
-            app:layout_constraintTop_toBottomOf="@id/txt_daily"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
             android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
 
-            android:layout_height="wrap_content">
+            app:layout_constraintTop_toBottomOf="@id/txt_daily">
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_weekly"
                 android:layout_width="match_parent"
-                android:visibility="@{frequencyType == 1 ? View.VISIBLE : View.GONE}"
+                android:layout_height="@dimen/_50sdp"
                 android:orientation="horizontal"
-                android:weightSum="7"
+                android:visibility="@{frequencyType == 1 ? View.VISIBLE : View.GONE}"
 
-                android:layout_height="@dimen/_50sdp">
+                android:weightSum="7">
 
                 <TextView
                     android:id="@+id/txt_mon"
-                    android:text="Mon"
                     style="@style/TextDay"
                     android:layout_marginHorizontal="1dp"
-                    />
+                    android:text="Mon" />
+
                 <TextView
                     android:id="@+id/txt_tue"
-                    android:text="Tue"
                     style="@style/TextDay"
                     android:layout_marginHorizontal="1dp"
-                    />
+                    android:text="Tue" />
+
                 <TextView
                     android:id="@+id/txt_wed"
-                    android:text="Wed"
                     style="@style/TextDay"
                     android:layout_marginHorizontal="1dp"
+                    android:text="Wed"
 
                     />
+
                 <TextView
                     android:id="@+id/txt_thu"
 
-                    android:text="Thu"
                     style="@style/TextDay"
                     android:layout_marginHorizontal="1dp"
+                    android:text="Thu"
 
                     />
+
                 <TextView
                     android:id="@+id/txt_fri"
 
-                    android:text="Fri"
                     style="@style/TextDay"
                     android:layout_marginHorizontal="1dp"
+                    android:text="Fri"
 
                     />
+
                 <TextView
                     android:id="@+id/txt_sat"
-                    android:text="Sat"
                     style="@style/TextDay"
                     android:layout_marginHorizontal="1dp"
-                    />
+                    android:text="Sat" />
+
                 <TextView
                     android:id="@+id/txt_sun"
 
-                    android:text="Sun"
                     style="@style/TextDay"
                     android:layout_marginHorizontal="1dp"
+                    android:text="Sun"
 
                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <GridView
-                android:paddingVertical="@dimen/_5sdp"
-                android:background="@drawable/bg_white_corner_12"
                 android:id="@+id/calendar_gridview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_130sdp"
+                android:background="@drawable/bg_white_corner_12"
+                android:horizontalSpacing="@dimen/_1sdp"
                 android:minHeight="130dp"
 
-                android:visibility="@{frequencyType == 2 ? View.VISIBLE : View.GONE}"
-
-                android:horizontalSpacing="@dimen/_1sdp"
                 android:numColumns="7"
+
+                android:paddingVertical="@dimen/_5sdp"
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="@dimen/_1sdp"
-              />
+                android:visibility="@{frequencyType == 2 ? View.VISIBLE : View.GONE}" />
 
         </FrameLayout>
 
@@ -186,13 +189,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_22sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
-
             android:fontFamily="@font/worksans_semibold"
+
             android:text="@string/frequency"
             android:textColor="@color/shadow_gray"
             android:textFontWeight="600"
             android:textSize="16sp"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fr_content" />
@@ -201,12 +204,11 @@
             android:id="@+id/ctl_frequency"
             android:layout_width="@dimen/_110sdp"
             android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/bg_white_corner_20"
             android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView4"
-            android:background="@drawable/bg_white_corner_20"
-           >
+            app:layout_constraintTop_toTopOf="@+id/textView4">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtCategory"
@@ -238,8 +240,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        
-       
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

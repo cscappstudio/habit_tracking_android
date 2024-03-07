@@ -269,5 +269,10 @@
     <string name="are_you_feeling_bad_today">Are you feeling bad today?</string>
     <string name="add_task">Add task</string>
     <string name="day_">Day </string>
+    <string name="more_habits_unlock_now">Mais Hábitos? Desbloqueie Agora!</string>
+    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage"> Assista a um anúncio para desbloquear 2 slots extras de hábito\nOu opte por uma utilização ilimitada sem anúncios.</string>
+    <string name="watch_ads">Assistir a anúncios</string>
+    <string name="go_ad_free">Sem anúncios</string>
+
 
 </resources>
