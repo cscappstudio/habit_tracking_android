@@ -37,7 +37,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
+abstract class BaseActivity<VB : ViewDataBinding> : AppCompatActivity() {
     @Inject
     protected lateinit var binding: VB
 
@@ -127,75 +127,75 @@ abstract class BaseActivity<VB: ViewDataBinding>: AppCompatActivity() {
     public fun hasNotificationPermission(): Boolean {
         return (ContextCompat.checkSelfPermission(this, NOTIFICATION_PERMISSION)
                 == PackageManager.PERMISSION_GRANTED)
-        override fun onResume() {
-            super.onResume()
-            MyUtils.hideNavigationBar(this)
-        }
+    }
 
-        open fun shareApp() {
-            MyApplication.ignoreOpenAd = true
-            val sendIntent = Intent(Intent.ACTION_SEND)
-            sendIntent.putExtra(
-                Intent.EXTRA_TEXT,
-                RemoteConfigs.instance.appConfigs.shareText + "\n"
-                        + String.format(
-                    "https://play.google.com/store/apps/details?id=%s",
-                    packageName
-                )
+    open fun shareApp() {
+        MyApplication.ignoreOpenAd = true
+        val sendIntent = Intent(Intent.ACTION_SEND)
+        sendIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            RemoteConfigs.instance.appConfigs.shareText + "\n"
+                    + String.format(
+                "https://play.google.com/store/apps/details?id=%s",
+                packageName
             )
-            sendIntent.type = "text/plain"
-            startActivity(Intent.createChooser(sendIntent, "Share to"))
-        }
+        )
+        sendIntent.type = "text/plain"
+        startActivity(Intent.createChooser(sendIntent, "Share to"))
+    }
 
-        public fun requestNotificationPermission() {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf<String>(NOTIFICATION_PERMISSION),
-                NOTIFICATION_PERMISSION_CODE
-            )
-        }
+    public fun requestNotificationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf<String>(NOTIFICATION_PERMISSION),
+            NOTIFICATION_PERMISSION_CODE
+        )
+    }
 
-        override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String?>,
-            grantResults: IntArray
-        ) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            if (Build.VERSION.SDK_INT >= 33) {
-                if (hasNotificationPermission()) {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.notification_access_granted),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    try {
-                        val notificationManager =
-                            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            notificationManager.createNotificationChannel(
-                                NotificationChannel(
-                                    CHANNEL_NOTIFICATION_DEFAULT,
-                                    "Default Channel",
-                                    NotificationManager.IMPORTANCE_HIGH
-                                )
-                                    .apply {
-                                        setSound(null, null)
-                                        enableLights(false)
-                                        enableVibration(false)
-                                        setShowBadge(false)
-                                    }
-                            )
-                        }
-                    } catch (ignored: Exception) {
-                    }
-                } else Toast.makeText(
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (hasNotificationPermission()) {
+                Toast.makeText(
                     this,
-                    getString(R.string.notification_access_denied),
+                    getString(R.string.notification_access_granted),
                     Toast.LENGTH_SHORT
                 ).show()
-            }
+                try {
+                    val notificationManager =
+                        applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        notificationManager.createNotificationChannel(
+                            NotificationChannel(
+                                CHANNEL_NOTIFICATION_DEFAULT,
+                                "Default Channel",
+                                NotificationManager.IMPORTANCE_HIGH
+                            )
+                                .apply {
+                                    setSound(null, null)
+                                    enableLights(false)
+                                    enableVibration(false)
+                                    setShowBadge(false)
+                                }
+                        )
+                    }
+                } catch (ignored: Exception) {
+                }
+            } else Toast.makeText(
+                this,
+                getString(R.string.notification_access_denied),
+                Toast.LENGTH_SHORT
+            ).show()
         }
-
-
     }
+
+    override fun onResume() {
+        super.onResume()
+        MyUtils.hideNavigationBar(this)
+    }
+
 }
