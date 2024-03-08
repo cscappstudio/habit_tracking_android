@@ -16,7 +16,12 @@
     <string name="thailand" translatable="false">Thailand</string>
     <string name="vietnamese" translatable="false">Tiếng Việt</string>
 
+    <string name="token_adjust" translatable="false">ualmfvcmfd34</string>
+    <string name="token_in_app_purchase_adjust" translatable="false">tnyxlv</string>
+
     <string name="gsm_app_id" translatable="false">65af85c42552577a77fb3087</string>
+    <string name="facebook_app_id" translatable="false">304208965484371</string>
+    <string name="facebook_client_token" translatable="false">d77e996dfd4881cf543f2a3bdbe5a0f5</string>
 
     <string name="latest_version">Latest version</string>
     <string name="please_update">Please update</string>
@@ -288,6 +293,7 @@
     <string name="many_challenges_waiting_for_you_ahead">Many challenges waiting for you ahead</string>
     <string name="become_a_premium_member_to_conquer_all_challenges">Become a premium member to conquer all challenges.</string>
     <string name="try_premium_now">Try Premium Now</string>
+    <string name="search_here">Search Here ...</string>
 
 
 </resources>

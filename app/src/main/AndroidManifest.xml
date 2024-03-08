@@ -6,14 +6,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="com.android.vending.BILLING" /> &lt;!&ndash; Include this permission any time your app needs location information. &ndash;&gt; -->
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> &lt;!&ndash; Include only if your app benefits from precise location access. &ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <!-- or -->
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-    <!--    fb adjust-->
-    <!--    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>-->
 
     <application
         android:name=".MyApplication"
@@ -26,11 +21,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider304208965484371"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
+        <service
+            android:name="com.thanhlv.fw.helper.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"
             android:value="false" />
 
-        <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".AlarmReceiver" />
+
         <activity
             android:name=".presentation.ui.activity.DetailTaskActivity"
             android:exported="false" />
@@ -48,8 +68,8 @@
         </activity>
 
 
-        <activity android:name=".presentation.ui.activity.NewHabitActivity"
-
+        <activity
+            android:name=".presentation.ui.activity.NewHabitActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.searchable"
@@ -60,17 +80,6 @@
             </intent-filter>
 
         </activity>
-        <!--        <service-->
-        <!--            android:name=".utils.notification.MyFirebaseMessagingService"-->
-        <!--            android:exported="false">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-        <!--            </intent-filter>-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
-        <!--            </intent-filter>-->
-        <!--        </service>-->
-
         <activity
             android:name=".thanhlv.ui.OnboardActivity"
             android:exported="true"

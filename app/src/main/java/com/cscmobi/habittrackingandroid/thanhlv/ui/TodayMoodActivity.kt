@@ -34,6 +34,7 @@ import kotlin.collections.ArrayList
 
 class TodayMoodActivity : BaseActivity2() {
     private lateinit var binding: ActivityMoodTodayBinding
+    private var popupLogTodayMood: PopupLogTodayMood? = null
 
     override fun setupScreen() {
         binding = ActivityMoodTodayBinding.inflate(layoutInflater)
@@ -69,15 +70,35 @@ class TodayMoodActivity : BaseActivity2() {
         }
 
         binding.btnNext.setOnClickListener {
-            if (currentStep == 3) {
-                createMoodSuccess()
-                finish()
-            }
-            if (currentStep == 2) {
-                gotoMoodStep3()
-            }
+//            if (currentStep == 3) {
+//                createMoodSuccess()
+//                finish()
+//            }
+//            if (currentStep == 2) {
+//                gotoMoodStep3()
+//            }
             if (currentStep == 1) {
-                gotoMoodStep2()
+//                gotoMoodStep2()
+                popupLogTodayMood = PopupLogTodayMood().newInstance(currentMood)
+                popupLogTodayMood?.setCallback2(object : PopupLogTodayMood.Callback {
+                    override fun onClickBack(step: Int) {
+                    }
+
+                    override fun onClickNext(
+                        listDescribe: MutableList<FeelingTagModel>,
+                        listBecause: MutableList<FeelingTagModel>
+                    ) {
+                        mListDescribe = listDescribe
+                        mListBecause = listBecause
+                        createMoodSuccess()
+                        finish()
+                    }
+
+                    override fun onClickClose() {
+                    }
+
+                })
+                popupLogTodayMood?.show(supportFragmentManager, "")
             }
         }
 
@@ -126,25 +147,25 @@ class TodayMoodActivity : BaseActivity2() {
 
     override fun onBackPressed() {
         if (currentStep == 0) super.onBackPressed()
-        else {
-            if (currentStep == 1 || currentStep == 2) {
-                binding.tvQuestion.text = getString(R.string.how_are_you_feeling_today)
-                binding.showMoodStep2.visibility = View.GONE
-                binding.showMoodStep1.visibility = View.GONE
-                binding.btnNext.isEnabled = false
-                binding.btnNext.backgroundTintList =
-                    ColorStateList.valueOf(Color.parseColor("#B5B5B5"))
-                currentStep = 0
-            }
-            if (currentStep == 3) {
-                mListDescribe.clear()
-                mListDescribe = mutableListOf<FeelingTagModel>()
-                mListDescribe = getDataDescribe(currentMood)
-                adapter?.updateData(mListDescribe)
-                binding.bgNote.visibility = View.GONE
-                currentStep = 2
-            }
-        }
+//        else {
+//            if (currentStep == 1 || currentStep == 2) {
+//                binding.tvQuestion.text = getString(R.string.how_are_you_feeling_today)
+//                binding.showMoodStep2.visibility = View.GONE
+//                binding.showMoodStep1.visibility = View.GONE
+//                binding.btnNext.isEnabled = false
+//                binding.btnNext.backgroundTintList =
+//                    ColorStateList.valueOf(Color.parseColor("#B5B5B5"))
+//                currentStep = 0
+//            }
+//            if (currentStep == 3) {
+//                mListDescribe.clear()
+//                mListDescribe = mutableListOf<FeelingTagModel>()
+//                mListDescribe = getDataDescribe(currentMood)
+//                adapter?.updateData(mListDescribe)
+//                binding.bgNote.visibility = View.GONE
+//                currentStep = 2
+//            }
+//        }
     }
 
     private fun gotoMoodStep3() {
@@ -298,7 +319,6 @@ class TodayMoodActivity : BaseActivity2() {
         }
         return list
     }
-
 
 
     private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)

@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -11,12 +12,14 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 import com.thanhlv.fw.helper.MyUtils
+import java.util.*
 
 abstract class BaseDialogFragment<VB : ViewBinding>(private val bindingInflater: (layoutInflater: LayoutInflater) -> VB) :
     DialogFragment() {
     private var _binding: VB? = null
     protected val binding get() = _binding!!
 
+    abstract fun clickBackSystem()
 
     override fun onResume() {
         super.onResume()
@@ -27,7 +30,6 @@ abstract class BaseDialogFragment<VB : ViewBinding>(private val bindingInflater:
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             dialog?.window!!.setDecorFitsSystemWindows(false)
             dialog?.window!!.insetsController!!.hide(WindowInsets.Type.navigationBars())
-//            dialog?.window!!.insetsController!!.show(WindowInsets.Type.statusBars())
             dialog?.window!!.insetsController!!.systemBarsBehavior =
                 WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         } else {
@@ -38,11 +40,16 @@ abstract class BaseDialogFragment<VB : ViewBinding>(private val bindingInflater:
         }
         dialog?.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
 
-
+        Objects.requireNonNull(dialog)
+            ?.setOnKeyListener { _: DialogInterface?, keyCode: Int, _: KeyEvent? ->
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    //Hide your keyboard here!!!
+                    MyUtils.hideSoftInput(requireActivity())
+                    clickBackSystem()
+                    return@setOnKeyListener true // pretend we've processed it
+                } else return@setOnKeyListener false // pass on to be processed as normal
+            }
     }
-
-
-//    abstract fun clickBackSystem()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // create dialog in an arbitrary way

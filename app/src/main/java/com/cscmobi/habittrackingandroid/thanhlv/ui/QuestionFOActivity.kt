@@ -87,7 +87,6 @@ class QuestionFOActivity : BaseActivity2() {
             challenge.days = it.days
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
         }
-
     }
 
     @SuppressLint("MissingSuperCall")

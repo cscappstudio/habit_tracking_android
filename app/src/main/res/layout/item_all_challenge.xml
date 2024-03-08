@@ -64,7 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/img_premium"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_max="107dp" />
+            app:layout_constraintWidth_max="106dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
