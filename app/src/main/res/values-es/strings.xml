@@ -283,10 +283,11 @@
     <string name="create_your_own_challenge_and_tailor_habit_to_fit_your_life">Crea tu propio desafío y adapta hábitos a tu vida</string>
     <string name="no_ads">Sin anuncios</string>
     <string name="zero_distractions">Cero distracciones, ¡100% de enfoque! Disfruta de una experiencia sin anuncios con Premium.</string>
-    <string name="in_progress">In progress</string>
-    <string name="many_challenges_waiting_for_you_ahead">Many challenges waiting for you ahead</string>
-    <string name="become_a_premium_member_to_conquer_all_challenges">Become a premium member to conquer all challenges.</string>
-    <string name="try_premium_now">Try Premium Now</string>
+    <string name="in_progress">En progreso</string>
+    <string name="many_challenges_waiting_for_you_ahead">Muchas desafíos te esperan por delante</string>
+    <string name="become_a_premium_member_to_conquer_all_challenges">Conviértete en miembro premium para conquistar todos los desafíos.</string>
+    <string name="try_premium_now">Prueba Premium ahora</string>
+
 
 
 </resources>
