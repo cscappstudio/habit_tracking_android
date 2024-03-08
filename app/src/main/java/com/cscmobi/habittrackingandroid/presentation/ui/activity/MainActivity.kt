@@ -141,7 +141,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             freeIAP.week = Helper.getCurrentWeek()
             freeIAP.isSkip = false
         }
-    }
+        }
 
     override fun setEvent() {
         binding.fab.setOnClickListener {
