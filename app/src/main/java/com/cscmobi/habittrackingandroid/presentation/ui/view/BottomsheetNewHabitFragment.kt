@@ -117,7 +117,6 @@ class BottomsheetNewHabitFragment :
         })
 
         binding.adapter = taskAdapter
-
     }
 
     private fun invalidateRepeat(): Boolean {

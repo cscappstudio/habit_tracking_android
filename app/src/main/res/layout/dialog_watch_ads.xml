@@ -41,7 +41,7 @@
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
                 android:fontFamily="@font/worksans_bold"
-                android:text="More Habits? Unlock Now!"
+                android:text="@string/more_habits_unlock_now"
                 android:textColor="@color/jade_black"
                 android:textSize="18sp" />
 
@@ -53,7 +53,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/worksans_regular"
                 android:lineHeight="21dp"
-                android:text="Watch an ad to unlock 2 extra habit slots\nOr go ad-free for unlimited usage"
+                android:text="@string/watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage"
                 android:textAlignment="center"
                 android:textColor="@color/jade_black"
                 android:textSize="12sp" />
@@ -67,7 +67,7 @@
                 android:background="@drawable/bg_white_border_black_corner_20"
                 android:fontFamily="@font/worksans_semibold"
                 android:paddingVertical="11dp"
-                android:text="Watch ads"
+                android:text="@string/watch_ads"
                 android:textAlignment="center"
                 android:textColor="@color/dim_gray"
                 android:textSize="14sp" />
@@ -82,7 +82,7 @@
                 android:backgroundTint="@color/teal_green"
                 android:fontFamily="@font/worksans_semibold"
                 android:paddingVertical="11dp"
-                android:text="Go ad-free"
+                android:text="@string/go_ad_free"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

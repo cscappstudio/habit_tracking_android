@@ -165,8 +165,6 @@ class CollectionFragment :
 
             })
 
-
-
         binding.rcvCollection.adapter = collectionAdapter
         collectionAdapter?.submitList(listCollections)
         collectionAdapter?.notifyDataSetChanged()
@@ -249,8 +247,6 @@ class CollectionFragment :
         detailCollectionAdapter?.submitList(listTasks)
         detailCollectionAdapter?.notifyDataSetChanged()
         binding.rcvTasks.adapter = detailCollectionAdapter
-
-
     }
 
 

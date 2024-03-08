@@ -44,11 +44,9 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
         }
     }
 
-
     fun setSelectDate(date: Long) {
-
         val calendar = Calendar.getInstance()
-        calendar.time =  Date(date)
+        calendar.time = Date(date)
         selectedDate = LocalDate.of(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) + 1,
@@ -61,28 +59,20 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
             calenderData[dayIndex].isSelected = true
             calendarAdapter?.notifyDataSetChanged()
         }
-
     }
 
     fun getDateSelected(): Long? {
-
         if (dayDate != null) {
             val calendar = Calendar.getInstance()
             calendar.set(dayDate!!.year, dayDate!!.monthValue - 1, dayDate!!.dayOfMonth)
-
-            Log.d("abcd2", calendar.time.time.toString())
-
             return calendar.time.time
         }
-
         return null
-
     }
 
     override fun initView(view: View) {
         selectedDate = LocalDate.now();
         setMonthView()
-
     }
 
     override fun setEvent() {
@@ -99,62 +89,39 @@ class CustomCalenderFragment : BaseFragment<CalenderCustomBinding>(CalenderCusto
         calenderData.clear()
         val daysInMonth = daysInMonthArray(selectedDate)
         binding.monthYearTV.text = monthYearFromDate(selectedDate);
-
         calenderData = daysInMonth.map { CalenderData(it) } as ArrayList<CalenderData>
 
-//        if (calendarAdapter == null) {
-            val layoutManager: RecyclerView.LayoutManager =
-                GridLayoutManager(requireContext(), 7)
-            binding.calendarRecyclerView.layoutManager = layoutManager
+        val layoutManager: RecyclerView.LayoutManager =
+            GridLayoutManager(requireContext(), 7)
+        binding.calendarRecyclerView.layoutManager = layoutManager
 
-            calendarAdapter = CalendarAdapter(selectedDate)
-            calendarAdapter?.setListener(object : ItemWithPostionListener<CalenderData> {
-                override fun onItemClicked(item: CalenderData, p: Int) {
-                    calenderData.forEach {
-                        it.isSelected = false
-                    }
-
-                    calenderData[p].isSelected = true
-
-                    val selectedDayInt = item.day.toIntOrNull()
-
-                    if (selectedDayInt != null)
-                        dayDate = selectedDate.withDayOfMonth(selectedDayInt)
-
-
-                    calendarAdapter?.notifyDataSetChanged()
-
+        calendarAdapter = CalendarAdapter(selectedDate)
+        calendarAdapter?.setListener(object : ItemWithPostionListener<CalenderData> {
+            override fun onItemClicked(item: CalenderData, p: Int) {
+                calenderData.forEach {
+                    it.isSelected = false
                 }
 
-            })
+                calenderData[p].isSelected = true
+
+                val selectedDayInt = item.day.toIntOrNull()
+
+                if (selectedDayInt != null)
+                    dayDate = selectedDate.withDayOfMonth(selectedDayInt)
+
+                calendarAdapter?.notifyDataSetChanged()
+
+            }
+
+        })
 
 
-            binding.calendarRecyclerView.adapter = calendarAdapter
-            calendarAdapter?.submitList(calenderData)
-       // } else {
-            calendarAdapter?._currentDate = selectedDate
-           // calendarAdapter?.submitList(calenderData)
-            calendarAdapter?.notifyDataSetChanged()
-      //  }
-
+        binding.calendarRecyclerView.adapter = calendarAdapter
+        calendarAdapter?.submitList(calenderData)
+        calendarAdapter?._currentDate = selectedDate
+        calendarAdapter?.notifyDataSetChanged()
 
     }
-
-//    private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
-//        val daysInMonthArray = ArrayList<String>()
-//        val yearMonth: YearMonth = YearMonth.from(date)
-//        val daysInMonth: Int = yearMonth.lengthOfMonth()
-//        val firstOfMonth = selectedDate.withDayOfMonth(1)
-//        val dayOfWeek = firstOfMonth.dayOfWeek.value
-//        for (i in 1..35) {
-//            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-//                daysInMonthArray.add("")
-//            } else {
-//                daysInMonthArray.add((i - dayOfWeek).toString())
-//            }
-//        }
-//        return daysInMonthArray
-//    }
 
     private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
         val daysInMonthArray = ArrayList<String>()

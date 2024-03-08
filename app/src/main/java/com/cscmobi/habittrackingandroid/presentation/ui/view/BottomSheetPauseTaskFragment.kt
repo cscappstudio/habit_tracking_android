@@ -76,7 +76,6 @@ class BottomSheetPauseTaskFragment: BottomSheetDialogFragment() {
         return binding.root
     }
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState).apply {
             setOnShowListener {

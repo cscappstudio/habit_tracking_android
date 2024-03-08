@@ -9,23 +9,17 @@ interface OnItemClickPositionListener {
 
 interface ItemWithPostionListener<T> {
     fun onItemClicked(item: T, p: Int)
-
 }
 
 interface EditItemTask<T> {
     fun skip(item: T, p: Int)
     fun edit(item: T, p: Int)
     fun delete(item: T, p: Int)
-
     fun onItemChange(p: Int, item: T,isChange: Boolean)
-
     fun onResume(p: Int, item: T)
 }
 
 interface ItemTaskWithEdit<T>: ItemWithPostionListener<T>, EditItemTask<T>
-
-
-
 
 interface ItemBaseListener<T> :  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(item: T)
@@ -43,7 +37,6 @@ interface ItemBaseWithPostitionListener<T>:  BaseBindingAdapter.BaseBindingListe
     fun onItemClicked(item: T, p: Int)
 }
 
-
 interface ItemChallengeHomeListener<T> :  BaseBindingAdapter.BaseBindingListener {
     fun onItemClicked(item: T, p: Int)
 
@@ -54,8 +47,6 @@ interface ItemChallengeHomeListener<T> :  BaseBindingAdapter.BaseBindingListener
 interface ItemTaskCollection<T> : ItemBaseWithPostitionListener<T> {
     fun onEdit(v: View, item: T, p: Int)
 }
-
-
 
 interface OnBackPress {
     fun onBack()

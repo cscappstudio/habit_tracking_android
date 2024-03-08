@@ -169,27 +169,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         val intent = Intent(this, SubscriptionsActivity::class.java)
                         startActivity(intent)
                     } else {
-//                            AdMobUtils.showRewardAds(this@MainActivity, object :
-//                                FullScreenContentCallback() {
-//                                override fun onAdDismissedFullScreenContent() {
-//                                    super.onAdDismissedFullScreenContent()
-//                                    freeIAP.rewardTimes++
-//                                    loadRewardAds()
-//
-//                                    startActivity(
-//                                        Intent(
-//                                            this@MainActivity,
-//                                            NewHabitActivity::class.java
-//                                        )
-//                                    )
-//
-//                                }
-//                            })
-
-                        DialogUtils.showWatchAdsDialog(
-                            this,
-                            Constant.MAXGETREWARD.minus(getReward)
-                        ) {
+                        DialogUtils.showWatchAdsDialog(this,Constant.MAXGETREWARD.minus(getReward)) {
                             startActivity(
                                 Intent(
                                     this@MainActivity,

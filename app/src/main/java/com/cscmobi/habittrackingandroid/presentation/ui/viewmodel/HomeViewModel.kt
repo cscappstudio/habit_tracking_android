@@ -100,7 +100,6 @@ class HomeViewModel(
 
         if (history.taskInDay.isEmpty())
         {
-//            databaseRepository.deleteHistory(history)
         }else {
             var taskDoneSize = 0
             history.taskInDay.forEach {
@@ -110,8 +109,6 @@ class HomeViewModel(
             history.progressDay =
                 (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
             databaseRepository.updateHistory(history)
-            //  _currentHistory.value = history
-
         }
     }
 
@@ -174,9 +171,6 @@ class HomeViewModel(
                 _challengeTaskMap.value = challengeTaskMap
 
             }
-
-//            _histories.value = it.toMutableList()
-
         }
     }
 
@@ -201,24 +195,6 @@ class HomeViewModel(
         }
     }
 
-//    fun setUpHistoryTaskByDate(date: Long) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            databaseRepository.getHistorybyDate(date)?.let {
-//                val taskIds = it.taskInDay?.map { it.taskId }
-//                taskIds?.let { ids ->
-//                    withContext(Dispatchers.IO) {
-//                        fetchUser(ids).collect {
-//
-//                        }
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//
-//    }
-
     suspend fun fetchUser(taskIds: List<Long>): Flow<List<Task>> {
         return GlobalScope.async(Dispatchers.IO) {
             databaseRepository.loadAllByIds(taskIds.toLongArray())
@@ -232,7 +208,6 @@ class HomeViewModel(
 
         }
     }
-
 
     fun deleteTaskInHistory(date: Long, taskId: Long) {
         try {
@@ -364,7 +339,6 @@ class HomeViewModel(
         currentWeekPos = listWeekData.indexOfFirst { it == LocalDate.now() }
         // Print the list of LocalDate objects
         println("chaulq___________${currentWeekPos}")
-
     }
 
 }
