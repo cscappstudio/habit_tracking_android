@@ -24,10 +24,33 @@ class FeelingTagAdapter(private var mContext: Context) :
     private var mList = mutableListOf<FeelingTagModel>()
     private var mCallBack: FeelingTagCallback? = null
 
+    private var colorSelected = "#E59045"
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(list: MutableList<FeelingTagModel>) {
         this.mList = list
+        if (list.isEmpty()) return
+        when (list[0].type) {
+            2 -> {
+                colorSelected = "#E59045"
+            }
+
+            3 -> {
+                colorSelected = "#8ED0AE"
+            }
+
+            4 -> {
+                colorSelected = "#92BFD2"
+            }
+
+            5 -> {
+                colorSelected = "#92BFD2"
+            }
+
+            else -> {
+                colorSelected = "#EC9B96"
+            }
+        }
         notifyDataSetChanged()
     }
 
@@ -40,6 +63,7 @@ class FeelingTagAdapter(private var mContext: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         return ViewHolder(
             ItemTextTagBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -49,31 +73,30 @@ class FeelingTagAdapter(private var mContext: Context) :
         )
     }
 
+
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (mList.isEmpty()) return
         val item = mList[position]
         holder.binding.root.backgroundTintList =
-            if (item.selected) ColorStateList.valueOf(Color.parseColor("#EDCA15"))
-            else ColorStateList.valueOf(Color.parseColor("#FEFAE8"))
-        holder.binding.tvTitle.setTextColor(
-            if (item.selected) Color.parseColor("#ffffff")
-            else Color.parseColor("#EDCA15")
-        )
+            if (item.selected) ColorStateList.valueOf(Color.parseColor(colorSelected))
+            else null
+//        holder.binding.tvTitle.setTextColor(
+//            if (item.selected) Color.parseColor("#ffffff")
+//            else Color.parseColor("#EDCA15")
+//        )
 
         holder.binding.tvTitle.text = item.describe
         holder.binding.root.setOnClickListener {
             item.selected = !item.selected
 
-            it.backgroundTintList =
-                if (item.selected) ColorStateList.valueOf(Color.parseColor("#EDCA15"))
-                else ColorStateList.valueOf(Color.parseColor("#FEFAE8"))
-
-            holder.binding.tvTitle.setTextColor(
-                if (item.selected) Color.parseColor("#ffffff")
-                else Color.parseColor("#EDCA15")
-            )
-
+            holder.binding.root.backgroundTintList =
+                if (item.selected) ColorStateList.valueOf(Color.parseColor(colorSelected))
+                else null
+//            holder.binding.tvTitle.setTextColor(
+//                if (item.selected) Color.parseColor("#ffffff")
+//                else Color.parseColor("#EDCA15")
+//            )
 
             mCallBack?.onClickItem(position)
         }
@@ -84,7 +107,7 @@ class FeelingTagAdapter(private var mContext: Context) :
     }
 
     override fun getItemCount(): Int {
-        if (mList.isEmpty()) return 5
+        if (mList.isEmpty()) return 0
         return mList.size
     }
 }

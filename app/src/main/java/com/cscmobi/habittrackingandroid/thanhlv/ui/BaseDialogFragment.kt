@@ -11,6 +11,7 @@ import android.view.*
 import android.widget.RelativeLayout
 import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
+import com.cscmobi.habittrackingandroid.R
 import com.thanhlv.fw.helper.MyUtils
 import java.util.*
 
@@ -20,6 +21,8 @@ abstract class BaseDialogFragment<VB : ViewBinding>(private val bindingInflater:
     protected val binding get() = _binding!!
 
     abstract fun clickBackSystem()
+
+    override fun getTheme() = R.style.CustomBottomSheetDialogTheme2
 
     override fun onResume() {
         super.onResume()

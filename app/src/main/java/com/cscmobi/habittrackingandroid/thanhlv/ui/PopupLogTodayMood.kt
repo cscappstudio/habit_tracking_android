@@ -1,29 +1,16 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
-import android.app.Dialog
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.databinding.ActivityDetailMoodBinding
-import com.cscmobi.habittrackingandroid.databinding.PopupChoseAvaProfileLayoutBinding
 import com.cscmobi.habittrackingandroid.databinding.PopupLogMoodTodayBinding
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.FeelingTag2Adapter
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.FeelingTagAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.data.MoodData
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
-import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.gson.Gson
-import com.thanhlv.fw.spf.SPF
+import com.thanhlv.fw.helper.MyUtils
 
 class PopupLogTodayMood :
     BaseDialogFragment<PopupLogMoodTodayBinding>(PopupLogMoodTodayBinding::inflate) {
@@ -41,7 +28,17 @@ class PopupLogTodayMood :
     }
 
     override fun clickBackSystem() {
+
         callback?.onClickBack(currentStep)
+        if (currentStep == 2) dismissAllowingStateLoss()
+        if (currentStep == 3) {
+            mListDescribe.clear()
+            mListDescribe = mutableListOf()
+            mListDescribe = getDataDescribe(currentMood)
+            adapter?.updateData(mListDescribe)
+            binding.bgNote.visibility = View.GONE
+            gotoMoodStep2()
+        }
     }
 
 
@@ -51,21 +48,14 @@ class PopupLogTodayMood :
         fun onClickBack(step: Int)
         fun onClickNext(
             listDescribe: MutableList<FeelingTagModel>,
-            listBecause: MutableList<FeelingTagModel>
+            listBecause: MutableList<FeelingTagModel>,
+            note: String
         )
 
         fun onClickClose()
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        try {
-//            callback = context as Callback
-//        } catch (_: Exception) {
-//        }
-//    }
-
-    var currentStep = 2
+    private var currentStep = 2
     private fun gotoMoodStep2() {
         currentStep = 2
         binding.btnNext.isEnabled = false
@@ -78,7 +68,7 @@ class PopupLogTodayMood :
     private fun gotoMoodStep3() {
         currentStep = 3
         mListBecause.clear()
-        mListBecause = mutableListOf<FeelingTagModel>()
+        mListBecause = mutableListOf()
         mListBecause = getDataBecause()
         adapter?.updateData(mListBecause)
         binding.bgNote.visibility = View.VISIBLE
@@ -88,12 +78,27 @@ class PopupLogTodayMood :
             ColorStateList.valueOf(Color.parseColor("#B5B5B5"))
     }
 
-
+    private var currentMood = 1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mood = requireArguments().getInt("mood_index")
-        recyclerView(mood)
+        MyUtils.configKeyboardBelowEditText(requireActivity())
+        currentMood = requireArguments().getInt("mood_index")
+        when (currentMood) {
+            1-> {
+                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EBB2BD"))
+            }
+            2-> {
+                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EEC9AA"))
+            }
+            3-> {
+                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#BEE4B8"))
+            }
+            4-> {
+                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#B6D6DD"))
+            }
+        }
+        recyclerView(currentMood)
         gotoMoodStep2()
         controllerView()
     }
@@ -104,7 +109,7 @@ class PopupLogTodayMood :
     private var adapter: FeelingTagAdapter? = null
     private fun recyclerView(mood: Int) {
         mListDescribe.clear()
-        mListDescribe = mutableListOf<FeelingTagModel>()
+        mListDescribe = mutableListOf()
         mListDescribe = getDataDescribe(mood)
         adapter = FeelingTagAdapter(requireContext())
         adapter?.updateData(mListDescribe)
@@ -121,7 +126,7 @@ class PopupLogTodayMood :
                     binding.btnNext.isEnabled = false
                 } else {
                     binding.btnNext.backgroundTintList =
-                        ColorStateList.valueOf(Color.parseColor("#54BA8F"))
+                        ColorStateList.valueOf(Color.parseColor("#01100C"))
                     binding.btnNext.isEnabled = true
                 }
             }
@@ -136,7 +141,7 @@ class PopupLogTodayMood :
     private fun controllerView() {
         binding.btnNext.setOnClickListener {
             if (currentStep == 3) {
-                callback?.onClickNext(mListDescribe, mListBecause)
+                callback?.onClickNext(mListDescribe, mListBecause, binding.edtNote.text.toString())
                 dismissAllowingStateLoss()
             }
 
@@ -145,24 +150,23 @@ class PopupLogTodayMood :
             }
         }
 
-//        binding.btnNext.setOnClickListener {
-//            if (currentStep == 1) gotoMoodStep2()
-//            if (currentStep == 2) {
-//                gotoMoodStep3()
-//            }
-//            if (currentStep == 3) {
-//                callback?.onClickNext(mListDescribe, mListBecause)
-//                dismissAllowingStateLoss()
-//            }
-//        }
+        binding.btnCloseHeader.setOnClickListener {
+            dismissAllowingStateLoss()
+        }
+        binding.btnBackHeader.setOnClickListener {
+            clickBackSystem()
+        }
     }
 
 
     private fun getDataBecause(): MutableList<FeelingTagModel> {
         val list = mutableListOf<FeelingTagModel>()
         MoodData.mDescribeList.forEach {
-            if (it.mood == "because_of")
+            if (it.mood == "because_of") {
+                it.type = currentMood
+                it.selected = false
                 list.add(it)
+            }
         }
         return list
     }
@@ -173,36 +177,51 @@ class PopupLogTodayMood :
         when (mood) {
             1 -> {
                 MoodData.mDescribeList.forEach {
-                    if (it.mood == "great")
+                    if (it.mood == "great") {
+                        it.selected = false
+                        it.type = currentMood
                         list.add(it)
+                    }
                 }
             }
 
             2 -> {
                 MoodData.mDescribeList.forEach {
-                    if (it.mood == "good")
+                    if (it.mood == "good") {
+                        it.selected = false
+                        it.type = currentMood
                         list.add(it)
+                    }
                 }
             }
 
             3 -> {
                 MoodData.mDescribeList.forEach {
-                    if (it.mood == "neutral")
+                    if (it.mood == "neutral") {
+                        it.selected = false
+                        it.type = currentMood
                         list.add(it)
+                    }
                 }
             }
 
             4 -> {
                 MoodData.mDescribeList.forEach {
-                    if (it.mood == "not_great")
+                    if (it.mood == "not_great") {
+                        it.selected = false
+                        it.type = currentMood
                         list.add(it)
+                    }
                 }
             }
 
             5 -> {
                 MoodData.mDescribeList.forEach {
-                    if (it.mood == "bad")
+                    if (it.mood == "bad") {
+                        it.selected = false
+                        it.type = currentMood
                         list.add(it)
+                    }
                 }
             }
         }
