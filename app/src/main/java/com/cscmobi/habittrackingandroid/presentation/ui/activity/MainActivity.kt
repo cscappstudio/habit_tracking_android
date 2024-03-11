@@ -188,7 +188,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
                         DialogUtils.showWatchAdsDialog(
                             this,
-                            Constant.MAXGETREWARD.minus(getReward)
+                            Constant.MAXGETREWARD.minus(getReward), "", ""
                         ) {
                             startActivity(
                                 Intent(

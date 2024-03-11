@@ -91,7 +91,6 @@ class CreateChallengeActivity : BaseActivity2() {
             }
 
             override fun afterTextChanged(editable: Editable) {
-                validateData()
                 generateData()
             }
         })
@@ -99,11 +98,7 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     private fun performCreateChallenge() {
-        if (binding.edtName.text.toString().isEmpty()) {
-            Toast.makeText(this, "Name empty!", Toast.LENGTH_SHORT).show()
-            binding.edtName.requestFocus()
-            return
-        }
+        if (!validateData()) return
 
         val listDayTask = arrayListOf<ChallengeDays>()
         for (i in 1..binding.edtCycle.text.toString().toInt()) {
@@ -115,7 +110,6 @@ class CreateChallengeActivity : BaseActivity2() {
                     val task = it.parserToTaskInChallenge()
                     task.dayNo = i
                     task.taskNo = taskNo
-
                     taskNo += 1
                     taskInDay.add(task)
                 }
@@ -143,6 +137,11 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     private fun validateData(): Boolean {
+        if (binding.edtName.text.toString().isEmpty()) {
+            Toast.makeText(this, "Name empty!", Toast.LENGTH_SHORT).show()
+            binding.edtName.requestFocus()
+            return false
+        }
         val durationNum = binding.edtDuration.text.toString().toIntOrNull() ?: 0
         val cycleNum = binding.edtCycle.text.toString().toIntOrNull() ?: 0
         if (cycleNum == 0) {

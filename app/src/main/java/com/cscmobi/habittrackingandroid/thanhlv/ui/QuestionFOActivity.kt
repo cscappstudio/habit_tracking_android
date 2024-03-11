@@ -85,6 +85,7 @@ class QuestionFOActivity : BaseActivity2() {
             challenge.cycle = it.cycle
             challenge.repeat = it.repeat
             challenge.days = it.days
+            challenge.tryCount = it.tryCount
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
         }
     }

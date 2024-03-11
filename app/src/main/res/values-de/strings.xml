@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Habit Goals</string>
-    <string name="full_app_name" translatable="false">Habit Goals: Habit Tracker</string>
-
-    <string name="hindi" translatable="false">हिन्दी</string>
-    <string name="german" translatable="false">Deutsch</string>
-    <string name="united_states" translatable="false">English</string>
-    <string name="portuguese" translatable="false">Português</string>
-    <string name="japanese" translatable="false">日本語</string>
-    <string name="korean" translatable="false">한국인</string>
-    <string name="french" translatable="false">Français</string>
-    <string name="spanish" translatable="false">Español</string>
-    <string name="rusian" translatable="false">Русский</string>
-    <string name="filipino" translatable="false">Filipino</string>
-    <string name="thailand" translatable="false">Thailand</string>
-    <string name="vietnamese" translatable="false">Tiếng Việt</string>
-
-    <string name="gsm_app_id" translatable="false">65af85c42552577a77fb3087</string>
-
 
     <string name="latest_version">Neueste Version</string>
     <string name="please_update">Bitte aktualisieren</string>
@@ -28,20 +10,20 @@
     <string name="home">Startseite</string>
     <string name="progress">Fortschritt</string>
     <string name="profile">Profil</string>
-    <string name="swipe_left_to_edit_pause_or_delete_your_task">Wische nach links, um deine Aufgabe zu bearbeiten, zu pausieren oder zu lÃ¶schen</string>
+    <string name="swipe_left_to_edit_pause_or_delete_your_task">Wische nach links, um deine Aufgabe zu bearbeiten, zu pausieren oder zu löschen</string>
     <string name="pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready">Das Pausieren einer Aufgabe unterbricht nicht deine Serie. Du kannst fortsetzen, wenn du bereit bist.</string>
     <string name="tap_to_edit">Tippe zum Bearbeiten</string>
-    <string name="tap_to_delete">Tippe zum LÃ¶schen</string>
-    <string name="are_you_sure_you_want_to_delete">Bist du sicher, dass du lÃ¶schen mÃ¶chtest?</string>
-    <string name="delete_all_will_loss_all_of_task_s_history_amp_future">Alle lÃ¶schen entfernt die gesamte Historie und Zukunft der Aufgabe</string>
-    <string name="delete_future_task_only">Nur zukÃ¼nftige Aufgabe lÃ¶schen</string>
-    <string name="delete_all">Alles lÃ¶schen</string>
-    <string name="for_1_day">FÃ¼r 1 Tag</string>
-    <string name="for_3_days">FÃ¼r 3 Tage</string>
-    <string name="for_7_days">FÃ¼r 7 Tage</string>
-    <string name="until_i_change_it">Bis ich es Ã¤ndere</string>
+    <string name="tap_to_delete">Tippe zum Löschen</string>
+    <string name="are_you_sure_you_want_to_delete">Bist du sicher, dass du löschen möchtest?</string>
+    <string name="delete_all_will_loss_all_of_task_s_history_amp_future">Alle löschen entfernt die gesamte Historie und Zukunft der Aufgabe</string>
+    <string name="delete_future_task_only">Nur zukünftige Aufgabe löschen</string>
+    <string name="delete_all">Alles löschen</string>
+    <string name="for_1_day">Für 1 Tag</string>
+    <string name="for_3_days">Für 3 Tage</string>
+    <string name="for_7_days">Für 7 Tage</string>
+    <string name="until_i_change_it">Bis ich es ändere</string>
     <string name="awesome">Fantastisch!</string>
-    <string name="there_are_no_projects_yet_please_add_a_project_now">Es gibt noch keine Projekte. FÃ¼ge jetzt ein Projekt hinzu.</string>
+    <string name="there_are_no_projects_yet_please_add_a_project_now">Es gibt noch keine Projekte. Füge jetzt ein Projekt hinzu.</string>
     <string name="basic_info">Grundlegende Informationen</string>
     <string name="finish">Fertigstellen</string>
     <string name="check_list">Checkliste</string>
@@ -53,33 +35,33 @@
     <string name="collection">Sammlung</string>
     <string name="all">Alle</string>
     <string name="create_my_own">Eigenes erstellen</string>
-    <string name="practice_affirmations">Affirmationen Ã¼ben</string>
-    <string name="practice_visualization">Visualisierung Ã¼ben</string>
+    <string name="practice_affirmations">Affirmationen üben</string>
+    <string name="practice_visualization">Visualisierung üben</string>
     <string name="meditate">Meditieren</string>
     <string name="make_the_bed">Bett machen</string>
-    <string name="brush_teeth">ZÃ¤hne putzen</string>
+    <string name="brush_teeth">Zähne putzen</string>
     <string name="drink_water">Wasser trinken</string>
-    <string name="eat_breakfast">FrÃ¼hstÃ¼cken</string>
+    <string name="eat_breakfast">Frühstücken</string>
     <string name="pray">Betet</string>
     <string name="take_a_shower">Duschen</string>
     <string name="take_vitamins">Vitamine nehmen</string>
-    <string name="warm_and_cozy_drink">Warmes und gemÃ¼tliches GetrÃ¤nk</string>
+    <string name="warm_and_cozy_drink">Warmes und gemütliches Getränk</string>
     <string name="skincare">Hautpflege</string>
-    <string name="reflect_on_my_day">Ãœber meinen Tag nachdenken</string>
+    <string name="reflect_on_my_day">Über meinen Tag nachdenken</string>
     <string name="stretch">Dehnen</string>
     <string name="aroma_candle">Duftkerze</string>
     <string name="make_bed">Bett machen</string>
-    <string name="laundry">WÃ¤sche</string>
+    <string name="laundry">Wäsche</string>
     <string name="sweep_or_vacuum">Fegen oder Staubsaugen</string>
-    <string name="task_out_trash">MÃ¼ll rausbringen</string>
+    <string name="task_out_trash">Müll rausbringen</string>
     <string name="meal_prep">Mahlzeiten vorbereiten</string>
-    <string name="water_plants">Pflanzen gieÃŸen</string>
-    <string name="fruit_and_veggies">Obst und GemÃ¼se</string>
+    <string name="water_plants">Pflanzen gießen</string>
+    <string name="fruit_and_veggies">Obst und Gemüse</string>
     <string name="limit_sugar">Zucker begrenzen</string>
     <string name="no_alcohol">Kein Alkohol</string>
     <string name="get_enough_sleep">Genug schlafen</string>
     <string name="set_goals">Ziele setzen</string>
-    <string name="review_material">Material Ã¼berprÃ¼fen</string>
+    <string name="review_material">Material überprüfen</string>
     <string name="take_note">Notizen machen</string>
     <string name="brainstorming">Ideen sammeln</string>
     <string name="prioritize_tasks">Aufgaben priorisieren</string>
@@ -92,7 +74,7 @@
     <string name="read">Lesen</string>
     <string name="jogging">Joggen</string>
     <string name="running">Laufen</string>
-    <string name="full_body_stretching">GanzkÃ¶rperdehnung</string>
+    <string name="full_body_stretching">Ganzkörperdehnung</string>
     <string name="swimming">Schwimmen</string>
     <string name="cycling">Radfahren</string>
     <string name="hit_the_gym">Ins Fitnessstudio gehen</string>
@@ -100,97 +82,98 @@
     <string name="set_saving_goal">Sparziel setzen</string>
     <string name="track_expense">Ausgaben verfolgen</string>
     <string name="pay_the_bills">Rechnungen bezahlen</string>
-    <string name="check_investment">Investitionen prÃ¼fen</string>
-    <string name="review_subscriptions">Abonnements Ã¼berprÃ¼fen</string>
+    <string name="check_investment">Investitionen prüfen</string>
+    <string name="review_subscriptions">Abonnements überprüfen</string>
     <string name="try_something_new">Etwas Neues ausprobieren</string>
-    <string name="practice_a_new_skill">Eine neue FÃ¤higkeit Ã¼ben</string>
+    <string name="practice_a_new_skill">Eine neue Fähigkeit üben</string>
     <string name="volunteer">Freiwilligenarbeit</string>
-    <string name="listen_to_podcast">Podcast hÃ¶ren</string>
-    <string name="wam_up">AufwÃ¤rmen</string>
+    <string name="listen_to_podcast">Podcast hören</string>
+    <string name="wam_up">Aufwärmen</string>
     <string name="burpees">Burpees</string>
-    <string name="pushups">LiegestÃ¼tze</string>
+    <string name="pushups">Liegestütze</string>
     <string name="core_leg_workout">Core- und Beintraining</string>
-    <string name="upper_body_tranning">OberteilkÃ¶rpertraining</string>
-    <string name="core_strength_tranning">Core-StÃ¤rketraining</string>
+    <string name="upper_body_tranning">Oberteilkörpertraining</string>
+    <string name="core_strength_tranning">Core-Stärketraining</string>
     <string name="squats">Kniebeugen</string>
     <string name="nighttime">Nachtzeit</string>
     <string name="morning_routine">Morgenroutine</string>
     <string name="heathy_lifestyle">Gesunder Lebensstil</string>
-    <string name="daily_chores">TÃ¤gliche Aufgaben</string>
+    <string name="daily_chores">Tägliche Aufgaben</string>
     <string name="stress_relief">Stressabbau</string>
     <string name="study">Studieren</string>
-    <string name="personal_finance">PersÃ¶nliche Finanzen</string>
+    <string name="personal_finance">Persönliche Finanzen</string>
     <string name="staying_fit">Fit bleiben</string>
     <string name="self_improvement">Selbstverbesserung</string>
     <string name="create_my_collection">Meine Sammlung erstellen</string>
     <string name="edit">Bearbeiten</string>
-    <string name="delete">LÃ¶schen</string>
+    <string name="delete">Löschen</string>
     <string name="create_collection">SAMMLUNG ERSTELLEN</string>
     <string name="next">WEITER</string>
-    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">WÃ¤hle eines der verfÃ¼gbaren Bilder, das am besten zu deinem Inhalt passt</string>
+    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">Wähle eines der verfügbaren Bilder, das am besten zu deinem Inhalt passt</string>
     <string name="new_habit">Neue Gewohnheit</string>
     <string name="note">Notiz</string>
     <string name="goal">Ziel</string>
     <string name="repeat">Wiederholen</string>
-    <string name="frequency">HÃ¤ufigkeit</string>
+    <string name="frequency">Häufigkeit</string>
     <string name="end_date">Enddatum</string>
     <string name="get_reminders">Erinnerungen erhalten</string>
     <string name="tag">Tag</string>
-    <string name="add_to_routine">Zur Routine hinzufÃ¼gen</string>
-    <string name="choose_icon">Symbol auswÃ¤hlen</string>
+    <string name="add_to_routine">Zur Routine hinzufügen</string>
+    <string name="choose_icon">Symbol auswählen</string>
     <string name="create_new">Neu erstellen</string>
     <string name="week">Woche</string>
     <string name="enter_how_often_you_want_the_task_to_repeat">Gib ein, wie oft die Aufgabe wiederholt werden soll</string>
-    <string name="enter_name_tag">Gib einen Namen fÃ¼r das Tag ein</string>
+    <string name="enter_name_tag">Gib einen Namen für das Tag ein</string>
     <string name="create">ERSTELLEN</string>
     <string name="habits">Gewohnheiten</string>
     <string name="days">Tage</string>
     <string name="repeat_no_repeat">Wiederholen: Nicht wiederholen</string>
     <string name="reminder_no_reminder">Erinnerung: Keine Erinnerung</string>
     <string name="reminder">Erinnerung</string>
-    <string name="congratulation">GlÃ¼ckwunsch!</string>
-    <string name="all_habits_for_today_are_completed">Alle Gewohnheiten fÃ¼r heute sind abgeschlossen!</string>
+    <string name="congratulation">Glückwunsch!</string>
+    <string name="all_habits_for_today_are_completed">Alle Gewohnheiten für heute sind abgeschlossen!</string>
     <string name="only_78_of_users_have_done_this">Nur 78% der Benutzer haben dies getan.</string>
     <string name="whoa">Wow!</string>
     <string name="you_just_hit_2_day_habit_streak">Du hast gerade eine 2-Tage-Gewohnheitsstrecke erreicht!</string>
-    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">KontinuitÃ¤t ist der SchlÃ¼ssel, und du bist auf dem richtigen Weg. Zerquetsche weiterhin diese Ziele! ðŸ’ªðŸŒŸ</string>
+    <string name="consistency_is_key_and_you_re_on_the_right_track_keep_crushing_those_goals">Kontinuität ist der Schlüssel, und du bist auf dem richtigen Weg. Zerquetsche weiterhin diese Ziele! 💪🌟</string>
     <string name="claim_badge">ABZEICHEN BEANTRAGEN</string>
 
     <string name="billing_is_not_connected_please_try_again">Die Abrechnung ist nicht verbunden. Bitte versuchen Sie es erneut.</string>
+    <string name="gsm_app_id" translatable="false">65af85c42552577a77fb3087</string>
     <string name="monthly">Monatlich</string>
-    <string name="yearly">JÃ¤hrlich</string>
+    <string name="yearly">Jährlich</string>
     <string name="lifetime">Lebenslang</string>
     <string name="automatically_renewed">Automatisch erneuert</string>
     <string name="once_payment">Einmalige Zahlung</string>
 
     <string name="your_opinion_matters_to_us">Deine Meinung ist uns wichtig!</string>
-    <string name="enjoying_the_app">Die App genieÃŸen?</string>
-    <string name="the_best_we_can_get">Das Beste, was wir bekommen kÃ¶nnen</string>
+    <string name="enjoying_the_app">Die App genießen?</string>
+    <string name="the_best_we_can_get">Das Beste, was wir bekommen können</string>
     <string name="not_now">Nicht jetzt</string>
     <string name="submit">Absenden</string>
     <string name="please_leave_feedback_to_help_us_improve_product">Bitte hinterlasse Feedback, um uns bei der Verbesserung des Produkts zu helfen</string>
-    <string name="thanks_for_submitting_a_review">Danke fÃ¼r die Einreichung einer Bewertung!</string>
+    <string name="thanks_for_submitting_a_review">Danke für die Einreichung einer Bewertung!</string>
     <string name="please_rate_us_on_app_store">Bitte bewerte uns im App Store</string>
     <string name="settings">Einstellungen</string>
-    <string name="change_your_character">Ã„ndere deinen Charakter</string>
+    <string name="change_your_character">Ändere deinen Charakter</string>
     <string name="subscription">Abonnement</string>
     <string name="notification">Benachrichtigung</string>
     <string name="language">Sprache</string>
     <string name="share_app">App teilen</string>
     <string name="privacy">Datenschutz</string>
-    <string name="about">Ãœber</string>
+    <string name="about">Über</string>
     <string name="you_ve_done_all_the_n_tasks_today">Du hast alle Aufgaben heute erledigt.</string>
     <string name="you_just_finished_challenge">Du hast gerade die Herausforderung abgeschlossen</string>
 
-    <string name="notification_access_granted">Benachrichtigungszugriff gewÃ¤hrt</string>
+    <string name="notification_access_granted">Benachrichtigungszugriff gewährt</string>
     <string name="notification_access_denied">Benachrichtigungszugriff verweigert</string>
     <string name="to_day_was_good">Heute war GUT</string>
     <string name="to_day_was_neutral">Heute war NEUTRAL</string>
     <string name="to_day_was_not_great">Heute war NICHT GROSSARTIG</string>
     <string name="to_day_was_bad">Heute war SCHLECHT</string>
     <string name="to_day_was_great">Heute war GROSSARTIG</string>
-    <string name="i_was_feeling">Ich habe mich gefÃ¼hlt...</string>
-    <string name="because_of">Aufgrund von...</string>
+    <string name="i_was_feeling">Ich habe mich gefühlt…</string>
+    <string name="because_of">Aufgrund von…</string>
     <string name="mon">Mo</string>
     <string name="tue">Di</string>
     <string name="wed">Mi</string>
@@ -209,8 +192,8 @@
     <string name="cycle">Zyklus</string>
     <string name="repeat_every_day">Jeden Tag wiederholen</string>
     <string name="create_challenge">HERAUSFORDERUNG ERSTELLEN</string>
-    <string name="cycle_must_be_more_than_0">Der Zyklus muss grÃ¶ÃŸer als 0 sein.</string>
-    <string name="duration_must_be_more_than_cycle">Die Dauer muss grÃ¶ÃŸer als der Zyklus sein.</string>
+    <string name="cycle_must_be_more_than_0">Der Zyklus muss größer als 0 sein.</string>
+    <string name="duration_must_be_more_than_cycle">Die Dauer muss größer als der Zyklus sein.</string>
     <string name="repeat_on">Wiederholen am:</string>
     <string name="monday">Montag</string>
     <string name="tuesday">Dienstag</string>
@@ -225,69 +208,69 @@
     <string name="restart_challenge">HERAUSFORDERUNG NEUSTARTEN</string>
     <string name="_1022_joined">1022 haben teilgenommen</string>
     <string name="start_challenge">HERAUSFORDERUNG STARTEN</string>
-    <string name="reset_challenge">Herausforderung zurÃ¼cksetzen</string>
+    <string name="reset_challenge">Herausforderung zurücksetzen</string>
     <string name="cancel_challenge">Herausforderung abbrechen</string>
     <string name="mood">Stimmung</string>
-    <string name="tell_us_how_you_feel_today">Sag uns, wie du dich heute fÃ¼hlst?</string>
+    <string name="tell_us_how_you_feel_today">Sag uns, wie du dich heute fühlst?</string>
     <string name="mood_stat">Stimmungsstatistik</string>
     <string name="mood_record">Stimmungsaufzeichnung</string>
     <string name="get_started">LOSLEGEN</string>
-    <string name="choose_your_character">WÃ¤hle deinen Charakter</string>
-    <string name="change">Ã„NDERN</string>
+    <string name="choose_your_character">Wähle deinen Charakter</string>
+    <string name="change">ÄNDERN</string>
     <string name="month">Monat</string>
     <string name="year">Jahr</string>
     <string name="completion_rate">Abschlussrate</string>
     <string name="yearly_stats">Jahresstatistiken</string>
-    <string name="complete">VollstÃ¤ndig</string>
-    <string name="uncomplete">UnvollstÃ¤ndig</string>
+    <string name="complete">Vollständig</string>
+    <string name="uncomplete">Unvollständig</string>
     <string name="perfect_day">Perfekter Tag</string>
-    <string name="longest_streak">LÃ¤ngste Serie</string>
+    <string name="longest_streak">Längste Serie</string>
     <string name="don_t_worry">Keine Sorge,</string>
     <string name="we_will_help_you_meet_your_better_self">wir werden dir helfen, deine bessere Seite zu treffen.</string>
     <string name="make_a_clear_plan_and_effective">Mach einen klaren und effektiven Plan</string>
     <string name="always_with_the_user">Immer beim Benutzer</string>
-    <string name="what_reasons_hinder_you_from_being_organized">Welche GrÃ¼nde hindern dich daran, organisiert zu sein?</string>
+    <string name="what_reasons_hinder_you_from_being_organized">Welche Gründe hindern dich daran, organisiert zu sein?</string>
     <string name="lack_of_motivation">Mangelnde Motivation</string>
     <string name="lack_of_time">Zeitmangel</string>
-    <string name="no_daily_plan">Kein tÃ¤glicher Plan</string>
+    <string name="no_daily_plan">Kein täglicher Plan</string>
     <string name="distractions">Ablenkungen</string>
     <string name="others">Andere</string>
-    <string name="_3_day_free_trial_then_auto_renews_at_16_99_year">3-tÃ¤gige kostenlose Testversion, dann automatische VerlÃ¤ngerung zu 16,99 $/Jahr</string>
-    <string name="automatic_renewal">Automatische VerlÃ¤ngerung</string>
+    <string name="_3_day_free_trial_then_auto_renews_at_16_99_year">3-tägige kostenlose Testversion, dann automatische Verlängerung zu 16,99 $/Jahr</string>
+    <string name="automatic_renewal">Automatische Verlängerung</string>
     <string name="free_trial_3_day">Kostenlose Testversion 3 Tage</string>
-    <string name="sale_70">50% RABATT</string>
+    <string name="sale_70">70% RABATT</string>
     <string name="lifetime_subscription">Lebenslanges Abonnement</string>
     <string name="try_for_free">KOSTENLOS TESTEN</string>
-    <string name="how_are_you_feeling_today">Wie fÃ¼hlst du dich heute?</string>
-    <string name="share_with_us_how_you_feel_today">Teile uns mit, wie du dich heute fÃ¼hlst</string>
+    <string name="how_are_you_feeling_today">Wie fühlst du dich heute?</string>
+    <string name="share_with_us_how_you_feel_today">Teile uns mit, wie du dich heute fühlst</string>
     <string name="great">Toll</string>
     <string name="good">Gut</string>
     <string name="neutral">Neutral</string>
     <string name="bad">Schlecht</string>
     <string name="not_great">Nicht so gut</string>
-    <string name="what_making_you_feel_great">Was macht dich so groÃŸartig?</string>
-    <string name="which_describe_your_feelings">Welches beschreibt deine GefÃ¼hle?</string>
-    <string name="are_you_feeling_great_today">FÃ¼hlst du dich heute groÃŸartig?</string>
-    <string name="are_you_feeling_good_today">FÃ¼hlst du dich heute gut?</string>
-    <string name="are_you_feeling_neutral_today">FÃ¼hlst du dich heute neutral?</string>
-    <string name="are_you_feeling_not_great_today">FÃ¼hlst du dich heute nicht so groÃŸartig?</string>
-    <string name="are_you_feeling_bad_today">FÃ¼hlst du dich heute schlecht?</string>
-    <string name="add_task">Aufgabe hinzufÃ¼gen</string>
+    <string name="what_making_you_feel_great">Was macht dich so großartig?</string>
+    <string name="which_describe_your_feelings">Welches beschreibt deine Gefühle?</string>
+    <string name="are_you_feeling_great_today">Fühlst du dich heute großartig?</string>
+    <string name="are_you_feeling_good_today">Fühlst du dich heute gut?</string>
+    <string name="are_you_feeling_neutral_today">Fühlst du dich heute neutral?</string>
+    <string name="are_you_feeling_not_great_today">Fühlst du dich heute nicht so großartig?</string>
+    <string name="are_you_feeling_bad_today">Fühlst du dich heute schlecht?</string>
+    <string name="add_task">Aufgabe hinzufügen</string>
     <string name="day_">Tag </string>
 
     <string name="unlimited_habits">Unbegrenzte Gewohnheiten</string>
-    <string name="free_user_can_only_have_3_habits_day">Kostenlose Benutzer kÃ¶nnen nur 3 Gewohnheiten/Tag haben. Upgrade auf Premium fÃ¼r keine Begrenzung, nur Gewohnheiten</string>
+    <string name="free_user_can_only_have_3_habits_day">Kostenlose Benutzer können nur 3 Gewohnheiten/Tag haben. Upgrade auf Premium für keine Begrenzung, nur Gewohnheiten</string>
     <string name="advanced_statistics">Erweiterte Statistiken</string>
-    <string name="unlock_more_graph_for_weekly">Entsperre mehr Grafiken fÃ¼r wÃ¶chentliche, monatliche und jÃ¤hrliche Leistungen</string>
+    <string name="unlock_more_graph_for_weekly">Entsperre mehr Grafiken für wöchentliche, monatliche und jährliche Leistungen</string>
     <string name="custom_challenges">Benutzerdefinierte Herausforderungen</string>
     <string name="create_your_own_challenge_and_tailor_habit_to_fit_your_life">Erstelle deine eigene Herausforderung und passe Gewohnheiten an dein Leben an</string>
     <string name="no_ads">Keine Werbung</string>
-    <string name="zero_distractions">Null Ablenkungen, 100% Fokus! GenieÃŸe eine werbefreie Erfahrung mit Premium.</string>
-    <string name="in_progress">In progress</string>
-    <string name="many_challenges_waiting_for_you_ahead">Many challenges waiting for you ahead</string>
-    <string name="become_a_premium_member_to_conquer_all_challenges">Become a premium member to conquer all challenges.</string>
-    <string name="try_premium_now">Try Premium Now</string>
-    <string name="search_here">Search Here ...</string>
-    <string name="type">Type..</string>
+    <string name="zero_distractions">Null Ablenkungen, 100% Fokus! Genieße eine werbefreie Erfahrung mit Premium.</string>
+    <string name="more_habits_unlock_now">More Habits? Unlock Now!</string>
+    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">Watch an ad to unlock 2 extra habit slots\nOr go ad-free for unlimited usage</string>
+    <string name="watch_an_ad">Watch an Ad</string>
+    <string name="go_ad_free">Go Ad-free</string>
+    <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
+    <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
 
 </resources>

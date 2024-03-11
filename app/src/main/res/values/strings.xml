@@ -289,12 +289,19 @@
     <string name="create_your_own_challenge_and_tailor_habit_to_fit_your_life">Create your own challenge and tailor habits to fit your life</string>
     <string name="no_ads">No ads</string>
     <string name="zero_distractions">Zero distractions, 100% focus! Enjoy an ad-free experience with Premium.</string>
+
     <string name="in_progress">In progress</string>
     <string name="many_challenges_waiting_for_you_ahead">Many challenges waiting for you ahead</string>
     <string name="become_a_premium_member_to_conquer_all_challenges">Become a premium member to conquer all challenges.</string>
     <string name="try_premium_now">Try Premium Now</string>
-    <string name="search_here">Search Here ...</string>
-    <string name="type">Type..</string>
+    <string name="search_here">Search Here …</string>
+    <string name="type">Type…</string>
+    <string name="more_habits_unlock_now">More Habits? Unlock Now!</string>
+    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">Watch an ad to unlock 2 extra habit slots\nOr go ad-free for unlimited usage</string>
+    <string name="watch_an_ad">Watch an Ad</string>
+    <string name="go_ad_free">Go Ad-free</string>
+    <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
+    <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
 
 
 </resources>

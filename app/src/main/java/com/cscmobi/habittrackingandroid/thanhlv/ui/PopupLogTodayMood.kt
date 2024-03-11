@@ -15,6 +15,14 @@ import com.thanhlv.fw.helper.MyUtils
 class PopupLogTodayMood :
     BaseDialogFragment<PopupLogMoodTodayBinding>(PopupLogMoodTodayBinding::inflate) {
 
+    private var mListBecause = mutableListOf<FeelingTagModel>()
+    private var mListDescribe = mutableListOf<FeelingTagModel>()
+    private var adapter: FeelingTagAdapter? = null
+    var callback: Callback? = null
+
+    private var currentStep = 2
+    private var currentMood = 1
+
     fun newInstance(
         mood: Int
     ) = PopupLogTodayMood().apply {
@@ -28,7 +36,6 @@ class PopupLogTodayMood :
     }
 
     override fun clickBackSystem() {
-
         callback?.onClickBack(currentStep)
         if (currentStep == 2) dismissAllowingStateLoss()
         if (currentStep == 3) {
@@ -41,9 +48,6 @@ class PopupLogTodayMood :
         }
     }
 
-
-    var callback: Callback? = null
-
     interface Callback {
         fun onClickBack(step: Int)
         fun onClickNext(
@@ -55,7 +59,6 @@ class PopupLogTodayMood :
         fun onClickClose()
     }
 
-    private var currentStep = 2
     private fun gotoMoodStep2() {
         currentStep = 2
         binding.btnNext.isEnabled = false
@@ -78,24 +81,61 @@ class PopupLogTodayMood :
             ColorStateList.valueOf(Color.parseColor("#B5B5B5"))
     }
 
-    private var currentMood = 1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         MyUtils.configKeyboardBelowEditText(requireActivity())
         currentMood = requireArguments().getInt("mood_index")
         when (currentMood) {
-            1-> {
-                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EBB2BD"))
+            2 -> {
+                binding.rootView.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#EEC9AA"))
+                binding.btnBackHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#F3D9C3"))
+                binding.btnCloseHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#F3D9C3"))
+                binding.bgNote.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#FDE5D1"))
             }
-            2-> {
-                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EEC9AA"))
+            3 -> {
+                binding.rootView.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#BEE4B8"))
+                binding.btnBackHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#D1ECCD"))
+                binding.btnCloseHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#D1ECCD"))
+                binding.bgNote.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#D5F3D0"))
             }
-            3-> {
-                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#BEE4B8"))
+            4 -> {
+                binding.rootView.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#B6D6DD"))
+                binding.btnBackHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#CCE2E7"))
+                binding.btnCloseHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#CCE2E7"))
+                binding.bgNote.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#D9EFF4"))
             }
-            4-> {
-                binding.rootView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#B6D6DD"))
+            5 -> {
+                binding.rootView.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#F1E3FF"))
+                binding.btnBackHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#D3ADFA"))
+                binding.btnCloseHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#D3ADFA"))
+                binding.bgNote.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#D8BDF3"))
+            }
+            else -> {
+                binding.rootView.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#EBB2BD"))
+                binding.btnBackHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#EFC1CA"))
+                binding.btnCloseHeader.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#EFC1CA"))
+                binding.bgNote.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#FAD2DA"))
             }
         }
         recyclerView(currentMood)
@@ -103,10 +143,6 @@ class PopupLogTodayMood :
         controllerView()
     }
 
-    private var mListBecause = mutableListOf<FeelingTagModel>()
-    private var mListDescribe = mutableListOf<FeelingTagModel>()
-
-    private var adapter: FeelingTagAdapter? = null
     private fun recyclerView(mood: Int) {
         mListDescribe.clear()
         mListDescribe = mutableListOf()
@@ -115,7 +151,6 @@ class PopupLogTodayMood :
         adapter?.updateData(mListDescribe)
         adapter?.setCallBack(object : FeelingTagAdapter.FeelingTagCallback {
             override fun onClickItem(pos: Int) {
-
                 var sum = 0
                 mListDescribe.forEach {
                     if (it.selected) sum++
@@ -130,7 +165,6 @@ class PopupLogTodayMood :
                     binding.btnNext.isEnabled = true
                 }
             }
-
         })
         binding.rcFeeling.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rcFeeling.adapter = adapter
@@ -144,7 +178,6 @@ class PopupLogTodayMood :
                 callback?.onClickNext(mListDescribe, mListBecause, binding.edtNote.text.toString())
                 dismissAllowingStateLoss()
             }
-
             if (currentStep == 2) {
                 gotoMoodStep3()
             }
@@ -225,7 +258,6 @@ class PopupLogTodayMood :
                 }
             }
         }
-
         return list
     }
 

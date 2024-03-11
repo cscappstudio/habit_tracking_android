@@ -44,7 +44,7 @@ class FeelingTagAdapter(private var mContext: Context) :
             }
 
             5 -> {
-                colorSelected = "#92BFD2"
+                colorSelected = "#8F67B8"
             }
 
             else -> {

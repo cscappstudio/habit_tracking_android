@@ -28,6 +28,7 @@ class AllChallengeAdapter(private var mContext: Context) :
         fun onClickItem(challenge: Challenge)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: MutableList<Challenge>?) {
         if (data != null) this.mList = data
         notifyDataSetChanged()
@@ -59,7 +60,14 @@ class AllChallengeAdapter(private var mContext: Context) :
         if (itemData.image.isEmpty())
             holder.binding.imgCover.setImageResource(R.drawable.img_target)
         else
-            holder.binding.imgCover.setImageDrawable(Utils.loadImageFromAssets(mContext, itemData.image))
+            holder.binding.imgCover.setImageDrawable(
+                Utils.loadImageFromAssets(
+                    mContext,
+                    itemData.image
+                )
+            )
+        if (itemData.tryCount < 0) holder.binding.imgPremium.visibility = View.GONE
+        else holder.binding.imgPremium.visibility = View.VISIBLE
 //            holder.binding.imgCover.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(itemData.image)))
     }
 

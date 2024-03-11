@@ -143,9 +143,14 @@ class DetailCollectionFragment :
                             startActivity(intent)
                         } else {
 
-                                DialogUtils.showWatchAdsDialog(requireActivity(),Constant.MAXGETREWARD.minus(getReward)) {
-                                    insertTask(item)
-                                }
+                            DialogUtils.showWatchAdsDialog(
+                                requireActivity(),
+                                Constant.MAXGETREWARD.minus(getReward),
+                                "",
+                                ""
+                            ) {
+                                insertTask(item)
+                            }
 
                         }
                     } else {
