@@ -138,17 +138,18 @@ class DetailChallengeActivity : BaseActivity2() {
                                 history.progressDay = if (history.taskInDay.isEmpty()) 0 else
                                     (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
 
-                                if (history.taskInDay.isEmpty()) {
-//                                    val history2 =
-//                                        AppDatabase.getInstance(this@DetailChallengeActivity).dao()
-//                                            .getHistoryByDate2(it.tasks!![0].startDate!!)
-//                                    if (history2 != null)
-                                        AppDatabase.getInstance(this@DetailChallengeActivity)
-                                            .dao()
-                                            .deleteHistory(history)
-
-                                    delay(2000)
-                                } else
+//                                if (history.taskInDay.isEmpty()) {
+////                                    val history2 =
+////                                        AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+////                                            .getHistoryByDate2(it.tasks!![0].startDate!!)
+////                                    if (history2 != null)
+////                                    delay(2000)
+//                                        AppDatabase.getInstance(this@DetailChallengeActivity)
+//                                            .dao()
+//                                            .deleteHistory(history)
+//
+//
+//                                } else
                                     AppDatabase.getInstance(this@DetailChallengeActivity).dao()
                                         .updateHistory2(
                                             history.id,
@@ -156,6 +157,7 @@ class DetailChallengeActivity : BaseActivity2() {
                                             history.progressDay
                                         )
 
+                                println("thanhlv upppppppppppppp 1 -------------  " + history.taskInDay.size)
                                 HomeFragment.updateChallenge = true
                             }
 

@@ -269,5 +269,6 @@
     <string name="go_ad_free">Go Ad-free</string>
     <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
     <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
+    <string name="partially_done">Partially done</string>
 
 </resources>
