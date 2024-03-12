@@ -167,6 +167,7 @@ class CreateCollectionFragment :
                 it.newHabitFragment.newHabitFragmentState =
                     NewHabitFragment.NewHabitFragmentState.ADDTOCOLLECTION
                 it.addFragmentNotHide(it.newHabitFragment, NewHabitFragment.TAG)
+                hideSoftKeyboard(this)
             }
         }
 
@@ -224,7 +225,9 @@ class CreateCollectionFragment :
 
             }
        }
+
     }
+
 
     private fun validateCollection(): Boolean {
         if (binding.edtCollection.text.isNullOrEmpty())  {
@@ -271,6 +274,8 @@ class CreateCollectionFragment :
         newTasks.add(task.copy())
         taskCollectionAdapter?.notifyItemInserted(newTasks.size - 1)
     }
+
+
 
     fun setPopUpWindow(v: View,p: Int,e: Task) {
         val popup = CustomEditMenu(requireContext(),{

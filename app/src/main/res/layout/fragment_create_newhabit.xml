@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="isGoalEdit"
             type="Boolean" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:fillViewport="true"
-            android:background="@color/white"
-            android:focusable="true"
             android:id="@+id/nest_scroll"
-            android:paddingBottom="@dimen/_25sdp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_height="0dp">
+            android:background="@color/white"
+            android:fillViewport="true"
+            android:focusable="true"
+            android:paddingBottom="@dimen/_25sdp">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctl_root"
-                android:layout_marginBottom="@dimen/_15sdp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_15sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_close"
@@ -41,10 +47,10 @@
                     android:id="@+id/iv_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_35sdp"
-                    android:visibility="invisible"
+                    android:layout_marginEnd="@dimen/_20sdp"
                     android:src="@drawable/ic_menu_edit"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,10 +58,10 @@
                     android:id="@+id/iv_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_35sdp"
-                    android:visibility="invisible"
+                    android:layout_marginEnd="@dimen/_20sdp"
                     android:src="@drawable/ic_green_delete"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,53 +85,56 @@
                     android:background="@drawable/bg_white_corner_12"
                     android:backgroundTint="#33B6D6DD"
                     android:padding="@dimen/_8sdp"
-                    android:src="@drawable/ic_item_collection2"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/ic_item_collection2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_new_habit" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edt_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:backgroundTint="@color/light_gray"
                     android:fontFamily="@font/worksans_medium"
+                    android:gravity="center_horizontal"
                     android:hint="New Task"
-                    android:textColor="@color/shadow_gray"
-                    android:textSize="@dimen/_11ssp"
                     android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
                     android:maxLength="50"
-                    android:maxWidth="150dp"
-                    android:inputType="text"
-                    app:layout_constraintEnd_toStartOf="@+id/appCompatImageView3"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
+                    android:singleLine="false"
+                    android:paddingHorizontal="@dimen/_20sdp"
+                    android:textColor="@color/shadow_gray"
+                    android:textColorHint="@color/gray"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_habit" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/appCompatImageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/edit_pencil"
-                    app:layout_constraintBottom_toBottomOf="@+id/edt_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/edt_name"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_habit" />
+                <!--                <androidx.appcompat.widget.AppCompatImageView-->
+                <!--                    android:id="@+id/appCompatImageView3"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:src="@drawable/edit_pencil"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="@+id/edt_name"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintHorizontal_bias="0.5"-->
+                <!--                    app:layout_constraintStart_toEndOf="@+id/edt_name"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/iv_habit" />-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_color"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_18sdp"
                     android:background="@drawable/bg_white_corner_20"
                     android:backgroundTint="@color/silver"
                     android:foregroundGravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/_18sdp"
+                    android:padding="@dimen/_10sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edt_name" />
@@ -133,39 +142,39 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_note"
                     android:layout_width="0dp"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/rcv_color"
-                    app:layout_constraintStart_toStartOf="@id/rcv_color"
-                    app:layout_constraintEnd_toEndOf="@id/rcv_color"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_11sdp"
-                    android:paddingHorizontal="@dimen/_20sdp"
                     android:background="@drawable/bg_white_corner_20"
                     android:backgroundTint="@color/silver"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/_20sdp"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_11sdp"
-                    android:layout_height="wrap_content">
+                    app:layout_constraintEnd_toEndOf="@id/rcv_color"
+                    app:layout_constraintStart_toStartOf="@id/rcv_color"
+                    app:layout_constraintTop_toBottomOf="@id/rcv_color">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="@string/note"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/worksans_semibold"
-                        android:textSize="@dimen/_13ssp"
+                        android:text="@string/note"
                         android:textColor="@color/shadow_gray"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/_13ssp" />
 
                     <EditText
                         android:id="@+id/edt_note"
-                        android:paddingEnd="@dimen/_15sdp"
-                        android:drawableEnd="@drawable/edit_pencil"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/_34sdp"
+                        android:background="@drawable/bg_white_corner_20"
+                        android:drawableEnd="@drawable/edit_pencil"
                         android:drawableTint="@color/gray"
-                        android:textSize="14sp"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:paddingVertical="@dimen/_2sdp"
                         android:paddingStart="@dimen/_7sdp"
-                        android:background="@drawable/bg_white_corner_20"
-                        android:layout_height="@dimen/_34sdp"/>
+                        android:paddingEnd="@dimen/_15sdp"
+                        android:textSize="14sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -177,18 +186,18 @@
                     android:background="@drawable/bg_white_corner_20"
                     android:backgroundTint="@color/silver"
                     android:paddingStart="@dimen/_20sdp"
+                    android:paddingTop="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_12sdp"
                     android:paddingBottom="@dimen/_5sdp"
-                    android:paddingTop="@dimen/_5sdp"
                     app:layout_constraintEnd_toEndOf="@id/rcv_color"
                     app:layout_constraintStart_toStartOf="@id/rcv_color"
                     app:layout_constraintTop_toBottomOf="@id/ll_note">
 
                     <TextView
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/worksans_semibold"
                         android:text="@string/goal"
                         android:textColor="@color/shadow_gray"
@@ -199,11 +208,11 @@
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sw_goal"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:thumbTint="@drawable/switch_thumb_selector"
-                        app:trackTint="@drawable/switch_track_selector"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_height="wrap_content"/>
+                        app:thumbTint="@drawable/switch_thumb_selector"
+                        app:trackTint="@drawable/switch_track_selector" />
 
                     <EditText
                         android:id="@+id/edt_target_goal"
@@ -212,12 +221,12 @@
                         android:background="@drawable/bg_edittext"
                         android:fontFamily="@font/worksans_semibold"
                         android:gravity="center"
+                        android:hint="0"
                         android:inputType="numberDecimal"
                         android:maxLength="3"
-                        android:hint="0"
-                        android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/_11ssp"
+                        android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/unit_picker"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/unit_picker" />
@@ -225,71 +234,72 @@
 
                     <FrameLayout
                         android:layout_width="@dimen/_72sdp"
-                        app:layout_constraintStart_toStartOf="@id/unit_picker"
                         android:layout_height="@dimen/_41sdp"
+                        android:background="@drawable/bg_white_corner_12"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
 
-                        android:background="@drawable/bg_white_corner_12"
                         app:layout_constraintBottom_toBottomOf="@+id/unit_picker"
                         app:layout_constraintEnd_toEndOf="@+id/unit_picker"
+                        app:layout_constraintStart_toStartOf="@id/unit_picker"
                         app:layout_constraintTop_toTopOf="@+id/unit_picker" />
+
                     <com.shawnlin.numberpicker.NumberPicker
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/edt_target_goal"
                         android:id="@+id/unit_picker"
                         android:layout_width="@dimen/_72sdp"
                         android:layout_height="@dimen/_123sdp"
                         android:layout_centerInParent="true"
-                        app:np_width="@dimen/_45sdp"
-                        app:np_height="@dimen/_100sdp"
-                        android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
-
                         android:layout_marginStart="@dimen/_7sdp"
-                        app:np_dividerColor="@color/transparent"
-                        app:np_max="59"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintStart_toEndOf="@id/edt_target_goal"
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        app:np_dividerColor="@color/transparent"
+                        app:np_dividerThickness="0dp"
+                        app:np_height="@dimen/_100sdp"
+                        app:np_max="59"
                         app:np_min="0"
                         app:np_selectedTextColor="@color/jade_black"
                         app:np_selectedTextSize="14sp"
-                        app:np_dividerThickness="0dp"
                         app:np_textColor="#8001100C"
                         app:np_textSize="12sp"
-                        app:np_value="3" />
+                        app:np_value="3"
+                        app:np_width="@dimen/_45sdp" />
 
 
                     <FrameLayout
                         android:layout_width="@dimen/_72sdp"
-                        app:layout_constraintStart_toStartOf="@id/time_picker"
                         android:layout_height="@dimen/_41sdp"
+                        android:background="@drawable/bg_white_corner_12"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
 
-                        android:background="@drawable/bg_white_corner_12"
                         app:layout_constraintBottom_toBottomOf="@+id/time_picker"
                         app:layout_constraintEnd_toEndOf="@+id/time_picker"
+                        app:layout_constraintStart_toStartOf="@id/time_picker"
                         app:layout_constraintTop_toTopOf="@+id/time_picker" />
 
                     <com.shawnlin.numberpicker.NumberPicker
-                        app:layout_constraintTop_toTopOf="parent"
                         android:id="@+id/time_picker"
                         android:layout_width="@dimen/_72sdp"
                         android:layout_height="@dimen/_123sdp"
                         android:layout_centerInParent="true"
-                        app:np_width="@dimen/_45sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        app:np_height="@dimen/_100sdp"
                         android:layout_marginStart="@dimen/_7sdp"
-                        app:np_dividerColor="@color/transparent"
-                        app:np_max="59"
-                        app:np_min="0"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintStart_toEndOf="@id/unit_picker"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:np_dividerColor="@color/transparent"
+                        app:np_dividerThickness="0dp"
+                        app:np_height="@dimen/_100sdp"
+                        app:np_max="59"
 
+                        app:np_min="0"
                         app:np_selectedTextColor="@color/jade_black"
                         app:np_selectedTextSize="14sp"
-                        app:np_dividerThickness="0dp"
                         app:np_textColor="#8001100C"
-                        app:layout_constraintStart_toEndOf="@id/unit_picker"
                         app:np_textSize="12sp"
-                        app:np_value="3" />
+                        app:np_value="3"
+                        app:np_width="@dimen/_45sdp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -310,85 +320,83 @@
                 <include
                     android:id="@+id/layout_repeate"
                     layout="@layout/layout_repeat"
-                    android:layout_marginTop="@dimen/_9sdp"
-                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/ctl_goal"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
+                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
+                    app:layout_constraintTop_toBottomOf="@id/ctl_goal" />
 
                 <include
                     android:id="@+id/layout_end_date"
                     layout="@layout/layout_end_date"
-                    android:layout_marginTop="@dimen/_9sdp"
-                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_repeate"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
+                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
+                    app:layout_constraintTop_toBottomOf="@id/layout_repeate" />
 
                 <include
                     android:id="@+id/layout_reminder"
                     layout="@layout/layout_reminder"
-                    android:layout_marginTop="@dimen/_9sdp"
-                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_end_date"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
+                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
+                    app:layout_constraintTop_toBottomOf="@id/layout_end_date" />
 
                 <include
                     android:id="@+id/layout_tag"
                     layout="@layout/layout_tag"
-                    android:layout_marginTop="@dimen/_9sdp"
-                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_reminder"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
+                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
+                    app:layout_constraintTop_toBottomOf="@id/layout_reminder" />
 
                 <include
                     android:id="@+id/layout_checklist"
                     layout="@layout/layout_checklist"
-                    android:layout_marginTop="@dimen/_9sdp"
-                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_tag"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
+                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
+                    app:layout_constraintTop_toBottomOf="@id/layout_tag" />
 
                 <include
                     android:id="@+id/layout_btn_save"
                     layout="@layout/btn_save"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_24sdp"
                     android:layout_marginTop="@dimen/_21sdp"
                     android:visibility="gone"
-                    android:layout_marginHorizontal="@dimen/_24sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_checklist"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/layout_checklist" />
 
                 <include
                     android:id="@+id/layout_add_routine"
+                    layout="@layout/layout_btn_add_routine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    layout="@layout/layout_btn_add_routine"
-                    android:layout_marginTop="@dimen/_21sdp"
-                    android:visibility="gone"
                     android:layout_marginHorizontal="@dimen/_24sdp"
+                    android:layout_marginTop="@dimen/_21sdp"
                     android:layout_marginBottom="10dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_checklist"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/layout_checklist" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
         <com.thanhlv.ads.lib.TemplateNativeView
             android:id="@+id/adView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:gnt_template_type="@layout/gnt_small_item_template"
-          />
+            app:gnt_template_type="@layout/gnt_small_item_template" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

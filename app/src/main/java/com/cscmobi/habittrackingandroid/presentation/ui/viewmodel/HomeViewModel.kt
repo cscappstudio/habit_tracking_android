@@ -100,6 +100,7 @@ class HomeViewModel(
 
         if (history.taskInDay.isEmpty())
         {
+            databaseRepository.deleteHistory(history)
         }else {
             var taskDoneSize = 0
             history.taskInDay.forEach {

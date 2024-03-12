@@ -13,6 +13,7 @@
             type="com.cscmobi.habittrackingandroid.base.BaseBindingAdapter&lt;com.cscmobi.habittrackingandroid.data.model.Tag>" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/ctl_root"
     android:layout_width="match_parent"
     android:background="#99000000"
     android:layout_height="match_parent">
@@ -55,6 +56,9 @@
                 android:fontFamily="@font/worksans_semibold"
                 android:textColor="@color/shadow_gray"
                 android:hint="0"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+
                 android:textColorHint="@color/gray"
                 android:textSize="16sp"
                 android:layout_height="wrap_content"/>

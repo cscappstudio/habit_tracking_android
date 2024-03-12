@@ -16,24 +16,24 @@ import java.util.Date
 data class Task(
     @PrimaryKey(true) var id: Long = 0,
     @ColumnInfo(name = "name") var name: String = "New Task",
-    @ColumnInfo(name = "color") var color: String? = "#B6D6DD",
-    @ColumnInfo(name = "ava") var ava: String? = "",
-    @ColumnInfo(name = "note") var note: String? = "",
+    @ColumnInfo(name = "color") var color: String = "#B6D6DD",
+    @ColumnInfo(name = "ava") var ava: String = "",
+    @ColumnInfo(name = "note") var note: String = "",
     @ColumnInfo(name = "tag") var tag: String = "",
-    @ColumnInfo(name = "collection") var collection: String? = "",
+    @ColumnInfo(name = "collection") var collection: String = "",
     @ColumnInfo(name = "pauseDate") var pauseDate: Long? = null,
     @ColumnInfo(name = "pause") var pause: Int = 0, // if pause = -1 mean it pause util turn on again
-    @ColumnInfo(name = "challenge") var challenge: String? = "",
+    @ColumnInfo(name = "challenge") var challenge: String = "",
 
     @ColumnInfo(name = "goal")
-    var goal: Goal? = Goal(),
+    var goal: Goal = Goal(),
 
     @ColumnInfo(name = "repeat")
-    var repeate: TaskRepeat? = TaskRepeat(),
+    var repeate: TaskRepeat = TaskRepeat(),
 
     @ColumnInfo(name = "startDate") var startDate: Long? = null,
     @ColumnInfo(name = "endDate") var endDate: EndDate = EndDate(),
-    @ColumnInfo(name = "remind") var remind: RemindTask? = RemindTask(),
+    @ColumnInfo(name = "remind") var remind: RemindTask = RemindTask(),
     @ColumnInfo(name = "checklist") var checklist: List<CheckList>? = null,
 
 

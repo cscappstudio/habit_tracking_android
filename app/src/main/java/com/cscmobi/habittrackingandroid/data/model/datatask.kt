@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Keep
 @Serializable
 data class Goal(
-    var isOn: Boolean? = false,
+    var isOn: Boolean = false,
     var unit: String? = "",
     var target: Int = 1,
     var period: String? = "",
@@ -18,7 +18,7 @@ data class Goal(
 @Keep
 @Serializable
 data class EndDate(
-    var isOpen: Boolean? = false,
+    var isOpen: Boolean = false,
     var endDate: Long? = null
 
 )
@@ -27,10 +27,10 @@ data class EndDate(
 @Keep
 @Serializable
 data class RemindTask(
-    var isOpen: Boolean? = false,
-    var hour: Int? = 0,
-    var minute: Int? = 0,
-    var unit: String? = "AM"
+    var isOpen: Boolean = false,
+    var hour: Int = 0,
+    var minute: Int = 0,
+    var unit: String = "AM"
 )
 
 
@@ -42,7 +42,7 @@ data class CheckList(var status: Boolean = false, var title: String)
 @Keep
 @Serializable
 data class TaskRepeat(
-    var isOn: Boolean? = false,
+    var isOn: Boolean = false,
     var type: String? = "",
     var frequency: Int = 1,
     var days: List<Int>? = emptyList()

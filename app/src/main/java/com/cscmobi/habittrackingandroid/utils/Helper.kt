@@ -117,7 +117,7 @@ object Helper {
             }
         }
 
-        if (task.endDate.isOpen == true && task.endDate.endDate!! < _date) {
+        if (task.endDate.isOpen == true && task.endDate.endDate != null && task.endDate.endDate!! < _date) {
             isValid = false
             Log.d("isValid", "3 $isValid")
         }
