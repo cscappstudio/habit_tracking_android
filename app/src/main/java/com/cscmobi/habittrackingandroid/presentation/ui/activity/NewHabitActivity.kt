@@ -51,8 +51,6 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
                 override fun onLoadFailed() {
                     isLoadInterAds = false
                 }
-
-
             })
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -111,7 +109,6 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
 
                 }
             }
-
         }
     }
 
@@ -133,7 +130,6 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     }
 
     override fun setEvent() {
-
     }
 
     override fun addTask(task: Task) {

@@ -169,6 +169,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         val intent = Intent(this, SubscriptionsActivity::class.java)
                         startActivity(intent)
                     } else {
+
 //                            AdMobUtils.showRewardAds(this@MainActivity, object :
 //                                FullScreenContentCallback() {
 //                                override fun onAdDismissedFullScreenContent() {

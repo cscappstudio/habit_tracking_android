@@ -25,7 +25,6 @@ object NotifiTask {
     var db: AppDatabase? = null
 //    var tasks = mutableListOf<Task>()
 
-
     fun setUpWorker(owner: LifecycleOwner, context: Context) {
 
         val uniqueWorkName = Constant.WORKNAME
@@ -66,9 +65,6 @@ object NotifiTask {
 //        }
     }
 
-    fun updateWorkManager() {
-
-    }
 
     class NotifiTaskWorker(val appContext: Context, workerParams: WorkerParameters) :
         CoroutineWorker(appContext, workerParams) {
@@ -76,7 +72,6 @@ object NotifiTask {
         override suspend fun doWork(): Result {
 
             try {
-
 
                 db?.dao()?.getAllTask()?.collect {
                     println("Worker runnnnnnnnnnnnnnnnnnnnnnnnn")

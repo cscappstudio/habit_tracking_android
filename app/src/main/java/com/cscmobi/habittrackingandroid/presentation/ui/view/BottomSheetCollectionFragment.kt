@@ -132,7 +132,7 @@ class BottomSheetCollectionFragment :
         super.onViewCreated(view, savedInstanceState)
 
         val offsetFromTop = 200
-            (dialog as? BottomSheetDialog)?.behavior?.apply {
+        (dialog as? BottomSheetDialog)?.behavior?.apply {
             isFitToContents = false
             setExpandedOffset(offsetFromTop)
             state = BottomSheetBehavior.STATE_EXPANDED
@@ -143,15 +143,14 @@ class BottomSheetCollectionFragment :
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState).apply {
             setOnShowListener {
-                val bottomSheet = findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+                val bottomSheet =
+                    findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
                 bottomSheet.setBackgroundResource(android.R.color.transparent)
             }
         }
 
 
     }
-
-
 
 
     interface IBottomCollection {

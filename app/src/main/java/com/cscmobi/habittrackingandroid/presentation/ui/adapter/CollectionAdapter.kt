@@ -45,10 +45,14 @@ class CollectionAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            0 -> CollectionType.CREATE.ordinal
-            else -> CollectionType.ITEM.ordinal
+        if (position == 0 && this.currentList[0].name.isNullOrEmpty()) {
+            return  CollectionType.CREATE.ordinal
         }
+        return  CollectionType.ITEM.ordinal
+//        return when (position) {
+//            0 -> CollectionType.CREATE.ordinal
+//            else -> CollectionType.ITEM.ordinal
+//        }
     }
 
     class ViewHolderCreateCollection constructor(val binding: ItemCreateCollectionBinding) :
@@ -176,10 +180,11 @@ class CollectionAdapter(
 
         val filteredList = list.filter {
 
-            it.name.lowercase().contains(filterPattern)
+            it.name.lowercase().contains(filterPattern) && it.name.isNotEmpty()
 
         }.toMutableList()
 
+        println("filteredList____$filteredList")
 
         return filteredList
 

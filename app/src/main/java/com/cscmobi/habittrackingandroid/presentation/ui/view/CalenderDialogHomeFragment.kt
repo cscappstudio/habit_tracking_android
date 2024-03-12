@@ -41,7 +41,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
             attributes.height = ViewGroup.LayoutParams.WRAP_CONTENT
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         }
-
         return dialog
     }
 
@@ -75,7 +74,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
         binding.vRoot.visibility = View.VISIBLE
 
     }
-
 
     private fun setMonthView(isChange: Boolean = false) {
         binding.calendarRecyclerView.visibility = View.INVISIBLE
@@ -118,13 +116,9 @@ class CalenderDialogHomeFragment : DialogFragment() {
             calenderAdapter?.submitList(daysInMonth)
             calenderAdapter?.notifyDataSetChanged()
 
-
-//            binding.calendarRecyclerView.visibility = View.VISIBLE
-//            binding.progressBar.visibility = View.INVISIBLE
         } else {
             calenderAdapter?.submitList(daysInMonth)
             calenderAdapter?.notifyDataSetChanged()
-
 
         }
 

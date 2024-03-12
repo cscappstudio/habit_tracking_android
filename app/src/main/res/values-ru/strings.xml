@@ -163,8 +163,6 @@
     <string name="about">О приложении</string>
     <string name="you_ve_done_all_the_n_tasks_today">Вы выполнили все\n задания сегодня.</string>
     <string name="you_just_finished_challenge">Вы только что завершили вызов</string>
-
-
     <string name="notification_access_granted">Доступ к уведомлениям предоставлен</string>
     <string name="notification_access_denied">Доступ к уведомлениям отклонен</string>
     <string name="to_day_was_good">Сегодня был ХОРОШИЙ</string>
@@ -257,7 +255,6 @@
     <string name="are_you_feeling_bad_today">Вы чувствуете себя плохо сегодня?</string>
     <string name="add_task">Добавить задачу</string>
     <string name="day_">День </string>
-
     <string name="unlimited_habits">Неограниченные привычки</string>
     <string name="free_user_can_only_have_3_habits_day">Бесплатный пользователь может иметь только 3 привычки в день. Перейдите на Премиум, чтобы не ограничиваться, просто привычками</string>
     <string name="advanced_statistics">Расширенная статистика</string>
@@ -273,6 +270,5 @@
     <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
     <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
     <string name="partially_done">Partially done</string>
-
 
 </resources>

@@ -57,7 +57,7 @@ class CollectionFragment :
                 when (it) {
                     is CollectionState.Collections -> {
                         listCollections.clear()
-                        listCollections= it.collection.toMutableList()
+                        listCollections = it.collection.toMutableList()
                         listTasks.clear()
                         listCollections.forEach {
                             it.task?.let { tasks ->
@@ -115,7 +115,7 @@ class CollectionFragment :
                     collectionAdapter?.filter?.filter(newText)
                 } else detailCollectionAdapter?.filter?.filter(newText)
 
-                if (newText.isNullOrEmpty())   {
+                if (newText.isNullOrEmpty()) {
                     binding.searchView.clearFocus()
                     binding.searchView.visibility = View.GONE
                     binding.txtNewHabit.visibility = View.VISIBLE
@@ -165,8 +165,6 @@ class CollectionFragment :
 
             })
 
-
-
         binding.rcvCollection.adapter = collectionAdapter
         collectionAdapter?.submitList(listCollections)
         collectionAdapter?.notifyDataSetChanged()
@@ -198,9 +196,13 @@ class CollectionFragment :
                         listTasks.filter {
                             // Implement your filtering logic here
                             // For example, check if the item contains the constraint in its toString()
-                            it.name.toString().lowercase(Locale.getDefault()).contains(filterPattern)
+                            it.name.toString().lowercase(Locale.getDefault())
+                                .contains(filterPattern)
                         }
-                    }
+
+                    }.distinctBy { it.name }
+
+
 
                     val results = FilterResults()
                     results.values = filteredList
@@ -249,8 +251,6 @@ class CollectionFragment :
         detailCollectionAdapter?.submitList(listTasks)
         detailCollectionAdapter?.notifyDataSetChanged()
         binding.rcvTasks.adapter = detailCollectionAdapter
-
-
     }
 
 
@@ -259,7 +259,7 @@ class CollectionFragment :
 
             changeStateCollectionButton(true)
 
-                collectionAdapter?.filter?.filter(binding.searchView.query)
+            collectionAdapter?.filter?.filter(binding.searchView.query)
         }
 
         binding.btnAll.setOnClickListener {
@@ -300,19 +300,18 @@ class CollectionFragment :
     private fun toggleSearchView() {
         if (binding.searchView.visibility == View.VISIBLE) {
             // If SearchView is visible, hide it
-
             hideSearchView()
+
         } else {
             // If SearchView is not visible, show it
             showSearchView()
-
         }
     }
 
     private fun showSearchView() {
         binding.txtNewHabit.visibility = View.GONE
         binding.llCreateTask.visibility = View.GONE
-        binding.ivClose.visibility =View.VISIBLE
+        binding.ivClose.visibility = View.VISIBLE
 
         val endRadius = hypot(
             binding.searchView.width.toDouble(),
@@ -344,7 +343,7 @@ class CollectionFragment :
         binding.searchView.setQuery("", false)
         binding.txtNewHabit.visibility = View.VISIBLE
         binding.llCreateTask.visibility = View.VISIBLE
-        binding.ivClose.visibility =View.GONE
+        binding.ivClose.visibility = View.GONE
 
         val startRadius =
             Math.hypot(binding.searchView.width.toDouble(), binding.searchView.height.toDouble())

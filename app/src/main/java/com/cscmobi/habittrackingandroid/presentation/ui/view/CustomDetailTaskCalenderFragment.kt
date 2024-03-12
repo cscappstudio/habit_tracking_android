@@ -225,10 +225,6 @@ class CustomDetailTaskCalenderFragment :
             }
             dateMapByYear[year]?.add(DataDate(year, month, day, it.taskInDay.progress))
         }
-
-        Log.d("ABC", dateMapByYear.toString())
-
-
     }
 
     fun areDatesEqual(date1: Calendar, date2: Calendar): Boolean {

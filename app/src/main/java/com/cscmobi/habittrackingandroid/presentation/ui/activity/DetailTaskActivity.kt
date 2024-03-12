@@ -83,27 +83,15 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         binding.layoutSteak3.ivInfo.setImageResource(R.drawable.ic_steak_skip)
         binding.layoutSteak4.ivInfo.setImageResource(R.drawable.ic_steak_rate)
 
-
-//        val taskId = intent.getIntExtra(Constant.task_id, -1)
-//        if (taskId != -1) {
-//            lifecycleScope.launch {
-//                detailTaskViewModel.userIntent.send(DetailTaskIntent.FetchTaskbyId(taskId))
-//            }
-//        }
-
         intent.extras?.let {
             val dataTask = it.getBinder(Constant.EditTask) as? ObjectWrapperForBinder
             dataTask?.let { task ->
                 lifecycleScope.launch {
                     initData(task.data as Task)
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.fetchHistoryByTask(task.data as Task))
-
                 }
-
             }
-
             historyId = it.getLong(Constant.IDHISTORY, -1L)
-
 
             if (Helper.chooseDate > Helper.currentDate.toDate()) {
                 binding.sbProgress.setOnTouchListener { _, _ -> true }
@@ -133,7 +121,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
     }
 
-
     private fun observe() {
         lifecycleScope.launch {
             detailTaskViewModel.history.collect {
@@ -155,6 +142,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 it.taskInDay[index].progressGoal = currentProgress
                 it.taskInDay[index].progress =
                     Helper.calTaskProgress(currentProgress, task.goal!!.target)
+
                 detailTaskViewModel.updateHistory(it)
             }
 
@@ -162,31 +150,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     }
 
     private fun setUpTaskHistoryData(listDataTaskHistory: List<DataTaskHistory>) {
-//        try {
-//
-//        var finishDay = 0
-//        var missDay = 0
-//        var longStreak = listDataTaskHistory[listDataTaskHistory.size-1].taskInDay.longStreak
-//        var currentStreak = listDataTaskHistory[listDataTaskHistory.size-1].taskInDay.currentStreak
-//        listDataTaskHistory.forEach {
-//            if (it.taskInDay.progress == 100) finishDay++
-//            if (it.taskInDay.progress == 0) missDay++
-//        }
-//
-//        var rate =  ((finishDay.toFloat()  / listDataTaskHistory.size.toFloat())*100).toInt()
-//
-//        binding.txtStreak.text = "$currentStreak days"
-//        binding.layoutSteak1.txtDay.text = "$finishDay days"
-//        binding.layoutSteak2.txtDay.text = "$missDay days"
-//        binding.layoutSteak3.txtDay.text = "$longStreak days"
-//        binding.layoutSteak4.txtDay.text = "$rate %"
-//
-//        childFragment.setData(listDataTaskHistory) }catch (e: Exception) {
-//            binding.ctlCurrentStreak.visibility = View.GONE
-//            binding.llInfoStreak.visibility = View.GONE
-//        }
-
-
         try {
             var pauseDate = -1L
             var endPauseDate = -1L
@@ -206,27 +169,21 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             var longStreak = 0
             var currentStreak = 0
             Log.d("listDataTaskHistory", listDataTaskHistory.size.toString())
-
             listDataTaskHistory.forEach {
                 if (pauseDate != -1L) {
                     if (currentTask.pause == -1) {
                         if (pauseDate <= it.date) {
-//                            missDay++
                             it.isPause = true
                         }
 
                     } else {
                         if (it.date in pauseDate..endPauseDate) {
-//                            missDay++
                             it.isPause = true
 
                         }
                     }
 
                 }
-                Log.d("abcvnnn", it.toString())
-
-//                if (!it.isPause) {
                 var progressGoal = if (it.taskInDay.progressGoal > (currentTask.goal?.target
                         ?: 1)
                 ) currentTask.goal?.target else it.taskInDay.progressGoal
@@ -248,10 +205,11 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 if (longStreak < currentStreak) {
                     longStreak = currentStreak
                 }
-                //  }
             }
 
             var rate = ((finishDay.toFloat() / listDataTaskHistory.size.toFloat()) * 100).toInt()
+
+            if (missDay >0) missDay--
 
             binding.txtStreak.text = "$currentStreak ${getString(R.string.days)}"
             binding.layoutSteak1.txtDay.text = "$finishDay ${getString(R.string.days)}"
@@ -278,9 +236,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate, this)
             binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind, this)
             binding.txtNameTask.text = it.name
-
             binding.txtNoteTask.text = it.note
-
 
             if (it.goal != null) {
                 progressStep = (100 / (it.goal!!.target ?: 1)).toFloat()
@@ -298,7 +254,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 binding.txtProgress.text = (it.goal!!.currentProgress ?: 0).toString()
                 binding.txtGoalTarget.text =
                     "${getString(R.string.goal)}: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"
-
             }
 
             it.checklist?.let {
@@ -323,8 +278,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private fun initCheckList() {
         binding.layoutChecklist.edtAdd.visibility = View.GONE
         binding.layoutChecklist.ivAdd.visibility = View.GONE
-
-        //checkList = task.checklist as MutableList<CheckList>
 
         checklistAdapter = BaseBindingAdapter(
             R.layout.item_checklist,
@@ -430,10 +383,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
 
         binding.ivPlus.setOnClickListener {
-
-//            currentProgress = ((100 / currentGoal.toFloat())) .roundToInt()
-//            currentProgress +=  ((binding.sbProgress.step / 10).roundToInt())
-
             currentProgress += ((1 / progressStep) + 1).roundToInt()
             if (currentProgress > currentGoal) {
                 binding.sbProgress.progress = 100f
@@ -488,22 +437,14 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         super.onStop()
 
         lifecycleScope.launch {
-            //       currentTask.goal?.currentProgress = currentProgress
-            //      detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
             updateTaskHistory(currentTask, currentProgress)
-
             withContext(Dispatchers.IO) {
                 currentTask.checklist = checkList
                 detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
 
             }
-            delay(
-                1000L
-            )
-
+            delay(1000L)
         }
-
     }
-
 
 }

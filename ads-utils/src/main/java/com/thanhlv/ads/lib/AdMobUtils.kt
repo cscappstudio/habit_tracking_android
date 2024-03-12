@@ -298,7 +298,7 @@ class AdMobUtils {
                 })
         }
 
-        fun showRewardAds(
+            fun showRewardAds(
             mActivity: Activity?,
             fullScreenContentCallback: FullScreenContentCallback?
         ) {

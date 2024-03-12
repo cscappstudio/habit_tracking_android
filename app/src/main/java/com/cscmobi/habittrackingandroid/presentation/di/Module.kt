@@ -1,6 +1,5 @@
 package com.cscmobi.habittrackingandroid.presentation.di
 
-import com.cscmobi.habittrackingandroid.MyApplication
 import com.cscmobi.habittrackingandroid.data.repository.CollectionRepository
 import com.cscmobi.habittrackingandroid.data.repository.CollectionRepositoryImpl
 import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
@@ -16,10 +15,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-
 val viewModelModule = module {
     viewModel {
-            HomeViewModel(get(),get(),get())
+        HomeViewModel(get(),get(),get())
     }
 
     viewModel {
@@ -42,6 +40,7 @@ val repositoryModule = module {
         HomeRepositoryImpl(androidContext())
     }
     single<CollectionRepository> { CollectionRepositoryImpl(androidContext())}
-
 }
+
+
 
