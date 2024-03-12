@@ -111,7 +111,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="12dp"
                     android:layout_toEndOf="@id/icon"
-                    android:textColor="@color/gnt_headline_color"
+                    android:textColor="@color/text_title_color"
                     android:textSize="14.5sp"
                     android:textStyle="bold" />
 
@@ -128,7 +128,7 @@
                     android:autoSizeMinTextSize="10sp"
                     android:autoSizeMaxTextSize="11.5sp"
                     android:layout_toEndOf="@id/icon"
-                    android:textColor="@color/gnt_headline_color"
+                    android:textColor="@color/text_title_color"
                     android:textSize="11sp"
                     tools:ignore="RtlSymmetry"
                     tools:targetApi="o" />
@@ -141,9 +141,10 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:background="@drawable/gnt_bg_indicator_ad"
+                android:backgroundTint="@color/bg_cta_button"
                 android:gravity="center"
                 android:text="Ad"
-                android:textColor="@color/gnt_headline_color"
+                android:textColor="@color/text_title_color"
                 android:textSize="@dimen/gnt_ad_indicator_text_size"
                 android:textStyle="bold" />
 
@@ -162,9 +163,10 @@
                 android:layout_marginEnd="14dp"
                 android:layout_marginBottom="2dp"
                 android:background="@drawable/gnt_bg_cta_button"
+                android:backgroundTint="@color/bg_cta_button"
                 android:gravity="center"
                 android:lines="1"
-                android:textColor="@color/gnt_headline_color"
+                android:textColor="@color/text_title_color"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

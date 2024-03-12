@@ -18,6 +18,8 @@ import com.cscmobi.habittrackingandroid.thanhlv.consent.GoogleMobileAdsConsentMa
 import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.helper.NotificationHelper
+import com.cscmobi.habittrackingandroid.utils.GSMUtil
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.Task
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
@@ -47,38 +49,42 @@ class SplashActivity : BaseActivity2() {
     override fun setupScreen() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        SPF.setProApp(this, true)
 
     }
 
     override fun loadData() {
         if (SPF.getLanguage(this) != null)
             CURRENT_LANG = SPF.getLanguage(this)!!
-
-        if (SPF.isFirstOpenApp(this)) SPF.setStartOpenTime(this, System.currentTimeMillis())
         RunUtils.runInBackground {
 
             val challengeData = ChallengeData(this)
 
             loadRemoteConfigs()
-            getPurchaseHistory()
+//            getPurchaseHistory()
 //            GSMUtil.retryLoginGSM = 0
 //            GSMUtil.login(this, null)
+            if (!SPF.isFirstOpenApp(applicationContext))
+                runBlocking {
+                    runBlocking {
+                        ChallengeFragment.allChallenges
+                            .postValue(
+                                AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                            )
+                        ChallengeFragment.myChallenges
+                            .postValue(
+                                AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
+                            )
+                    }
+
+                }
+
         }
 
-        RunUtils.runInBackground {
-            runBlocking {
-                runBlocking {
-                    ChallengeFragment.allChallenges
-                        .postValue(
-                            AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-                        )
-                    ChallengeFragment.myChallenges
-                        .postValue(
-                            AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
-                        )
-                }
-            }
-        }
+        if (SPF.isFirstOpenApp(applicationContext)) SPF.setStartOpenTime(
+            this,
+            System.currentTimeMillis()
+        )
     }
 
     override fun initView() {
@@ -123,10 +129,11 @@ class SplashActivity : BaseActivity2() {
         }
 
         // Initialize the Mobile Ads SDK.
-//        MobileAds.initialize(applicationContext) {}
+        MobileAds.initialize(applicationContext) {
+            (application as MyApplication).loadAd(this)
+        }
 
         // Load an ad.
-        (application as MyApplication).loadAd(this)
     }
 
     private fun loadRemoteConfigs() {

@@ -8,12 +8,9 @@ import android.content.IntentFilter
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cscmobi.habittrackingandroid.BuildConfig
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
-import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailChallengeBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
@@ -22,14 +19,15 @@ import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil.Companion.getDaysBetween
+import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_BANNER_DETAIL_CHALLENGE
-import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_BANNER_HOME
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs.Companion.instance
+import com.thanhlv.fw.spf.SPF
 import com.thanhlv.fw.spf.SPF.Companion.isProApp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -94,8 +92,8 @@ class DetailChallengeActivity : BaseActivity2() {
         }
 
         binding.btnStartChallenge.setOnClickListener {
-            joinChallenge()
-            finish()
+            clickStartChallenge()
+//            finish()
         }
 
         binding.btnOptionTop.setOnClickListener {
@@ -141,21 +139,25 @@ class DetailChallengeActivity : BaseActivity2() {
                                     (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
 
 //                                if (history.taskInDay.isEmpty()) {
-//                                    val history2 =
-//                                        AppDatabase.getInstance(this@DetailChallengeActivity).dao()
-//                                            .getHistoryByDate2(it.tasks!![0].startDate!!)
-//                                    if (history2 != null)
+////                                    val history2 =
+////                                        AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+////                                            .getHistoryByDate2(it.tasks!![0].startDate!!)
+////                                    if (history2 != null)
+////                                    delay(2000)
 //                                        AppDatabase.getInstance(this@DetailChallengeActivity)
 //                                            .dao()
-//                                            .deleteHistory(history2)
+//                                            .deleteHistory(history)
+//
+//
 //                                } else
-                                AppDatabase.getInstance(this@DetailChallengeActivity).dao()
-                                    .updateHistory2(
-                                        history.id,
-                                        history.taskInDay,
-                                        history.progressDay
-                                    )
+                                    AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+                                        .updateHistory2(
+                                            history.id,
+                                            history.taskInDay,
+                                            history.progressDay
+                                        )
 
+                                println("thanhlv upppppppppppppp 1 -------------  " + history.taskInDay.size)
                                 HomeFragment.updateChallenge = true
                             }
 
@@ -201,12 +203,32 @@ class DetailChallengeActivity : BaseActivity2() {
 
     }
 
-    private fun joinChallenge() {
+    private fun clickStartChallenge() {
         if (mChallenge == null) return
+        if (mChallenge?.tryCount!! >= 0 && !isProApp(this)) {
+            if (SPF.getTryChallengePremium(this) > 0) {
+                //go to Subs
+                val intent = Intent(this, SubscriptionsActivity::class.java)
+                startActivity(intent)
+            } else if (SPF.getTryChallengePremium(this) == 0) {
+                //show watch ad reward
+                DialogUtils.showWatchAdsDialog(this, 1, "abc", "xyz") {
+                    joinChallenge(true)
+                }
+            }
+        } else {
+            joinChallenge(false)
+        }
+    }
+
+    private fun joinChallenge(isTryPremium: Boolean) {
         runBlocking {
             val joined = ChallengeJoinedHistory(System.currentTimeMillis())
             mChallenge!!.joinedHistory = joined
-
+            if (isTryPremium) {
+                mChallenge!!.tryCount += 1
+                SPF.setTryChallengePremium(this@DetailChallengeActivity, 1)
+            }
             resolverDataJoinChallenge()
 
             //update task challenge to task all
@@ -216,8 +238,8 @@ class DetailChallengeActivity : BaseActivity2() {
             newMyChallenges.sortByDescending {
                 it.joinedHistory?.date
             }
-
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
+            finish()
         }
     }
 
@@ -380,24 +402,24 @@ class DetailChallengeActivity : BaseActivity2() {
     }
 
     private fun loadBanner() {
-            if (NetworkHelper.isNetworkAvailable(this@DetailChallengeActivity)
-                && !isProApp(this@DetailChallengeActivity)
-                && instance.getConfigValue(KEY_AD_BANNER_DETAIL_CHALLENGE).asBoolean()
-            ) {
-                binding.bannerView.visibility = View.VISIBLE
-                AdMobUtils.createBanner(
-                    this@DetailChallengeActivity,
-                    getString(R.string.admob_banner_id),
-                    AdMobUtils.BANNER_NORMAL,
-                    binding.bannerView,
-                    null
-                )
-            } else {
-                binding.bannerView.visibility = View.GONE
-            }
+        if (NetworkHelper.isNetworkAvailable(this@DetailChallengeActivity)
+            && !isProApp(this@DetailChallengeActivity)
+            && instance.getConfigValue(KEY_AD_BANNER_DETAIL_CHALLENGE).asBoolean()
+        ) {
+            binding.bannerView.visibility = View.VISIBLE
+            AdMobUtils.createBanner(
+                this@DetailChallengeActivity,
+                getString(R.string.admob_banner_id),
+                AdMobUtils.BANNER_NORMAL,
+                binding.bannerView,
+                null
+            )
+        } else {
+            binding.bannerView.visibility = View.GONE
         }
+    }
 
-        override fun onStart() {
+    override fun onStart() {
         super.onStart()
         registerReceiver(mReceiver, mIntentFilter)
     }

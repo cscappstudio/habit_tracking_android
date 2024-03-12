@@ -54,4 +54,5 @@
 
   <color name="text_accent_color">#09392D</color>
   <color name="text_title_color">#09392D</color>
+  <color name="bg_cta_button">#B2E0CC</color>
 </resources>

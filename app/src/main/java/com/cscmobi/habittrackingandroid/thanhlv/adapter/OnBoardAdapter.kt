@@ -32,7 +32,7 @@ class OnBoardAdapter(private val context: Context, list: ArrayList<OnBoardModel>
         Glide.with(context)
             .load(slideItem.resId)
             .into(holder.binding.imgPhoto)
-        holder.binding.tvTitle.text = slideItem.text1
+//        holder.binding.tvTitle.text = slideItem.text1
         holder.binding.tvDes.text = slideItem.text2
     }
 

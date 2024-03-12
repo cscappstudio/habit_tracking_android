@@ -43,6 +43,12 @@ class ChallengeFragment :
         binding.rcAllChallenge.overScrollMode = View.OVER_SCROLL_NEVER
         allChallenges.observe(this) { list ->
             if (!list.isNullOrEmpty()) {
+                list.forEach {
+                    if (it.tryCount > 0) {
+                        SPF.setTryChallengePremium(requireContext(), it.tryCount)
+                        return@forEach
+                    }
+                }
                 allChallengeAdapter?.setData(list as MutableList<Challenge>?)
             }
         }
@@ -71,9 +77,26 @@ class ChallengeFragment :
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        println("thanhlv onResume ------ fragment Challenge------")
+        updatePremium()
+    }
+
+    private fun updatePremium() {
+        if (!SPF.isProApp(requireContext())) {
+            binding.imgPremiumCreateChallenge.visibility = View.VISIBLE
+        } else {
+            binding.imgPremiumCreateChallenge.visibility = View.GONE
+        }
+    }
+
     override fun setEvent() {
         binding.btnCreateChallenge.setOnClickListener {
-            startActivity(Intent(requireContext(), CreateChallengeActivity::class.java))
+            if (!SPF.isProApp(requireContext()))
+                startActivity(Intent(requireContext(), SubscriptionsActivity::class.java))
+            else
+                startActivity(Intent(requireContext(), CreateChallengeActivity::class.java))
         }
 
         binding.bgBannerPro.root.setOnClickListener {

@@ -11,9 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/ic_mood_great"
-        app:layout_constraintHeight_percent="0.75"
+        app:layout_constraintBottom_toTopOf="@id/btn_next"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/Text_600"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:textColor="#fff"
+        android:textFontWeight="800"
+        android:text="Say hi to your new"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintTop_toTopOf="@id/vp_onboard"
+        app:layout_constraintBottom_toBottomOf="@id/vp_onboard"
+        tools:targetApi="p" />
 
     <TextView
         android:id="@+id/tv_des"
@@ -37,7 +56,6 @@
 
     <TextView
         android:id="@+id/btn_next"
-        android:enabled="false"
         style="@style/Text_700_Med"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -47,6 +65,7 @@
         android:background="@drawable/shape_round_30_fill"
         android:backgroundTint="#b5b5b5"
         android:elevation="20dp"
+        android:enabled="false"
         android:gravity="center"
         android:outlineSpotShadowColor="@color/black_12"
         android:text="@string/get_started"

@@ -70,8 +70,8 @@ class MoodRecordAdapter(private var mContext: Context) :
                 holder.binding.tvTitle.text = "Bab"
             }
         }
-        holder.binding.tvDes.text = itemMood.describe[0]
-        holder.binding.tvBecause.text = itemMood.becauseOf[0]
+        holder.binding.tvDes.text = if (itemMood.describe.isEmpty()) "" else itemMood.describe[0]
+        holder.binding.tvBecause.text = if (itemMood.becauseOf.isEmpty()) "" else itemMood.becauseOf[0]
 
         val day = Calendar.getInstance()
         day.timeInMillis = itemMood.date
