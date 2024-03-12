@@ -115,6 +115,8 @@ class CollectionViewModel constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 Log.d("UPDATECOLLECT", collection.toString())
                 databaseRepository.updateCollection(collection.copy())
+                passCollectionItem(collection)
+
                 delay(500L)
             }
         } catch (e: Exception) {
@@ -162,16 +164,17 @@ class CollectionViewModel constructor(
             _state.value = CollectionState.Loading
             try {
                 combine(
-                    flowOf(repository.getListLocalCollection()),
-                    databaseRepository.getAllCollection()
-                ) { localCollection, databaseCollection ->
-                    val collections = mutableListOf<HabitCollection>()
+                    databaseRepository.getAllCollection(),
+                    flowOf(repository.getListLocalCollection())
 
-                    collections.addAll(localCollection)
+                ) { databaseCollection, localCollection ->
+                    val collections = mutableListOf<HabitCollection>()
                     databaseCollection.forEach {
                         it.isEdit = true
                     }
-                    collections.addAll(databaseCollection)
+                    collections.addAll(databaseCollection + localCollection)
+//                    collections.addAll(localCollection)
+
                     listCollectionName = collections.map { it.name }.toMutableList()
                     _state.value = CollectionState.Collections(collections)
                     Log.d("FETCHCOLLECTION", collections.toString())

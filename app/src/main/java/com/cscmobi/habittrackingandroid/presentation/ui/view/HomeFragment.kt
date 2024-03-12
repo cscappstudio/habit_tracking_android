@@ -152,10 +152,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
 
-
-
-
-
         calenderDialogHomeFragment.actionDateSelect = {
             currentDate = it.toDate()
             Log.d("chaulq_____currentDate", Date(currentDate).toString())
@@ -319,7 +315,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    private fun observeState() {
+    private fun  observeState() {
         lifecycleScope.launch {
             homeViewModel.state.collect { state ->
                 if (currentDate < Helper.currentDate.toDate()) oldCurrentDate = currentDate
@@ -408,7 +404,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
 
-                        data.indexOfFirst { it.localDate!!.toDate() == currentDate }
+                        val dataIndex = data.indexOfFirst { it.localDate!!.toDate() == currentDate }
+                        if (dataIndex != -1 ) {
+                            var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
+                            var tasksNum = it.taskInDay.size
+
+                            data[dataIndex].progress = calTaskProgress(tasksFinishNum, tasksNum)
+                        }
 
                         it.taskInDay.forEach { taskInDay ->
                             var index = listTask.indexOfFirst { it.id == taskInDay.taskId }

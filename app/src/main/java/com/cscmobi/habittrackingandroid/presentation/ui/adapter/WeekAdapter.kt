@@ -54,6 +54,9 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
             }
 
 
+            binding.sbWeek.setText(item.date.toString())
+
+
 
             binding.root.setOnClickListener {
                     onItemClickAdapter.onItemClick(layoutPosition)

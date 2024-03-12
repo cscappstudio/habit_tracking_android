@@ -142,6 +142,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 it.taskInDay[index].progressGoal = currentProgress
                 it.taskInDay[index].progress =
                     Helper.calTaskProgress(currentProgress, task.goal!!.target)
+
                 detailTaskViewModel.updateHistory(it)
             }
 
@@ -207,6 +208,8 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             }
 
             var rate = ((finishDay.toFloat() / listDataTaskHistory.size.toFloat()) * 100).toInt()
+
+            if (missDay >0) missDay--
 
             binding.txtStreak.text = "$currentStreak ${getString(R.string.days)}"
             binding.layoutSteak1.txtDay.text = "$finishDay ${getString(R.string.days)}"

@@ -217,7 +217,9 @@ class CreateCollectionFragment :
                     }
                     collectionData.task = newTasks
                     collectionViewModel.userIntent.send(CollectionIntent.UpdateCollection(collectionData))
-                    parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                    parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    parentFragmentManager.popBackStack()
+
                 }
 
             }

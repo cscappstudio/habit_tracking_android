@@ -13,7 +13,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
@@ -547,46 +549,49 @@ class NewHabitFragment :
                 subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
                 subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
             }
-            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                context?.let {
-                    binding.nestScroll.setPadding(
-                        0,
-                        0,
-                        0,
-                        resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                    )
-                }
-
-            })
+//            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+//                context?.let {
+//                    binding.nestScroll.setPadding(
+//                        0,
+//                        0,
+//                        0,
+//                        resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
+//                    )
+//                }
+//
+//            })
             hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
 
         }
 
+
+
         binding.layoutChecklist.ivAdd.setOnClickListener {
             binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
             showKeyboardOnView(binding.layoutChecklist.edtAdd)
-            binding.nestScroll.post {
-                binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
-            }
-            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                context?.let {
-                    binding.nestScroll.setPadding(
-                        0,
-                        0,
-                        0,
-                        resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
-                    )
-
-                }
-
-
-            })
+//            binding.nestScroll.post {
+//                binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
+//            }
+//            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+//                context?.let {
+//                    binding.nestScroll.setPadding(
+//                        0,
+//                        0,
+//                        0,
+//                        resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
+//                    )
+//
+//                }
+//
+//
+//            })
         }
-
+        setKeyBoardListener()
 
     }
 
     private fun setUpCreateTask() {
+
 
         if (!binding.edtName.text.isNullOrEmpty())
             currentTask.name = binding.edtName.text.toString()
@@ -1009,7 +1014,57 @@ class NewHabitFragment :
         }
     }
 
+    private fun setKeyBoardListener() {
+        val window = requireActivity().window
+        WindowCompat.setDecorFitsSystemWindows(window, false)  // <-- this tells android not to u
 
+        val callBack = OnApplyWindowInsetsListener { view, insets ->
+            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom?:0
+            Log.e("tag", "onKeyboardOpenOrClose imeHeight = $imeHeight")
+// todo: logic
+            val isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            if (isKeyboardVisible) {
+                println("keyboard visible")
+                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+                    context?.let {
+                        binding.nestScroll.setPadding(
+                            0,
+                            0,
+                            0,
+                            resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
+                        )
+
+                    }
+                    binding.nestScroll.post {
+                        binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
+                    }
+
+                })
+                // do something
+            }else{
+                // do something else
+                println("keyboard invisible")
+                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+                    context?.let {
+                        binding.nestScroll.setPadding(
+                            0,
+                            0,
+                            0,
+                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
+                        )
+
+                    }
+
+
+                })
+
+            }
+            insets?: WindowInsetsCompat(null)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener( binding.layoutChecklist.edtAdd, callBack)
+       // ViewCompat.setOnApplyWindowInsetsListener( binding.root, callBack)
+    }
     interface INewHabitListener {
         fun addTask(task: Task)
         fun editTaskCollection(task: Task)
@@ -1027,4 +1082,5 @@ class NewHabitFragment :
         super.onDestroyView()
         currentTask = Task()
     }
+
 }

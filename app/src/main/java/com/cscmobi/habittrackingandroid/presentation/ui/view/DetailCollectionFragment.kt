@@ -86,6 +86,13 @@ class DetailCollectionFragment :
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch{
+
+        }
+    }
+
     private fun initAdapter(list: ArrayList<Task>) {
         list.forEach {
             it.name = try {

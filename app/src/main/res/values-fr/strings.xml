@@ -221,7 +221,7 @@
     <string name="reset_challenge">Réinitialiser le défi</string>
     <string name="cancel_challenge">Annuler le défi</string>
     <string name="mood">Humeur</string>
-    <string name="tell_us_how_you_feel_today">Dites-nous comment vous vous sentez aujourd'hui ?</string>
+    <string name="tell_us_how_you_feel_today">Dites-nous comment vous vous sentez aujourd\'hui ?</string>
     <string name="mood_stat">Statistiques d\'humeur</string>
     <string name="mood_record">Enregistrement d\'humeur</string>
     <string name="get_started">COMMENCER</string>
@@ -238,8 +238,8 @@
     <string name="don_t_worry">Ne vous inquiétez pas,</string>
     <string name="we_will_help_you_meet_your_better_self">nous vous aiderons à rencontrer votre moi meilleur.</string>
     <string name="make_a_clear_plan_and_effective">Élaborez un plan clair et efficace</string>
-    <string name="always_with_the_user">Toujours avec l'utilisateur</string>
-    <string name="what_reasons_hinder_you_from_being_organized">Quelles sont les raisons qui vous empêchent d'être organisé(e) ?</string>
+    <string name="always_with_the_user">Toujours avec l\'utilisateur</string>
+    <string name="what_reasons_hinder_you_from_being_organized">Quelles sont les raisons qui vous empêchent d\'être organisé(e) ?</string>
     <string name="lack_of_motivation">Manque de motivation</string>
     <string name="lack_of_time">Manque de temps</string>
     <string name="no_daily_plan">Pas de plan quotidien</string>
@@ -251,8 +251,8 @@
     <string name="sale_70">SOLDE 50%</string>
     <string name="lifetime_subscription">Abonnement à vie</string>
     <string name="try_for_free">ESSAI GRATUIT</string>
-    <string name="how_are_you_feeling_today">Comment vous sentez-vous aujourd'hui ?</string>
-    <string name="share_with_us_how_you_feel_today">Partagez avec nous comment vous vous sentez aujourd'hui</string>
+    <string name="how_are_you_feeling_today">Comment vous sentez-vous aujourd\'hui ?</string>
+    <string name="share_with_us_how_you_feel_today">Partagez avec nous comment vous vous sentez aujourd\'hui</string>
     <string name="great">Formidable</string>
     <string name="good">Bien</string>
     <string name="neutral">Neutre</string>
