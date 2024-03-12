@@ -171,6 +171,7 @@ class CreateCollectionFragment :
             }
         }
 
+
         binding.layoutHeader.ivBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
