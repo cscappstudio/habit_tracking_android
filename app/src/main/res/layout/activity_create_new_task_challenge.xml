@@ -71,7 +71,7 @@
         android:hint="@string/challenge_name"
         android:inputType="text|textNoSuggestions|textMultiLine"
         android:justificationMode="inter_word"
-        android:maxLength="50"
+        android:maxLength="30"
         android:maxLines="2"
         android:textColor="#b5b5b5"
         android:textColorHint="#B5B5B5"

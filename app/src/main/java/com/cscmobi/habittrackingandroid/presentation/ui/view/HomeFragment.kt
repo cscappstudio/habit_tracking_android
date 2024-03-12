@@ -332,7 +332,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         if (!hasInitChip) {
 
                             val categories = arrayListOf<String>()
-                            categories.add("All")
+                            categories.add("  All  ")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
                             initChips(categories)
                             setUpView(listTask)
@@ -1013,7 +1013,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     resources.getDimension(com.intuit.ssp.R.dimen._12ssp)
                 )
 
-                if (it == "All") {
+                if (it == "  All  ") {
                     chip.isChecked = true
                     changeChipState(true, chip)
 
@@ -1026,7 +1026,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 chip.setOnCheckedChangeListener { compoundButton, b ->
 
                     if (chip.isChecked) {
-                        listNormalTask = if (chip.tag.toString() != "All") {
+                        listNormalTask = if (chip.tag.toString() != "  All  ") {
                             listTask.filter { it.challenge.isNullOrEmpty() && it.tag == chip.tag.toString() }
                                 .toMutableList()
                         } else listTask.filter { it.challenge.isNullOrEmpty() }.toMutableList()

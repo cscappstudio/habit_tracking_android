@@ -12,6 +12,7 @@ class ChartUtil {
             "S"
         )
         val categoriesMonthLabelAxisX = arrayOf(
+            "",
             "1",
             "2",
             "3",

@@ -273,5 +273,11 @@
     <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
     <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
     <string name="partially_done">Partially done</string>
+    <string name="habit_planner">Habit Planner</string>
+    <string name="to_do_list">Todo list</string>
+    <string name="calendar">Calendar</string>
+    <string name="journal">Journal</string>
+    <string name="say_hi_to_your_new">Say hi to your new</string>
+    <string name="together_let_s_become_better">Together, let\'s become better</string>
 
 </resources>

@@ -49,7 +49,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/Text_600_Med"
+            style="@style/Text_600_SemiB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoSizeMaxTextSize="14sp"

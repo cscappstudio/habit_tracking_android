@@ -26,6 +26,7 @@ import com.cscmobi.habittrackingandroid.utils.Utils
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_NATIVE_PROGRESS
 import com.thanhlv.fw.helper.RunUtils
@@ -685,6 +686,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             val day = CalendarUtil.dayOfMonth(it.date!!)
             if (!it.allTaskPause) temp[day - 1] = it.progressDay
         }
+        temp.add(0, 0)
         return temp
     }
 
@@ -804,7 +806,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             2 -> {
                 categories = categoriesMonthLabelAxisX
                 radiusColumn = 3
-                interval = 6
+                interval = 5
             }
 
             3 -> {
@@ -819,16 +821,29 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
                 interval = 1
             }
         }
+
         val aaChartModel: AAChartModel =
-            AAChartModel().chartType(AAChartType.Column).backgroundColor("#00000000").series(
-                arrayOf(
-                    AASeriesElement().data(mCurrentData).enableMouseTracking(false)
-                        .showInLegend(true)
+            AAChartModel().chartType(AAChartType.Column)
+                .axesTextColor("#393E3C")
+                .backgroundColor("#00000000")
+                .series(
+                    arrayOf(
+                        AASeriesElement().data(mCurrentData)
+                            .enableMouseTracking(false)
+                            .showInLegend(true)
+                    )
                 )
-            ).animationDuration(0).categories(categories).borderRadius(radiusColumn)
-                .xAxisTickInterval(interval).yAxisLabelsEnabled(true).yAxisMax(100).yAxisTitle("")
-                .gradientColorEnable(true).colorsTheme(arrayOf("#54BA8F", "#FB7950"))
+                .animationDuration(0)
+                .categories(categories)
+                .borderRadius(radiusColumn)
+                .xAxisTickInterval(interval)
+                .yAxisLabelsEnabled(true)
+                .yAxisMax(100)
+                .yAxisTitle("")
+                .gradientColorEnable(true)
+                .colorsTheme(arrayOf("#54BA8F", "#FB7950"))
                 .legendEnabled(false) //show series name
+
 
         binding.aaChartView.aa_drawChartWithChartModel(aaChartModel)
     }

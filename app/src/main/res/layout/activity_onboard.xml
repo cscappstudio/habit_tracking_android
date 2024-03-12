@@ -17,16 +17,15 @@
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/Text_600"
+        style="@style/Text_600_SemiB"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:textColor="#fff"
-        android:textFontWeight="800"
-        android:text="Say hi to your new"
-        android:textSize="26sp"
+        android:text="@string/say_hi_to_your_new"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.8"
@@ -41,22 +40,30 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="52dp"
         android:autoSizeMaxTextSize="15sp"
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
         android:maxLines="1"
-        android:text="Hãy cùng nhau đồng hành để trở nên tốt hơn"
+        android:text="@string/together_let_s_become_better"
         android:textColor="#ffffff"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/btn_next"
+        android:textSize="14.5sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="UnusedAttribute" />
 
+    <View
+        android:id="@+id/line_center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
     <TextView
         android:id="@+id/btn_next"
-        style="@style/Text_700_Med"
+        style="@style/Text_700_Bold"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
@@ -71,6 +78,8 @@
         android:text="@string/get_started"
         android:textColor="#fff"
         android:textSize="16sp"
+        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintTop_toTopOf="@id/line_center"
         app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +88,7 @@
     <com.thanhlv.ads.lib.TemplateNativeView
         android:id="@+id/adView"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         app:gnt_template_type="@layout/gnt_template_native_onboard"
         app:layout_constraintBottom_toBottomOf="parent" />
