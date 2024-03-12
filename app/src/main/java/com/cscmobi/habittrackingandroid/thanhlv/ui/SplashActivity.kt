@@ -49,6 +49,7 @@ class SplashActivity : BaseActivity2() {
     override fun setupScreen() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        SPF.setProApp(this, true)
 
     }
 
@@ -60,7 +61,7 @@ class SplashActivity : BaseActivity2() {
             val challengeData = ChallengeData(this)
 
             loadRemoteConfigs()
-            getPurchaseHistory()
+//            getPurchaseHistory()
 //            GSMUtil.retryLoginGSM = 0
 //            GSMUtil.login(this, null)
             if (!SPF.isFirstOpenApp(applicationContext))

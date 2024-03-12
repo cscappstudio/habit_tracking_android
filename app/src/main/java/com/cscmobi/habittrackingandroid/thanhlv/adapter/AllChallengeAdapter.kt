@@ -16,6 +16,7 @@ import com.cscmobi.habittrackingandroid.databinding.ItemMyChallengeBinding
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import com.cscmobi.habittrackingandroid.utils.Utils
+import com.thanhlv.fw.spf.SPF
 
 class AllChallengeAdapter(private var mContext: Context) :
     RecyclerView.Adapter<AllChallengeAdapter.ViewHolder>() {
@@ -23,6 +24,7 @@ class AllChallengeAdapter(private var mContext: Context) :
 
     private var mList = mutableListOf<Challenge>()
     private var mCallBack: AllChallengeCallback? = null
+    private var isPro = false
 
     interface AllChallengeCallback {
         fun onClickItem(challenge: Challenge)
@@ -39,6 +41,7 @@ class AllChallengeAdapter(private var mContext: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        isPro = SPF.isProApp(mContext)
         return ViewHolder(
             ItemAllChallengeBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -66,7 +69,7 @@ class AllChallengeAdapter(private var mContext: Context) :
                     itemData.image
                 )
             )
-        if (itemData.tryCount < 0) holder.binding.imgPremium.visibility = View.GONE
+        if (itemData.tryCount < 0 || isPro) holder.binding.imgPremium.visibility = View.GONE
         else holder.binding.imgPremium.visibility = View.VISIBLE
 //            holder.binding.imgCover.setImageBitmap(BitmapFactory.decodeStream(mContext.assets.open(itemData.image)))
     }
