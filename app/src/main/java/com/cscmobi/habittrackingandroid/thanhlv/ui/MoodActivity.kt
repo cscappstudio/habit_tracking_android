@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -28,7 +28,6 @@ import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MoodActivity : BaseActivity2() {
@@ -132,8 +131,9 @@ class MoodActivity : BaseActivity2() {
 //                    val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
 //                    intent.putExtra("data_mood", Gson().toJson(mood))
 //                    startActivity(intent)
-                    val popupMoodDetail = PopupDetailMood.newInstance(mood)
-                    popupMoodDetail.show(supportFragmentManager, "")
+//                    val popupMoodDetail = PopupDetailMood.newInstance(mood)
+//                    popupMoodDetail.show(supportFragmentManager, "")
+                    showDetailMood(mood)
                 }
 
             })
@@ -144,6 +144,10 @@ class MoodActivity : BaseActivity2() {
             moodRecordAdapter?.setData(listMood)
         }, 200)
 
+    }
+
+    private fun showDetailMood(mood: Mood) {
+        PopupDetailMood().newInstance(mood).show(supportFragmentManager, "")
     }
 
     private fun getMoodInMonth(month: MonthCalendarModel): ArrayList<Mood>? {
@@ -183,7 +187,13 @@ class MoodActivity : BaseActivity2() {
 
         while (calendar[Calendar.YEAR] <= currentTime[Calendar.YEAR]) {
             while (calendar[Calendar.MONTH] <= currentTime[Calendar.MONTH]) {
-                list.add(MonthCalendarModel(calendar[Calendar.MONTH] + 1, calendar[Calendar.YEAR], 1))
+                list.add(
+                    MonthCalendarModel(
+                        calendar[Calendar.MONTH] + 1,
+                        calendar[Calendar.YEAR],
+                        1
+                    )
+                )
                 calendar[Calendar.MONTH] += 1
                 if (calendar[Calendar.MONTH] > 11) {
                     calendar[Calendar.MONTH] = 0

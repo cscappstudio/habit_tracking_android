@@ -41,7 +41,7 @@ class OnboardActivity : BaseActivity2() {
         binding.vpOnboard.clipToPadding = false
         binding.vpOnboard.clipChildren = false
         binding.vpOnboard.isUserInputEnabled = false
-        binding.vpOnboard.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+//        binding.vpOnboard.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
         val photoAdapter = OnBoardAdapter(this, getListPhoto())
         binding.vpOnboard.adapter = photoAdapter

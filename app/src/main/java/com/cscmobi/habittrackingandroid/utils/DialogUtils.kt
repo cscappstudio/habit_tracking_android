@@ -76,27 +76,44 @@ object DialogUtils {
         }
     }
 
-    fun showWatchAdsDialog(activity: Activity,watchAdsTimes: Int, watchAdsDone: () -> Unit) {
+    fun showWatchAdsDialog(
+        activity: Activity,
+        watchAdsTimes: Int,
+        title: String,
+        des: String,
+        watchAdsDone: () -> Unit
+    ) {
         val binding = DialogWatchAdsBinding.inflate(LayoutInflater.from(activity))
         val alertDialog = AlertDialog.Builder(activity)
             .setView(binding.root)
             .show()
         alertDialog.window?.setBackgroundDrawable(null)
 
-        var content = binding.txtContent.text.toString()
+        if (title == "" || des == "") {
 
-        val watchAdsTimesIndex = content.indexOfFirst { it.isDigit() }
-        if (watchAdsTimesIndex != -1) {
 
-            content = content.replaceFirst(content[watchAdsTimesIndex],watchAdsTimes.digitToChar())
-           binding.txtContent.text = SpannableString(content).apply {
-                this.setSpan(
-                    ForegroundColorSpan(
-                        Color.parseColor("#33A7D9")
-                    ), watchAdsTimesIndex, watchAdsTimesIndex+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+            var content = binding.txtContent.text.toString()
+
+            val watchAdsTimesIndex = content.indexOfFirst { it.isDigit() }
+            if (watchAdsTimesIndex != -1) {
+
+                content =
+                    content.replaceFirst(content[watchAdsTimesIndex], watchAdsTimes.digitToChar())
+                binding.txtContent.text = SpannableString(content).apply {
+                    this.setSpan(
+                        ForegroundColorSpan(
+                            Color.parseColor("#33A7D9")
+                        ),
+                        watchAdsTimesIndex,
+                        watchAdsTimesIndex + 1,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+
             }
-
+        } else {
+            binding.txtContent.text = activity.getString(R.string.watch_an_ad_to_unlock_1_extra_challenge)
+            binding.tvTitle.text = activity.getString(R.string.mor_challenges_unlock_now)
         }
 
 
@@ -121,11 +138,8 @@ object DialogUtils {
                             override fun onLoadFailed() {
 
                             }
-
                         })
-
                     watchAdsDone.invoke()
-
                 }
             })
             alertDialog.dismiss()
@@ -139,5 +153,4 @@ object DialogUtils {
         }
 
     }
-
 }

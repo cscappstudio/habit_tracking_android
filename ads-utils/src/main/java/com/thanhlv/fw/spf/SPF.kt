@@ -22,8 +22,20 @@ class SPF {
         private const val SETTINGS_RETENTION_30_D = "SETTINGS_RETENTION_30_D"
 
         private const val SETTINGS_AVA_PROFILE = "SETTINGS_AVA_PROFILE"
+        private const val SETTINGS_TRY_CHALLENGE_PREMIUM = "SETTINGS_TRY_CHALLENGE_PREMIUM"
         private fun getSharedPreferences(context: Context): SharedPreferences {
             return context.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE)
+        }
+
+
+        fun getTryChallengePremium(context: Context): Int {
+            return getSharedPreferences(context).getInt(SETTINGS_TRY_CHALLENGE_PREMIUM, 0)
+        }
+
+        fun setTryChallengePremium(context: Context, value: Int) {
+            val editor = getSharedPreferences(context).edit()
+            editor.putInt(SETTINGS_TRY_CHALLENGE_PREMIUM, value)
+            editor.apply()
         }
 
         fun getCountShowAdFull(context: Context): Int {
@@ -123,7 +135,7 @@ class SPF {
         }
 
         fun isProApp(context: Context): Boolean {
-            return getSharedPreferences(context).getBoolean(SETTINGS_IS_PRO, false)
+            return getSharedPreferences(context).getBoolean(SETTINGS_IS_PRO, true)
         }
 
         fun setFirstOpenApp(context: Context, value: Boolean) {

@@ -1,9 +1,9 @@
 {
   "challenges": [
     {
-      "name": "Digital Detox Challenge",
+      "name": "No-Sugar",
       "description": "",
-      "image": "img_challenge_digital_detox.png",
+      "image": "img_challenge_no_sugar.png",
       "duration": 7,
       "cycle": 7,
       "repeat": [],
@@ -12,7 +12,7 @@
           "dayNo": 1,
           "tasks": [
             {
-              "name": "Assess your screen time",
+              "name": "Cut Out Sugar",
               "description": "",
               "icon": "avatask/archery.png",
               "color": "#B6D6DD",
@@ -24,7 +24,7 @@
           "dayNo": 2,
           "tasks": [
             {
-              "name": "Set Screen Time Limits",
+              "name": "Cut Out Sugar",
               "description": "",
               "icon": "avatask/archery.png",
               "color": "#B6D6DD",
@@ -36,7 +36,7 @@
           "dayNo": 3,
           "tasks": [
             {
-              "name": "Engage in non-screen activities",
+              "name": "Cut Out Sugar",
               "description": "",
               "icon": "avatask/archery.png",
               "color": "#B6D6DD",
@@ -48,7 +48,7 @@
           "dayNo": 4,
           "tasks": [
             {
-              "name": "Delete Unnecessary Apps",
+              "name": "Cut Out Sugar",
               "description": "",
               "icon": "avatask/archery.png",
               "color": "#B6D6DD",
@@ -60,7 +60,7 @@
           "dayNo": 5,
           "tasks": [
             {
-              "name": "Call a friend",
+              "name": "Cut Out Sugar",
               "description": "",
               "icon": "avatask/archery.png",
               "color": "#B6D6DD",
@@ -72,7 +72,7 @@
           "dayNo": 6,
           "tasks": [
             {
-              "name": "Schedule social media time",
+              "name": "Cut Out Sugar",
               "description": "",
               "icon": "avatask/archery.png",
               "color": "#B6D6DD",
@@ -84,7 +84,7 @@
           "dayNo": 7,
           "tasks": [
             {
-              "name": "Reflect and Plan Ahead",
+              "name": "Cut Out Sugar",
               "description": "",
               "icon": "avatask/archery.png",
               "color": "#B6D6DD",
@@ -92,171 +92,8 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "name": "Relieve anxiety",
-      "description": "",
-      "image": "img_challenge_relieve_my_anxiety.png",
-      "duration": 7,
-      "cycle": 7,
-      "repeat": [],
-      "days": [
-        {
-          "dayNo": 1,
-          "tasks": [
-            {
-              "name": "Acknowledge your feeling",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 2,
-          "tasks": [
-            {
-              "name": "Practice Mindful Breathing",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 3,
-          "tasks": [
-            {
-              "name": "Write down your feeling",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 4,
-          "tasks": [
-            {
-              "name": "Exercise",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 5,
-          "tasks": [
-            {
-              "name": "Create a structured routine",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 6,
-          "tasks": [
-            {
-              "name": "Maitain self-care",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 7,
-          "tasks": [
-            {
-              "name": "Digital Detox",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Work boost",
-      "description": "",
-      "image": "img_challenge_work_boost.png",
-      "duration": 5,
-      "cycle": 5,
-      "repeat": [],
-      "days": [
-        {
-          "dayNo": 1,
-          "tasks": [
-            {
-              "name": "Build a to-do list",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 2,
-          "tasks": [
-            {
-              "name": "Write down your distractions",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 3,
-          "tasks": [
-            {
-              "name": "Focus on one task for 25 mins",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 4,
-          "tasks": [
-            {
-              "name": "Batch your days",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 5,
-          "tasks": [
-            {
-              "name": "Refine your workspace",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        }
-      ]
+      ],
+      "tryCount": -1
     },
     {
       "name": "Morning Glow",
@@ -497,7 +334,352 @@
             }
           ]
         }
-      ]
+      ],
+      "tryCount": -1
+    },
+    {
+      "name": "Digital Detox Challenge",
+      "description": "",
+      "image": "img_challenge_digital_detox.png",
+      "duration": 7,
+      "cycle": 7,
+      "repeat": [],
+      "days": [
+        {
+          "dayNo": 1,
+          "tasks": [
+            {
+              "name": "Assess your screen time",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 2,
+          "tasks": [
+            {
+              "name": "Set Screen Time Limits",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 3,
+          "tasks": [
+            {
+              "name": "Engage in non-screen activities",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 4,
+          "tasks": [
+            {
+              "name": "Delete Unnecessary Apps",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 5,
+          "tasks": [
+            {
+              "name": "Call a friend",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 6,
+          "tasks": [
+            {
+              "name": "Schedule social media time",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 7,
+          "tasks": [
+            {
+              "name": "Reflect and Plan Ahead",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        }
+      ],
+      "tryCount": 0
+    },
+    {
+      "name": "Relationship",
+      "description": "",
+      "image": "img_challenge_relationship.png",
+      "duration": 6,
+      "cycle": 6,
+      "repeat": [],
+      "days": [
+        {
+          "dayNo": 1,
+          "tasks": [
+            {
+              "name": "Have a date night",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 2,
+          "tasks": [
+            {
+              "name": "Give more hugs",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 3,
+          "tasks": [
+            {
+              "name": "Leave your partner a note",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 4,
+          "tasks": [
+            {
+              "name": "Wrap up a small gift",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 5,
+          "tasks": [
+            {
+              "name": "Share your perfect day",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 6,
+          "tasks": [
+            {
+              "name": "List 3 things you're grateful for about your partner",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        }
+      ],
+      "tryCount": 0
+    },
+    {
+      "name": "Work boost",
+      "description": "",
+      "image": "img_challenge_work_boost.png",
+      "duration": 5,
+      "cycle": 5,
+      "repeat": [],
+      "days": [
+        {
+          "dayNo": 1,
+          "tasks": [
+            {
+              "name": "Build a to-do list",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 2,
+          "tasks": [
+            {
+              "name": "Write down your distractions",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 3,
+          "tasks": [
+            {
+              "name": "Focus on one task for 25 mins",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 4,
+          "tasks": [
+            {
+              "name": "Batch your days",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 5,
+          "tasks": [
+            {
+              "name": "Refine your workspace",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        }
+      ],
+      "tryCount": 0
+    },
+    {
+      "name": "Relieve anxiety",
+      "description": "",
+      "image": "img_challenge_relieve_my_anxiety.png",
+      "duration": 7,
+      "cycle": 7,
+      "repeat": [],
+      "days": [
+        {
+          "dayNo": 1,
+          "tasks": [
+            {
+              "name": "Acknowledge your feeling",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 2,
+          "tasks": [
+            {
+              "name": "Practice Mindful Breathing",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 3,
+          "tasks": [
+            {
+              "name": "Write down your feeling",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 4,
+          "tasks": [
+            {
+              "name": "Exercise",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 5,
+          "tasks": [
+            {
+              "name": "Create a structured routine",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 6,
+          "tasks": [
+            {
+              "name": "Maitain self-care",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        },
+        {
+          "dayNo": 7,
+          "tasks": [
+            {
+              "name": "Digital Detox",
+              "description": "",
+              "icon": "avatask/archery.png",
+              "color": "#B6D6DD",
+              "taskNo": 0
+            }
+          ]
+        }
+      ],
+      "tryCount": 0
     },
     {
       "name": "Workout from Home",
@@ -591,89 +773,8 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "name": "Relationship",
-      "description": "",
-      "image": "img_challenge_relationship.png",
-      "duration": 6,
-      "cycle": 6,
-      "repeat": [],
-      "days": [
-        {
-          "dayNo": 1,
-          "tasks": [
-            {
-              "name": "Have a date night",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 2,
-          "tasks": [
-            {
-              "name": "Give more hugs",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 3,
-          "tasks": [
-            {
-              "name": "Leave your partner a note",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 4,
-          "tasks": [
-            {
-              "name": "Wrap up a small gift",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 5,
-          "tasks": [
-            {
-              "name": "Share your perfect day",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 6,
-          "tasks": [
-            {
-              "name": "List 3 things you're grateful for about your partner",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        }
-      ]
+      ],
+      "tryCount": 0
     },
     {
       "name": "Healthy Meal",
@@ -767,101 +868,8 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "name": "No-Sugar",
-      "description": "",
-      "image": "img_challenge_no_sugar.png",
-      "duration": 7,
-      "cycle": 7,
-      "repeat": [],
-      "days": [
-        {
-          "dayNo": 1,
-          "tasks": [
-            {
-              "name": "Cut Out Sugar",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 2,
-          "tasks": [
-            {
-              "name": "Cut Out Sugar",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 3,
-          "tasks": [
-            {
-              "name": "Cut Out Sugar",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 4,
-          "tasks": [
-            {
-              "name": "Cut Out Sugar",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 5,
-          "tasks": [
-            {
-              "name": "Cut Out Sugar",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 6,
-          "tasks": [
-            {
-              "name": "Cut Out Sugar",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        },
-        {
-          "dayNo": 7,
-          "tasks": [
-            {
-              "name": "Cut Out Sugar",
-              "description": "",
-              "icon": "avatask/archery.png",
-              "color": "#B6D6DD",
-              "taskNo": 0
-            }
-          ]
-        }
-      ]
+      ],
+      "tryCount": 0
     }
   ]
 }
