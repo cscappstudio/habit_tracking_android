@@ -1013,7 +1013,6 @@ class NewHabitFragment :
             }
         }
     }
-
     private fun setKeyBoardListener() {
         val window = requireActivity().window
         WindowCompat.setDecorFitsSystemWindows(window, false)  // <-- this tells android not to u
