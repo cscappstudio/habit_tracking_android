@@ -12,4 +12,7 @@
     <string name="journal">Journal</string>
     <string name="say_hi_to_your_new">Say hi to your new</string>
     <string name="together_let_s_become_better">Together, let\'s become better</string>
+    <string name="name_empty">Name empty!</string>
+    <string name="task_name">Task name</string>
+    <string name="delete_success">Delete success</string>
 </resources>

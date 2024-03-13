@@ -57,7 +57,7 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
         holder.binding.showBtnAdd.setOnClickListener {
             mCallBack?.onClickItem(mList[position], position)
         }
-        holder.binding.showTask.setOnClickListener {
+        holder.binding.tvTitle.setOnClickListener {
             mCallBack?.onClickItem(mList[position], position)
         }
 
@@ -74,7 +74,7 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
                 holder.binding.showTask.visibility = View.GONE
             }
             2 -> {
-                holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(110f)
+                holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(112f)
                 holder.binding.tvDay.visibility = View.VISIBLE
                 holder.binding.tvDay.text = mContext.getString(R.string.day_) + item.day.toString()
                 holder.binding.showBtnAdd.visibility = View.GONE
@@ -110,7 +110,7 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
             }
             else -> {
                 holder.binding.tvDay.text = mContext.getString(R.string.day_) + item.day.toString()
-                holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(110f)
+                holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(112f)
                 holder.binding.tvDay.visibility = View.VISIBLE
                 holder.binding.showBtnAdd.visibility = View.VISIBLE
                 holder.binding.showTask.visibility = View.GONE

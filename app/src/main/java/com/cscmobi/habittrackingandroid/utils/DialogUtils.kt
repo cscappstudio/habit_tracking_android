@@ -15,15 +15,37 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.DialogCongratulationBinding
+import com.cscmobi.habittrackingandroid.databinding.DialogDeleteChallengeBinding
 import com.cscmobi.habittrackingandroid.databinding.DialogDeleteTaskBinding
 import com.cscmobi.habittrackingandroid.databinding.DialogWatchAdsBinding
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.DisplayUtils
 
 object DialogUtils {
+    fun showDeleteChallenge(context: Context, deleteFuture: () -> Unit, deleteAll: () -> Unit) {
+        val binding = DialogDeleteChallengeBinding.inflate(LayoutInflater.from(context));
+        val alertDialog = AlertDialog.Builder(context)
+            .setView(binding.root)
+            .show()
+        alertDialog.window?.setBackgroundDrawable(null)
+
+        binding.ivClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        binding.btnDelete.setOnClickListener {
+            deleteFuture.invoke()
+            alertDialog.dismiss()
+        }
+
+        binding.btnCancel.setOnClickListener {
+            deleteAll.invoke()
+            alertDialog.dismiss()
+        }
+    }
+
     fun showDeleteTaskDialog(context: Context, deleteFuture: () -> Unit, deleteAll: () -> Unit) {
         val binding = DialogDeleteTaskBinding.inflate(LayoutInflater.from(context));
         val alertDialog = AlertDialog.Builder(context)
@@ -112,7 +134,8 @@ object DialogUtils {
 
             }
         } else {
-            binding.txtContent.text = activity.getString(R.string.watch_an_ad_to_unlock_1_extra_challenge)
+            binding.txtContent.text =
+                activity.getString(R.string.watch_an_ad_to_unlock_1_extra_challenge)
             binding.tvTitle.text = activity.getString(R.string.mor_challenges_unlock_now)
         }
 

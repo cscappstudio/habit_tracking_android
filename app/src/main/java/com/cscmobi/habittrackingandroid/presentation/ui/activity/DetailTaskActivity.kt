@@ -349,7 +349,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                     currentTask.endDate?.isOpen = true
                 }
 
-                Toast.makeText(this, "Delete success", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.delete_success), Toast.LENGTH_SHORT).show()
 
                 lifecycleScope.launch {
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.DeleteTask(currentTask, 0))

@@ -232,7 +232,6 @@ class DetailChallengeActivity : BaseActivity2() {
             resolverDataJoinChallenge()
 
             //update task challenge to task all
-            delay(300)
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
             newMyChallenges.sortByDescending {

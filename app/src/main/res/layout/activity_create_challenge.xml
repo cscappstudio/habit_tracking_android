@@ -7,39 +7,20 @@
     android:background="@color/white">
 
 
-    <FrameLayout
-        android:id="@+id/btn_back_header"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/shape_circle_fill"
-        android:backgroundTint="#E1ECEC"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_left"
-            tools:ignore="ContentDescription" />
-    </FrameLayout>
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/tv_title_header"-->
-<!--        style="@style/Text_700_Med"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:maxLines="1"-->
-<!--        android:text="@string/create_a_challenge"-->
-<!--        android:textSize="22sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/btn_back_header"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@id/btn_back_header"-->
-<!--        app:layout_constraintTop_toTopOf="@id/btn_back_header" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_title_header"-->
+    <!--        style="@style/Text_700_Med"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:maxLines="1"-->
+    <!--        android:text="@string/create_a_challenge"-->
+    <!--        android:textSize="22sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/btn_back_header"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/btn_back_header"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/btn_back_header" />-->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -56,7 +37,7 @@
                 android:layout_width="160dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="88dp"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
                 android:src="@drawable/bg_add_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,11 +60,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:backgroundTint="#E1ECEC"
+                android:gravity="center"
                 android:hint="@string/challenge_name"
                 android:inputType="text|textNoSuggestions|textMultiLine"
                 android:maxLength="30"
                 android:maxLines="2"
-                android:textColor="#b5b5b5"
+                android:textColor="#09392D"
                 android:textColorHint="#B5B5B5"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +85,7 @@
                 android:background="@drawable/bg_white_round_20"
                 android:backgroundTint="#F5F5F5"
                 android:paddingVertical="14dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/edt_name">
 
                 <TextView
@@ -125,11 +109,11 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="6dp"
                     android:background="@drawable/bg_white_round_20"
+                    android:ellipsize="start"
                     android:gravity="start|top"
                     android:hint="@string/type_description"
                     android:inputType="textMultiLine|textNoSuggestions|text"
                     android:isScrollContainer="true"
-                    android:ellipsize="start"
                     android:maxLines="3"
                     android:padding="16dp"
                     android:textColor="#393E3C"
@@ -332,10 +316,10 @@
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#F5F5F5"
+                    android:backgroundTint="#CC54BA8F"
                     android:gravity="center"
-                    android:text="Mon"
-                    android:textColor="#b5b5b5"
+                    android:text="@string/mon"
+                    android:textColor="#fff"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -350,10 +334,10 @@
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#F5F5F5"
+                    android:backgroundTint="#CC54BA8F"
                     android:gravity="center"
-                    android:text="Tue"
-                    android:textColor="#b5b5b5"
+                    android:text="@string/tue"
+                    android:textColor="#fff"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -368,10 +352,10 @@
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#F5F5F5"
+                    android:backgroundTint="#CC54BA8F"
                     android:gravity="center"
-                    android:text="Wed"
-                    android:textColor="#b5b5b5"
+                    android:text="@string/wed"
+                    android:textColor="#fff"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -386,10 +370,10 @@
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#F5F5F5"
+                    android:backgroundTint="#CC54BA8F"
                     android:gravity="center"
-                    android:text="Thu"
-                    android:textColor="#b5b5b5"
+                    android:text="@string/thu"
+                    android:textColor="#fff"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -404,10 +388,10 @@
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#F5F5F5"
+                    android:backgroundTint="#CC54BA8F"
                     android:gravity="center"
-                    android:text="Fri"
-                    android:textColor="#b5b5b5"
+                    android:text="@string/fri"
+                    android:textColor="#fff"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -422,10 +406,10 @@
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#F5F5F5"
+                    android:backgroundTint="#CC54BA8F"
                     android:gravity="center"
-                    android:text="Sat"
-                    android:textColor="#b5b5b5"
+                    android:text="@string/sat"
+                    android:textColor="#fff"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -440,10 +424,10 @@
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_white_round_20"
-                    android:backgroundTint="#F5F5F5"
+                    android:backgroundTint="#CC54BA8F"
                     android:gravity="center"
-                    android:text="Sun"
-                    android:textColor="#b5b5b5"
+                    android:text="@string/sun"
+                    android:textColor="#fff"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -466,6 +450,25 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/btn_back_header"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/shape_circle_fill"
+        android:backgroundTint="#E1ECEC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_arrow_left"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/btn_start_challenge"
