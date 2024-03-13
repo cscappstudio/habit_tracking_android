@@ -351,7 +351,6 @@ class NewHabitFragment :
             subTaskAdapter?.notifyDataSetChanged()
         }
 
-
         resetColorTask()
 
         binding.swGoal.isChecked = binding.isGoalEdit ?: false
