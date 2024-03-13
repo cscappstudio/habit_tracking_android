@@ -74,6 +74,7 @@
         android:inputType="text|textNoSuggestions|textMultiLine"
         android:justificationMode="inter_word"
         android:maxLength="30"
+        android:textCursorDrawable="@drawable/color_cursor"
         android:maxLines="2"
         android:textColor="#09392D"
         android:textColorHint="#B5B5B5"
