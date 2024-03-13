@@ -114,7 +114,7 @@ class CollectionViewModel constructor(
         try {
             viewModelScope.launch(Dispatchers.IO) {
                 Log.d("UPDATECOLLECT", collection.toString())
-                databaseRepository.updateCollection(collection.copy())
+                databaseRepository.updateCollection(collection)
                 passCollectionItem(collection)
 
                 delay(500L)
@@ -127,6 +127,7 @@ class CollectionViewModel constructor(
     }
 
     fun setStateUpdateCollection(data: HabitCollection) {
+        println("ittttttttttttttttt2_${data.task}")
         _state.value = CollectionState.UpdateCollection(data)
     }
 

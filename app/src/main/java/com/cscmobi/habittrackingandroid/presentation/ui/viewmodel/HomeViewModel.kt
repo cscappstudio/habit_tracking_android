@@ -67,8 +67,8 @@ class HomeViewModel(
         get() = _challenges
 
 
-    private val _challengeTaskMap = MutableStateFlow< Map<String, List<ChallengeTask>>>(mapOf())
-    val challengeTaskMap: StateFlow< Map<String, List<ChallengeTask>>>
+    private val _challengeTaskMap = MutableStateFlow<Map<String, List<ChallengeTask>>>(mapOf())
+    val challengeTaskMap: StateFlow<Map<String, List<ChallengeTask>>>
         get() = _challengeTaskMap
 //    var : Map<String?, List<Task>> = mapOf()
 
@@ -98,9 +98,9 @@ class HomeViewModel(
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
 
-        if (history.taskInDay.isEmpty())
-        {
-        }else {
+        if (history.taskInDay.isEmpty()) {
+            databaseRepository.deleteHistory(history)
+        } else {
             var taskDoneSize = 0
             history.taskInDay.forEach {
                 if (it.progress == 100) taskDoneSize++
@@ -113,7 +113,7 @@ class HomeViewModel(
     }
 
     fun getMyChallenge() = viewModelScope.launch(Dispatchers.IO) {
-        databaseRepository.getMyChallenge().collect{
+        databaseRepository.getMyChallenge().collect {
             _challenges.value = it.toMutableList()
         }
     }
@@ -125,7 +125,7 @@ class HomeViewModel(
     }
 
 
-     fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
+    fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
 
         databaseRepository.getAllHistory().collect {
             if (it.isEmpty()) return@collect
@@ -133,35 +133,45 @@ class HomeViewModel(
             var histories = it.toMutableList()
             println("chaulqalo___$histories")
 
-            databaseRepository.getAllTask().collect{ tasks ->
-                val challengeTaskMap = tasks.filter { !it.challenge.isNullOrEmpty() }.map{ChallengeTask(it.challenge!!, InfoTask(it.id,it.goal!!.target))}.groupBy { it.challengeName }
+            databaseRepository.getAllTask().collect { tasks ->
+                var challengeTaskMap = tasks.filter { !it.challenge.isNullOrEmpty() }
+                    .map { ChallengeTask(it.challenge!!, InfoTask(it.id, it.goal!!.target)) }
+                    .groupBy { it.challengeName }
 
-                histories.forEach { history ->
+//                histories.forEach { history ->
+//                    challengeTaskMap.forEach { t, u ->
+//                        u.forEach {  challengeTask ->
+//                            val validIndex = history.taskInDay.indexOfFirst { it.taskId ==  challengeTask.infoTask.id}
+//                            if (validIndex != -1)  challengeTask.infoTask.status = history.taskInDay[validIndex].progress >= challengeTask.infoTask.target
+//                        }
+//                    }
+//                }
+                if (histories.size > 2)
                     challengeTaskMap.forEach { t, u ->
-                        u.forEach {  challengeTask ->
-                            val validIndex = history.taskInDay.indexOfFirst { it.taskId ==  challengeTask.infoTask.id}
-                            if (validIndex != -1)  challengeTask.infoTask.status = history.taskInDay[validIndex].progress >= challengeTask.infoTask.target
+                        u.forEach { challengeTask ->
+                            val validIndex =
+                                histories[histories.size - 2].taskInDay.indexOfFirst { it.taskId == challengeTask.infoTask.id }
+                            if (validIndex != -1) challengeTask.infoTask.status =
+                                histories[histories.size - 2].taskInDay[validIndex].progress >= challengeTask.infoTask.target
                         }
                     }
-                }
-
-
+                else challengeTaskMap = mapOf()
 
                 var currentDayStreak = 0
-                for (i in histories.size-1 downTo 0) {
+                for (i in histories.size - 1 downTo 0) {
                     var taskFinish = true
 
-                   histories[i].taskInDay.forEach { taskInDay ->
-                       tasks.find { it.id == taskInDay.taskId }?.let {
-                           if (it.goal!!.target != taskInDay.progressGoal){
-                               taskFinish = false
-                           }
-                       }
+                    histories[i].taskInDay.forEach { taskInDay ->
+                        tasks.find { it.id == taskInDay.taskId }?.let {
+                            if (it.goal!!.target != taskInDay.progressGoal) {
+                                taskFinish = false
+                            }
+                        }
 
-                       if (!taskFinish)  {
-                           return@forEach
-                       }
-                   }
+                        if (!taskFinish) {
+                            return@forEach
+                        }
+                    }
                     if (taskFinish) currentDayStreak++
                     else break
                 }
@@ -219,9 +229,9 @@ class HomeViewModel(
 
                             val newTaskInDay = history.taskInDay.toMutableList()
                             newTaskInDay.removeAt(index)
-                           // databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
+                            // databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
                             history.taskInDay = newTaskInDay
-                          updateHistory(history)
+                            updateHistory(history)
                         }
                     }
                 }
@@ -282,7 +292,7 @@ class HomeViewModel(
                     tasks = taskFilter.toMutableList()
 
                     if (tasks.isEmpty())
-                        _state.value =  HomeState.Empty
+                        _state.value = HomeState.Empty
                     else
                         _state.value = HomeState.Tasks(tasks)
 
@@ -303,7 +313,7 @@ class HomeViewModel(
     fun initDateWeek(date: Long? = null) {
 
         var c = LocalDate.now()
-        val minRange =  c.minusWeeks(12).toDate()
+        val minRange = c.minusWeeks(12).toDate()
         val maxRange = c.plusWeeks(12).toDate()
 
 

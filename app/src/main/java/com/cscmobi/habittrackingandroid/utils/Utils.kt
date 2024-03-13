@@ -19,13 +19,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.widget.NestedScrollView
 import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.spf.SPF
 import org.threeten.bp.LocalDate
 import java.io.IOException
 import java.io.InputStream
 import java.io.Serializable
+import java.lang.reflect.Method
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -271,6 +272,31 @@ object Utils {
      fun Activity.showInputMethod(view: View) {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.showSoftInput(view, 0)
+    }
+
+    fun isSystemKeyboardVisible(context: Context): Boolean {
+        return try {
+            val manager =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val windowHeightMethod: Method =
+                InputMethodManager::class.java.getMethod("getInputMethodWindowVisibleHeight")
+            val height = windowHeightMethod.invoke(manager) as Int
+            height > 0
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun scrollToView(nestedScrollView: NestedScrollView, viewToScrollTo: View) {
+        val xYPos = IntArray(2)
+        viewToScrollTo.getLocationOnScreen(xYPos)
+        val scrollxYPos = IntArray(2)
+        nestedScrollView.getLocationOnScreen(scrollxYPos)
+        var yPosition = xYPos[1]
+        if (yPosition < 0) {
+            yPosition = 0
+        }
+        nestedScrollView.scrollTo(0, scrollxYPos[1] - yPosition)
     }
 }
 

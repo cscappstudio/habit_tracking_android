@@ -54,7 +54,7 @@ class CreateCollectionFragment :
     override fun initView(view: View) {
 
         hadChangeState = false
-        newTasks.clear()
+       // newTasks.clear()
         initTaskCollectionAdapter()
 
         bottomSheetFragment.listener = object : BottomSheetCollectionFragment.IBottomCollection {
@@ -93,8 +93,10 @@ class CreateCollectionFragment :
         data.image?.let { binding.ivCollection.setDrawableString(it) }
 
         binding.edtCollection.setText(data.name)
+       newTasks.clear()
         data.task?.let { newTasks.addAll(it) }
         taskCollectionAdapter?.notifyDataSetChanged()
+        println("setUpCollection_____________${collectionData}")
 
         binding.layoutCreate.btnSave.text = "SAVE"
     }
@@ -167,8 +169,10 @@ class CreateCollectionFragment :
                 it.newHabitFragment.newHabitFragmentState =
                     NewHabitFragment.NewHabitFragmentState.ADDTOCOLLECTION
                 it.addFragmentNotHide(it.newHabitFragment, NewHabitFragment.TAG)
+                hideSoftKeyboard(this)
             }
         }
+
 
         binding.layoutHeader.ivBack.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -215,16 +219,22 @@ class CreateCollectionFragment :
                     newTasks.forEach {
                         it.startDate = null
                     }
-                    collectionData.task = newTasks
+
+                    var task = mutableListOf<Task>()
+                    task.addAll(newTasks)
+
+                    collectionData.task= task
+
                     collectionViewModel.userIntent.send(CollectionIntent.UpdateCollection(collectionData))
-//                    parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     parentFragmentManager.popBackStack()
 
                 }
 
             }
        }
+
     }
+
 
     private fun validateCollection(): Boolean {
         if (binding.edtCollection.text.isNullOrEmpty())  {
@@ -271,6 +281,8 @@ class CreateCollectionFragment :
         newTasks.add(task.copy())
         taskCollectionAdapter?.notifyItemInserted(newTasks.size - 1)
     }
+
+
 
     fun setPopUpWindow(v: View,p: Int,e: Task) {
         val popup = CustomEditMenu(requireContext(),{

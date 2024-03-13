@@ -60,9 +60,10 @@ class CollectionFragment :
                         listCollections = it.collection.toMutableList()
                         listTasks.clear()
                         listCollections.forEach {
-                            it.task?.let { tasks ->
-                                listTasks.addAll(tasks)
-                            }
+                            if (!it.isEdit)
+                                it.task?.let { tasks ->
+                                    listTasks.addAll(tasks)
+                                }
                         }
                         listCollections.add(0, HabitCollection())
                         initCollectionAdapter()
@@ -203,7 +204,6 @@ class CollectionFragment :
                     }.distinctBy { it.name }
 
 
-
                     val results = FilterResults()
                     results.values = filteredList
                     return results
@@ -295,7 +295,10 @@ class CollectionFragment :
         binding.ivClose.setOnClickListener {
             toggleSearchView()
         }
+
+
     }
+
 
     private fun toggleSearchView() {
         if (binding.searchView.visibility == View.VISIBLE) {

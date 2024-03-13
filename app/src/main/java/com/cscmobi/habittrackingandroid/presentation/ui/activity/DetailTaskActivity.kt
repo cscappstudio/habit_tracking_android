@@ -239,6 +239,8 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             binding.txtNoteTask.text = it.note
 
             if (it.goal != null) {
+                binding.ctlProgressGoal.visibility = if (it.goal.isOn) View.VISIBLE else View.GONE
+
                 progressStep = (100 / (it.goal!!.target ?: 1)).toFloat()
 
                 if (it.goal!!.target > 2)
@@ -250,7 +252,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 currentGoal = (it.goal!!.target ?: 1)
 
 
-                binding.ctlProgressGoal.visibility = View.VISIBLE
                 binding.txtProgress.text = (it.goal!!.currentProgress ?: 0).toString()
                 binding.txtGoalTarget.text =
                     "${getString(R.string.goal)}: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"

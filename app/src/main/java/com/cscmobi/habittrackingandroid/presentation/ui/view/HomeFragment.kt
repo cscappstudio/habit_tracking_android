@@ -107,9 +107,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
     var currentHistory: History? = null
     private var calenderDialogHomeFragment = CalenderDialogHomeFragment()
-    private var challengeTaskMap: Map<String, List<ChallengeTask>> = mapOf()
+    private var challengePassHistoryTaskMap: Map<String, List<ChallengeTask>> = mapOf()
     private var challenges = mutableListOf<Challenge>()
     private var resetCurrentTasks = false
+    private var isPassHistoryChallengeDone = false
 
     override fun initView(view: View) {
         binding.isTasksEmpty = true
@@ -148,7 +149,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         lifecycleScope.launch {
             homeViewModel.challenges.collect {
                 challenges = it
-
             }
         }
 
@@ -279,7 +279,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         lifecycleScope.launch {
             homeViewModel.challengeTaskMap.collect {
-                challengeTaskMap = it
+                challengePassHistoryTaskMap = it
             }
         }
 
@@ -315,7 +315,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
-    private fun  observeState() {
+    private fun observeState() {
         lifecycleScope.launch {
             homeViewModel.state.collect { state ->
                 if (currentDate < Helper.currentDate.toDate()) oldCurrentDate = currentDate
@@ -403,9 +403,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         currentHistory = it
 
 
-
                         val dataIndex = data.indexOfFirst { it.localDate!!.toDate() == currentDate }
-                        if (dataIndex != -1 ) {
+                        if (dataIndex != -1) {
                             var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
                             var tasksNum = it.taskInDay.size
 
@@ -700,31 +699,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                 challengeHomeAdpater.notifyItemChanged(p)
 
-                var isChallengeDone = true
-                challengeTaskMap[item.name]?.forEachIndexed { index, it ->
+                challengePassHistoryTaskMap[item.name]?.forEachIndexed { index, it ->
 
-                    if (it.infoTask.id == item.idTask) {
-                        it.infoTask.status = tasksChallenge[p].stateDone
-                        isChallengeDone = it.infoTask.status
+                    //                   if (it.infoTask.id == item.idTask) { //                      it.infoTask.status = tasksChallenge[p].stateDone
+//                        isChallengeDone = it.infoTask.status
+//
+//                        if (index - 1 >= 0 && challengePassHistoryTaskMap[item.name]?.get(index - 1)?.infoTask?.status == false) {
+//                            val intent =
+//                                Intent(requireContext(), DetailChallengeActivity::class.java)
+//
+//                            runBlocking {
+//                                val challenge = AppDatabase.getInstance(requireContext()).dao()
+//                                    .findChallengeByName(item.name)
+//                                intent.putExtra("data", Gson().toJson(challenge))
+//                                startActivity(intent)
+//                            }
+//                            return
+//                        }
 
-                        if (index - 1 >= 0 && challengeTaskMap[item.name]?.get(index - 1)?.infoTask?.status == false) {
-                            val intent =
-                                Intent(requireContext(), DetailChallengeActivity::class.java)
 
-                            runBlocking {
-                                val challenge = AppDatabase.getInstance(requireContext()).dao()
-                                    .findChallengeByName(item.name)
-                                intent.putExtra("data", Gson().toJson(challenge))
-                                startActivity(intent)
-                            }
-                            return
-                        }
-
-                    }
+                    //         }
                     if (!it.infoTask.status) {
-                        isChallengeDone = false
+                        val intent =
+                            Intent(requireContext(), DetailChallengeActivity::class.java)
 
-                        return@forEachIndexed
+                        runBlocking {
+                            val challenge = AppDatabase.getInstance(requireContext()).dao()
+                                .findChallengeByName(item.name)
+                            intent.putExtra("data", Gson().toJson(challenge))
+                            startActivity(intent)
+                        }
+                        return
                     }
 
                 }
@@ -733,7 +738,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 lifecycleScope.launch {
                     currentHistory?.let { currentHistory ->
                         listTask.find { it.id == item.idTask }?.let {
-                            it.goal?.currentProgress = if (tasksChallenge[p].stateDone) it.goal?.target!! else 0
+                            it.goal?.currentProgress =
+                                if (tasksChallenge[p].stateDone) it.goal?.target!! else 0
                             currentHistory.taskInDay = getTasksInday(listTask)
                             var tasksFinishNum =
                                 currentHistory.taskInDay.filter { it.progress == 100 }.size
@@ -751,9 +757,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     delay(500L)
                 }
-                val currentChallenge = challenges.find { it.id == item.idTask }
+                // check if current task is finish then show dialog congratulation
+                val currentChallenge = challenges.find { it.name == item.name }
                 currentChallenge?.let {
-                    if (isChallengeDone) {
+                    if (it.finish) {
                         requireActivity().let { mactivity ->
                             with(mactivity.getMySharedPreferences()) {
                                 if (!this.getBoolean(
@@ -775,8 +782,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                         }
                     }
-                    it.joinedHistory?.state = if (isChallengeDone) 1 else 0
-                    homeViewModel.updateChallenge(it)
+//                    it.joinedHistory?.state = if (isChallengeDone) 1 else 2
+//                    homeViewModel.updateChallenge(it)
                 }
             }
         })

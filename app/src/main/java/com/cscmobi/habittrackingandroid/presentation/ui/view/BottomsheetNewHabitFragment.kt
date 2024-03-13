@@ -1,11 +1,17 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DiffUtil
 import com.cscmobi.habittrackingandroid.R
@@ -14,6 +20,7 @@ import com.cscmobi.habittrackingandroid.data.model.Tag
 import com.cscmobi.habittrackingandroid.databinding.BottomsheetFragmentNewHabitBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
+import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
@@ -133,6 +140,51 @@ class BottomsheetNewHabitFragment :
             return false
         }
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initObserverForSystemKeyboardVisibility()
+    }
+
+    private fun initObserverForSystemKeyboardVisibility() {
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            // Add your own code here
+            if (!Utils.isSystemKeyboardVisible(requireActivity())) {
+
+                context?.let {
+                    binding.ctlRoot.setPadding(
+                        0,
+                        0,
+                        0,
+                       0
+                    )
+
+                }
+
+
+            } else {
+
+                context?.let {
+                    binding.ctlRoot.setPadding(
+                        0,
+                        0,
+                        0,
+                        resources.getDimension(com.intuit.sdp.R.dimen._120sdp).toInt()
+                    )
+
+                }
+                binding.root.viewTreeObserver.removeOnGlobalLayoutListener(null)
+
+
+            }
+
+
+            //                Log.d(
+            //                    "TEST_CODE",
+            //                    "isSystemKeyboardVisible:" + isSystemKeyboardVisible(requireActivity())
+            //                )
+        }
     }
 
     interface BottomListener {

@@ -2,11 +2,12 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.Configuration
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -33,12 +34,10 @@ import com.cscmobi.habittrackingandroid.data.model.RemindTask
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
 import com.cscmobi.habittrackingandroid.databinding.FragmentCreateNewhabitBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
-import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.Day
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DayOfMonthCalendarAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.FrequencyTextAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
-import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
@@ -46,10 +45,11 @@ import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
+import com.cscmobi.habittrackingandroid.utils.Utils.isSystemKeyboardVisible
+import com.cscmobi.habittrackingandroid.utils.Utils.scrollToView
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
 import com.cscmobi.habittrackingandroid.utils.onDone
-import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.thanhlv.ads.lib.AdMobUtils
 import kotlinx.coroutines.launch
@@ -250,7 +250,6 @@ class NewHabitFragment :
     fun setUpDataTask(task: Task) {
 
         currentTask = task
-        Log.d("CAYVL", task.toString())
 
 
         task.ava?.let { binding.ivHabit.setDrawableString(it) }
@@ -351,7 +350,6 @@ class NewHabitFragment :
             subTaskAdapter?.submitList(subTasks)
             subTaskAdapter?.notifyDataSetChanged()
         }
-
 
         resetColorTask()
 
@@ -567,28 +565,83 @@ class NewHabitFragment :
 
 
         binding.layoutChecklist.ivAdd.setOnClickListener {
+            hasScrool = false
             binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
+            binding.layoutChecklist.edtAdd.isFocusable = true
             showKeyboardOnView(binding.layoutChecklist.edtAdd)
 //            binding.nestScroll.post {
 //                binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
 //            }
-//            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-//                context?.let {
-//                    binding.nestScroll.setPadding(
-//                        0,
-//                        0,
-//                        0,
-//                        resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
-//                    )
-//
-//                }
-//
-//
-//            })
-        }
-        setKeyBoardListener()
+            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+                context?.let {
+                    binding.nestScroll.setPadding(
+                        0,
+                        0,
+                        0,
+                        resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
+                    )
 
+                }
+
+
+            })
+        }
+
+        //setKeyBoardListener()
+        initObserverForSystemKeyboardVisibility()
     }
+    var hasScrool = false
+
+    private fun initObserverForSystemKeyboardVisibility() {
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            // Add your own code here
+            if (this@NewHabitFragment.isAdded) {
+                if (!isSystemKeyboardVisible(requireActivity())) {
+
+                    requireContext().let {
+                        binding.nestScroll.setPadding(
+                            0,
+                            0,
+                            0,
+                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
+                        )
+
+                    }
+
+
+                } else {
+                    if (!hasScrool)
+                        binding.nestScroll.post {
+                            binding.nestScroll.smoothScrollTo(
+                                0,
+                                binding.layoutChecklist.root.bottom
+                            )
+                            hasScrool = true
+                        }
+
+                    requireContext().let {
+                        binding.nestScroll.setPadding(
+                            0,
+                            0,
+                            0,
+                            resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
+                        )
+
+                    }
+                    binding.root.viewTreeObserver.removeOnGlobalLayoutListener(null)
+
+
+                }
+
+
+                //                Log.d(
+                //                    "TEST_CODE",
+                //                    "isSystemKeyboardVisible:" + isSystemKeyboardVisible(requireActivity())
+                //                )
+            }
+        }
+    }
+
 
     private fun setUpCreateTask() {
 
@@ -600,7 +653,7 @@ class NewHabitFragment :
             currentTask.note = binding.edtNote.text.toString()
 
         currentTask.goal = Goal(
-            isOn = binding.isGoalEdit,
+            isOn = binding.isGoalEdit ?: false,
             unit = binding.unitPicker.displayedValues[binding.unitPicker.value - 1],
             target = if (binding.edtTargetGoal.text.isNullOrEmpty()) 1 else binding.edtTargetGoal.text.toString()
                 .toInt(),
@@ -622,7 +675,7 @@ class NewHabitFragment :
 
 
         currentTask.repeate = TaskRepeat(
-            isOn = binding.layoutRepeate.isRepeatEdit,
+            isOn = binding.layoutRepeate.isRepeatEdit ?: false,
             type = textRepeatSelect,
             frequency = numberRepeat,
             days = daysRepeat
@@ -630,10 +683,10 @@ class NewHabitFragment :
 
         currentTask.startDate = Calendar.getInstance().time.time
         currentTask.endDate =
-            EndDate(binding.layoutEndDate.isEndDateEdit, childFragment.getDateSelected())
+            EndDate(binding.layoutEndDate.isEndDateEdit ?: false, childFragment.getDateSelected())
 
         currentTask.remind = RemindTask(
-            isOpen = binding.layoutReminder.isRenindEdit,
+            isOpen = binding.layoutReminder.isRenindEdit ?: false,
             hour = binding.layoutReminder.unitHour.value,
             minute = binding.layoutReminder.unitMinute.value,
             unit = binding.layoutReminder.unitDay.displayedValues[binding.layoutReminder.unitDay.value - 1]
@@ -756,9 +809,7 @@ class NewHabitFragment :
                 listener?.editTaskCollection(currentTask)
                 parentFragmentManager.popBackStack()
 
-            }
-
-            else if (newHabitFragmentState == NewHabitFragmentState.ADDTOROUTINEWITHCOLLECTION) {
+            } else if (newHabitFragmentState == NewHabitFragmentState.ADDTOROUTINEWITHCOLLECTION) {
                 setUpCreateTask()
                 collectionViewModel.updateTaskCollection(currentTask)
                 parentFragmentManager.popBackStack()
@@ -1013,57 +1064,69 @@ class NewHabitFragment :
             }
         }
     }
+
     private fun setKeyBoardListener() {
         val window = requireActivity().window
         WindowCompat.setDecorFitsSystemWindows(window, false)  // <-- this tells android not to u
 
         val callBack = OnApplyWindowInsetsListener { view, insets ->
-            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom?:0
+            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
             Log.e("tag", "onKeyboardOpenOrClose imeHeight = $imeHeight")
 // todo: logic
-            val isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            val isKeyboardVisible = WindowInsetsCompat
+                .toWindowInsetsCompat(binding.root.rootWindowInsets)
+                .isVisible(WindowInsetsCompat.Type.ime())
+
             if (isKeyboardVisible) {
                 println("keyboard visible")
-                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                    context?.let {
-                        binding.nestScroll.setPadding(
-                            0,
-                            0,
-                            0,
-                            resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
-                        )
+                if (binding.layoutChecklist.edtAdd.isFocused)
 
-                    }
-                    binding.nestScroll.post {
-                        binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
-                    }
+                    binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+                        context?.let {
+                            binding.nestScroll.setPadding(
+                                0,
+                                0,
+                                0,
+                                resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
+                            )
 
-                })
+                        }
+                        binding.nestScroll.post {
+                            binding.nestScroll.smoothScrollTo(
+                                0,
+                                binding.layoutChecklist.root.bottom
+                            )
+                        }
+
+                    })
                 // do something
-            }else{
+            } else {
                 // do something else
                 println("keyboard invisible")
-                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                    context?.let {
-                        binding.nestScroll.setPadding(
-                            0,
-                            0,
-                            0,
-                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                        )
+                if (binding.layoutChecklist.edtAdd.isFocused)
 
-                    }
+                    binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+                        context?.let {
+                            binding.nestScroll.setPadding(
+                                0,
+                                0,
+                                0,
+                                resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
+                            )
+
+                        }
 
 
-                })
+                    })
 
             }
-            insets?: WindowInsetsCompat(null)
+            insets ?: WindowInsetsCompat(null)
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener( binding.layoutChecklist.edtAdd, callBack)
-       // ViewCompat.setOnApplyWindowInsetsListener( binding.root, callBack)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.layoutChecklist.edtAdd, callBack)
+        // ViewCompat.setOnApplyWindowInsetsListener( binding.root, callBack)
     }
+
     interface INewHabitListener {
         fun addTask(task: Task)
         fun editTaskCollection(task: Task)
