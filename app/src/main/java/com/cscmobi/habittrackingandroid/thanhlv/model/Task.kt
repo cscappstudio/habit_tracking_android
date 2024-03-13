@@ -15,7 +15,7 @@ import java.util.Date
 @Entity
 data class Task(
     @PrimaryKey(true) var id: Long = 0,
-    @ColumnInfo(name = "name") var name: String = "New Task",
+    @ColumnInfo(name = "name") var name: String = "New Habit",
     @ColumnInfo(name = "color") var color: String = "#B6D6DD",
     @ColumnInfo(name = "ava") var ava: String = "",
     @ColumnInfo(name = "note") var note: String = "",

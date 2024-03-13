@@ -60,6 +60,8 @@ class DetailCollectionFragment :
                         if (it.data.isEdit) binding.ivEdit.visibility =
                             View.VISIBLE else binding.ivEdit.visibility = View.GONE
                         currentCollection = it.data
+                        println("ittttttttttttttttt1_${it.data.task}")
+
                     }
 
                     else -> {}
@@ -86,12 +88,6 @@ class DetailCollectionFragment :
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch{
-
-        }
-    }
 
     private fun initAdapter(list: ArrayList<Task>) {
         list.forEach {
@@ -198,15 +194,14 @@ class DetailCollectionFragment :
 
     fun setPopUpWindow(v: View) {
         val popup = CustomEditMenu(requireContext(), {
-            currentCollection?.let { collection ->
-                collectionViewModel.setStateUpdateCollection(collection)
+            currentCollection?.let { it ->
+                collectionViewModel.setStateUpdateCollection(it.copy())
 
                 (requireActivity() as NewHabitActivity).let {
 
                     it.addFragmentNotHide(it.createCollectionFragment, CreateCollectionFragment.TAG)
                 }
             }
-
 
         }, {
             lifecycleScope.launch {
@@ -220,4 +215,5 @@ class DetailCollectionFragment :
         popup.showAsDropDown(v)
 
     }
+
 }

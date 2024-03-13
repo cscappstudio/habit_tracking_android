@@ -250,7 +250,6 @@ class NewHabitFragment :
     fun setUpDataTask(task: Task) {
 
         currentTask = task
-        Log.d("CAYVL", task.toString())
 
 
         task.ava?.let { binding.ivHabit.setDrawableString(it) }

@@ -54,7 +54,7 @@ class CreateCollectionFragment :
     override fun initView(view: View) {
 
         hadChangeState = false
-        newTasks.clear()
+       // newTasks.clear()
         initTaskCollectionAdapter()
 
         bottomSheetFragment.listener = object : BottomSheetCollectionFragment.IBottomCollection {
@@ -93,8 +93,10 @@ class CreateCollectionFragment :
         data.image?.let { binding.ivCollection.setDrawableString(it) }
 
         binding.edtCollection.setText(data.name)
+       newTasks.clear()
         data.task?.let { newTasks.addAll(it) }
         taskCollectionAdapter?.notifyDataSetChanged()
+        println("setUpCollection_____________${collectionData}")
 
         binding.layoutCreate.btnSave.text = "SAVE"
     }
@@ -216,9 +218,13 @@ class CreateCollectionFragment :
                     newTasks.forEach {
                         it.startDate = null
                     }
-                    collectionData.task = newTasks
+
+                    var task = mutableListOf<Task>()
+                    task.addAll(newTasks)
+
+                    collectionData.task= task
+
                     collectionViewModel.userIntent.send(CollectionIntent.UpdateCollection(collectionData))
-//                    parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     parentFragmentManager.popBackStack()
 
                 }
