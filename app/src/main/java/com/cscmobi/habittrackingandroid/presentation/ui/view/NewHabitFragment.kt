@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -63,17 +64,15 @@ class NewHabitFragment :
 
     private var selectRepeatUnit = ""
     private var textRepeatSelect = ""
-    private val unit = listOf("time", "minute", "glass", "km", "page", "hour")
-    private val time = listOf("perday", "perweek", "permonth")
-    private val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-    private var frequencyTextAdapter: FrequencyTextAdapter? = null
+    private val unit = ArrayList<String>()
+    private val time = ArrayList<String>()
     private val date = (1..31).toList()
     private var listDay = mutableListOf<Day>()
     private val bottomSheetFragment = BottomsheetNewHabitFragment()
     private var numberRepeat = 1
     private var subTasks = mutableListOf<String>()
     private var colorSelect = -1
-    val childFragment: CustomCalenderFragment = CustomCalenderFragment()
+    private val childFragment: CustomCalenderFragment = CustomCalenderFragment()
     var newHabitFragmentState: NewHabitFragmentState = NewHabitFragmentState.ADDTOROUTINE
     private val bottomSheetAvaFragment = BottomSheetAvaFragment()
 
@@ -136,13 +135,15 @@ class NewHabitFragment :
 
 
         bottomSheetFragment.setListener(object : BottomsheetNewHabitFragment.BottomListener {
+            @SuppressLint("SetTextI18n")
             override fun saveUnitNumberRepeat(number: Int) {
                 numberRepeat = number
-                binding.layoutRepeat.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
+                binding.layoutRepeat.txtCategory.text =
+                    getString(R.string.every_) + " " + numberRepeat + " " + selectRepeatUnit
             }
 
             override fun createTag(name: String) {
-                binding.layoutTag.addIvVisible = name == "No tag"
+                binding.layoutTag.addIvVisible = name == getString(R.string.no_tag)
                 binding.layoutTag.txtTag.text = name
             }
 
@@ -151,8 +152,6 @@ class NewHabitFragment :
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
         transaction.replace(binding.layoutEndDate.childFragmentContainer.id, childFragment).commit()
 
-        Log.d("Task Create", currentTask.toString())
-
 
         bottomSheetAvaFragment.actionGetIcon = {
             binding.ivHabit.setDrawableString(it)
@@ -160,24 +159,24 @@ class NewHabitFragment :
         }
 
 
-        val view = activity?.window?.decorView ?: return
-        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-            val showingKeyboard = insets.isVisible(WindowInsetsCompat.Type.ime())
-            if (!showingKeyboard) {
-                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                    context?.let {
-                        binding.nestScroll.setPadding(
-                            0,
-                            0,
-                            0,
-                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                        )
-                    }
-
-                })
-            }
-            insets
-        }
+//        val view = activity?.window?.decorView ?: return
+//        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+//            val showingKeyboard = insets.isVisible(WindowInsetsCompat.Type.ime())
+//            if (!showingKeyboard) {
+//                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+//                    context?.let {
+//                        binding.nestScroll.setPadding(
+//                            0,
+//                            0,
+//                            0,
+//                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
+//                        )
+//                    }
+//
+//                })
+//            }
+//            insets
+//        }
 
 
         if (Utils.isShowAds(requireContext())) {
@@ -185,7 +184,7 @@ class NewHabitFragment :
             AdMobUtils.createBanner(
                 requireContext(),
                 binding.root.context.getString(R.string.admob_banner_id),
-                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                AdMobUtils.BANNER_INLINE,
                 binding.adView,
                 object : AdMobUtils.Companion.LoadAdCallback {
                     override fun onLoaded(ad: Any?) {
@@ -195,7 +194,7 @@ class NewHabitFragment :
                         binding.adView.visibility = View.GONE
                     }
                 })
-        }
+        } else binding.adView.visibility = View.GONE
     }
 
 
@@ -247,6 +246,7 @@ class NewHabitFragment :
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setUpDataTask(task: Task) {
 
         currentTask = task
@@ -272,15 +272,12 @@ class NewHabitFragment :
         }
 
         task.repeate?.let {
-            var type = ""
             when (it.type) {
-                "daily" -> {
-                    type = "Day"
+                getString(R.string.daily) -> {
                     binding.layoutRepeat.txtDaily.performClick()
                 }
 
-                "monthly" -> {
-                    type = "Month"
+                getString(R.string.monthly) -> {
                     binding.layoutRepeat.txtMonthly.performClick()
                     it.days?.let {
                         it.forEach { day ->
@@ -294,11 +291,8 @@ class NewHabitFragment :
                     }
                 }
 
-                "weekly" -> {
-                    type = "Week"
+                getString(R.string.weekly) -> {
                     binding.layoutRepeat.txtWeekly.performClick()
-
-                    val commonElements = it.days?.intersect(daysWeekRepeat)
 
                     it.days?.let {
                         it.forEach { day ->
@@ -448,8 +442,16 @@ class NewHabitFragment :
 
 
     private fun setUpUnitPicker() {
-        binding.unitPicker.minValue = 1;
-        binding.unitPicker.maxValue = unit.size;
+
+        unit.add(getString(R.string.time))
+        unit.add(getString(R.string.minute))
+        unit.add(getString(R.string.glass))
+        unit.add("km")
+        unit.add(getString(R.string.page))
+        unit.add(getString(R.string.hour))
+
+        binding.unitPicker.minValue = 1
+        binding.unitPicker.maxValue = unit.size
         binding.unitPicker.displayedValues = unit.toTypedArray()
         binding.unitPicker.isFadingEdgeEnabled = true
         binding.unitPicker.typeface = ResourcesCompat.getFont(context!!, R.font.worksans_medium);
@@ -463,8 +465,11 @@ class NewHabitFragment :
     }
 
     private fun setUpTimePicker() {
-        binding.timePicker.minValue = 1;
-        binding.timePicker.maxValue = time.size;
+        time.add(getString(R.string.per_day))
+        time.add(getString(R.string.per_week))
+        time.add(getString(R.string.per_month))
+        binding.timePicker.minValue = 1
+        binding.timePicker.maxValue = time.size
         binding.timePicker.displayedValues = time.toTypedArray()
         binding.timePicker.isFadingEdgeEnabled = true
         binding.timePicker.typeface = ResourcesCompat.getFont(context!!, R.font.worksans_medium);
@@ -590,6 +595,7 @@ class NewHabitFragment :
         //setKeyBoardListener()
         initObserverForSystemKeyboardVisibility()
     }
+
     var hasScrool = false
 
     private fun initObserverForSystemKeyboardVisibility() {
@@ -978,27 +984,27 @@ class NewHabitFragment :
     private fun setStateTextRepeat(frequencyType: Int) {
         binding.layoutRepeat.frequencyType = frequencyType
         selectRepeatUnit = when (binding.layoutRepeat.frequencyType) {
-            0 -> "Day"
-            1 -> "Week"
-            2 -> "Month"
-            else -> "Week"
+            0 -> getString(R.string.day)
+            1 -> getString(R.string.week)
+            2 -> getString(R.string.month)
+            else -> getString(R.string.week)
         }
         when (binding.layoutRepeat.frequencyType) {
             0 -> {
-                selectRepeatUnit = "Day"
-                textRepeatSelect = "daily"
+                selectRepeatUnit = getString(R.string.day)
+                textRepeatSelect = getString(R.string.daily)
 
             }
 
             1 -> {
-                selectRepeatUnit = "Week"
-                textRepeatSelect = "weekly"
+                selectRepeatUnit = getString(R.string.week)
+                textRepeatSelect = getString(R.string.weekly)
 
             }
 
             2 -> {
-                selectRepeatUnit = "Month"
-                textRepeatSelect = "monthly"
+                selectRepeatUnit = getString(R.string.month)
+                textRepeatSelect = getString(R.string.monthly)
 
 
             }

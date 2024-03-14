@@ -293,6 +293,17 @@
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
     <string name="subtask">Subtask</string>
+    <string name="time">time</string>
+    <string name="minute">minute</string>
+    <string name="glass">glass</string>
+    <string name="page">page</string>
+    <string name="hour">hour</string>
+    <string name="per_day">per day</string>
+    <string name="per_week">per week</string>
+    <string name="per_month">per month</string>
+    <string name="no_tag">No tag</string>
+    <string name="every_">Every %1$s %2$s</string>
+    <string name="day">Day</string>
 
 
 </resources>

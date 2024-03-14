@@ -100,6 +100,7 @@
             app:layout_constraintWidth_max="120dp" />
 
         <FrameLayout
+            android:orientation="vertical"
             android:id="@+id/fr_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,57 +110,53 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_weekly"
+                android:layout_marginHorizontal="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:orientation="horizontal"
-                android:visibility="gone"
-
+                android:visibility="@{frequencyType == 1 ? View.VISIBLE : View.GONE}"
                 android:weightSum="7">
 
                 <TextView
                     android:id="@+id/txt_mon"
                     style="@style/TextDay"
-                    android:layout_marginHorizontal="1dp"
+                    android:layout_marginHorizontal="2dp"
                     android:text="@string/mon" />
 
                 <TextView
                     android:id="@+id/txt_tue"
                     style="@style/TextDay"
-                    android:layout_marginHorizontal="1dp"
+                    android:layout_marginHorizontal="2dp"
                     android:text="@string/tue" />
 
                 <TextView
                     android:id="@+id/txt_wed"
                     style="@style/TextDay"
-                    android:layout_marginHorizontal="1dp"
-                    android:text="@string/wed"
-
-                    />
+                    android:layout_marginHorizontal="2dp"
+                    android:text="@string/wed" />
 
                 <TextView
                     android:id="@+id/txt_thu"
                     style="@style/TextDay"
-                    android:layout_marginHorizontal="1dp"
-                    android:text="@string/thu"
-
-                    />
+                    android:layout_marginHorizontal="2dp"
+                    android:text="@string/thu" />
 
                 <TextView
                     android:id="@+id/txt_fri"
                     style="@style/TextDay"
-                    android:layout_marginHorizontal="1dp"
+                    android:layout_marginHorizontal="2dp"
                     android:text="@string/fri" />
 
                 <TextView
                     android:id="@+id/txt_sat"
                     style="@style/TextDay"
-                    android:layout_marginHorizontal="1dp"
+                    android:layout_marginHorizontal="2dp"
                     android:text="@string/sat" />
 
                 <TextView
                     android:id="@+id/txt_sun"
                     style="@style/TextDay"
-                    android:layout_marginHorizontal="1dp"
+                    android:layout_marginHorizontal="2dp"
                     android:text="@string/sun" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -167,31 +164,33 @@
             <GridView
                 android:id="@+id/calendar_gridview"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_130sdp"
+                android:layout_height="@dimen/_168sdp"
                 android:layout_marginHorizontal="24dp"
-                android:background="@drawable/bg_white_corner_12"
-                android:horizontalSpacing="2dp"
-                android:minHeight="130dp"
+                android:background="@drawable/bg_white_corner_18"
+                android:horizontalSpacing="1dp"
+                android:minHeight="160dp"
                 android:numColumns="7"
-                android:paddingVertical="@dimen/_5sdp"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="10dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="2dp"
+                android:verticalSpacing="1dp"
                 android:visibility="@{frequencyType == 2 ? View.VISIBLE : View.GONE}" />
 
         </FrameLayout>
 
         <TextView
             android:id="@+id/textView4"
+            android:layout_marginStart="24dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:fontFamily="@font/worksans_semibold"
             android:text="@string/frequency"
             android:textColor="@color/shadow_gray"
             android:textFontWeight="600"
             android:textSize="16sp"
-            android:visibility="gone"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fr_content"
@@ -200,9 +199,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_frequency"
             android:layout_width="@dimen/_110sdp"
+            android:layout_marginEnd="24dp"
             android:layout_height="@dimen/_30sdp"
             android:background="@drawable/bg_white_corner_20"
-            android:visibility="gone"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView4">
