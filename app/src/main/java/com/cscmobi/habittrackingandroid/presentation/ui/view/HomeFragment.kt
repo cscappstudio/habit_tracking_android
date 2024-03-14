@@ -1127,10 +1127,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
                 binding.txtDate.text = dateFormat
             }
-//            lifecycleScope.launch {
-//
-//
-//            }
 
             lifecycleScope.launch {
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))

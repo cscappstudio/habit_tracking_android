@@ -136,7 +136,7 @@ object DialogUtils {
         } else {
             binding.txtContent.text =
                 activity.getString(R.string.watch_an_ad_to_unlock_1_extra_challenge)
-            binding.tvTitle.text = activity.getString(R.string.mor_challenges_unlock_now)
+            binding.tvTitle.text = activity.getString(R.string.more_challenges_unlock_now)
         }
 
 

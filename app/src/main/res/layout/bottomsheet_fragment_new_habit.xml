@@ -55,10 +55,9 @@
                 android:background="@null"
                 android:fontFamily="@font/worksans_semibold"
                 android:textColor="@color/shadow_gray"
-                android:hint="0"
+                android:hint="1"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-
                 android:textColorHint="@color/gray"
                 android:textSize="16sp"
                 android:layout_height="wrap_content"/>

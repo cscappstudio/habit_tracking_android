@@ -263,21 +263,33 @@
     <string name="create_your_own_challenge_and_tailor_habit_to_fit_your_life">Создайте свой собственный вызов и приспособьте привычки под свою жизнь</string>
     <string name="no_ads">Без рекламы</string>
     <string name="zero_distractions">Ноль отвлечений, 100% фокуса! Наслаждайтесь бесплатным опытом с Премиум-аккаунтом.</string>
-    <string name="more_habits_unlock_now">More Habits? Unlock Now!</string>
-    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">Watch an ad to unlock 2 extra habit slots\nOr go ad-free for unlimited usage</string>
-    <string name="watch_an_ad">Watch an Ad</string>
-    <string name="go_ad_free">Go Ad-free</string>
-    <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
-    <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
-    <string name="partially_done">Partially done</string>
-    <string name="habit_planner">Habit Planner</string>
-    <string name="to_do_list">Todo list</string>
-    <string name="calendar">Calendar</string>
-    <string name="journal">Journal</string>
-    <string name="say_hi_to_your_new">Say hi to your new</string>
-    <string name="together_let_s_become_better">Together, let\'s become better</string>
-    <string name="name_empty">Name empty!</string>
-    <string name="task_name">Task name</string>
-    <string name="delete_success">Delete success</string>
+
+
+    <string name="in_progress">В процессе</string>
+    <string name="many_challenges_waiting_for_you_ahead">Впереди вас ждут множество вызовов</string>
+    <string name="become_a_premium_member_to_conquer_all_challenges">Станьте премиум-пользователем, чтобы преодолеть все вызовы.</string>
+    <string name="try_premium_now">Попробуйте Премиум сейчас</string>
+    <string name="search_here">Искать здесь…</string>
+    <string name="type">Набирать…</string>
+    <string name="more_habits_unlock_now">Еще привычек? Разблокируйте сейчас!</string>
+    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">Просмотрите рекламу, чтобы разблокировать 2 дополнительных слота для привычек\nИли перейдите в режим без рекламы для неограниченного использования</string>
+    <string name="watch_an_ad">Смотреть рекламу</string>
+    <string name="go_ad_free">Без рекламы</string>
+    <string name="watch_an_ad_to_unlock_1_extra_challenge">Смотреть рекламу, чтобы разблокировать 1 дополнительный вызов</string>
+    <string name="more_challenges_unlock_now">Еще вызовы? Разблокируйте сейчас!</string>
+    <string name="partially_done">Частично выполнено</string>
+    <string name="habit_planner">Планировщик привычек</string>
+    <string name="to_do_list">Список задач</string>
+    <string name="calendar">Календарь</string>
+    <string name="journal">Дневник</string>
+    <string name="say_hi_to_your_new">Поприветствуйте ваш новый</string>
+    <string name="together_let_s_become_better">Вместе станем лучше</string>
+    <string name="name_empty">Пустое имя!</string>
+    <string name="task_name">Название задачи</string>
+    <string name="delete_success">Успешно удалено</string>
+    <string name="enter_the_number_of_kilometers_you_want_to_record">*Enter the number of kilometers you want to record</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="subtask">Subtask</string>
 
 </resources>

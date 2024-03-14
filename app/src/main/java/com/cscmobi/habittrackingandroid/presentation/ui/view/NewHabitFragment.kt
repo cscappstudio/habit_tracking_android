@@ -98,17 +98,17 @@ class NewHabitFragment :
     }
 
     override fun initView(view: View) {
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-            context?.let {
-                binding.nestScroll.setPadding(
-                    0,
-                    0,
-                    0,
-                    resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                )
-            }
-
-        })
+//        binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
+//            context?.let {
+//                binding.nestScroll.setPadding(
+//                    0,
+//                    0,
+//                    0,
+//                    resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
+//                )
+//            }
+//
+//        })
 
         currentTask.ava =
             requireContext().resources.getResourceEntryName(R.drawable.ic_item_collection2)
@@ -138,7 +138,7 @@ class NewHabitFragment :
         bottomSheetFragment.setListener(object : BottomsheetNewHabitFragment.BottomListener {
             override fun saveUnitNumberRepeat(number: Int) {
                 numberRepeat = number
-                binding.layoutRepeate.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
+                binding.layoutRepeat.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
             }
 
             override fun createTag(name: String) {
@@ -276,12 +276,12 @@ class NewHabitFragment :
             when (it.type) {
                 "daily" -> {
                     type = "Day"
-                    binding.layoutRepeate.txtDaily.performClick()
+                    binding.layoutRepeat.txtDaily.performClick()
                 }
 
                 "monthly" -> {
                     type = "Month"
-                    binding.layoutRepeate.txtMonthly.performClick()
+                    binding.layoutRepeat.txtMonthly.performClick()
                     it.days?.let {
                         it.forEach { day ->
                             listDay.forEach {
@@ -296,7 +296,7 @@ class NewHabitFragment :
 
                 "weekly" -> {
                     type = "Week"
-                    binding.layoutRepeate.txtWeekly.performClick()
+                    binding.layoutRepeat.txtWeekly.performClick()
 
                     val commonElements = it.days?.intersect(daysWeekRepeat)
 
@@ -317,8 +317,8 @@ class NewHabitFragment :
 
             numberRepeat = it.frequency ?: 1
 
-//                binding.layoutRepeate.txtCategory.text = "Every ${${it.frequency}} $type"
-            binding.layoutRepeate.isRepeatEdit = it.isOn
+//                binding.layoutRepeat.txtCategory.text = "Every ${${it.frequency}} $type"
+            binding.layoutRepeat.isRepeatEdit = it.isOn
         }
 
         task.endDate?.let {
@@ -354,7 +354,7 @@ class NewHabitFragment :
         resetColorTask()
 
         binding.swGoal.isChecked = binding.isGoalEdit ?: false
-        binding.layoutRepeate.swRepeat.isChecked = binding.layoutRepeate.isRepeatEdit ?: false
+        binding.layoutRepeat.swRepeat.isChecked = binding.layoutRepeat.isRepeatEdit ?: false
         binding.layoutEndDate.swEndDate.isChecked = binding.layoutEndDate.isEndDateEdit ?: false
         binding.layoutReminder.swRemind.isChecked = binding.layoutReminder.isRenindEdit ?: false
     }
@@ -418,7 +418,7 @@ class NewHabitFragment :
             binding.layoutReminder.frHour
         )
         binding.edtTargetGoal.background = Utils.createCustomDrawable(colorSelect)
-        setStateTextRepeat(binding.layoutRepeate.frequencyType ?: 0)
+        setStateTextRepeat(binding.layoutRepeat.frequencyType ?: 0)
         childFragment.resetColorTask(colorSelect)
         resetTextInListDay()
 
@@ -443,7 +443,7 @@ class NewHabitFragment :
 
         dayOfMonthCalendarAdapter = DayOfMonthCalendarAdapter(requireContext(), listDay)
 
-        binding.layoutRepeate.calendarGridview.adapter = dayOfMonthCalendarAdapter
+        binding.layoutRepeat.calendarGridview.adapter = dayOfMonthCalendarAdapter
     }
 
 
@@ -675,7 +675,7 @@ class NewHabitFragment :
 
 
         currentTask.repeate = TaskRepeat(
-            isOn = binding.layoutRepeate.isRepeatEdit ?: false,
+            isOn = binding.layoutRepeat.isRepeatEdit ?: false,
             type = textRepeatSelect,
             frequency = numberRepeat,
             days = daysRepeat
@@ -727,8 +727,8 @@ class NewHabitFragment :
             binding.isGoalEdit = isChecked
         }
 
-        binding.layoutRepeate.swRepeat.setOnCheckedChangeListener { buttonView, isChecked ->
-            binding.layoutRepeate.isRepeatEdit = isChecked
+        binding.layoutRepeat.swRepeat.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.layoutRepeat.isRepeatEdit = isChecked
         }
 
         binding.layoutReminder.swRemind.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -741,19 +741,19 @@ class NewHabitFragment :
             binding.layoutEndDate.isEndDateEdit = isChecked
         }
 
-        binding.layoutRepeate.txtDaily.setOnClickListener {
+        binding.layoutRepeat.txtDaily.setOnClickListener {
             setStateTextRepeat(0)
         }
 
-        binding.layoutRepeate.txtWeekly.setOnClickListener {
+        binding.layoutRepeat.txtWeekly.setOnClickListener {
             setStateTextRepeat(1)
         }
 
-        binding.layoutRepeate.txtMonthly.setOnClickListener {
+        binding.layoutRepeat.txtMonthly.setOnClickListener {
             setStateTextRepeat(2)
         }
 
-        binding.layoutRepeate.ctlFrequency.setOnClickListener {
+        binding.layoutRepeat.ctlFrequency.setOnClickListener {
 
 
             binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
@@ -947,10 +947,10 @@ class NewHabitFragment :
 
 
     private fun setListenerListDay() {
-        val childCount = binding.layoutRepeate.llWeekly.childCount
+        val childCount = binding.layoutRepeat.llWeekly.childCount
         if (childCount != 0) {
             for (i in 0 until childCount) {
-                var txt: View? = binding.layoutRepeate.llWeekly.getChildAt(i)
+                var txt: View? = binding.layoutRepeat.llWeekly.getChildAt(i)
                 txt?.let {
                     if (txt is TextView) {
                         txt.setOnClickListener {
@@ -967,7 +967,7 @@ class NewHabitFragment :
     private fun resetTextInListDay() {
         daysWeekRepeat.forEachIndexed { index, dayWeekRepeat ->
             if (dayWeekRepeat.isSelect) {
-                (binding.layoutRepeate.llWeekly.getChildAt(index) as TextView).changeBackgroundText(
+                (binding.layoutRepeat.llWeekly.getChildAt(index) as TextView).changeBackgroundText(
                     true
                 )
             }
@@ -976,14 +976,14 @@ class NewHabitFragment :
     }
 
     private fun setStateTextRepeat(frequencyType: Int) {
-        binding.layoutRepeate.frequencyType = frequencyType
-        selectRepeatUnit = when (binding.layoutRepeate.frequencyType) {
+        binding.layoutRepeat.frequencyType = frequencyType
+        selectRepeatUnit = when (binding.layoutRepeat.frequencyType) {
             0 -> "Day"
             1 -> "Week"
             2 -> "Month"
             else -> "Week"
         }
-        when (binding.layoutRepeate.frequencyType) {
+        when (binding.layoutRepeat.frequencyType) {
             0 -> {
                 selectRepeatUnit = "Day"
                 textRepeatSelect = "daily"
@@ -1004,25 +1004,25 @@ class NewHabitFragment :
             }
         }
 
-        binding.layoutRepeate.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
+        binding.layoutRepeat.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
 
         when (frequencyType) {
             0 -> {
-                binding.layoutRepeate.txtDaily.changeBackgroundText(true)
-                binding.layoutRepeate.txtWeekly.changeBackgroundText(false)
-                binding.layoutRepeate.txtMonthly.changeBackgroundText(false)
+                binding.layoutRepeat.txtDaily.changeBackgroundText(true)
+                binding.layoutRepeat.txtWeekly.changeBackgroundText(false)
+                binding.layoutRepeat.txtMonthly.changeBackgroundText(false)
             }
 
             1 -> {
-                binding.layoutRepeate.txtDaily.changeBackgroundText(false)
-                binding.layoutRepeate.txtWeekly.changeBackgroundText(true)
-                binding.layoutRepeate.txtMonthly.changeBackgroundText(false)
+                binding.layoutRepeat.txtDaily.changeBackgroundText(false)
+                binding.layoutRepeat.txtWeekly.changeBackgroundText(true)
+                binding.layoutRepeat.txtMonthly.changeBackgroundText(false)
             }
 
             2 -> {
-                binding.layoutRepeate.txtDaily.changeBackgroundText(false)
-                binding.layoutRepeate.txtWeekly.changeBackgroundText(false)
-                binding.layoutRepeate.txtMonthly.changeBackgroundText(true)
+                binding.layoutRepeat.txtDaily.changeBackgroundText(false)
+                binding.layoutRepeat.txtWeekly.changeBackgroundText(false)
+                binding.layoutRepeat.txtMonthly.changeBackgroundText(true)
             }
         }
     }

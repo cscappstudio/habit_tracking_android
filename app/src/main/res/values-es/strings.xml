@@ -266,21 +266,33 @@
     <string name="create_your_own_challenge_and_tailor_habit_to_fit_your_life">Crea tu propio desafío y adapta hábitos a tu vida</string>
     <string name="no_ads">Sin anuncios</string>
     <string name="zero_distractions">Cero distracciones, ¡100% de enfoque! Disfruta de una experiencia sin anuncios con Premium.</string>
-    <string name="more_habits_unlock_now">More Habits? Unlock Now!</string>
-    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">Watch an ad to unlock 2 extra habit slots\nOr go ad-free for unlimited usage</string>
-    <string name="watch_an_ad">Watch an Ad</string>
-    <string name="go_ad_free">Go Ad-free</string>
-    <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
-    <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
-    <string name="partially_done">Partially done</string>
-    <string name="habit_planner">Habit Planner</string>
-    <string name="to_do_list">Todo list</string>
-    <string name="calendar">Calendar</string>
-    <string name="journal">Journal</string>
-    <string name="say_hi_to_your_new">Say hi to your new</string>
-    <string name="together_let_s_become_better">Together, let\'s become better</string>
-    <string name="name_empty">Name empty!</string>
-    <string name="task_name">Task name</string>
-    <string name="delete_success">Delete success</string>
+
+    <string name="in_progress">En progreso</string>
+    <string name="many_challenges_waiting_for_you_ahead">Muchos desafíos te esperan por delante</string>
+    <string name="become_a_premium_member_to_conquer_all_challenges">Conviértete en un miembro premium para conquistar todos los desafíos.</string>
+    <string name="try_premium_now">Prueba Premium Ahora</string>
+    <string name="search_here">Buscar Aquí…</string>
+    <string name="type">Escribir…</string>
+    <string name="more_habits_unlock_now">¿Más hábitos? ¡Desbloquea Ahora!</string>
+    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">Mira un anuncio para desbloquear 2 espacios adicionales para hábitos\nO elimina los anuncios para un uso ilimitado</string>
+    <string name="watch_an_ad">Ver un Anuncio</string>
+    <string name="go_ad_free">Ir Sin Anuncios</string>
+    <string name="watch_an_ad_to_unlock_1_extra_challenge">Mira un anuncio para desbloquear 1 desafío adicional</string>
+    <string name="more_challenges_unlock_now">¿Más desafíos? ¡Desbloquea Ahora!</string>
+    <string name="partially_done">Parcialmente hecho</string>
+    <string name="habit_planner">Planificador de Hábitos</string>
+    <string name="to_do_list">Lista de Tareas</string>
+    <string name="calendar">Calendario</string>
+    <string name="journal">Diario</string>
+    <string name="say_hi_to_your_new">Saluda a tu nuevo</string>
+    <string name="together_let_s_become_better">Juntos, Mejoremos</string>
+    <string name="name_empty">¡Nombre vacío!</string>
+    <string name="task_name">Nombre de la Tarea</string>
+    <string name="delete_success">Eliminación Exitosa</string>
+    <string name="enter_the_number_of_kilometers_you_want_to_record">*Enter the number of kilometers you want to record</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="subtask">Subtask</string>
+
 
 </resources>
