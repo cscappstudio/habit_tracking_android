@@ -104,12 +104,13 @@
             android:id="@+id/fr_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/txt_daily">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_weekly"
+                android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
@@ -162,18 +163,19 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <GridView
+                android:layout_marginTop="8dp"
                 android:id="@+id/calendar_gridview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_168sdp"
                 android:layout_marginHorizontal="24dp"
                 android:background="@drawable/bg_white_corner_18"
-                android:horizontalSpacing="1dp"
+                android:horizontalSpacing="3dp"
                 android:minHeight="160dp"
                 android:numColumns="7"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="10dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="1dp"
+                android:verticalSpacing="3dp"
                 android:visibility="@{frequencyType == 2 ? View.VISIBLE : View.GONE}" />
 
         </FrameLayout>
@@ -184,7 +186,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:fontFamily="@font/worksans_semibold"
             android:text="@string/frequency"
             android:textColor="@color/shadow_gray"

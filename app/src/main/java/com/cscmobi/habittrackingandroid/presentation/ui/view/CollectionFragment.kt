@@ -2,6 +2,7 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -47,7 +48,7 @@ class CollectionFragment :
 
     override fun initView(view: View) {
 
-        binding.layoutHeader.ivSearch.visibility = View.VISIBLE
+//        binding.layoutHeader.ivSearch.visibility = View.VISIBLE
         initTasksAdapter()
 
         lifecycleScope.launch {
@@ -97,13 +98,13 @@ class CollectionFragment :
     private fun setUpSearchView() {
 
 //        binding.searchView.clearFocus()
-        binding.searchView.setOnQueryTextFocusChangeListener(OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                binding.searchView.setIconified(false);
-//                binding.ivClose.visibility =View.VISIBLE
-
-            }
-        })
+//        binding.searchView.setOnQueryTextFocusChangeListener(OnFocusChangeListener { view, hasFocus ->
+//            if (hasFocus) {
+//                binding.searchView.setIconified(false);
+////                binding.ivClose.visibility =View.VISIBLE
+//
+//            }
+//        })
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -129,6 +130,7 @@ class CollectionFragment :
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initCollectionAdapter() {
 //
 
@@ -278,7 +280,6 @@ class CollectionFragment :
 
         binding.layoutHeader.ivBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
-
         }
 
         binding.layoutHeader.ivSearch.setOnClickListener {
@@ -288,7 +289,6 @@ class CollectionFragment :
         val closeButton: View? =
             binding.searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
         closeButton?.setOnClickListener {
-
             toggleSearchView()
         }
 
@@ -304,10 +304,12 @@ class CollectionFragment :
         if (binding.searchView.visibility == View.VISIBLE) {
             // If SearchView is visible, hide it
             hideSearchView()
+            binding.layoutHeader.root.visibility = View.VISIBLE
 
         } else {
             // If SearchView is not visible, show it
             showSearchView()
+            binding.layoutHeader.root.visibility = View.INVISIBLE
         }
     }
 

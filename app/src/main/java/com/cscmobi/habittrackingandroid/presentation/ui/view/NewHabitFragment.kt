@@ -100,8 +100,6 @@ class NewHabitFragment :
     override fun initView(view: View) {
         currentTask.ava =
             requireContext().resources.getResourceEntryName(R.drawable.ic_item_collection2)
-
-
         colorSelect = ContextCompat.getColor(requireContext(), R.color.blue)
         daysWeekRepeat = mutableListOf(
             DayWeekRepeat(2),
@@ -144,27 +142,6 @@ class NewHabitFragment :
             binding.ivHabit.setDrawableString(it)
             currentTask.ava = it
         }
-
-
-//        val view = activity?.window?.decorView ?: return
-//        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-//            val showingKeyboard = insets.isVisible(WindowInsetsCompat.Type.ime())
-//            if (!showingKeyboard) {
-//                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-//                    context?.let {
-//                        binding.nestScroll.setPadding(
-//                            0,
-//                            0,
-//                            0,
-//                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-//                        )
-//                    }
-//
-//                })
-//            }
-//            insets
-//        }
-
 
         if (Utils.isShowAds(requireContext())) {
             binding.adView.visibility = View.VISIBLE
@@ -239,12 +216,15 @@ class NewHabitFragment :
         currentTask = task
 
 
-        task.ava?.let { binding.ivHabit.setDrawableString(it) }
+        task.ava.let { binding.ivHabit.setDrawableString(it) }
         binding.edtName.setText(task.name.toString())
 
-        task.color?.let {
+        if (task.name.isNotEmpty()) {
+            binding.edtName.setText(task.name)
+        } else
+
+        task.color.let {
             colorSelect = Color.parseColor(it)
-//            binding.ivHabit.setBackgroundApla(it, 20)
             colorsTask[0].isSelected = false
 
         }
@@ -829,8 +809,11 @@ class NewHabitFragment :
     }
 
     private fun resetUI2NewTask() {
-        val task = Task()
-        setUpDataTask(task)
+        currentTask = Task()
+        currentTask.ava =
+            requireContext().resources.getResourceEntryName(R.drawable.ic_item_collection2)
+        colorSelect = ContextCompat.getColor(requireContext(), R.color.blue)
+        setUpDataTask(currentTask)
     }
 
     private var gradientBgUnitReminder: GradientDrawable? = null

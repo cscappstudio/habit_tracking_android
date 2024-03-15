@@ -49,10 +49,6 @@ class CollectionAdapter(
             return  CollectionType.CREATE.ordinal
         }
         return  CollectionType.ITEM.ordinal
-//        return when (position) {
-//            0 -> CollectionType.CREATE.ordinal
-//            else -> CollectionType.ITEM.ordinal
-//        }
     }
 
     class ViewHolderCreateCollection constructor(val binding: ItemCreateCollectionBinding) :
@@ -83,23 +79,6 @@ class CollectionAdapter(
         fun bind(item: HabitCollection, onItemClickAdapter: OnItemClickPositionListener) {
 
             binding.ivCollection.setDrawableString(item.image!!)
-
-//            if (item.name.isIn) {
-//                val resourceValue = binding.root.context.getString(resourceId)
-//                // Now, resourceValue contains the string resource corresponding to "aaaa"
-//                binding.txtCollection.text =  resourceValue
-//            } else {
-//                // Handle the case where the resource with the specified name is not found
-//               // binding.txtCollection.text =  item.name
-//                binding.txtCollection.text =  item.name
-//            }
-//            try {
-//                val resourceValue = binding.root.context.getString(item.name.toInt())
-//                binding.txtCollection.text = resourceValue
-//            }catch (e: Exception) {
-//                binding.txtCollection.text =  item.name
-//
-//            }
 
             binding.txtCollection.text = item.name
 
@@ -183,8 +162,6 @@ class CollectionAdapter(
             it.name.lowercase().contains(filterPattern) && it.name.isNotEmpty()
 
         }.toMutableList()
-
-        println("filteredList____$filteredList")
 
         return filteredList
 
