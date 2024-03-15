@@ -111,7 +111,7 @@
             android:id="@+id/llPremium"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:layout_marginHorizontal="@dimen/_7sdp"
             android:layout_marginTop="@dimen/_9sdp"
             android:background="@drawable/bg_home_1"
             app:layout_constraintDimensionRatio="320:120"
@@ -127,7 +127,7 @@
                 android:gravity="center"
                 android:text="@string/you_re_almost_done"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -135,54 +135,55 @@
 
             <TextView
                 android:id="@+id/txt_progress1"
+                style="@style/Text_600_SemiB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:fontFamily="@font/worksans_semibold"
+                android:layout_marginBottom="8dp"
                 android:text="0/0"
-
                 android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txt_content"
-                app:layout_constraintTop_toBottomOf="@+id/txt_content" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/txt_unit1"
+                style="@style/Text_500_Med"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/worksans_medium"
-                android:maxWidth="60dp"
-                android:maxLines="2"
                 android:text="@string/challenge"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_9ssp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/txt_progress1"
                 app:layout_constraintTop_toBottomOf="@+id/txt_progress1" />
 
             <TextView
                 android:id="@+id/txt_progress2"
+                style="@style/Text_600_SemiB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/worksans_semibold"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="8dp"
                 android:text="0/0"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/txt_content"
-                app:layout_constraintTop_toBottomOf="@+id/txt_content" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_content"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/txt_unit2"
+                style="@style/Text_500_Med"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/worksans_medium"
                 android:maxWidth="40dp"
                 android:maxLines="2"
                 android:text="@string/tasks"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_9ssp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/txt_progress2"
                 app:layout_constraintTop_toBottomOf="@+id/txt_progress2" />
 
@@ -213,7 +214,7 @@
                 app:csb_min="0"
                 app:csb_progress="0"
                 app:csb_progressColor="@color/baby_pink"
-                app:csb_progressWidth="@dimen/_7sdp"
+                app:csb_progressWidth="@dimen/_6sdp"
                 app:csb_step="5"
                 app:csb_text="0%"
                 app:csb_textColor="@color/tangerine"

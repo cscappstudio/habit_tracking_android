@@ -76,7 +76,6 @@ class CustomDetailTaskCalenderFragment :
     }
 
     private fun setMonthView() {
-        binding.progressBar.visibility = View.VISIBLE
         calenderData.clear()
         val daysInMonth = daysInMonthArray(selectedDate)
         binding.monthYearTV.text = monthYearFromDate(selectedDate);
@@ -110,7 +109,6 @@ class CustomDetailTaskCalenderFragment :
                 }
 
             }
-            Log.d("ABC", calenderData.joinToString("\n"))
 
         }
 
@@ -127,11 +125,6 @@ class CustomDetailTaskCalenderFragment :
         } else {
             calendarAdapter?.submitList(calenderData)
             calendarAdapter?.notifyDataSetChanged()
-        }
-
-        lifecycleScope.launch {
-            delay(1000L)
-            binding.progressBar.visibility = View.INVISIBLE
         }
 
     }
@@ -204,8 +197,6 @@ class CustomDetailTaskCalenderFragment :
 
         c.time = Date(dataTaskHistorys.last().date)
         maxYear = c.get(Calendar.YEAR)
-
-        Log.d("ABC", "setRangeYear: $minYear ..... $maxYear")
     }
 
 

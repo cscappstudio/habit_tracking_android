@@ -52,7 +52,7 @@ import kotlin.math.roundToInt
 class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val detailTaskViewModel: DetailTaskViewModel by viewModel()
 
-    val childFragment: CustomDetailTaskCalenderFragment = CustomDetailTaskCalenderFragment()
+    private val childFragment: CustomDetailTaskCalenderFragment = CustomDetailTaskCalenderFragment()
     private lateinit var checklistAdapter: BaseBindingAdapter<CheckList>
 
     private var currentTask = Task()
@@ -60,9 +60,9 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
     private var currentProgress = 0
     private var currentGoal = 0
-    var currentTaskHistory: History? = null
-    var historyId = -1L
-    var progressStep = 1f
+    private var currentTaskHistory: History? = null
+    private var historyId = -1L
+    private var progressStep = 1f
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_detail_task
@@ -239,7 +239,9 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
             binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate, this)
             binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind, this)
             binding.txtNameTask.text = it.name
-            binding.txtNoteTask.text = it.note
+            if (it.note.isEmpty()) {
+                binding.txtNoteTask.visibility = View.GONE
+            } else binding.txtNoteTask.text = it.note
 
             if (it.goal != null) {
                 binding.ctlProgressGoal.visibility = if (it.goal!!.isOn) View.VISIBLE else View.GONE

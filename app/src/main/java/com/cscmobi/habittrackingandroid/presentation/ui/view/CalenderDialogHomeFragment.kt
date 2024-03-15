@@ -76,8 +76,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
     }
 
     private fun setMonthView(isChange: Boolean = false) {
-        binding.calendarRecyclerView.visibility = View.INVISIBLE
-        binding.progressBar.visibility = View.VISIBLE
 
         val daysInMonth = daysInMonthArray(selectedDate)
         binding.monthYearTV.text = monthYearFromDate(selectedDate);
@@ -122,11 +120,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
 
         }
 
-        lifecycleScope.launch {
-            delay(1000L)
-            binding.calendarRecyclerView.visibility = View.VISIBLE
-            binding.progressBar.visibility = View.INVISIBLE
-        }
     }
 
     private fun monthYearFromDate(calendar: Calendar): String? {
