@@ -11,7 +11,6 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/root_view"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -23,9 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:fillViewport="true"
-            android:focusable="true">
+            android:background="@color/white">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctl_root"
@@ -103,8 +100,7 @@
                     android:ellipsize="start"
                     android:gravity="center_horizontal"
                     android:hint="@string/new_habit"
-                    android:imeOptions="actionDone"
-                    android:inputType="text|textMultiLine|textNoSuggestions"
+                    android:inputType="text|textNoSuggestions|textMultiLine"
                     android:maxLength="50"
                     android:maxLines="2"
                     android:textColor="@color/shadow_gray"
@@ -114,6 +110,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_habit"
+                    app:layout_constraintWidth_max="240dp"
                     app:layout_constraintWidth_min="100dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -168,7 +165,6 @@
                         android:drawableEnd="@drawable/edit_pencil"
                         android:drawableTint="@color/gray"
                         android:ellipsize="start"
-                        android:imeOptions="actionDone"
                         android:inputType="text|textMultiLine|textNoSuggestions"
                         android:maxLines="3"
                         android:paddingVertical="10dp"

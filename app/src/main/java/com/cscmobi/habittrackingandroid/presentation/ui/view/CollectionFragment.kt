@@ -271,7 +271,7 @@ class CollectionFragment :
         binding.llCreateTask.setOnClickListener {
             (requireActivity() as NewHabitActivity).let {
                 it.newHabitFragment.newHabitFragmentState =
-                    NewHabitFragment.NewHabitFragmentState.ADDTOROUTINE
+                    NewHabitFragment.NewHabitFragmentState.NEWTASK
                 it.replaceFragment(it.newHabitFragment, NewHabitFragment.TAG)
             }
         }
