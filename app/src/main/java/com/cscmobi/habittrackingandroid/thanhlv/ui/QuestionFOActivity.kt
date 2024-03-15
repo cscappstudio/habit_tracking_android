@@ -64,8 +64,8 @@ class QuestionFOActivity : BaseActivity2() {
                 runBlocking {
                     val allChallenge =
                         AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-                    allChallenge.reversed()
-                    ChallengeFragment.allChallenges.postValue(allChallenge)
+
+                    ChallengeFragment.allChallenges.postValue(allChallenge.reversed())
                     val myChallenge =
                         AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
                     ChallengeFragment.myChallenges.postValue(myChallenge)

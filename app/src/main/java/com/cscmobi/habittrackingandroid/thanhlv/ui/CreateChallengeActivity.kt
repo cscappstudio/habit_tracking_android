@@ -43,8 +43,7 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     override fun initView() {
-//        mImgChallenge = ""
-        binding.bgAddImg.setImageResource(R.drawable.bg_add_icon)
+//        binding.bgAddImg.setImageResource(R.drawable.bg_add_icon)
         listDayView.add(binding.btnMon)
         listDayView.add(binding.btnTue)
         listDayView.add(binding.btnWed)
@@ -53,6 +52,11 @@ class CreateChallengeActivity : BaseActivity2() {
         listDayView.add(binding.btnSat)
         listDayView.add(binding.btnSun)
         recyclerView()
+        setupUIForEditChallenge()
+    }
+
+    private fun setupUIForEditChallenge() {
+
     }
 
     private var listDayText = arrayListOf<String>()
@@ -66,7 +70,12 @@ class CreateChallengeActivity : BaseActivity2() {
             performCreateChallenge()
         }
         binding.btnBackHeader.setOnClickListener {
+            MyUtils.hideSoftInput(it)
             finish()
+        }
+
+        binding.rootView.setOnClickListener {
+            MyUtils.hideSoftInput(it)
         }
         binding.bgAddImg.setOnClickListener {
             val bottomSheetFragment = BottomSheetImageChallenge()
@@ -77,11 +86,7 @@ class CreateChallengeActivity : BaseActivity2() {
                     override fun next(resDrawable: String) {
                         //
                         binding.bgAddImg.setImageBitmap(
-                            BitmapFactory.decodeStream(
-                                assets.open(
-                                    resDrawable
-                                )
-                            )
+                            BitmapFactory.decodeStream(assets.open(resDrawable))
                         )
                         binding.icPlusAva.visibility = View.GONE
                         mImgChallenge = resDrawable
@@ -106,7 +111,7 @@ class CreateChallengeActivity : BaseActivity2() {
 
     private fun performCreateChallenge() {
         if (!validateData()) return
-
+        MyUtils.hideSoftInput(this)
         val listDayTask = arrayListOf<ChallengeDays>()
         for (i in 1..binding.edtCycle.text.toString().toInt()) {
             val challengeDay = ChallengeDays(i)
@@ -136,10 +141,9 @@ class CreateChallengeActivity : BaseActivity2() {
             challenge.repeat = mRepeatData
             challenge.days = listDayTask.toList()
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
-            delay(500)
+
             val all = AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-            all.reversed()
-            ChallengeFragment.allChallenges.postValue(all)
+            ChallengeFragment.allChallenges.postValue(all.reversed())
             finish()
         }
     }
@@ -287,8 +291,10 @@ class CreateChallengeActivity : BaseActivity2() {
         adapter?.setData(mDataTaskCreateChallenge)
     }
 
+    private var mChallenge: Challenge? = null
     override fun loadData() {
-
+        mChallenge = Gson().fromJson(intent.getStringExtra("edit_challenge"), Challenge::class.java)
+        Toast.makeText(this, "sssssssssss", Toast.LENGTH_SHORT).show()
     }
 
     private var adapter: AddTaskChallengeAdapter? = null
@@ -319,7 +325,7 @@ class CreateChallengeActivity : BaseActivity2() {
 
     private fun deleteTask(item: CreateTaskChallenge, pos: Int) {
         if (isFinishing || isDestroyed) return
-        DialogUtils.showDeleteChallenge(this, {
+        DialogUtils.showDeleteChallenge(this, 1, {
             if (item.type == 2) mDataTaskCreateChallenge[pos + 1].type -= 1
             adapter?.notifyItemRemoved(pos)
             mDataTaskCreateChallenge.remove(item)

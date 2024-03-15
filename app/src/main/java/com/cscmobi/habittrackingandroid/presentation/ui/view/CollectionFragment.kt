@@ -120,10 +120,10 @@ class CollectionFragment :
                 if (newText.isNullOrEmpty()) {
                     binding.searchView.clearFocus()
                     binding.searchView.visibility = View.GONE
+                    binding.layoutHeader.root.visibility = View.VISIBLE
                     binding.txtNewHabit.visibility = View.VISIBLE
                     binding.llCreateTask.visibility = View.VISIBLE
                 }
-
                 return true
             }
         })

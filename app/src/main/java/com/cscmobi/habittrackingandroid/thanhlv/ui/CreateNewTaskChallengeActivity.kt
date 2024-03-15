@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.gson.Gson
+import com.thanhlv.fw.helper.MyUtils
 
 class CreateNewTaskChallengeActivity : BaseActivity2() {
 
@@ -72,6 +73,9 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
     override fun controllerView() {
         binding.btnBackHeader.setOnClickListener {
             onBackPressed()
+        }
+        binding.rootView.setOnClickListener {
+            MyUtils.hideSoftInput(it)
         }
         binding.edtName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {

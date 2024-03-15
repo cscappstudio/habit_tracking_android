@@ -26,7 +26,7 @@ data class Task(
     @ColumnInfo(name = "challenge") var challenge: String = "",
 
     @ColumnInfo(name = "goal")
-    var goal: Goal = Goal(),
+    var goal: Goal? = Goal(),
 
     @ColumnInfo(name = "repeat")
     var repeate: TaskRepeat = TaskRepeat(),

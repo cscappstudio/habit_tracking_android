@@ -1,69 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <FrameLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:paddingBottom="@dimen/_100sdp"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_white_cornertop_20"
-        android:layout_height="match_parent">
-<androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@drawable/bg_white_cornertop_20"
-    android:layout_height="match_parent">
+        android:paddingBottom="@dimen/_32sdp">
 
-    <FrameLayout
-        android:id="@+id/fr_iv"
-        android:layout_marginTop="@dimen/_22sdp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_add_iv"
-            android:layout_width="@dimen/_132sdp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_white_cornertop_20"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
 
-            android:src="@drawable/bg_add_image_collection"
-            android:layout_height="@dimen/_99sdp"/>
-        
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_select"
-            android:layout_width="@dimen/_148sdp"
-            android:visibility="gone"
-            android:layout_height="@dimen/_148sdp"/>
+            <FrameLayout
+                android:id="@+id/fr_iv"
+                android:layout_width="@dimen/_155sdp"
+                android:layout_height="@dimen/_117sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_20sdp">
 
-    </FrameLayout>
-    <TextView
-        android:id="@+id/edt_collection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:textSize="12sp"
-        android:layout_marginHorizontal="@dimen/_28sdp"
-        android:text="@string/choose_one_of_the_avaiable_images_that_best_fits_your_content"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/worksans_medium"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
-        android:backgroundTint="@color/light_gray"
-        />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_add_iv"
+                    android:layout_width="@dimen/_140sdp"
+                    android:layout_height="@dimen/_106sdp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/bg_add_image_collection" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_album"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        android:layout_marginHorizontal="@dimen/_14sdp"
-        android:layout_marginTop="@dimen/_14sdp"
-        android:layout_height="0dp"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_select"
+                    android:layout_width="@dimen/_155sdp"
+                    android:layout_height="@dimen/_117sdp"
+                    android:scaleType="centerInside"
+                    android:visibility="gone" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/edt_collection"
+                style="@style/Text_500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="@dimen/_28sdp"
+                android:layout_marginTop="@dimen/_11sdp"
+                android:backgroundTint="@color/light_gray"
+                android:text="@string/choose_your_collection_s_cover_image"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_album"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/_20sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <include
             android:id="@+id/layout_next"
+            layout="@layout/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_10sdp"
-            layout="@layout/btn_save"/>
-    </FrameLayout>
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginBottom="@dimen/_50sdp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

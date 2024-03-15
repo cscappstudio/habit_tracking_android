@@ -76,7 +76,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         binding.layoutSteak1.txtInfo.text = getString(R.string.finished)
         binding.layoutSteak2.txtInfo.text = getString(R.string.missed)
         binding.layoutSteak3.txtInfo.text = getString(R.string.long_streak)
-        binding.layoutSteak4.txtInfo.text = getString(R.string.rate)
+        binding.layoutSteak4.txtInfo.text = getString(R.string.completion)
 
         binding.layoutSteak1.ivInfo.setImageResource(R.drawable.ic_steak_finish)
         binding.layoutSteak2.ivInfo.setImageResource(R.drawable.ic_steak_miss)
@@ -209,7 +209,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
             var rate = ((finishDay.toFloat() / listDataTaskHistory.size.toFloat()) * 100).toInt()
 
-            if (missDay >0) missDay--
+            if (missDay > 0) missDay--
 
             binding.txtStreak.text = "$currentStreak ${getString(R.string.days)}"
             binding.layoutSteak1.txtDay.text = "$finishDay ${getString(R.string.days)}"
@@ -224,22 +224,25 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initData(task: Task) {
 
         currentTask = task
         currentTask.also {
             checkList = it.checklist as MutableList<CheckList>
-            it.ava?.let { it1 -> binding.ivTask.setDrawableString(it1) }
-            binding.ivTask.imageTintList = ColorStateList.valueOf(Color.parseColor(it.color))
-            binding.frIvTask.setBackgroundApla(it.color ?: "#33EBB2BD", 20)
-            Log.d("TESTDATA", it.toString())
+            it.ava?.let { it1 ->
+                binding.ivTask.setDrawableString(it1)
+                binding.ivTask.imageTintList = ColorStateList.valueOf(Color.parseColor(it.color))
+            }
+            val bgColor = "#33" + it.color.substring(1, it.color.length)
+            binding.frIvTask.backgroundTintList = ColorStateList.valueOf(Color.parseColor(bgColor))
             binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate, this)
             binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind, this)
             binding.txtNameTask.text = it.name
             binding.txtNoteTask.text = it.note
 
             if (it.goal != null) {
-                binding.ctlProgressGoal.visibility = if (it.goal.isOn) View.VISIBLE else View.GONE
+                binding.ctlProgressGoal.visibility = if (it.goal!!.isOn) View.VISIBLE else View.GONE
 
                 progressStep = (100 / (it.goal!!.target ?: 1)).toFloat()
 
@@ -276,6 +279,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initCheckList() {
         binding.layoutChecklist.edtAdd.visibility = View.GONE
         binding.layoutChecklist.ivAdd.visibility = View.GONE
@@ -300,10 +304,15 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
         )
 
+        if (checkList.isEmpty()) {
+            binding.layoutChecklist.root.visibility = View.GONE
+            return
+        }
         checklistAdapter.submitList(checkList)
         checklistAdapter?.notifyDataSetChanged()
 
         binding.layoutChecklist.rcvSubtask.adapter = checklistAdapter
+
 
     }
 

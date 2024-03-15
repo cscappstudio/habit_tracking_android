@@ -49,6 +49,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="23dp"
@@ -68,7 +69,7 @@
             android:background="@drawable/bg_white_corner_20"
             android:backgroundTint="@color/teal_green"
             android:fontFamily="@font/worksans_semibold"
-            android:text="Delete challenge"
+            android:text="@string/delete_challenge"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="13sp" />
@@ -83,7 +84,7 @@
             android:background="@drawable/bg_white_corner_20"
             android:backgroundTint="@color/coral_red"
             android:fontFamily="@font/worksans_semibold"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="13sp" />

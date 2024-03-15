@@ -299,5 +299,12 @@
     <string name="no_tag">No tag</string>
     <string name="every_">Every %1$s %2$s</string>
     <string name="day">Day</string>
+    <string name="reset">Reset</string>
+    <string name="stop">Stop</string>
+    <string name="delete_challenge">Delete challenge</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_your_collection_s_cover_image">Choose your collection\'s cover image</string>
+    <string name="choose_your_challenge_cover_image">Choose your challenge\'s cover image</string>
+    <string name="completion">Completion</string>
 
 </resources>

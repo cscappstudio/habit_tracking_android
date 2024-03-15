@@ -70,6 +70,7 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -192,9 +193,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
 
                 }
-
-
                 calenderDialogHomeFragment.dismiss()
+                MyUtils.hideNavigationBar(requireActivity())
             }
 
         }

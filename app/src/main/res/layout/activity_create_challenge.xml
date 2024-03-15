@@ -6,22 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/tv_title_header"-->
-    <!--        style="@style/Text_700_Med"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:maxLines="1"-->
-    <!--        android:text="@string/create_a_challenge"-->
-    <!--        android:textSize="22sp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@id/btn_back_header"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toEndOf="@id/btn_back_header"-->
-    <!--        app:layout_constraintTop_toTopOf="@id/btn_back_header" />-->
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -29,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -62,14 +47,14 @@
                 android:layout_marginTop="12dp"
                 android:backgroundTint="#E1ECEC"
                 android:gravity="center"
-                android:textCursorDrawable="@drawable/color_cursor"
                 android:hint="@string/challenge_name"
                 android:inputType="text|textNoSuggestions|textMultiLine"
                 android:maxLength="30"
                 android:maxLines="2"
                 android:textColor="#09392D"
                 android:textColorHint="#B5B5B5"
-                android:textSize="20sp"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bg_add_img"

@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -95,7 +96,7 @@ class TaskAdapter(
                 if (item.pause != -1) {
                     var c = Calendar.getInstance()
                     c.time = Date(item.pauseDate!!)
-                    c.add(Calendar.DAY_OF_MONTH, item.pause-1)
+                    c.add(Calendar.DAY_OF_MONTH, item.pause - 1)
 
                     if (date in item.pauseDate!!.toDate()..c.time.time) {
                         binding.ivPlay.visibility = View.VISIBLE
@@ -214,6 +215,7 @@ class TaskAdapter(
 
                 }
 
+                @SuppressLint("UseCompatLoadingForDrawables")
                 override fun onOpened(view: SwipeRevealLayout?) {
                     binding.frMenu.visibility = View.VISIBLE
 
@@ -224,7 +226,8 @@ class TaskAdapter(
                                 binding.root.context.getString(
                                     R.string.pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready
                                 ), "showcase_skip"
-                            )
+                            ).closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
+
                         ) //First BubbleShowCase to show
                         .addShowCase(
                             activity.createBubbleShowCaseBuilder(
@@ -232,7 +235,7 @@ class TaskAdapter(
                                 binding.root.context.getString(
                                     R.string.tap_to_edit
                                 ), "showcase_edit"
-                            )
+                            ).closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
                         ) //Second BubbleShowCase to show
                         .addShowCase(
                             activity.createBubbleShowCaseBuilder(
@@ -240,7 +243,7 @@ class TaskAdapter(
                                 binding.root.context.getString(
                                     R.string.tap_to_delete
                                 ), "showcase_delete"
-                            )
+                            ).closeActionImage(activity.getDrawable(R.drawable.ic_round_close))
                         ) //Third BubbleShowCase to show
                         .show() //Display the ShowCaseSequence
 //                    BubbleShowCaseBuilder(activity) //Activity instance

@@ -24,13 +24,26 @@ import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.DisplayUtils
 
 object DialogUtils {
-    fun showDeleteChallenge(context: Context, deleteFuture: () -> Unit, deleteAll: () -> Unit) {
-        val binding = DialogDeleteChallengeBinding.inflate(LayoutInflater.from(context));
+    fun showDeleteChallenge(
+        context: Context,
+        type: Int,
+        deleteFuture: () -> Unit,
+        deleteAll: () -> Unit
+    ) {
+        val binding = DialogDeleteChallengeBinding.inflate(LayoutInflater.from(context))
         val alertDialog = AlertDialog.Builder(context)
             .setView(binding.root)
             .show()
         alertDialog.window?.setBackgroundDrawable(null)
 
+        if (type == 1) {
+            binding.tvDes.text = "Delete this task?"
+            binding.btnDelete.text = "Delete task"
+        }
+        if (type == 2) {
+            binding.tvDes.text = "Delete this challenge?"
+            binding.btnDelete.text = "Delete challenge"
+        }
         binding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }

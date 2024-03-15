@@ -69,6 +69,8 @@ interface Dao {
 
     @Update
     suspend fun updateChallenge(item: Challenge)
+    @Delete
+    suspend fun deleteChallenge(challenge: Challenge)
 
 
     @Query("SELECT * FROM Mood")

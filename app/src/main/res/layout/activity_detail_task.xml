@@ -10,20 +10,20 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_35sdp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="36dp"
             android:src="@drawable/ic_back_btn"
-            android:layout_marginStart="@dimen/_20sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
             android:src="@drawable/ic_green_delete"
-            android:layout_marginEnd="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="@id/iv_back"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -31,8 +31,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:src="@drawable/ic_green_skip"
             app:layout_constraintBottom_toBottomOf="@id/iv_back"
@@ -41,8 +41,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:src="@drawable/ic_green_edit"
             app:layout_constraintBottom_toBottomOf="@id/iv_back"
@@ -52,7 +52,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/_18sdp"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_back">
@@ -64,69 +64,69 @@
 
                 <FrameLayout
                     android:id="@+id/fr_iv_task"
-                    android:layout_width="@dimen/_49sdp"
+                    android:layout_width="@dimen/_48sdp"
+                    android:layout_height="@dimen/_48sdp"
                     android:layout_gravity="center_horizontal"
-                    android:padding="@dimen/_8sdp"
                     android:background="@drawable/bg_white_border_corner_12"
                     android:backgroundTint="#33EBB2BD"
-                    android:layout_height="@dimen/_49sdp">
+                    android:padding="@dimen/_9sdp">
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_task"
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:src="@drawable/ic_item_collection2"
-                        android:tint="@color/pink"
-                        android:layout_height="match_parent"/>
+                        android:tint="@color/pink" />
                 </FrameLayout>
 
                 <TextView
                     android:id="@+id/txt_name_task"
-                    android:layout_width="wrap_content"
+                    style="@style/Text_700_Bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Drink water"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="@dimen/_9sdp"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:textSize="20sp"
-                    android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/worksans_bold"
+                    android:maxLines="2"
                     android:textColor="@color/jade_black"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/txt_note_task"
-                    android:gravity="center_horizontal"
-                    android:layout_marginHorizontal="20dp"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Stay hydrated and flush out toxins"
+                    android:layout_marginHorizontal="20dp"
                     android:fontFamily="@font/worksans_regular"
-                    android:textSize="12sp"
+                    android:gravity="center_horizontal"
                     android:textColor="@color/gray"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="12sp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_105sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_height="@dimen/_76sdp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/bg_white_corner_20"
                     android:backgroundTint="@color/white_smoke"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
-                    android:minHeight="125dp"
-                    android:paddingHorizontal="@dimen/_20sdp"
-                    android:paddingVertical="@dimen/_10sdp">
+                    android:maxHeight="150dp"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="@dimen/_9sdp">
 
-                    <TextView
-                        android:id="@+id/txt_basic_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserratalternates_semibold"
-                        android:text="@string/basic_info"
-                        android:textColor="@color/shadow_gray"
-                        android:textFontWeight="700"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@+id/iv_repeat"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:targetApi="p" />
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/txt_basic_info"-->
+                    <!--                        style="@style/Text_700_Med"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:text="@string/basic_info"-->
+                    <!--                        android:textColor="@color/shadow_gray"-->
+                    <!--                        android:textSize="16sp"-->
+                    <!--                        app:layout_constraintBottom_toTopOf="@+id/iv_repeat"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toTopOf="parent"-->
+                    <!--                        tools:targetApi="p" />-->
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_repeat"
@@ -135,24 +135,23 @@
                         android:src="@drawable/ic_wrap_text"
                         app:layout_constraintBottom_toTopOf="@+id/iv_remind"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_basic_info" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                     <TextView
                         android:id="@+id/txt_repeat"
-                        app:layout_constraintTop_toTopOf="@id/iv_repeat"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_repeat"
-                        app:layout_constraintStart_toEndOf="@id/iv_repeat"
-                        android:layout_marginStart="@dimen/_11sdp"
+                        style="@style/Text_500"
                         android:layout_width="0dp"
-                        android:text="Repeat: every 1 week on Su, Mo, Tu,..."
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:maxLines="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_11sdp"
                         android:ellipsize="end"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/worksans_medium"
+                        android:maxLines="1"
                         android:textColor="@color/shadow_gray"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_repeat"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_repeat"
+                        app:layout_constraintTop_toTopOf="@id/iv_repeat" />
 
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -165,20 +164,18 @@
                         app:layout_constraintTop_toBottomOf="@+id/iv_repeat" />
 
 
-
                     <TextView
                         android:id="@+id/txt_remind"
-                        app:layout_constraintTop_toTopOf="@id/iv_remind"
+                        style="@style/Text_500"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_11sdp"
+                        android:maxLines="1"
+                        android:textColor="@color/shadow_gray"
+                        android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="@id/iv_remind"
                         app:layout_constraintStart_toEndOf="@id/iv_remind"
-                        android:layout_marginStart="@dimen/_11sdp"
-                        android:layout_width="wrap_content"
-                        android:text="Remind 08:30 AM"
-                        android:maxLines="1"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/worksans_medium"
-                        android:textColor="@color/shadow_gray"
-                        android:layout_height="wrap_content"/>
+                        app:layout_constraintTop_toTopOf="@id/iv_remind" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -186,194 +183,197 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ctl_progress_goal"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="-20dp"
-
-                    android:layout_marginHorizontal="@dimen/_20sdp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="@dimen/_minus20sdp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_minus"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/_34sdp"
+                        android:layout_height="@dimen/_34sdp"
+                        android:layout_marginStart="@dimen/_minus5sdp"
+                        android:padding="@dimen/_6sdp"
                         android:src="@drawable/minus_circle"
-                        app:layout_constraintStart_toStartOf="parent"
-
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         android:tint="@color/bottle_green"
-                        android:layout_height="wrap_content"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.cscmobi.habittrackingandroid.presentation.ui.custom.CircularSeekBar
                         android:id="@+id/sb_progress"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginHorizontal="@dimen/_10sdp"
-                        app:layout_constraintStart_toEndOf="@id/iv_minus"
-                        app:layout_constraintEnd_toStartOf="@id/iv_plus"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
                         app:cs_arcRadius="90dp"
                         app:cs_arcWidth="9dp"
                         app:cs_progressWidth="9dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toStartOf="@id/iv_plus"
+                        app:layout_constraintStart_toEndOf="@id/iv_minus"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        app:layout_constraintTop_toTopOf="@id/sb_progress"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/sb_progress"
                         app:layout_constraintEnd_toEndOf="@+id/sb_progress"
                         app:layout_constraintStart_toStartOf="@+id/sb_progress"
-                        app:layout_constraintBottom_toBottomOf="@id/sb_progress"
-                        android:layout_height="wrap_content">
+                        app:layout_constraintTop_toTopOf="@id/sb_progress">
+
                         <TextView
                             android:id="@+id/txt_progress"
+                            style="@style/Text_600_SemiB"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/worksans_semibold"
-                            android:text="0"
                             android:layout_gravity="center_horizontal"
+                            android:text="0"
                             android:textColor="@color/jade_black"
-                            android:textSize="28sp"
-                            />
+                            android:textSize="28sp" />
 
                         <TextView
                             android:id="@+id/txt_goal_target"
+                            style="@style/Text_600_SemiB"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/worksans_semibold"
+                            android:layout_gravity="center_horizontal"
                             android:text="Goal: 2 glasses"
                             android:textColor="@color/gray"
-                            android:layout_gravity="center_horizontal"
-                            android:textSize="14sp"
-                           />
+                            android:textSize="14sp" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_plus"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/_34sdp"
+                        android:layout_height="@dimen/_34sdp"
+                        android:layout_marginEnd="@dimen/_minus5sdp"
+                        android:padding="@dimen/_6sdp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/plus_circle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         android:tint="@color/bottle_green"
-                        android:layout_height="wrap_content"/>
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/txt_finish"
+                        style="@style/Text_600_SemiB"
                         android:layout_width="wrap_content"
-                        android:text="@string/finish"
-                        android:fontFamily="@font/montserratalternates_semibold"
-                        android:textSize="16sp"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="-15dp"
-                        android:paddingVertical="@dimen/_4sdp"
-                        android:paddingHorizontal="@dimen/_18sdp"
-                        app:layout_constraintTop_toBottomOf="@id/sb_progress"
-                        android:backgroundTint="@color/greeny"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/bg_white_corner_30"
-                        android:layout_height="wrap_content"/>
+                        android:backgroundTint="@color/greeny"
+                        android:paddingHorizontal="@dimen/_20sdp"
+                        android:paddingVertical="@dimen/_4sdp"
+                        android:text="@string/finish"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sb_progress" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-              <include layout="@layout/layout_checklist"
-                  android:id="@+id/layout_checklist"
-                  android:layout_marginHorizontal="@dimen/_20sdp"
+                <include
+                    android:id="@+id/layout_checklist"
+                    layout="@layout/layout_checklist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp" />
 
-                  android:layout_marginTop="@dimen/_18sdp"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_current_streak"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_95sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/bg_steak">
 
-              <androidx.constraintlayout.widget.ConstraintLayout
-                  android:id="@+id/ctl_current_streak"
+                    <TextView
+                        style="@style/Text_600_SemiB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:text="@string/current_streak"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@id/txt_streak"
+                        app:layout_constraintEnd_toEndOf="@id/txt_streak"
+                        app:layout_constraintStart_toStartOf="@id/txt_streak" />
 
-                  android:layout_width="@dimen/_200sdp"
-                  android:background="@drawable/bg_steak"
-                  android:layout_gravity="center_horizontal"
-                  android:layout_height="@dimen/_95sdp">
+                    <TextView
+                        android:id="@+id/txt_streak"
+                        style="@style/Text_700_Bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_6sdp"
+                        android:gravity="center_horizontal"
+                        android:text="0 days"
+                        android:textColor="@color/white"
+                        android:textFontWeight="800"
+                        android:textSize="22sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintWidth_percent="0.7"
+                        tools:targetApi="p" />
 
-                  <TextView
-                      android:layout_width="wrap_content"
-                      android:text="@string/current_streak"
-                      android:textSize="14sp"
-                      android:fontFamily="@font/worksans_semibold"
-                      android:textColor="@color/white"
-                      app:layout_constraintStart_toStartOf="@id/txt_streak"
-                      app:layout_constraintEnd_toEndOf="@id/txt_streak"
-                      app:layout_constraintBottom_toTopOf="@id/txt_streak"
-                      android:layout_height="wrap_content"/>
-
-                  <TextView
-                      android:id="@+id/txt_streak"
-                      android:layout_width="0dp"
-                      app:layout_constraintWidth_percent="0.6"
-                      android:gravity="center_horizontal"
-                      android:text="3 days"
-                      android:textColor="@color/white"
-                      android:fontFamily="@font/montserratalternates_bold"
-                      android:textFontWeight="800"
-                      android:textSize="20sp"
-                      app:layout_constraintStart_toStartOf="parent"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      android:layout_marginBottom="@dimen/_4sdp"
-                      app:layout_constraintBottom_toBottomOf="parent"
-                      android:layout_height="wrap_content"
-                      tools:targetApi="p" />
-
-              </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ll_info_streak"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/_26sdp"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="@dimen/_22sdp">
 
-                    android:layout_height="wrap_content">
-
-                    <include layout="@layout/layout_infor_steak"
+                    <include
                         android:id="@+id/layout_steak1"
+                        layout="@layout/layout_infor_steak"
                         android:layout_width="0dp"
-                        app:layout_constraintWidth_percent="0.47"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="9dp"
+                        app:layout_constraintEnd_toStartOf="@id/layout_steak2"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
-                        />
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <include layout="@layout/layout_infor_steak"
-                        android:layout_width="0dp"
+                    <include
                         android:id="@+id/layout_steak2"
-
-                        app:layout_constraintWidth_percent="0.47"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
-
-                    <include layout="@layout/layout_infor_steak"
+                        layout="@layout/layout_infor_steak"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/layout_steak1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <include
                         android:id="@+id/layout_steak3"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        app:layout_constraintTop_toBottomOf="@id/layout_steak1"
-                        app:layout_constraintWidth_percent="0.47"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        />
-
-                    <include layout="@layout/layout_infor_steak"
+                        layout="@layout/layout_infor_steak"
                         android:layout_width="0dp"
-                        android:id="@+id/layout_steak4"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        app:layout_constraintTop_toBottomOf="@id/layout_steak1"
-                        app:layout_constraintWidth_percent="0.47"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="9dp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/layout_steak4"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/layout_steak1" />
+
+                    <include
+                        android:id="@+id/layout_steak4"
+                        layout="@layout/layout_infor_steak"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        />
+                        app:layout_constraintStart_toEndOf="@id/layout_steak3"
+                        app:layout_constraintTop_toBottomOf="@id/layout_steak1" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -382,114 +382,60 @@
                     android:layout_height="500dp">
 
                     <FrameLayout
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/_290sdp"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:layout_height="@dimen/_290sdp">
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
-                            android:layout_gravity="bottom"
-                            app:layout_constraintBottom_toBottomOf="@id/frag_container"
-                            app:cardElevation="@dimen/_16sdp"
-                            android:outlineSpotShadowColor="#29000000"
-                            app:cardCornerRadius="@dimen/_16sdp"
-                            android:layout_marginHorizontal="@dimen/_20sdp"
-                            android:layout_marginBottom="@dimen/_30sdp"
                             android:layout_height="@dimen/_100sdp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginHorizontal="24dp"
+                            android:layout_marginBottom="@dimen/_30sdp"
+                            android:outlineSpotShadowColor="#29000000"
+                            app:cardCornerRadius="@dimen/_16sdp"
+                            app:cardElevation="@dimen/_16sdp"
+                            app:layout_constraintBottom_toBottomOf="@id/frag_container"
                             tools:targetApi="p" />
+
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="match_parent"
+                            android:layout_height="@dimen/_100sdp"
                             android:layout_gravity="bottom"
-                            app:layout_constraintBottom_toBottomOf="@id/frag_container"
-                            app:cardElevation="@dimen/_15sdp"
-                            android:outlineSpotShadowColor="#29000000"
-
-                            app:cardCornerRadius="@dimen/_16sdp"
                             android:layout_marginHorizontal="@dimen/_30sdp"
                             android:layout_marginBottom="@dimen/_20sdp"
-                            android:layout_height="@dimen/_100sdp"
+
+                            android:outlineSpotShadowColor="#29000000"
+                            app:cardCornerRadius="@dimen/_16sdp"
+                            app:cardElevation="@dimen/_15sdp"
+                            app:layout_constraintBottom_toBottomOf="@id/frag_container"
                             tools:targetApi="p" />
 
                         <androidx.fragment.app.FragmentContainerView
                             android:id="@+id/frag_container"
-                            android:elevation="@dimen/_17sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="top"
+                            android:elevation="@dimen/_17sdp"
                             android:outlineSpotShadowColor="#29000000"
                             app:layout_constraintTop_toTopOf="parent"
-                            android:layout_width="match_parent"
-                            tools:targetApi="p"
-                            android:layout_height="wrap_content"/>
+                            tools:targetApi="p" />
 
                     </FrameLayout>
-
                 </FrameLayout>
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_marginHorizontal="@dimen/_10sdp"-->
-<!--                    android:layout_height="wrap_content">-->
-
-<!--                    <View-->
-<!--                    android:id="@+id/bg_calendar_1"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="100dp"-->
-<!--                    android:layout_marginStart="@dimen/_20sdp"-->
-<!--                    android:layout_marginTop="100dp"-->
-<!--                    android:layout_marginEnd="@dimen/_20sdp"-->
-<!--                    android:layout_marginBottom="-10dp"-->
-<!--                    android:background="@drawable/bg_white_round_20"-->
-<!--                    android:elevation="18dp"-->
-<!--                    android:outlineSpotShadowColor="@color/black_12"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@id/bg_calendar_2"-->
-<!--                    app:layout_constraintEnd_toEndOf="@id/bg_calendar_2"-->
-<!--                    app:layout_constraintStart_toStartOf="@id/bg_calendar_2"-->
-<!--                    tools:ignore="UnusedAttribute" />-->
-
-<!--                    <View-->
-<!--                        android:id="@+id/bg_calendar_2"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="100dp"-->
-<!--                        android:layout_marginStart="@dimen/_20sdp"-->
-<!--                        android:layout_marginTop="0dp"-->
-<!--                        android:layout_marginEnd="@dimen/_20sdp"-->
-<!--                        android:layout_marginBottom="-11dp"-->
-<!--                        android:background="@drawable/bg_white_round_20"-->
-<!--                        android:elevation="19dp"-->
-<!--                        android:outlineSpotShadowColor="@color/black_12"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/frag_container"-->
-<!--                        app:layout_constraintEnd_toEndOf="@id/frag_container"-->
-<!--                        app:layout_constraintStart_toStartOf="@id/frag_container"-->
-<!--                        tools:ignore="UnusedAttribute" />-->
-
-<!--                        <androidx.fragment.app.FragmentContainerView-->
-<!--                            android:id="@+id/frag_container"-->
-<!--                            android:elevation="20dp"-->
-<!--                            android:outlineSpotShadowColor="#03000000"-->
-<!--                            android:layout_gravity="top"-->
-<!--                            android:translationY="10dp"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            tools:ignore="UnusedAttribute"-->
-<!--                            />-->
-
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
 
         <com.thanhlv.ads.lib.TemplateNativeView
             android:id="@+id/adView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:gnt_template_type="@layout/gnt_small_item_template"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

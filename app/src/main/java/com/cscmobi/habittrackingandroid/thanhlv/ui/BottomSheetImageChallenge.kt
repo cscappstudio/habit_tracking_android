@@ -61,6 +61,7 @@ class BottomSheetImageChallenge :
         val binding = BottomSheetAlbumCollectionFragmentBinding.inflate(inflater, container, false)
         binding.layoutNext.btnSave.text = getString(R.string.next)
 
+        binding.edtCollection.text = getString(R.string.choose_your_challenge_cover_image)
 
         val adapter = ImageChallengeAdapter(requireContext(), albums)
         adapter.setCallback(object : ImageChallengeAdapter.ImageChallengeCallback {

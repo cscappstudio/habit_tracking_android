@@ -100,20 +100,20 @@
             app:layout_constraintWidth_max="120dp" />
 
         <FrameLayout
-            android:orientation="vertical"
             android:id="@+id/fr_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:orientation="vertical"
             android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/txt_daily">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_weekly"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:visibility="@{frequencyType == 1 ? View.VISIBLE : View.GONE}"
                 android:weightSum="7">
@@ -163,28 +163,27 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <GridView
-                android:layout_marginTop="8dp"
                 android:id="@+id/calendar_gridview"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_168sdp"
+                android:layout_height="@dimen/_165sdp"
                 android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/bg_white_corner_18"
-                android:horizontalSpacing="3dp"
+                android:horizontalSpacing="7dp"
                 android:minHeight="160dp"
                 android:numColumns="7"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="10dp"
+                android:padding="10dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="3dp"
+                android:verticalSpacing="4dp"
                 android:visibility="@{frequencyType == 2 ? View.VISIBLE : View.GONE}" />
 
         </FrameLayout>
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_marginStart="24dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             android:fontFamily="@font/worksans_semibold"
@@ -201,8 +200,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_frequency"
             android:layout_width="@dimen/_110sdp"
-            android:layout_marginEnd="24dp"
             android:layout_height="@dimen/_30sdp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/bg_white_corner_20"
             android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
