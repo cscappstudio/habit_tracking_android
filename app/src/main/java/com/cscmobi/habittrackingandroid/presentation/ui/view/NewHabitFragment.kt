@@ -53,6 +53,7 @@ import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
 import com.cscmobi.habittrackingandroid.utils.onDone
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.helper.MyUtils
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -97,18 +98,6 @@ class NewHabitFragment :
     }
 
     override fun initView(view: View) {
-//        binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-//            context?.let {
-//                binding.nestScroll.setPadding(
-//                    0,
-//                    0,
-//                    0,
-//                    resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-//                )
-//            }
-//
-//        })
-
         currentTask.ava =
             requireContext().resources.getResourceEntryName(R.drawable.ic_item_collection2)
 
@@ -131,8 +120,6 @@ class NewHabitFragment :
         setUpTag()
         setUpCheckList()
         setUpColor()
-
-
 
         bottomSheetFragment.setListener(object : BottomsheetNewHabitFragment.BottomListener {
             @SuppressLint("SetTextI18n")
@@ -709,6 +696,9 @@ class NewHabitFragment :
 
 
     override fun setEvent() {
+        binding.rootView.setOnClickListener {
+            MyUtils.hideSoftInput(it)
+        }
         binding.ivHabit.setOnClickListener {
             if (!bottomSheetAvaFragment.isAdded)
                 bottomSheetAvaFragment.show(childFragmentManager, bottomSheetAvaFragment.tag)

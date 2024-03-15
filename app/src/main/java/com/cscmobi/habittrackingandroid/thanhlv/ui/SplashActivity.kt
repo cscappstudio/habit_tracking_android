@@ -66,17 +66,13 @@ class SplashActivity : BaseActivity2() {
 //            GSMUtil.login(this, null)
             if (!SPF.isFirstOpenApp(applicationContext))
                 runBlocking {
-                    runBlocking {
-                        ChallengeFragment.allChallenges
-                            .postValue(
-                                AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-                            )
-                        ChallengeFragment.myChallenges
-                            .postValue(
-                                AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
-                            )
-                    }
-
+                    val allChallenge =
+                        AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                    allChallenge.reversed()
+                    ChallengeFragment.allChallenges.postValue(allChallenge)
+                    val myChallenge =
+                        AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
+                    ChallengeFragment.myChallenges.postValue(myChallenge)
                 }
 
         }

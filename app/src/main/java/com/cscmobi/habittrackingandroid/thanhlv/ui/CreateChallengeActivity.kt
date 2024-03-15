@@ -127,7 +127,6 @@ class CreateChallengeActivity : BaseActivity2() {
 
         runBlocking {
 
-            val all = AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
             val challenge = Challenge()
             challenge.name = binding.edtName.text.toString()
             challenge.description = binding.textNote.text.toString()
@@ -138,9 +137,9 @@ class CreateChallengeActivity : BaseActivity2() {
             challenge.days = listDayTask.toList()
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
             delay(500)
-            val newAll = ArrayList(all)
-            newAll.add(0, challenge)
-            ChallengeFragment.allChallenges.postValue(newAll)
+            val all = AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+            all.reversed()
+            ChallengeFragment.allChallenges.postValue(all)
             finish()
         }
     }

@@ -150,12 +150,12 @@ class DetailChallengeActivity : BaseActivity2() {
 //
 //
 //                                } else
-                                    AppDatabase.getInstance(this@DetailChallengeActivity).dao()
-                                        .updateHistory2(
-                                            history.id,
-                                            history.taskInDay,
-                                            history.progressDay
-                                        )
+                                AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+                                    .updateHistory2(
+                                        history.id,
+                                        history.taskInDay,
+                                        history.progressDay
+                                    )
 
                                 println("thanhlv upppppppppppppp 1 -------------  " + history.taskInDay.size)
                                 HomeFragment.updateChallenge = true
@@ -176,9 +176,10 @@ class DetailChallengeActivity : BaseActivity2() {
             AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
-            newMyChallenges.sortByDescending {
-                it.joinedHistory?.date
-            }
+            newMyChallenges.reversed()
+//            newMyChallenges.sortByDescending {
+//                it.joinedHistory?.date
+//            }
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
         }
     }
