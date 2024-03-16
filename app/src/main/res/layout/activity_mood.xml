@@ -12,7 +12,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="@dimen/_28sdp"
         android:background="@drawable/shape_circle_fill"
         android:backgroundTint="#E1ECEC"
         app:layout_constraintStart_toStartOf="parent"
@@ -199,6 +199,7 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_month"
+            android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -222,6 +223,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_mood_record"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="12dp"

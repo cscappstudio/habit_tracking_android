@@ -103,6 +103,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_color"
+                android:overScrollMode="never"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_20sdp"

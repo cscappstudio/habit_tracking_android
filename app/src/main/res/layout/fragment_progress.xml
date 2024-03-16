@@ -7,6 +7,18 @@
     android:background="@color/white">
 
 
+    <ImageView
+        android:id="@+id/bg_blur"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_3_circle_blur"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,15 +30,17 @@
 
             <View
                 android:id="@+id/bb_current_streak"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="@dimen/_109sdp"
+                android:layout_height="@dimen/_109sdp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="@dimen/_70sdp"
                 android:background="@drawable/shape_circle_gradient_1"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
+                app:layout_constraintHeight_max="160dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="160dp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -47,14 +61,14 @@
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:autoSizeMaxTextSize="17sp"
                 android:autoSizeMinTextSize="13sp"
                 android:autoSizeTextType="uniform"
                 android:elevation="20dp"
                 android:gravity="center"
                 android:maxLines="2"
-                android:paddingHorizontal="18dp"
+                android:paddingHorizontal="@dimen/_14sdp"
                 android:text="@string/current_streak"
                 android:textColor="#fff"
                 android:textSize="16.5sp"
@@ -65,15 +79,17 @@
 
             <View
                 android:id="@+id/bb_completion_rate"
-                android:layout_width="105dp"
-                android:layout_height="105dp"
-                android:layout_marginStart="106dp"
-                android:layout_marginTop="6dp"
+                android:layout_width="@dimen/_83sdp"
+                android:layout_height="@dimen/_83sdp"
+                android:layout_marginStart="@dimen/_83sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/shape_circle_gradient_3"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
+                app:layout_constraintHeight_max="120dp"
                 app:layout_constraintStart_toStartOf="@id/bb_current_streak"
                 app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
+                app:layout_constraintWidth_max="120dp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -81,7 +97,7 @@
                 style="@style/Text_700_Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
                 android:elevation="20dp"
                 android:text="..."
                 android:textColor="#fff"
@@ -95,14 +111,14 @@
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:autoSizeMaxTextSize="13sp"
                 android:autoSizeMinTextSize="10sp"
                 android:autoSizeTextType="uniform"
                 android:elevation="20dp"
                 android:gravity="center"
                 android:maxLines="2"
-                android:paddingHorizontal="14dp"
+                android:paddingHorizontal="@dimen/_11sdp"
                 android:text="@string/completion_rate"
                 android:textColor="#fff"
                 android:textSize="13sp"
@@ -114,16 +130,18 @@
 
             <View
                 android:id="@+id/bb_perfect_day"
-                android:layout_width="76dp"
-                android:layout_height="76dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="12dp"
+                android:layout_width="@dimen/_61sdp"
+                android:layout_height="@dimen/_61sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/shape_circle_gradient_4"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
                 app:layout_constraintEnd_toStartOf="@id/bb_longest_streak"
+                app:layout_constraintHeight_max="80dp"
                 app:layout_constraintStart_toEndOf="@id/bb_completion_rate"
                 app:layout_constraintTop_toTopOf="@id/bb_current_streak"
+                app:layout_constraintWidth_max="80dp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -131,7 +149,7 @@
                 style="@style/Text_700_Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
                 android:elevation="20dp"
                 android:text="..."
                 android:textColor="#fff"
@@ -145,6 +163,7 @@
                 style="@style/Text_500_Med"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="-1dp"
                 android:autoSizeMaxTextSize="12sp"
                 android:autoSizeMinTextSize="10sp"
                 android:autoSizeTextType="uniform"
@@ -163,15 +182,17 @@
 
             <View
                 android:id="@+id/bb_longest_streak"
-                android:layout_width="98dp"
-                android:layout_height="98dp"
+                android:layout_width="@dimen/_76sdp"
+                android:layout_height="@dimen/_76sdp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/shape_circle_gradient_2"
                 android:elevation="20dp"
                 android:outlineSpotShadowColor="@color/black_12"
                 app:layout_constraintBottom_toBottomOf="@id/bb_current_streak"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="110dp"
                 app:layout_constraintTop_toBottomOf="@id/bb_current_streak"
+                app:layout_constraintWidth_max="110dp"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -277,7 +298,7 @@
                     style="@style/Text_700_Bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="16dp"
                     android:textColor="#54BA8F"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -419,12 +440,12 @@
                     app:layout_constraintTop_toTopOf="@id/bg_type" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/tv_gr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintHeight_min="42dp"
-                    android:id="@+id/tv_gr"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="14dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_min="48dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/bg_type">
 
@@ -626,25 +647,15 @@
                 android:layout_height="40dp"
                 app:layout_constraintTop_toBottomOf="@id/bg_yearly_stats" />
 
-            <ImageView
-                android:id="@+id/bg_blur"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="39dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/bg_3_circle_blur"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="@dimen/_68sdp"
         android:background="@drawable/shape_gradient_header"
+        app:layout_constraintHeight_max="100dp"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -654,7 +665,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="@dimen/_28sdp"
         android:text="@string/progress"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"

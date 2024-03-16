@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/title_day_of_week"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/_26sdp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
@@ -98,12 +98,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:paddingTop="4dp"
-        android:paddingBottom="8dp"
+        android:paddingTop="@dimen/_3sdp"
+        android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintTop_toBottomOf="@id/title_day_of_week" />
 
     <FrameLayout
@@ -111,8 +112,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        android:background="@drawable/shape_round_12_fill"
-        app:layout_constraintHeight_min="222dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -80,6 +80,7 @@
             android:layout_marginStart="18dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="18dp"
+            android:overScrollMode="never"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="3" />
 
@@ -121,10 +122,10 @@
                 android:background="@null"
                 android:backgroundTint="#F5F5F5"
                 android:ellipsize="start"
-                android:inputType="text|textMultiLine|textNoSuggestions"
                 android:gravity="start|top"
                 android:hint="@string/type"
                 android:imeOptions="actionDone"
+                android:inputType="text|textMultiLine|textNoSuggestions"
                 android:maxLines="4"
                 android:paddingStart="12dp"
                 android:paddingTop="6dp"

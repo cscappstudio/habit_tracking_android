@@ -72,47 +72,10 @@ class MonthCalendarFragment :
         calendar[Calendar.MONTH] = month - 1
         calendar[Calendar.DAY_OF_MONTH] = 1
 
-        when (calendar.get(Calendar.DAY_OF_WEEK)) {
-            Calendar.MONDAY -> {}
-            Calendar.TUESDAY -> {
-                list.add(DayCalendarModel(""))
-            }
+        var preDay = calendar.get(Calendar.DAY_OF_WEEK) - 2
+        if (preDay < 0) preDay = 6
+        for (i in 1..preDay) list.add(DayCalendarModel(""))
 
-            Calendar.WEDNESDAY -> {
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-            }
-
-            Calendar.THURSDAY -> {
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-            }
-
-            Calendar.FRIDAY -> {
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-            }
-
-            Calendar.SATURDAY -> {
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-            }
-
-            Calendar.SUNDAY -> {
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-                list.add(DayCalendarModel(""))
-            }
-        }
         val numDays = calendar.getActualMaximum(Calendar.DATE)
 
         val moods = getMoodsInMonth(month, year)

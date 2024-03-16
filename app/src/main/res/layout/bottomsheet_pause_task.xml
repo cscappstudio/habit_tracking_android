@@ -20,6 +20,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_pause"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/_12sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -1198,11 +1198,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.rcvWeek.adapter = weekAdapter
 
 
-        binding.rcvWeek.postDelayed(Runnable {
-
+        binding.rcvWeek.post{
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
             // give a delay of one second
-        }, 1_000)
+        }
 
 
     }
@@ -1225,7 +1224,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             boxEnd: Int,
             snapPreference: Int
         ): Int {
-            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2) + 40
         }
 
         override fun getVerticalSnapPreference(): Int {
