@@ -1163,7 +1163,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.rcvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                println("thanhlv lllllllllll " + dx + " / " + dy)
+                val lmR = recyclerView.layoutManager
+                val pos = (lmR as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+
+                if (pos < 75) {
+                    binding.btnTodayRight.visibility = View.VISIBLE
+                    binding.btnTodayLeft.visibility = View.GONE
+                } else if (pos > 86) {
+                    binding.btnTodayRight.visibility = View.GONE
+                    binding.btnTodayLeft.visibility = View.VISIBLE
+                } else {
+                    binding.btnTodayRight.visibility = View.GONE
+                    binding.btnTodayLeft.visibility = View.GONE
+                }
             }
         })
 
