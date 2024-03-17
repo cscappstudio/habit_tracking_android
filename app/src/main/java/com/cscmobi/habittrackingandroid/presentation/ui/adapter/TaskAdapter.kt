@@ -29,7 +29,9 @@ import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
+import com.ironsource.fa
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.helper.MyClick
 import java.util.Calendar
 import java.util.Date
 import kotlin.random.Random
@@ -47,7 +49,12 @@ class TaskAdapter(
 
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
-
+            if (date <= Helper.currentDate.toDate()) {
+                binding.rdCheck.isEnabled = true
+            }else {
+                binding.rdCheck.isEnabled = false
+                binding.rdCheck.isChecked = false
+            }
             if (item.id == IDLE && layoutPosition == 1) {
                 binding.swipeLayout.visibility = View.GONE
                 binding.adView.visibility = View.VISIBLE
@@ -181,15 +188,21 @@ class TaskAdapter(
 
                 }
 
-                binding.rdCheck.setOnClickListener {
-                    if (date > Helper.currentDate.toDate()) {
+                binding.rdCheck.setOnClickListener(
+                    object : MyClick(500) {
+                        override fun onMyClick(v: View, count: Long) {
+                            if (date <= Helper.currentDate.toDate()) /*{
                         binding.rdCheck.isChecked = false
-                        return@setOnClickListener
+                    } else*/
+                                onItemClickAdapter.onItemChange(
+                                    layoutPosition,
+                                    item,
+                                    binding.rdCheck.isChecked
+                                )
+
+                        }
                     }
-
-                    onItemClickAdapter.onItemChange(layoutPosition, item, binding.rdCheck.isChecked)
-
-                }
+                )
 
 
 //                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -226,7 +239,8 @@ class TaskAdapter(
                                 binding.root.context.getString(
                                     R.string.pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready
                                 ), "showcase_skip"
-                            ).closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
+                            )
+                                .closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
 
                         ) //First BubbleShowCase to show
                         .addShowCase(
@@ -235,7 +249,8 @@ class TaskAdapter(
                                 binding.root.context.getString(
                                     R.string.tap_to_edit
                                 ), "showcase_edit"
-                            ).closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
+                            )
+                                .closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
                         ) //Second BubbleShowCase to show
                         .addShowCase(
                             activity.createBubbleShowCaseBuilder(
@@ -246,18 +261,12 @@ class TaskAdapter(
                             ).closeActionImage(activity.getDrawable(R.drawable.ic_round_close))
                         ) //Third BubbleShowCase to show
                         .show() //Display the ShowCaseSequence
-//                    BubbleShowCaseBuilder(activity) //Activity instance
-//                        .title("foo") //Any title for the bubble view
-//                        .targetView(binding.ivvDelete) //View to point out
-//                        .show() //Display the ShowCase
                 }
 
                 override fun onSlide(view: SwipeRevealLayout?, slideOffset: Float) {
                     if (isPause) binding.ivPlay.visibility = View.INVISIBLE
                     else
                         binding.rdCheck.visibility = View.INVISIBLE
-
-
                 }
 
             })

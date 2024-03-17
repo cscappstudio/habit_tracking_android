@@ -643,40 +643,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             })
 
-//        challengeHomeAdpater.submitList(
-//            listOf(
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "Morning glow",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "Morning glow",
-//                    true,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "BBBBBB",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "CCCCCC",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "AAAAAA",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//            )
-//        )
         challengeHomeAdpater.setListener(object : ItemChallengeHomeListener<ChallengeHomeItem> {
             override fun onItemClicked(item: ChallengeHomeItem, p: Int) {
                 val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
@@ -719,18 +685,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
                     //         }
-                    if (!it.infoTask.status) {
-                        val intent =
-                            Intent(requireContext(), DetailChallengeActivity::class.java)
-
-                        runBlocking {
-                            val challenge = AppDatabase.getInstance(requireContext()).dao()
-                                .findChallengeByName(item.name)
-                            intent.putExtra("data", Gson().toJson(challenge))
-                            startActivity(intent)
-                        }
-                        return
-                    }
+//                    if (!it.infoTask.status) {
+//                        val intent =
+//                            Intent(requireContext(), DetailChallengeActivity::class.java)
+//
+//                        runBlocking {
+//                            val challenge = AppDatabase.getInstance(requireContext()).dao()
+//                                .findChallengeByName(item.name)
+//                            intent.putExtra("data", Gson().toJson(challenge))
+//                            startActivity(intent)
+//                        }
+//                        return
+//                    }
 
                 }
 
@@ -755,7 +721,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     }
 
-                    delay(500L)
+//                    delay(500L)
                 }
                 // check if current task is finish then show dialog congratulation
                 val currentChallenge = challenges.find { it.name == item.name }
@@ -942,7 +908,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     item.goal?.currentProgress = 0
                 }
 
-                taskAdapter.notifyDataSetChanged()
+                taskAdapter.notifyItemChanged(p)
                 setUpView(listTask)
                 lifecycleScope.launch {
                     currentHistory?.let { currentHistory ->
@@ -1152,9 +1118,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun initWeekApdater() {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
-
-
-//        addDecoration()
+        addDecoration()
         getDatesofWeek()
         weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
             override fun onItemClick(position: Int) {
@@ -1196,9 +1160,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         weekAdapter.submitList(data)
         binding.rcvWeek.adapter = weekAdapter
+        binding.rcvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                println("thanhlv lllllllllll " + dx + " / " + dy)
+            }
+        })
 
-
-        binding.rcvWeek.post{
+        binding.rcvWeek.post {
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
             // give a delay of one second
         }
@@ -1238,7 +1207,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun addDecoration() {
         if (!hasDecoration(binding.rcvWeek, HorizontalItemDecoration::class.java)) {
-            val spaceWidth = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._3sdp)
+            val spaceWidth = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._15sdp)
             binding.rcvWeek.addItemDecoration(HorizontalItemDecoration(spaceWidth))
         }
     }
