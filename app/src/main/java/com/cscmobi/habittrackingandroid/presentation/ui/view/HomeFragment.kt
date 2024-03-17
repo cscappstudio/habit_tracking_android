@@ -1154,7 +1154,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
 
 
-        addDecoration()
+//        addDecoration()
         getDatesofWeek()
         weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
             override fun onItemClick(position: Int) {
@@ -1224,7 +1224,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             boxEnd: Int,
             snapPreference: Int
         ): Int {
-            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2) + 40
+            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2) + 28
         }
 
         override fun getVerticalSnapPreference(): Int {

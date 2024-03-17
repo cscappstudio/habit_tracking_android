@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:textColor="@color/bottle_green"
-                android:textSize="22sp"
+                android:textSize="21sp"
                 app:layout_constraintBottom_toTopOf="@+id/appCompatImageView2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
