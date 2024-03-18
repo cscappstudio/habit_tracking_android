@@ -90,6 +90,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                     initData(task.data as Task)
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.fetchHistoryByTask(task.data as Task))
                 }
+                setupColor()
             }
             historyId = it.getLong(Constant.IDHISTORY, -1L)
 
@@ -119,6 +120,33 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                     }
                 })
         }
+    }
+
+    private fun setupColor() {
+        val colorAlpha = "#33" + currentTask.color.substring(1, 7)
+        binding.layoutSteak1.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+        binding.layoutSteak2.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+        binding.layoutSteak3.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+        binding.layoutSteak4.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+
+        binding.layoutSteak1.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.layoutSteak2.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.layoutSteak3.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.layoutSteak4.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+
+        binding.bgBoxCurrentStreak.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+
+
+        childFragment.setColor(currentTask.color)
     }
 
     private fun observe() {

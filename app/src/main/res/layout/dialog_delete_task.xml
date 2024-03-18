@@ -15,14 +15,15 @@
             android:paddingBottom="@dimen/_18sdp"
             android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/appCompatImageView6"
-                    android:layout_width="206dp"
-                    android:layout_height="126dp"
-                    android:layout_marginTop="@dimen/_19sdp"
-                    android:src="@drawable/waste_paper_bin"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView6"
+                android:layout_width="match_parent"
+                android:layout_height="126dp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:src="@drawable/waste_paper_bin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_close"

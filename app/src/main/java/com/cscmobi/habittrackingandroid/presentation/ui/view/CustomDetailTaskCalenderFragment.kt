@@ -1,5 +1,7 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
@@ -31,12 +33,17 @@ class CustomDetailTaskCalenderFragment :
     var minYear = 0
     var maxYear = 0
     private var height = 0
+    private var mColor = "#B6D6DD"
 
     fun setData(listDataTaskHistory: List<DataTaskHistory>) {
         dataTaskHistorys = listDataTaskHistory.toMutableList()
         setRangeYear()
         getYear()
         setMonthView()
+    }
+
+    fun setColor(color: String) {
+        mColor = color
     }
 
     override fun initView(view: View) {
@@ -52,6 +59,10 @@ class CustomDetailTaskCalenderFragment :
         })
         selectedDate = Calendar.getInstance()
         setMonthView()
+
+        binding.monthYearTV.setTextColor(Color.parseColor(mColor))
+        binding.ivPrevios.imageTintList = ColorStateList.valueOf(Color.parseColor(mColor))
+        binding.ivNext.imageTintList = ColorStateList.valueOf(Color.parseColor(mColor))
     }
 
     override fun onStart() {

@@ -231,7 +231,7 @@ class NewHabitFragment :
         binding.edtNote.setText(task.note)
         task.goal?.let {
             binding.isGoalEdit = it.isOn
-            binding.edtTargetGoal.setText(it.target.toString())
+            binding.edtTargetGoal.hint = it.target.toString()
 
             binding.unitPicker.value = unit.indexOf(it.unit)
             if (!it.period.isNullOrEmpty())
@@ -368,6 +368,9 @@ class NewHabitFragment :
     }
 
     private fun resetColorTask() {
+
+        val colorAlpha =  String.format("#33%06X", 0xFFFFFF and colorSelect)
+        binding.layoutTag.txtTag.backgroundTintList = ColorStateList.valueOf(Color.parseColor(colorAlpha))
 
         dayOfMonthCalendarAdapter?.colorSelect = colorSelect
         dayOfMonthCalendarAdapter?.notifyDataSetChanged()
@@ -547,7 +550,7 @@ class NewHabitFragment :
         currentTask.goal = Goal(
             isOn = binding.isGoalEdit ?: false,
             unit = binding.unitPicker.displayedValues[binding.unitPicker.value - 1],
-            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) 1 else binding.edtTargetGoal.text.toString()
+            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) binding.edtTargetGoal.hint.toString().toInt() else binding.edtTargetGoal.text.toString()
                 .toInt(),
             period = binding.timePicker.displayedValues[binding.timePicker.value - 1]
         )
