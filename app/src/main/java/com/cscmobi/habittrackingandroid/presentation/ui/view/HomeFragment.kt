@@ -1190,8 +1190,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 weekAdapter.notifyDataSetChanged()
 
                 binding.rcvWeek.postDelayed(Runnable {
-                    scrollToPositionWithCentering(position)
                     clickOther = 1
+                    scrollToPositionWithCentering(position)
                 }, 200L)
             }
 
