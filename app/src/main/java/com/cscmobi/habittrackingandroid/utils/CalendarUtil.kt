@@ -3,6 +3,7 @@ package com.cscmobi.habittrackingandroid.utils
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import kotlin.math.abs
 
 class CalendarUtil {
     companion object {
@@ -102,6 +103,7 @@ class CalendarUtil {
             calendar[Calendar.MILLISECOND] = 0
             return calendar.timeInMillis
         }
+
         fun startMonth(ms: Long): Int {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
@@ -250,6 +252,17 @@ class CalendarUtil {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = b
             return SimpleDateFormat("d/M/yyyy").format(calendar.time) == a
+        }
+
+
+        fun sameDay(a: Long, b: Long): Boolean {
+            if (a <= 0 || b <= 0) return false
+            val calendarA = Calendar.getInstance()
+            calendarA.timeInMillis = a
+            val calendarB = Calendar.getInstance()
+            calendarA.timeInMillis = b
+            return calendarA[Calendar.DAY_OF_YEAR] == calendarB[Calendar.DAY_OF_YEAR]
+                    && abs(a - b) < 24 * 60 * 60 * 1000
         }
 
     }

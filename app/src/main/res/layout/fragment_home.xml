@@ -50,39 +50,39 @@
             app:layout_constraintStart_toEndOf="@+id/iv_avatar"
             app:layout_constraintTop_toTopOf="@+id/iv_avatar" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/llToday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_3sdp"
-            android:background="@drawable/bg_white_corner_20"
-            android:backgroundTint="@color/silver"
-            android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_2sdp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_date"
-            app:layout_constraintStart_toEndOf="@id/txt_date"
-            app:layout_constraintTop_toTopOf="@+id/txt_date">
+<!--        <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--            android:id="@+id/llToday"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_3sdp"-->
+<!--            android:background="@drawable/bg_white_corner_20"-->
+<!--            android:backgroundTint="@color/silver"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingHorizontal="@dimen/_10sdp"-->
+<!--            android:paddingVertical="@dimen/_2sdp"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/txt_date"-->
+<!--            app:layout_constraintStart_toEndOf="@id/txt_date"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/txt_date">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/worksans_medium"
-                android:text="@string/today"
-                android:textColor="@color/shadow_gray"
-                android:textSize="16sp" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:fontFamily="@font/worksans_medium"-->
+<!--                android:text="@string/today"-->
+<!--                android:textColor="@color/shadow_gray"-->
+<!--                android:textSize="16sp" />-->
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_arrow"
-                android:layout_width="@dimen/_11sdp"
-                android:layout_height="@dimen/_11sdp"
-                android:layout_gravity="center_vertical"
-                android:adjustViewBounds="true"
-                android:src="@drawable/nav_arrow_right"
-                android:tint="@color/black" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+<!--            <androidx.appcompat.widget.AppCompatImageView-->
+<!--                android:id="@+id/iv_arrow"-->
+<!--                android:layout_width="@dimen/_11sdp"-->
+<!--                android:layout_height="@dimen/_11sdp"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:src="@drawable/nav_arrow_right"-->
+<!--                android:tint="@color/black" />-->
+<!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
 
 
         <androidx.appcompat.widget.AppCompatImageView
