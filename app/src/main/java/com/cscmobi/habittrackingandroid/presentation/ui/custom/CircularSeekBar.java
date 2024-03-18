@@ -258,9 +258,9 @@ public class CircularSeekBar extends View {
 
         // Adjust the drawable position based on its size
         indicatorDrawable.setBounds(
-                (int) (mTranslateX - mIndicatorIconX - drawableWidth / 3 -20),
+                (int) (mTranslateX - mIndicatorIconX - drawableWidth / 3 - 15),
                 (int) (mTranslateY - mIndicatorIconY - drawableHeight / 3),
-                (int) (mTranslateX - mIndicatorIconX + drawableWidth / 3 -20),
+                (int) (mTranslateX - mIndicatorIconX + drawableWidth / 3 - 15),
                 (int) (mTranslateY - mIndicatorIconY + drawableHeight / 3)
         );
 

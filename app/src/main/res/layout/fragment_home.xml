@@ -87,14 +87,14 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_calender"
-            android:layout_width="@dimen/_24sdp"
-            android:layout_height="@dimen/_24sdp"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginEnd="24dp"
             android:elevation="5dp"
             android:src="@drawable/ic_calender_home"
             app:layout_constraintBottom_toBottomOf="@id/txt_date"
             app:layout_constraintHeight_max="42dp"
-            app:layout_constraintStart_toEndOf="@id/txt_date"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/txt_date"
             app:layout_constraintWidth_max="42dp" />
 
@@ -116,26 +116,29 @@
         <!--            android:layout_width="2dp"-->
         <!--            android:layout_height="5dp"/>-->
 
-        <ImageView
+        <View
             android:id="@+id/btn_today_left"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_arrow_left"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="24dp"
+            android:elevation="10dp"
+            android:background="@drawable/ic_today_left"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/rcv_week"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/rcv_week" />
 
-        <ImageView
+        <View
             android:id="@+id/btn_today_right"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_arrow_right_2"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="24dp"
+            android:elevation="10dp"
+            android:background="@drawable/ic_today_right"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/rcv_week"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/rcv_week"
-            app:tint="@color/black" />
+            app:layout_constraintTop_toTopOf="@id/rcv_week" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
