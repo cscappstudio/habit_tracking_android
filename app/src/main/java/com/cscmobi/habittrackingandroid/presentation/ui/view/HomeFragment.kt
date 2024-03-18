@@ -73,6 +73,7 @@ import com.ironsource.fa
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.spf.SPF
+import gateway.v1.clientInfo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -1161,6 +1162,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         addDecoration()
         getDatesofWeek()
         weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onItemClick(position: Int) {
                 data.forEachIndexed { index, item ->
                     item.isSelected = position == index
@@ -1183,12 +1185,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 //                } else {
 //                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
 //                }
-                resolveScrollButtonToday(date[position].toDate())
+                resolveScrollButtonToday(currentDate)
 
                 weekAdapter.notifyDataSetChanged()
 
                 binding.rcvWeek.postDelayed(Runnable {
                     scrollToPositionWithCentering(position)
+                    clickOther = 1
                 }, 200L)
             }
 
@@ -1203,19 +1206,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 super.onScrolled(recyclerView, dx, dy)
                 val lmR = recyclerView.layoutManager
                 val posF = (lmR as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-//                val posL = (lmR as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 println("thanhlv .........." + posF)
 
-                if (posF < 78) {
-                    binding.btnTodayRight.visibility = View.VISIBLE
-                    binding.btnTodayLeft.visibility = View.GONE
-                } else if (posF > 84) {
-                    binding.btnTodayRight.visibility = View.GONE
-                    binding.btnTodayLeft.visibility = View.VISIBLE
-                } else {
-                    binding.btnTodayRight.visibility = View.GONE
-                    binding.btnTodayLeft.visibility = View.GONE
-                }
+                if (clickOther < 0) {
+                    if (posF < 78) {
+                        binding.btnTodayRight.visibility = View.VISIBLE
+                        binding.btnTodayLeft.visibility = View.GONE
+                    } else if (posF > 84) {
+                        binding.btnTodayRight.visibility = View.GONE
+                        binding.btnTodayLeft.visibility = View.VISIBLE
+
+                    } else {
+                        binding.btnTodayRight.visibility = View.GONE
+                        binding.btnTodayLeft.visibility = View.GONE
+                    }
+                } else clickOther -= 1
             }
         })
 
@@ -1223,18 +1228,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
             // give a delay of one second
         }
-
-
     }
+
+    private var clickOther = -1
 
     @SuppressLint("SimpleDateFormat")
     private fun resolveScrollButtonToday(time: Long) {
-        if (time.beforeDays(Helper.currentDate.toDate(), 7)) {
-            binding.btnTodayLeft.visibility = View.VISIBLE
-            binding.btnTodayRight.visibility = View.GONE
-        } else if (time.after(Helper.currentDate.toDate(), 7)) {
+        if (time.beforeDays(Helper.currentDate.toDate(), 0)) {
             binding.btnTodayLeft.visibility = View.GONE
             binding.btnTodayRight.visibility = View.VISIBLE
+        } else if (time.after(Helper.currentDate.toDate(), 0)) {
+            binding.btnTodayLeft.visibility = View.VISIBLE
+            binding.btnTodayRight.visibility = View.GONE
         } else {
             binding.btnTodayLeft.visibility = View.GONE
             binding.btnTodayRight.visibility = View.GONE
