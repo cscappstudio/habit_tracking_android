@@ -892,16 +892,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
                 if (isChange) {
                     item.goal?.currentProgress = item.goal?.target!!
-
-                    requireActivity().let { mactivity ->
-                        with(mactivity.getMySharedPreferences()) {
-//                            if (!this.getBoolean("isDialogCongraTask${item.id}Shown", false)) {
-                            binding.lottie.playAnimation()
-//                                this.edit().putBoolean("isDialogCongraTask${item.id}Shown", true).apply()
-//                            }
-                        }
-
-                    }
+                    binding.lottie.playAnimation()
                 } else {
                     item.goal?.currentProgress = 0
                 }
