@@ -294,7 +294,7 @@ class CreateChallengeActivity : BaseActivity2() {
     private var mChallenge: Challenge? = null
     override fun loadData() {
         mChallenge = Gson().fromJson(intent.getStringExtra("edit_challenge"), Challenge::class.java)
-        Toast.makeText(this, "sssssssssss", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "sssssssssss", Toast.LENGTH_SHORT).show()
     }
 
     private var adapter: AddTaskChallengeAdapter? = null

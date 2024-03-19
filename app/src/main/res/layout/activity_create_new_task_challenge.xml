@@ -40,26 +40,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_back_header" />
 
-    <View
-        android:id="@+id/btn_change_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/shape_round_12_fill"
-        android:backgroundTint="#33B6D6DD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_header" />
 
     <ImageView
         android:id="@+id/ic_ava"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_round_12_fill"
+        android:backgroundTint="#33B6D6DD"
         android:src="@drawable/emoji_singer"
-        app:layout_constraintBottom_toBottomOf="@id/btn_change_icon"
-        app:layout_constraintEnd_toEndOf="@id/btn_change_icon"
-        app:layout_constraintStart_toStartOf="@id/btn_change_icon"
-        app:layout_constraintTop_toTopOf="@id/btn_change_icon" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_header"/>
 
 
     <EditText
@@ -81,7 +74,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_change_icon"
+        app:layout_constraintTop_toBottomOf="@id/ic_ava"
         app:layout_constraintWidth_max="260dp"
         app:layout_constraintWidth_min="180dp"
         tools:ignore="UnusedAttribute" />

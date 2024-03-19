@@ -19,6 +19,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nest_scroll"
             android:layout_width="match_parent"
+            android:overScrollMode="never"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@color/white">
@@ -96,6 +97,7 @@
                     android:layout_marginHorizontal="@dimen/_40sdp"
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/light_gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:ellipsize="start"
                     android:gravity="center"
                     android:hint="@string/new_habit"
@@ -104,7 +106,6 @@
                     android:maxLines="2"
                     android:textColor="@color/shadow_gray"
                     android:textColorHint="@color/gray"
-                    android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -354,26 +355,6 @@
                     app:layout_constraintStart_toStartOf="@id/ctl_goal"
                     app:layout_constraintTop_toBottomOf="@id/layout_tag" />
 
-                <include
-                    android:id="@+id/layout_btn_save"
-                    layout="@layout/btn_save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="@dimen/_24sdp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/layout_checklist" />
-
-                <include
-                    android:id="@+id/layout_add_routine"
-                    layout="@layout/layout_btn_add_routine"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="@dimen/_24sdp"
-                    android:layout_marginBottom="10dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/layout_checklist" />
 
                 <View
                     android:layout_width="match_parent"
@@ -382,6 +363,25 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/layout_btn_save"
+            layout="@layout/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/layout_add_routine"
+            layout="@layout/layout_btn_add_routine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:visibility="gone" />
+
 
         <com.thanhlv.ads.lib.TemplateNativeView
             android:id="@+id/adView"

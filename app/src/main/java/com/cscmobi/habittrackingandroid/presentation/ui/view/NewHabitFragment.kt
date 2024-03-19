@@ -363,11 +363,11 @@ class NewHabitFragment :
     }
 
     private fun resetColorTask() {
-
         val color = String.format("#%06X", 0xFFFFFF and colorSelect)
         val colorAlpha = String.format("#33%06X", 0xFFFFFF and colorSelect)
+        val colorAlpha30 = String.format("#4D%06X", 0xFFFFFF and colorSelect)
         binding.layoutTag.txtTag.backgroundTintList =
-            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+            ColorStateList.valueOf(Color.parseColor(colorAlpha30))
         binding.ivHabit.backgroundTintList = ColorStateList.valueOf(Color.parseColor(colorAlpha))
         binding.ivHabit.imageTintList = ColorStateList.valueOf(Color.parseColor(color))
 
@@ -545,7 +545,7 @@ class NewHabitFragment :
                 subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
             }
             binding.layoutChecklist.edtAdd.setText("")
-            hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
+//            hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
         }
 
 
@@ -553,13 +553,13 @@ class NewHabitFragment :
         binding.layoutChecklist.ivAdd.setOnClickListener {
             binding.layoutChecklist.showNewSubtask.visibility = View.VISIBLE
             binding.layoutChecklist.edtAdd.requestFocus()
-//            showKeyboardOnView(binding.layoutChecklist.edtAdd)
+            showKeyboardOnView(binding.layoutChecklist.edtAdd)
         }
     }
 
     private fun setUpCreateTask() {
 
-
+        currentTask.name = getString(R.string.new_habit)
         if (!binding.edtName.text.isNullOrEmpty())
             currentTask.name = binding.edtName.text.toString()
 
@@ -618,6 +618,17 @@ class NewHabitFragment :
     override fun setEvent() {
         binding.ctlRoot.setOnClickListener {
             MyUtils.hideSoftInput(it)
+            if (binding.layoutChecklist.edtAdd.isFocused) {
+                binding.layoutChecklist.edtAdd.clearFocus()
+                binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#80393E3C"))
+                binding.layoutChecklist.showNewSubtask.visibility = View.GONE
+                if (!binding.layoutChecklist.edtAdd.text.isNullOrEmpty()) {
+                    subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
+                    subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
+                }
+                binding.layoutChecklist.edtAdd.setText("")
+            }
         }
         binding.ivHabit.setOnClickListener {
             if (!bottomSheetAvaFragment.isAdded)
@@ -901,7 +912,6 @@ class NewHabitFragment :
                 )
             }
         }
-
     }
 
     private fun setStateTextRepeat(frequencyType: Int) {
@@ -916,20 +926,16 @@ class NewHabitFragment :
             0 -> {
                 selectRepeatUnit = getString(R.string.day)
                 textRepeatSelect = getString(R.string.daily)
-
             }
 
             1 -> {
                 selectRepeatUnit = getString(R.string.week)
                 textRepeatSelect = getString(R.string.weekly)
-
             }
 
             2 -> {
                 selectRepeatUnit = getString(R.string.month)
                 textRepeatSelect = getString(R.string.monthly)
-
-
             }
         }
 
@@ -967,94 +973,6 @@ class NewHabitFragment :
                 ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
         }
     }
-
-//    override fun onHiddenChanged(hidden: Boolean) {
-//        super.onHiddenChanged(hidden)
-//        if (!hidden) {
-//            when (newHabitFragmentState) {
-//                NewHabitFragmentState.EDITTASKCOLLECTION -> {
-//                }
-//
-//                NewHabitFragmentState.ADDTOROUTINE -> {
-//                    binding.layoutAddRoutine.vRoot.visibility = View.VISIBLE
-//                }
-//
-//                NewHabitFragmentState.ADDTOCOLLECTION -> {
-//
-//                    binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
-//                }
-//
-//                NewHabitFragmentState.EDITTASK -> {
-//                }
-//
-//                else -> {
-//
-//                }
-//            }
-//        }
-//    }
-
-//    private fun setKeyBoardListener() {
-//        val window = requireActivity().window
-//        WindowCompat.setDecorFitsSystemWindows(window, false)  // <-- this tells android not to u
-//
-//        val callBack = OnApplyWindowInsetsListener { view, insets ->
-//            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
-//            Log.e("tag", "onKeyboardOpenOrClose imeHeight = $imeHeight")
-//// todo: logic
-//            val isKeyboardVisible = WindowInsetsCompat
-//                .toWindowInsetsCompat(binding.root.rootWindowInsets)
-//                .isVisible(WindowInsetsCompat.Type.ime())
-//
-//            if (isKeyboardVisible) {
-//                println("keyboard visible")
-//                if (binding.layoutChecklist.edtAdd.isFocused)
-//
-//                    binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-//                        context?.let {
-//                            binding.nestScroll.setPadding(
-//                                0,
-//                                0,
-//                                0,
-//                                resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
-//                            )
-//
-//                        }
-//                        binding.nestScroll.post {
-//                            binding.nestScroll.smoothScrollTo(
-//                                0,
-//                                binding.layoutChecklist.root.bottom
-//                            )
-//                        }
-//
-//                    })
-//                // do something
-//            } else {
-//                // do something else
-//                println("keyboard invisible")
-//                if (binding.layoutChecklist.edtAdd.isFocused)
-//
-//                    binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-//                        context?.let {
-//                            binding.nestScroll.setPadding(
-//                                0,
-//                                0,
-//                                0,
-//                                resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-//                            )
-//
-//                        }
-//
-//
-//                    })
-//
-//            }
-//            insets ?: WindowInsetsCompat(null)
-//        }
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(binding.layoutChecklist.edtAdd, callBack)
-//        // ViewCompat.setOnApplyWindowInsetsListener( binding.root, callBack)
-//    }
 
     interface INewHabitListener {
         fun addTask(task: Task)

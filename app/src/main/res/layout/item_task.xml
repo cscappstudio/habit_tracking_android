@@ -95,8 +95,8 @@
                             android:layout_marginStart="@dimen/_11sdp"
                             android:layout_marginEnd="10dp"
                             android:ellipsize="end"
-                            android:fontFamily="@font/worksans_semibold"
-                            android:maxLines="1"
+                            style="@style/Text_600_SemiB"
+                            android:maxLines="2"
                             android:text="Drink water"
                             android:textColor="#393E3C"
                             android:textFontWeight="600"
@@ -106,16 +106,6 @@
                             app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <View
-                            android:id="@+id/line"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/_1sdp"
-                            android:background="@color/white"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="@id/txt_name_task"
-                            app:layout_constraintEnd_toEndOf="@id/txt_name_task"
-                            app:layout_constraintStart_toStartOf="@id/txt_name_task"
-                            app:layout_constraintTop_toTopOf="@id/txt_name_task" />
 
                         <TextView
                             android:id="@+id/txt_goal"

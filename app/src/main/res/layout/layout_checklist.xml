@@ -76,6 +76,7 @@
             android:background="@null"
             android:hint="@string/subtask"
             android:imeOptions="actionDone"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="text"
             android:textColor="#393E3C"
             android:textColorHint="#80393E3C"

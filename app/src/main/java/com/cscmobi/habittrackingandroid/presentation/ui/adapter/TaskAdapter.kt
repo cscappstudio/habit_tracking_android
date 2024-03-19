@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -126,7 +127,7 @@ class TaskAdapter(
             }
 
             item.goal?.let {
-                if (it.isOn == true) {
+                if (it.isOn) {
                     binding.txtUnit.visibility = View.VISIBLE
                     binding.txtGoal.visibility = View.VISIBLE
                     binding.txtUnit.text = it.unit
@@ -149,11 +150,12 @@ class TaskAdapter(
                     binding.shapeableImageView.backgroundTintList =
                         ColorStateList.valueOf(Color.TRANSPARENT)
                     binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                    binding.line.visibility = View.VISIBLE
+                    binding.txtNameTask.showStrikeThrough(true)
                     binding.txtUnit.setTextColor(Color.WHITE)
                     binding.rdCheck.isChecked = true
 
                 } else {
+                    binding.txtNameTask.showStrikeThrough(false)
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
 
                     binding.txtGoal.setTextColor(
@@ -188,7 +190,6 @@ class TaskAdapter(
                     binding.shapeableImageView.backgroundTintList =
                         ColorStateList.valueOf(Color.parseColor(item.color))
                     binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                    binding.line.visibility = View.INVISIBLE
                     binding.rdCheck.isChecked = false
 
                 }
@@ -196,25 +197,15 @@ class TaskAdapter(
                 binding.rdCheck.setOnClickListener(
                     object : MyClick(500) {
                         override fun onMyClick(v: View, count: Long) {
-                            if (date <= Helper.currentDate.toDate()) /*{
-                        binding.rdCheck.isChecked = false
-                    } else*/
+                            if (date <= Helper.currentDate.toDate())
                                 onItemClickAdapter.onItemChange(
                                     layoutPosition,
                                     item,
                                     binding.rdCheck.isChecked
                                 )
-
                         }
                     }
                 )
-
-
-//                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
-//                    onItemClickAdapter.onItemChange(layoutPosition,item,isChecked)
-//
-//                }
-
             }
 
 
@@ -304,6 +295,11 @@ class TaskAdapter(
         }
 
 
+    }
+    fun TextView.showStrikeThrough(show: Boolean) {
+        paintFlags =
+            if (show) paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            else paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
 
     fun onBind(parent: ViewGroup): ViewHolder {

@@ -66,6 +66,7 @@
             android:hint="Collection name"
             android:textColor="@color/black"
             android:textColorHint="@color/gray"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="@+id/fr_iv"
             app:layout_constraintStart_toStartOf="@+id/fr_iv"
