@@ -45,14 +45,14 @@
         android:id="@+id/ic_ava"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:padding="10dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/shape_round_12_fill"
         android:backgroundTint="#33B6D6DD"
+        android:padding="10dp"
         android:src="@drawable/emoji_singer"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_header"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_title_header" />
 
 
     <EditText
@@ -168,7 +168,6 @@
         android:elevation="20dp"
         android:enabled="false"
         android:gravity="center"
-        app:layout_constraintVertical_bias="0.3"
         android:maxLines="1"
         android:outlineSpotShadowColor="@color/black_50"
         android:text="@string/create"
@@ -178,6 +177,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/color"
+        app:layout_constraintVertical_bias="0.3"
         tools:ignore="UnusedAttribute" />
 
 

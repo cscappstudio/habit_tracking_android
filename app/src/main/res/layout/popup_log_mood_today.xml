@@ -132,6 +132,7 @@
                 android:paddingEnd="12dp"
                 android:textColor="#393E3C"
                 android:textColorHint="#b0b0b0"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="14.5sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="56dp"
