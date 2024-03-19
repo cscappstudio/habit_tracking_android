@@ -311,9 +311,8 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initCheckList() {
-        binding.layoutChecklist.edtAdd.visibility = View.GONE
+        binding.layoutChecklist.showNewSubtask.visibility = View.GONE
         binding.layoutChecklist.ivAdd.visibility = View.GONE
-
         checklistAdapter = BaseBindingAdapter(
             R.layout.item_checklist,
             layoutInflater,
