@@ -2,28 +2,31 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="36dp"
+    android:layout_height="wrap_content"
     android:gravity="center">
 
     <TextView
         android:id="@+id/tv_day"
         style="@style/Text_600"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_6sdp"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@color/text_accent_color"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.tomtruyen.circularprogressarc.CircularProgressArc
         android:id="@+id/circle_progress"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="3dp"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_margin="@dimen/_3sdp"
         app:angle_start="-90"
+        app:background_color="#F5F5F5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,28 +34,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:max_progress="100"
         app:progress_color="#52B89C"
-        app:background_color="#F5F5F5"
         app:rounded_corners="true"
         app:stroke_width="2dp" />
 
     <ImageView
         android:id="@+id/img_done"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="2dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_1sdp"
         android:gravity="center"
-        android:padding="4dp"
+        android:padding="@dimen/_1sdp"
         android:src="@drawable/ic_progress_done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/circle_progress"
+        app:layout_constraintEnd_toEndOf="@id/circle_progress"
+        app:layout_constraintStart_toStartOf="@id/circle_progress"
+        app:layout_constraintTop_toTopOf="@id/circle_progress" />
 
     <ImageView
         android:id="@+id/img_mood"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/_26sdp"
+        android:layout_height="@dimen/_26sdp"
         android:gravity="center"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

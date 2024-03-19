@@ -145,7 +145,7 @@
     <string name="create_new">Create new</string>
     <string name="week">Week</string>
     <string name="enter_how_often_you_want_the_task_to_repeat">Enter how often you want the task to repeat</string>
-    <string name="enter_name_tag">Enter name tag</string>
+    <string name="enter_name_tag">Enter tag name</string>
     <string name="create">CREATE</string>
     <string name="habits">habits</string>
     <string name="days">days</string>
@@ -280,10 +280,6 @@
     <string name="are_you_feeling_bad_today">Are you feeling bad today?</string>
     <string name="add_task">Add task</string>
     <string name="day_">Day </string>
-    <string name="more_habits_unlock_now">More Habits? Unlock Now!</string>
-    <string name="watch_an_ad_to_unlock_2_extra_habit_slots_nor_go_ad_free_for_unlimited_usage">Watch an ad to unlock 2 extra habit slots\nOr go ad-free for unlimited usage</string>
-    <string name="watch_ads">Watch ads</string>
-    <string name="go_ad_free">Go ad-free</string>
 
     <string name="unlimited_habits">Unlimited habits</string>
     <string name="free_user_can_only_have_3_habits_day">free user can only have 3 habits/day. Upgrade to Premium for no limit, just habit</string>
@@ -305,8 +301,41 @@
     <string name="watch_an_ad">Watch an Ad</string>
     <string name="go_ad_free">Go Ad-free</string>
     <string name="watch_an_ad_to_unlock_1_extra_challenge">Watch an ad to unlock 1 extra challenge</string>
-    <string name="mor_challenges_unlock_now">More Challenges? Unlock Now!</string>
+    <string name="more_challenges_unlock_now">More Challenges? Unlock Now!</string>
     <string name="partially_done">Partially done</string>
+    <string name="habit_planner">Habit Planner</string>
+    <string name="to_do_list">Todo list</string>
+    <string name="calendar">Calendar</string>
+    <string name="journal">Journal</string>
+    <string name="say_hi_to_your_new">Say hi to your new</string>
+    <string name="together_let_s_become_better">Together, let\'s become better</string>
+    <string name="name_empty">Name empty!</string>
+    <string name="task_name">Task name</string>
+    <string name="delete_success">Delete success</string>
+    <string name="enter_the_number_of_kilometers_you_want_to_record">*Enter the number of kilometers you want to record</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="subtask">Subtask</string>
+    <string name="time">time</string>
+    <string name="minute">minute</string>
+    <string name="glass">glass</string>
+    <string name="page">page</string>
+    <string name="hour">hour</string>
+    <string name="per_day">per day</string>
+    <string name="per_week">per week</string>
+    <string name="per_month">per month</string>
+    <string name="no_tag">No tag</string>
+    <string name="every_">Every</string>
+    <string name="day">Day</string>
+    <string name="reset">Reset</string>
+    <string name="stop">Stop</string>
+    <string name="delete_challenge">Delete challenge</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_your_collection_s_cover_image">Choose your collection\'s cover image</string>
+    <string name="choose_your_challenge_cover_image">Choose your challenge\'s cover image</string>
+    <string name="completion">Completion</string>
+    <string name="there_are_no_habits_yet">There are no habits yet</string>
+    <string name="collection_name">Collection name</string>
 
 
 </resources>

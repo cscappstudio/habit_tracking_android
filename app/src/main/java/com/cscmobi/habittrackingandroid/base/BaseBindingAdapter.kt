@@ -43,7 +43,7 @@ class BaseBindingAdapter<T>(
 
 
     override fun onBindViewHolder(holder: BaseBindingHolder, position: Int) {
-
+        if (this.currentList.isEmpty()) return
         val t =  getItem(position)
 
         holder.binding.setVariable(BR.item, t)

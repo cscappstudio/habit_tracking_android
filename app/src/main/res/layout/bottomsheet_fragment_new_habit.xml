@@ -55,10 +55,9 @@
                 android:background="@null"
                 android:fontFamily="@font/worksans_semibold"
                 android:textColor="@color/shadow_gray"
-                android:hint="0"
+                android:hint="1"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-
                 android:textColorHint="@color/gray"
                 android:textSize="16sp"
                 android:layout_height="wrap_content"/>
@@ -136,6 +135,7 @@
 
        <androidx.recyclerview.widget.RecyclerView
            android:layout_width="match_parent"
+           android:overScrollMode="never"
            app:layout_constraintTop_toBottomOf="@id/iv_back"
            android:layout_marginTop="@dimen/_12sdp"
            app:layout_constraintBottom_toBottomOf="parent"

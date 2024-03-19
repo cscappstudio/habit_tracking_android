@@ -15,6 +15,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.gson.Gson
+import com.thanhlv.fw.helper.MyUtils
 
 class CreateNewTaskChallengeActivity : BaseActivity2() {
 
@@ -52,15 +53,16 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
         btnColor.add("#CFB2EB")
         if (mTaskNew?.color.isNullOrEmpty()) mTaskNew?.color = "#B6D6DD"
         else {
+            val colorAlpha = "#33" + mTaskNew?.color?.substring(1, 7)
             binding.icAva.backgroundTintList =
-                ColorStateList.valueOf(Color.parseColor(mTaskNew?.color))
+                ColorStateList.valueOf(Color.parseColor(colorAlpha))
         }
         if (!mTaskNew?.name.isNullOrEmpty()) {
             binding.edtName.setText(mTaskNew?.name!!)
         }
         if (!mTaskNew?.icon.isNullOrEmpty()) {
             binding.icAva.setImageDrawable(Utils.loadImageFromAssets(this, mTaskNew?.icon!!))
-            binding.icAva.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            binding.icAva.imageTintList = ColorStateList.valueOf(Color.parseColor(mTaskNew?.color))
         }
         if (mTaskOriginal != null) {
             binding.btnCreate.text = getString(R.string.save)
@@ -72,6 +74,9 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
     override fun controllerView() {
         binding.btnBackHeader.setOnClickListener {
             onBackPressed()
+        }
+        binding.rootView.setOnClickListener {
+            MyUtils.hideSoftInput(it)
         }
         binding.edtName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -91,7 +96,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
                 binding.icAva.setImageBitmap(BitmapFactory.decodeStream(assets.open(ava)))
             }
         }
-        binding.btnChangeIcon.setOnClickListener {
+        binding.icAva.setOnClickListener {
             popupEmoji.show(supportFragmentManager, "")
         }
 
@@ -118,7 +123,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
 
     }
 
-    var mIconTask = "avatask/apple.png"
+    var mIconTask = "avatask/emoji-sing-right-note.png"
 
     private fun createNewTask() {
         validateData()
@@ -137,7 +142,8 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
     private fun validateData() {
         if (binding.edtName.text.toString().isEmpty()) {
             binding.edtName.requestFocus()
-            Toast.makeText(this, getString(R.string.please_type_name_of_task), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.please_type_name_of_task), Toast.LENGTH_SHORT)
+                .show()
             binding.btnCreate.isEnabled = false
             binding.btnCreate.backgroundTintList =
                 ColorStateList.valueOf(Color.parseColor("#b5b5b5"))
@@ -156,6 +162,11 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
         }
         btnColorView[color - 1].backgroundTintList = null
         mTaskNew?.color = btnColor[color - 1]
+
+        val colorAlpha = "#33" + mTaskNew?.color?.substring(1, 7)
+        binding.icAva.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.icAva.imageTintList = ColorStateList.valueOf(Color.parseColor(mTaskNew?.color))
     }
 
     private val btnColor = arrayListOf<String>()

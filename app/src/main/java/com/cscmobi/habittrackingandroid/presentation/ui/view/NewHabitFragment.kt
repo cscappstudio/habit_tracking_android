@@ -1,23 +1,18 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.view.ViewTreeObserver
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.OnApplyWindowInsetsListener
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +31,6 @@ import com.cscmobi.habittrackingandroid.databinding.FragmentCreateNewhabitBindin
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.Day
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DayOfMonthCalendarAdapter
-import com.cscmobi.habittrackingandroid.presentation.ui.adapter.FrequencyTextAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
@@ -45,13 +39,12 @@ import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
-import com.cscmobi.habittrackingandroid.utils.Utils.isSystemKeyboardVisible
-import com.cscmobi.habittrackingandroid.utils.Utils.scrollToView
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
 import com.cscmobi.habittrackingandroid.utils.onDone
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.helper.MyUtils
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -63,17 +56,15 @@ class NewHabitFragment :
 
     private var selectRepeatUnit = ""
     private var textRepeatSelect = ""
-    private val unit = listOf("time", "minute", "glass", "km", "page", "hour")
-    private val time = listOf("perday", "perweek", "permonth")
-    private val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-    private var frequencyTextAdapter: FrequencyTextAdapter? = null
+    private val unit = ArrayList<String>()
+    private val time = ArrayList<String>()
     private val date = (1..31).toList()
     private var listDay = mutableListOf<Day>()
     private val bottomSheetFragment = BottomsheetNewHabitFragment()
     private var numberRepeat = 1
     private var subTasks = mutableListOf<String>()
     private var colorSelect = -1
-    val childFragment: CustomCalenderFragment = CustomCalenderFragment()
+    private val childFragment: CustomCalenderFragment = CustomCalenderFragment()
     var newHabitFragmentState: NewHabitFragmentState = NewHabitFragmentState.ADDTOROUTINE
     private val bottomSheetAvaFragment = BottomSheetAvaFragment()
 
@@ -98,22 +89,8 @@ class NewHabitFragment :
     }
 
     override fun initView(view: View) {
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-            context?.let {
-                binding.nestScroll.setPadding(
-                    0,
-                    0,
-                    0,
-                    resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                )
-            }
-
-        })
-
         currentTask.ava =
             requireContext().resources.getResourceEntryName(R.drawable.ic_item_collection2)
-
-
         colorSelect = ContextCompat.getColor(requireContext(), R.color.blue)
         daysWeekRepeat = mutableListOf(
             DayWeekRepeat(2),
@@ -133,25 +110,26 @@ class NewHabitFragment :
         setUpCheckList()
         setUpColor()
 
-
-
         bottomSheetFragment.setListener(object : BottomsheetNewHabitFragment.BottomListener {
+            @SuppressLint("SetTextI18n")
             override fun saveUnitNumberRepeat(number: Int) {
                 numberRepeat = number
-                binding.layoutRepeate.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
+                binding.layoutRepeat.txtCategory.text =
+                    getString(R.string.every_) + " " + numberRepeat + " " + selectRepeatUnit
             }
 
             override fun createTag(name: String) {
-                binding.layoutTag.addIvVisible = name == "No tag"
+                binding.layoutTag.addIvVisible = name == getString(R.string.no_tag)
                 binding.layoutTag.txtTag.text = name
             }
 
         })
 
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-        transaction.replace(binding.layoutEndDate.childFragmentContainer.id, childFragment).commit()
-
-        Log.d("Task Create", currentTask.toString())
+        transaction.replace(
+            binding.layoutRepeat.layoutEndDate.childFragmentContainer.id,
+            childFragment
+        ).commit()
 
 
         bottomSheetAvaFragment.actionGetIcon = {
@@ -159,33 +137,12 @@ class NewHabitFragment :
             currentTask.ava = it
         }
 
-
-        val view = activity?.window?.decorView ?: return
-        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-            val showingKeyboard = insets.isVisible(WindowInsetsCompat.Type.ime())
-            if (!showingKeyboard) {
-                binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                    context?.let {
-                        binding.nestScroll.setPadding(
-                            0,
-                            0,
-                            0,
-                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                        )
-                    }
-
-                })
-            }
-            insets
-        }
-
-
         if (Utils.isShowAds(requireContext())) {
             binding.adView.visibility = View.VISIBLE
             AdMobUtils.createBanner(
                 requireContext(),
                 binding.root.context.getString(R.string.admob_banner_id),
-                AdMobUtils.BANNER_COLLAPSIBLE_BOTTOM,
+                AdMobUtils.BANNER_INLINE,
                 binding.adView,
                 object : AdMobUtils.Companion.LoadAdCallback {
                     override fun onLoaded(ad: Any?) {
@@ -195,7 +152,7 @@ class NewHabitFragment :
                         binding.adView.visibility = View.GONE
                     }
                 })
-        }
+        } else binding.adView.visibility = View.GONE
     }
 
 
@@ -247,24 +204,28 @@ class NewHabitFragment :
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setUpDataTask(task: Task) {
 
         currentTask = task
 
 
-        task.ava?.let { binding.ivHabit.setDrawableString(it) }
+        task.ava.let { binding.ivHabit.setDrawableString(it) }
         binding.edtName.setText(task.name.toString())
 
-        task.color?.let {
-            colorSelect = Color.parseColor(it)
-//            binding.ivHabit.setBackgroundApla(it, 20)
-            colorsTask[0].isSelected = false
+        if (task.name.isNotEmpty()) {
+            binding.edtName.setText(task.name)
+        } else
 
-        }
+            task.color.let {
+                colorSelect = Color.parseColor(it)
+                colorsTask[0].isSelected = false
+
+            }
         binding.edtNote.setText(task.note)
         task.goal?.let {
             binding.isGoalEdit = it.isOn
-            binding.edtTargetGoal.setText(it.target.toString())
+            binding.edtTargetGoal.hint = it.target.toString()
 
             binding.unitPicker.value = unit.indexOf(it.unit)
             if (!it.period.isNullOrEmpty())
@@ -272,16 +233,13 @@ class NewHabitFragment :
         }
 
         task.repeate?.let {
-            var type = ""
             when (it.type) {
-                "daily" -> {
-                    type = "Day"
-                    binding.layoutRepeate.txtDaily.performClick()
+                getString(R.string.daily) -> {
+                    binding.layoutRepeat.txtDaily.performClick()
                 }
 
-                "monthly" -> {
-                    type = "Month"
-                    binding.layoutRepeate.txtMonthly.performClick()
+                getString(R.string.monthly) -> {
+                    binding.layoutRepeat.txtMonthly.performClick()
                     it.days?.let {
                         it.forEach { day ->
                             listDay.forEach {
@@ -294,11 +252,8 @@ class NewHabitFragment :
                     }
                 }
 
-                "weekly" -> {
-                    type = "Week"
-                    binding.layoutRepeate.txtWeekly.performClick()
-
-                    val commonElements = it.days?.intersect(daysWeekRepeat)
+                getString(R.string.weekly) -> {
+                    binding.layoutRepeat.txtWeekly.performClick()
 
                     it.days?.let {
                         it.forEach { day ->
@@ -317,12 +272,12 @@ class NewHabitFragment :
 
             numberRepeat = it.frequency ?: 1
 
-//                binding.layoutRepeate.txtCategory.text = "Every ${${it.frequency}} $type"
-            binding.layoutRepeate.isRepeatEdit = it.isOn
+//                binding.layoutRepeat.txtCategory.text = "Every ${${it.frequency}} $type"
+            binding.layoutRepeat.isRepeatEdit = it.isOn
         }
 
         task.endDate?.let {
-            binding.layoutEndDate.isEndDateEdit = it.isOpen
+            binding.layoutRepeat.layoutEndDate.isEndDateEdit = it.isOpen
             it.endDate?.let { it1 -> childFragment.setSelectDate(it1) }
         }
 
@@ -354,8 +309,9 @@ class NewHabitFragment :
         resetColorTask()
 
         binding.swGoal.isChecked = binding.isGoalEdit ?: false
-        binding.layoutRepeate.swRepeat.isChecked = binding.layoutRepeate.isRepeatEdit ?: false
-        binding.layoutEndDate.swEndDate.isChecked = binding.layoutEndDate.isEndDateEdit ?: false
+        binding.layoutRepeat.swRepeat.isChecked = binding.layoutRepeat.isRepeatEdit ?: false
+        binding.layoutRepeat.layoutEndDate.swEndDate.isChecked =
+            binding.layoutRepeat.layoutEndDate.isEndDateEdit ?: false
         binding.layoutReminder.swRemind.isChecked = binding.layoutReminder.isRenindEdit ?: false
     }
 
@@ -407,6 +363,13 @@ class NewHabitFragment :
     }
 
     private fun resetColorTask() {
+        val color = String.format("#%06X", 0xFFFFFF and colorSelect)
+        val colorAlpha = String.format("#33%06X", 0xFFFFFF and colorSelect)
+        val colorAlpha30 = String.format("#4D%06X", 0xFFFFFF and colorSelect)
+        binding.layoutTag.txtTag.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha30))
+        binding.ivHabit.backgroundTintList = ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.ivHabit.imageTintList = ColorStateList.valueOf(Color.parseColor(color))
 
         dayOfMonthCalendarAdapter?.colorSelect = colorSelect
         dayOfMonthCalendarAdapter?.notifyDataSetChanged()
@@ -418,7 +381,7 @@ class NewHabitFragment :
             binding.layoutReminder.frHour
         )
         binding.edtTargetGoal.background = Utils.createCustomDrawable(colorSelect)
-        setStateTextRepeat(binding.layoutRepeate.frequencyType ?: 0)
+        setStateTextRepeat(binding.layoutRepeat.frequencyType ?: 0)
         childFragment.resetColorTask(colorSelect)
         resetTextInListDay()
 
@@ -443,13 +406,21 @@ class NewHabitFragment :
 
         dayOfMonthCalendarAdapter = DayOfMonthCalendarAdapter(requireContext(), listDay)
 
-        binding.layoutRepeate.calendarGridview.adapter = dayOfMonthCalendarAdapter
+        binding.layoutRepeat.calendarGridview.adapter = dayOfMonthCalendarAdapter
     }
 
 
     private fun setUpUnitPicker() {
-        binding.unitPicker.minValue = 1;
-        binding.unitPicker.maxValue = unit.size;
+
+        unit.add(getString(R.string.time))
+        unit.add(getString(R.string.minute))
+        unit.add(getString(R.string.glass))
+        unit.add("km")
+        unit.add(getString(R.string.page))
+        unit.add(getString(R.string.hour))
+
+        binding.unitPicker.minValue = 1
+        binding.unitPicker.maxValue = unit.size
         binding.unitPicker.displayedValues = unit.toTypedArray()
         binding.unitPicker.isFadingEdgeEnabled = true
         binding.unitPicker.typeface = ResourcesCompat.getFont(context!!, R.font.worksans_medium);
@@ -463,8 +434,11 @@ class NewHabitFragment :
     }
 
     private fun setUpTimePicker() {
-        binding.timePicker.minValue = 1;
-        binding.timePicker.maxValue = time.size;
+        time.add(getString(R.string.per_day))
+        time.add(getString(R.string.per_week))
+        time.add(getString(R.string.per_month))
+        binding.timePicker.minValue = 1
+        binding.timePicker.maxValue = time.size
         binding.timePicker.displayedValues = time.toTypedArray()
         binding.timePicker.isFadingEdgeEnabled = true
         binding.timePicker.typeface = ResourcesCompat.getFont(context!!, R.font.worksans_medium);
@@ -532,7 +506,9 @@ class NewHabitFragment :
         subTaskAdapter?.setListener(object : ItemBasePosistionListener {
             override fun onItemClicked(p: Int) {
                 subTasks.removeAt(p)
-                subTaskAdapter?.notifyItemRemoved(p)
+                if (subTasks.isNotEmpty()) {
+                    subTaskAdapter?.notifyItemRemoved(p)
+                } else binding.layoutChecklist.rcvSubtask.visibility = View.GONE
 
             }
 
@@ -540,112 +516,50 @@ class NewHabitFragment :
 
 
         binding.layoutChecklist.rcvSubtask.adapter = subTaskAdapter
+        binding.layoutChecklist.edtAdd.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
 
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                if (editable.toString().isEmpty()) {
+                    binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                        ColorStateList.valueOf(Color.parseColor("#80393E3C"))
+                } else binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#5b5b5b"))
+            }
+        }
+        )
         binding.layoutChecklist.edtAdd.onDone {
-            binding.layoutChecklist.edtAdd.visibility = View.GONE
+            binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#80393E3C"))
             if (!binding.layoutChecklist.edtAdd.text.isNullOrEmpty()) {
                 subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
                 subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
             }
-//            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-//                context?.let {
-//                    binding.nestScroll.setPadding(
-//                        0,
-//                        0,
-//                        0,
-//                        resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-//                    )
-//                }
-//
-//            })
-            hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
-
+            binding.layoutChecklist.edtAdd.setText("")
+//            hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
         }
 
 
 
         binding.layoutChecklist.ivAdd.setOnClickListener {
-            hasScrool = false
-            binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
-            binding.layoutChecklist.edtAdd.isFocusable = true
+            binding.layoutChecklist.showNewSubtask.visibility = View.VISIBLE
+            binding.layoutChecklist.edtAdd.requestFocus()
             showKeyboardOnView(binding.layoutChecklist.edtAdd)
-//            binding.nestScroll.post {
-//                binding.nestScroll.smoothScrollTo(0, binding.layoutChecklist.root.bottom)
-//            }
-            binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                context?.let {
-                    binding.nestScroll.setPadding(
-                        0,
-                        0,
-                        0,
-                        resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
-                    )
-
-                }
-
-
-            })
-        }
-
-        //setKeyBoardListener()
-        initObserverForSystemKeyboardVisibility()
-    }
-    var hasScrool = false
-
-    private fun initObserverForSystemKeyboardVisibility() {
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-            // Add your own code here
-            if (this@NewHabitFragment.isAdded) {
-                if (!isSystemKeyboardVisible(requireActivity())) {
-
-                    requireContext().let {
-                        binding.nestScroll.setPadding(
-                            0,
-                            0,
-                            0,
-                            resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                        )
-
-                    }
-
-
-                } else {
-                    if (!hasScrool)
-                        binding.nestScroll.post {
-                            binding.nestScroll.smoothScrollTo(
-                                0,
-                                binding.layoutChecklist.root.bottom
-                            )
-                            hasScrool = true
-                        }
-
-                    requireContext().let {
-                        binding.nestScroll.setPadding(
-                            0,
-                            0,
-                            0,
-                            resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
-                        )
-
-                    }
-                    binding.root.viewTreeObserver.removeOnGlobalLayoutListener(null)
-
-
-                }
-
-
-                //                Log.d(
-                //                    "TEST_CODE",
-                //                    "isSystemKeyboardVisible:" + isSystemKeyboardVisible(requireActivity())
-                //                )
-            }
         }
     }
-
 
     private fun setUpCreateTask() {
 
-
+        currentTask.name = getString(R.string.new_habit)
         if (!binding.edtName.text.isNullOrEmpty())
             currentTask.name = binding.edtName.text.toString()
 
@@ -655,7 +569,8 @@ class NewHabitFragment :
         currentTask.goal = Goal(
             isOn = binding.isGoalEdit ?: false,
             unit = binding.unitPicker.displayedValues[binding.unitPicker.value - 1],
-            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) 1 else binding.edtTargetGoal.text.toString()
+            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) binding.edtTargetGoal.hint.toString()
+                .toInt() else binding.edtTargetGoal.text.toString()
                 .toInt(),
             period = binding.timePicker.displayedValues[binding.timePicker.value - 1]
         )
@@ -675,7 +590,7 @@ class NewHabitFragment :
 
 
         currentTask.repeate = TaskRepeat(
-            isOn = binding.layoutRepeate.isRepeatEdit ?: false,
+            isOn = binding.layoutRepeat.isRepeatEdit ?: false,
             type = textRepeatSelect,
             frequency = numberRepeat,
             days = daysRepeat
@@ -683,7 +598,10 @@ class NewHabitFragment :
 
         currentTask.startDate = Calendar.getInstance().time.time
         currentTask.endDate =
-            EndDate(binding.layoutEndDate.isEndDateEdit ?: false, childFragment.getDateSelected())
+            EndDate(
+                binding.layoutRepeat.layoutEndDate.isEndDateEdit ?: false,
+                childFragment.getDateSelected()
+            )
 
         currentTask.remind = RemindTask(
             isOpen = binding.layoutReminder.isRenindEdit ?: false,
@@ -692,17 +610,26 @@ class NewHabitFragment :
             unit = binding.layoutReminder.unitDay.displayedValues[binding.layoutReminder.unitDay.value - 1]
         )
 
-
         currentTask.checklist = subTasks.map { CheckList(title = it) }
-
-
-        Log.d("DEBUGTASK", currentTask.toString())
-
 
     }
 
 
     override fun setEvent() {
+        binding.ctlRoot.setOnClickListener {
+            MyUtils.hideSoftInput(it)
+            if (binding.layoutChecklist.edtAdd.isFocused) {
+                binding.layoutChecklist.edtAdd.clearFocus()
+                binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#80393E3C"))
+                binding.layoutChecklist.showNewSubtask.visibility = View.GONE
+                if (!binding.layoutChecklist.edtAdd.text.isNullOrEmpty()) {
+                    subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
+                    subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
+                }
+                binding.layoutChecklist.edtAdd.setText("")
+            }
+        }
         binding.ivHabit.setOnClickListener {
             if (!bottomSheetAvaFragment.isAdded)
                 bottomSheetAvaFragment.show(childFragmentManager, bottomSheetAvaFragment.tag)
@@ -727,8 +654,8 @@ class NewHabitFragment :
             binding.isGoalEdit = isChecked
         }
 
-        binding.layoutRepeate.swRepeat.setOnCheckedChangeListener { buttonView, isChecked ->
-            binding.layoutRepeate.isRepeatEdit = isChecked
+        binding.layoutRepeat.swRepeat.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.layoutRepeat.isRepeatEdit = isChecked
         }
 
         binding.layoutReminder.swRemind.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -736,24 +663,24 @@ class NewHabitFragment :
                 isChecked
         }
 
-        binding.layoutEndDate.swEndDate.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.layoutRepeat.layoutEndDate.swEndDate.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            binding.layoutEndDate.isEndDateEdit = isChecked
+            binding.layoutRepeat.layoutEndDate.isEndDateEdit = isChecked
         }
 
-        binding.layoutRepeate.txtDaily.setOnClickListener {
+        binding.layoutRepeat.txtDaily.setOnClickListener {
             setStateTextRepeat(0)
         }
 
-        binding.layoutRepeate.txtWeekly.setOnClickListener {
+        binding.layoutRepeat.txtWeekly.setOnClickListener {
             setStateTextRepeat(1)
         }
 
-        binding.layoutRepeate.txtMonthly.setOnClickListener {
+        binding.layoutRepeat.txtMonthly.setOnClickListener {
             setStateTextRepeat(2)
         }
 
-        binding.layoutRepeate.ctlFrequency.setOnClickListener {
+        binding.layoutRepeat.ctlFrequency.setOnClickListener {
 
 
             binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
@@ -895,6 +822,11 @@ class NewHabitFragment :
                 binding.layoutAddRoutine.vRoot.visibility = View.VISIBLE
             }
 
+            NewHabitFragmentState.NEWTASK -> {
+                binding.layoutAddRoutine.vRoot.visibility = View.VISIBLE
+                resetUI2NewTask()
+            }
+
             NewHabitFragmentState.ADDTOROUTINEWITHCOLLECTION -> {
                 binding.layoutAddRoutine.vRoot.visibility = View.VISIBLE
                 binding.ivEdit.visibility = View.VISIBLE
@@ -911,6 +843,14 @@ class NewHabitFragment :
             }
 
         }
+    }
+
+    private fun resetUI2NewTask() {
+        currentTask = Task()
+        currentTask.ava =
+            requireContext().resources.getResourceEntryName(R.drawable.ic_item_collection2)
+        colorSelect = ContextCompat.getColor(requireContext(), R.color.blue)
+        setUpDataTask(currentTask)
     }
 
     private var gradientBgUnitReminder: GradientDrawable? = null
@@ -947,10 +887,10 @@ class NewHabitFragment :
 
 
     private fun setListenerListDay() {
-        val childCount = binding.layoutRepeate.llWeekly.childCount
+        val childCount = binding.layoutRepeat.llWeekly.childCount
         if (childCount != 0) {
             for (i in 0 until childCount) {
-                var txt: View? = binding.layoutRepeate.llWeekly.getChildAt(i)
+                var txt: View? = binding.layoutRepeat.llWeekly.getChildAt(i)
                 txt?.let {
                     if (txt is TextView) {
                         txt.setOnClickListener {
@@ -967,62 +907,57 @@ class NewHabitFragment :
     private fun resetTextInListDay() {
         daysWeekRepeat.forEachIndexed { index, dayWeekRepeat ->
             if (dayWeekRepeat.isSelect) {
-                (binding.layoutRepeate.llWeekly.getChildAt(index) as TextView).changeBackgroundText(
+                (binding.layoutRepeat.llWeekly.getChildAt(index) as TextView).changeBackgroundText(
                     true
                 )
             }
         }
-
     }
 
     private fun setStateTextRepeat(frequencyType: Int) {
-        binding.layoutRepeate.frequencyType = frequencyType
-        selectRepeatUnit = when (binding.layoutRepeate.frequencyType) {
-            0 -> "Day"
-            1 -> "Week"
-            2 -> "Month"
-            else -> "Week"
+        binding.layoutRepeat.frequencyType = frequencyType
+        selectRepeatUnit = when (binding.layoutRepeat.frequencyType) {
+            0 -> getString(R.string.day)
+            1 -> getString(R.string.week)
+            2 -> getString(R.string.month)
+            else -> getString(R.string.week)
         }
-        when (binding.layoutRepeate.frequencyType) {
+        when (binding.layoutRepeat.frequencyType) {
             0 -> {
-                selectRepeatUnit = "Day"
-                textRepeatSelect = "daily"
-
+                selectRepeatUnit = getString(R.string.day)
+                textRepeatSelect = getString(R.string.daily)
             }
 
             1 -> {
-                selectRepeatUnit = "Week"
-                textRepeatSelect = "weekly"
-
+                selectRepeatUnit = getString(R.string.week)
+                textRepeatSelect = getString(R.string.weekly)
             }
 
             2 -> {
-                selectRepeatUnit = "Month"
-                textRepeatSelect = "monthly"
-
-
+                selectRepeatUnit = getString(R.string.month)
+                textRepeatSelect = getString(R.string.monthly)
             }
         }
 
-        binding.layoutRepeate.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
+        binding.layoutRepeat.txtCategory.text = "Every $numberRepeat $selectRepeatUnit"
 
         when (frequencyType) {
             0 -> {
-                binding.layoutRepeate.txtDaily.changeBackgroundText(true)
-                binding.layoutRepeate.txtWeekly.changeBackgroundText(false)
-                binding.layoutRepeate.txtMonthly.changeBackgroundText(false)
+                binding.layoutRepeat.txtDaily.changeBackgroundText(true)
+                binding.layoutRepeat.txtWeekly.changeBackgroundText(false)
+                binding.layoutRepeat.txtMonthly.changeBackgroundText(false)
             }
 
             1 -> {
-                binding.layoutRepeate.txtDaily.changeBackgroundText(false)
-                binding.layoutRepeate.txtWeekly.changeBackgroundText(true)
-                binding.layoutRepeate.txtMonthly.changeBackgroundText(false)
+                binding.layoutRepeat.txtDaily.changeBackgroundText(false)
+                binding.layoutRepeat.txtWeekly.changeBackgroundText(true)
+                binding.layoutRepeat.txtMonthly.changeBackgroundText(false)
             }
 
             2 -> {
-                binding.layoutRepeate.txtDaily.changeBackgroundText(false)
-                binding.layoutRepeate.txtWeekly.changeBackgroundText(false)
-                binding.layoutRepeate.txtMonthly.changeBackgroundText(true)
+                binding.layoutRepeat.txtDaily.changeBackgroundText(false)
+                binding.layoutRepeat.txtWeekly.changeBackgroundText(false)
+                binding.layoutRepeat.txtMonthly.changeBackgroundText(true)
             }
         }
     }
@@ -1039,94 +974,6 @@ class NewHabitFragment :
         }
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            when (newHabitFragmentState) {
-                NewHabitFragmentState.EDITTASKCOLLECTION -> {
-                }
-
-                NewHabitFragmentState.ADDTOROUTINE -> {
-                    binding.layoutAddRoutine.vRoot.visibility = View.VISIBLE
-                }
-
-                NewHabitFragmentState.ADDTOCOLLECTION -> {
-
-                    binding.layoutBtnSave.vRoot.visibility = View.VISIBLE
-                }
-
-                NewHabitFragmentState.EDITTASK -> {
-                }
-
-                else -> {
-
-                }
-            }
-        }
-    }
-
-    private fun setKeyBoardListener() {
-        val window = requireActivity().window
-        WindowCompat.setDecorFitsSystemWindows(window, false)  // <-- this tells android not to u
-
-        val callBack = OnApplyWindowInsetsListener { view, insets ->
-            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
-            Log.e("tag", "onKeyboardOpenOrClose imeHeight = $imeHeight")
-// todo: logic
-            val isKeyboardVisible = WindowInsetsCompat
-                .toWindowInsetsCompat(binding.root.rootWindowInsets)
-                .isVisible(WindowInsetsCompat.Type.ime())
-
-            if (isKeyboardVisible) {
-                println("keyboard visible")
-                if (binding.layoutChecklist.edtAdd.isFocused)
-
-                    binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                        context?.let {
-                            binding.nestScroll.setPadding(
-                                0,
-                                0,
-                                0,
-                                resources.getDimension(com.intuit.sdp.R.dimen._150sdp).toInt()
-                            )
-
-                        }
-                        binding.nestScroll.post {
-                            binding.nestScroll.smoothScrollTo(
-                                0,
-                                binding.layoutChecklist.root.bottom
-                            )
-                        }
-
-                    })
-                // do something
-            } else {
-                // do something else
-                println("keyboard invisible")
-                if (binding.layoutChecklist.edtAdd.isFocused)
-
-                    binding.root.viewTreeObserver.addOnGlobalLayoutListener(OnGlobalLayoutListener {
-                        context?.let {
-                            binding.nestScroll.setPadding(
-                                0,
-                                0,
-                                0,
-                                resources.getDimension(com.intuit.sdp.R.dimen._25sdp).toInt()
-                            )
-
-                        }
-
-
-                    })
-
-            }
-            insets ?: WindowInsetsCompat(null)
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.layoutChecklist.edtAdd, callBack)
-        // ViewCompat.setOnApplyWindowInsetsListener( binding.root, callBack)
-    }
-
     interface INewHabitListener {
         fun addTask(task: Task)
         fun editTaskCollection(task: Task)
@@ -1137,7 +984,8 @@ class NewHabitFragment :
         EDITTASK,
         EDITTASKCOLLECTION,
         ADDTOROUTINE,
-        ADDTOROUTINEWITHCOLLECTION
+        ADDTOROUTINEWITHCOLLECTION,
+        NEWTASK
     }
 
     override fun onDestroyView() {

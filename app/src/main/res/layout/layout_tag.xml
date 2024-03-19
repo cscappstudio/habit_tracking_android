@@ -3,55 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="addIvVisible"
             type="Boolean" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_white_corner_20"
-    android:backgroundTint="@color/silver"
-    android:paddingVertical="@dimen/_12sdp"
-    android:paddingHorizontal="@dimen/_20sdp">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:fontFamily="@font/worksans_semibold"
-        android:text= "@string/tag"
-        android:textColor="@color/shadow_gray"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_add"
-        android:layout_width="wrap_content"
-        android:src="@drawable/plus_circle"
-        android:visibility="@{addIvVisible ? View.VISIBLE : View.GONE}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/txt_tag"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_corner_20"
-        android:backgroundTint="#DCF1EB"
-        android:maxWidth="150dp"
-        android:paddingHorizontal="@dimen/_10sdp"
-        android:paddingVertical="@dimen/_6sdp"
-        android:visibility="@{!addIvVisible ? View.VISIBLE : View.GONE}"
-        android:textColor="@color/teal_green"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        android:backgroundTint="@color/silver"
+        android:paddingVertical="7dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/Text_600_SemiB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="@string/tag"
+            android:textColor="@color/shadow_gray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/margin" />
+
+        <View
+            android:id="@+id/margin"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_add"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="16dp"
+            android:padding="8dp"
+            android:src="@drawable/plus_circle"
+            android:visibility="@{addIvVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_tag"
+            style="@style/Text_500_Med"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/bg_white_corner_20"
+            android:backgroundTint="#DCF1EB"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:gravity="center"
+            android:textColor="#01100C"
+            android:textSize="15sp"
+            android:visibility="@{!addIvVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

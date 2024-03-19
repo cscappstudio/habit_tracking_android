@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="178dp"
+    android:layout_height="@dimen/_140sdp"
     android:backgroundTint="#B2E0CC"
     app:cardCornerRadius="30dp"
     app:cardElevation="0dp">
@@ -15,15 +15,17 @@
 
         <ImageView
             android:id="@+id/img_target"
-            android:layout_width="175dp"
-            android:layout_height="195dp"
+            android:layout_width="@dimen/_136sdp"
+            android:layout_height="@dimen/_150sdp"
             android:layout_gravity="center"
-            android:layout_marginEnd="-52dp"
-            android:layout_marginBottom="-44dp"
+            android:layout_marginEnd="@dimen/_minus42sdp"
+            android:layout_marginBottom="@dimen/_minus35sdp"
             android:scaleType="fitXY"
             android:src="@drawable/img_target"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="220dp"
+            app:layout_constraintWidth_max="200dp"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -39,8 +41,8 @@
             android:text="@string/many_challenges_waiting_for_you_ahead"
             android:textColor="#166851"
             android:textSize="19sp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -66,9 +68,9 @@
             android:id="@+id/btn_try_premium"
             style="@style/Text_700"
             android:layout_width="0dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="@dimen/_27sdp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="@dimen/_11sdp"
             android:autoSizeMaxTextSize="12sp"
             android:autoSizeMinTextSize="10sp"
             android:autoSizeTextType="uniform"
@@ -76,8 +78,7 @@
             android:backgroundTint="#09392D"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingHorizontal="16dp"
             android:paddingBottom="1dp"
             android:text="@string/try_premium_now"
             android:textColor="#fff"

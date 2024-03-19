@@ -10,6 +10,7 @@ import com.thanhlv.fw.helper.DisplayUtils
 
 class MenuDropDown(
     context: Context,
+    type: Int, // 1 = reset/stop, 2 = edit/delete
     reset: Boolean,
     resetAction: () -> Unit,
     cancelAction: () -> Unit
@@ -24,6 +25,13 @@ class MenuDropDown(
         isFocusable = true
         isOutsideTouchable = true
 
+        if (type == 2) {
+            binding.btnReset.text = "Edit"
+            binding.btnCancel.text = "Delete"
+        } else {
+            binding.btnReset.text = "Reset"
+            binding.btnCancel.text = "Stop"
+        }
 
         // Set click listeners for menu items
         if (reset)

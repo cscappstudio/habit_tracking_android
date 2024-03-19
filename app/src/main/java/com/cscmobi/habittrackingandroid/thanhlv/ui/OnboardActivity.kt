@@ -50,41 +50,30 @@ class OnboardActivity : BaseActivity2() {
     private fun getListPhoto(): ArrayList<OnBoardModel> {
         val list = ArrayList<OnBoardModel>()
         list.add(
-            OnBoardModel(R.drawable.img_onboard_1, "Say hi to your new", "Habit Planner")
+            OnBoardModel(R.drawable.img_onboard_1, "Say hi to your new", getString(R.string.habit_planner))
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_2, "Say hi to your new", "Todo list")
+            OnBoardModel(R.drawable.img_onboard_2, "Say hi to your new", getString(R.string.to_do_list))
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_3, "Say hi to your new", "Calendar")
+            OnBoardModel(R.drawable.img_onboard_3, "Say hi to your new", getString(R.string.calendar))
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_4, "Say hi to your new", "Journal")
+            OnBoardModel(R.drawable.img_onboard_4, "Say hi to your new", getString(R.string.journal))
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_1, "Say hi to your new", "Habit Planner")
+            OnBoardModel(R.drawable.img_onboard_1, "Say hi to your new", getString(R.string.habit_planner))
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_2, "Say hi to your new", "Todo list")
+            OnBoardModel(R.drawable.img_onboard_2, "Say hi to your new", getString(R.string.to_do_list))
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_3, "Say hi to your new", "Calendar")
+            OnBoardModel(R.drawable.img_onboard_3, "Say hi to your new", getString(R.string.calendar))
         )
         list.add(
-            OnBoardModel(R.drawable.img_onboard_4, "Say hi to your new", "Journal")
+            OnBoardModel(R.drawable.img_onboard_4, "Say hi to your new", getString(R.string.journal))
         )
-        list.add(
-            OnBoardModel(R.drawable.img_onboard_1, "Say hi to your new", "Habit Planner")
-        )
-        list.add(
-            OnBoardModel(R.drawable.img_onboard_2, "Say hi to your new", "Todo list")
-        )
-        list.add(
-            OnBoardModel(R.drawable.img_onboard_3, "Say hi to your new", "Calendar")
-        )
-        list.add(
-            OnBoardModel(R.drawable.img_onboard_4, "Say hi to your new", "Journal")
-        )
+
         return list
     }
 
@@ -112,7 +101,7 @@ class OnboardActivity : BaseActivity2() {
             override fun run() {
                 handler.post(runnable)
             }
-        }, 100, 500)
+        }, 200, 1000)
 
         binding.btnNext.setOnClickListener {
             startActivity(Intent(this, QuestionFOActivity::class.java))

@@ -64,7 +64,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     .setImageBitmap(BitmapFactory.decodeStream(assets.open(mChallenge?.image!!)))
             else binding.imgChallenge.setImageResource(R.drawable.img_target)
 
-            if (mChallenge?.joinedHistory != null) {
+            if (mChallenge!!.joinedHistory != null) {
                 binding.btnStartChallenge.visibility = View.GONE
                 binding.btnOptionTop.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.VISIBLE
@@ -79,6 +79,9 @@ class DetailChallengeActivity : BaseActivity2() {
                 binding.btnStartChallenge.visibility = View.VISIBLE
                 binding.btnOptionTop.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
+                if (mChallenge!!.isNewCreate) {
+                    binding.btnOptionTop.visibility = View.VISIBLE
+                }
             }
 
         }
@@ -97,18 +100,60 @@ class DetailChallengeActivity : BaseActivity2() {
         }
 
         binding.btnOptionTop.setOnClickListener {
-            val menuDropDown = MenuDropDown(this@DetailChallengeActivity, hasReset,
-                {
-                    performResetChallenge()
-                    hasReset = false
-                },
-                {
-                    performCancelChallenge()
+
+            if (mChallenge?.isNewCreate == true) {
+                val menuDropDown = MenuDropDown(this@DetailChallengeActivity, 2, hasReset,
+                    {
+                        editChallenge()
+                        hasReset = false
+                    },
+                    {
+                        deleteChallenge()
+                        finish()
+                    }
+                )
+                menuDropDown.showAsDropDown(it)
+            } else {
+                val menuDropDown = MenuDropDown(this@DetailChallengeActivity, 1, hasReset,
+                    {
+                        performResetChallenge()
+                        hasReset = false
+                    },
+                    {
+                        performCancelChallenge()
+                        finish()
+                    }
+                )
+                menuDropDown.showAsDropDown(it)
+            }
+
+        }
+    }
+
+    private fun editChallenge() {
+        if (mChallenge != null) {
+            val intent = Intent(this, CreateChallengeActivity::class.java)
+            intent.putExtra("edit_challenge", Gson().toJson(mChallenge!!))
+            startActivity(intent)
+        }
+
+    }
+
+    private fun deleteChallenge() {
+        DialogUtils.showDeleteChallenge(this, 2, {
+            if (mChallenge != null)
+                runBlocking {
+                    AppDatabase.getInstance(applicationContext).dao().deleteChallenge(mChallenge!!)
+                    val all = ArrayList(
+                        AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+                    )
+                    ChallengeFragment.allChallenges.postValue(all.reversed())
                     finish()
                 }
-            )
-            menuDropDown.showAsDropDown(it)
-        }
+        }, {
+
+        })
+
     }
 
     private fun performCancelChallenge() {
@@ -150,12 +195,12 @@ class DetailChallengeActivity : BaseActivity2() {
 //
 //
 //                                } else
-                                    AppDatabase.getInstance(this@DetailChallengeActivity).dao()
-                                        .updateHistory2(
-                                            history.id,
-                                            history.taskInDay,
-                                            history.progressDay
-                                        )
+                                AppDatabase.getInstance(this@DetailChallengeActivity).dao()
+                                    .updateHistory2(
+                                        history.id,
+                                        history.taskInDay,
+                                        history.progressDay
+                                    )
 
                                 println("thanhlv upppppppppppppp 1 -------------  " + history.taskInDay.size)
                                 HomeFragment.updateChallenge = true
@@ -176,10 +221,7 @@ class DetailChallengeActivity : BaseActivity2() {
             AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
-            newMyChallenges.sortByDescending {
-                it.joinedHistory?.date
-            }
-            ChallengeFragment.myChallenges.postValue(newMyChallenges)
+            ChallengeFragment.myChallenges.postValue(newMyChallenges.reversed())
         }
     }
 
@@ -232,7 +274,6 @@ class DetailChallengeActivity : BaseActivity2() {
             resolverDataJoinChallenge()
 
             //update task challenge to task all
-            delay(300)
             val newMyChallenges =
                 ArrayList(AppDatabase.getInstance(applicationContext).dao().getMyChallenge())
             newMyChallenges.sortByDescending {

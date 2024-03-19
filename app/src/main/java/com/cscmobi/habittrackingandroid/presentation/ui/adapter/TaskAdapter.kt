@@ -1,37 +1,35 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
-import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.createBubbleShowCaseBuilder
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.helper.MyClick
 import java.util.Calendar
 import java.util.Date
-import kotlin.random.Random
 
 
 class TaskAdapter(
@@ -44,9 +42,18 @@ class TaskAdapter(
     var date: Long = Helper.currentDate.toDate()
 
 
+    override fun getItemCount(): Int {
+        return this.currentList.size + 1
+    }
+
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
-
+            if (date <= Helper.currentDate.toDate()) {
+                binding.rdCheck.isEnabled = true
+            } else {
+                binding.rdCheck.isEnabled = false
+                binding.rdCheck.isChecked = false
+            }
             if (item.id == IDLE && layoutPosition == 1) {
                 binding.swipeLayout.visibility = View.GONE
                 binding.adView.visibility = View.VISIBLE
@@ -95,7 +102,7 @@ class TaskAdapter(
                 if (item.pause != -1) {
                     var c = Calendar.getInstance()
                     c.time = Date(item.pauseDate!!)
-                    c.add(Calendar.DAY_OF_MONTH, item.pause-1)
+                    c.add(Calendar.DAY_OF_MONTH, item.pause - 1)
 
                     if (date in item.pauseDate!!.toDate()..c.time.time) {
                         binding.ivPlay.visibility = View.VISIBLE
@@ -120,7 +127,7 @@ class TaskAdapter(
             }
 
             item.goal?.let {
-                if (it.isOn == true) {
+                if (it.isOn) {
                     binding.txtUnit.visibility = View.VISIBLE
                     binding.txtGoal.visibility = View.VISIBLE
                     binding.txtUnit.text = it.unit
@@ -143,11 +150,12 @@ class TaskAdapter(
                     binding.shapeableImageView.backgroundTintList =
                         ColorStateList.valueOf(Color.TRANSPARENT)
                     binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                    binding.line.visibility = View.VISIBLE
+                    binding.txtNameTask.showStrikeThrough(true)
                     binding.txtUnit.setTextColor(Color.WHITE)
                     binding.rdCheck.isChecked = true
 
                 } else {
+                    binding.txtNameTask.showStrikeThrough(false)
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
 
                     binding.txtGoal.setTextColor(
@@ -165,6 +173,11 @@ class TaskAdapter(
 
                     binding.txtGoal.setSpanTextView(R.color.coral_red)
                     binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+
+                    binding.txtGoal.setAlpha(0.5f)
+                    binding.txtUnit.setAlpha(0.5f)
+                    binding.txtNameTask.setAlpha(0.5f)
+
                     binding.txtNameTask.setTextColor(
                         ContextCompat.getColor(
                             binding.root.context,
@@ -172,30 +185,27 @@ class TaskAdapter(
                         )
                     )
 
+                    binding.shapeableImageView.setAlpha(0.5f)
+
                     binding.shapeableImageView.backgroundTintList =
                         ColorStateList.valueOf(Color.parseColor(item.color))
                     binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                    binding.line.visibility = View.INVISIBLE
                     binding.rdCheck.isChecked = false
 
                 }
 
-                binding.rdCheck.setOnClickListener {
-                    if (date > Helper.currentDate.toDate()) {
-                        binding.rdCheck.isChecked = false
-                        return@setOnClickListener
+                binding.rdCheck.setOnClickListener(
+                    object : MyClick(500) {
+                        override fun onMyClick(v: View, count: Long) {
+                            if (date <= Helper.currentDate.toDate())
+                                onItemClickAdapter.onItemChange(
+                                    layoutPosition,
+                                    item,
+                                    binding.rdCheck.isChecked
+                                )
+                        }
                     }
-
-                    onItemClickAdapter.onItemChange(layoutPosition, item, binding.rdCheck.isChecked)
-
-                }
-
-
-//                binding.rdCheck.setOnCheckedChangeListener { buttonView, isChecked ->
-//                    onItemClickAdapter.onItemChange(layoutPosition,item,isChecked)
-//
-//                }
-
+                )
             }
 
 
@@ -214,6 +224,7 @@ class TaskAdapter(
 
                 }
 
+                @SuppressLint("UseCompatLoadingForDrawables")
                 override fun onOpened(view: SwipeRevealLayout?) {
                     binding.frMenu.visibility = View.VISIBLE
 
@@ -225,6 +236,8 @@ class TaskAdapter(
                                     R.string.pausing_a_task_doesn_t_break_your_streak_you_can_resume_when_ready
                                 ), "showcase_skip"
                             )
+                                .closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
+
                         ) //First BubbleShowCase to show
                         .addShowCase(
                             activity.createBubbleShowCaseBuilder(
@@ -233,6 +246,7 @@ class TaskAdapter(
                                     R.string.tap_to_edit
                                 ), "showcase_edit"
                             )
+                                .closeActionImage(activity.getDrawable(R.drawable.arrow_right_circle))
                         ) //Second BubbleShowCase to show
                         .addShowCase(
                             activity.createBubbleShowCaseBuilder(
@@ -240,21 +254,15 @@ class TaskAdapter(
                                 binding.root.context.getString(
                                     R.string.tap_to_delete
                                 ), "showcase_delete"
-                            )
+                            ).closeActionImage(activity.getDrawable(R.drawable.ic_round_close))
                         ) //Third BubbleShowCase to show
                         .show() //Display the ShowCaseSequence
-//                    BubbleShowCaseBuilder(activity) //Activity instance
-//                        .title("foo") //Any title for the bubble view
-//                        .targetView(binding.ivvDelete) //View to point out
-//                        .show() //Display the ShowCase
                 }
 
                 override fun onSlide(view: SwipeRevealLayout?, slideOffset: Float) {
                     if (isPause) binding.ivPlay.visibility = View.INVISIBLE
                     else
                         binding.rdCheck.visibility = View.INVISIBLE
-
-
                 }
 
             })
@@ -287,6 +295,11 @@ class TaskAdapter(
         }
 
 
+    }
+    fun TextView.showStrikeThrough(show: Boolean) {
+        paintFlags =
+            if (show) paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            else paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
 
     fun onBind(parent: ViewGroup): ViewHolder {
@@ -332,7 +345,11 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
-        holder.bind(getItem(position), onItemClickAdapter)
+        if (position < currentList.size) {
+            binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
+            holder.bind(getItem(position), onItemClickAdapter)
+        } else {
+            holder.binding.root.visibility = View.GONE
+        }
     }
 }

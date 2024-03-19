@@ -15,7 +15,7 @@ import java.util.Date
 @Entity
 data class Task(
     @PrimaryKey(true) var id: Long = 0,
-    @ColumnInfo(name = "name") var name: String = "New Habit",
+    @ColumnInfo(name = "name") var name: String = "",
     @ColumnInfo(name = "color") var color: String = "#B6D6DD",
     @ColumnInfo(name = "ava") var ava: String = "",
     @ColumnInfo(name = "note") var note: String = "",
@@ -26,7 +26,7 @@ data class Task(
     @ColumnInfo(name = "challenge") var challenge: String = "",
 
     @ColumnInfo(name = "goal")
-    var goal: Goal = Goal(),
+    var goal: Goal? = Goal(),
 
     @ColumnInfo(name = "repeat")
     var repeate: TaskRepeat = TaskRepeat(),

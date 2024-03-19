@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.databinding.CalenderCustomBinding
+import com.cscmobi.habittrackingandroid.databinding.CalenderHomeBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBaseListener
+import com.cscmobi.habittrackingandroid.thanhlv.model.DayCalendarModel
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,7 +30,7 @@ import java.util.Calendar
 class CalenderDialogHomeFragment : DialogFragment() {
     private var calenderAdapter: BaseBindingAdapter<String>? = null
     private var selectedDate = Calendar.getInstance()
-    private lateinit var binding: CalenderCustomBinding
+    private lateinit var binding: CalenderHomeBinding
     var actionDateSelect : ((Long) -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -44,13 +46,17 @@ class CalenderDialogHomeFragment : DialogFragment() {
         return dialog
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.root.requestLayout()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = CalenderCustomBinding.inflate(inflater, container, false)
+        binding = CalenderHomeBinding.inflate(inflater, container, false)
         binding.vRoot.visibility = View.INVISIBLE
 
         setMonthView()
@@ -76,8 +82,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
     }
 
     private fun setMonthView(isChange: Boolean = false) {
-        binding.calendarRecyclerView.visibility = View.INVISIBLE
-        binding.progressBar.visibility = View.VISIBLE
 
         val daysInMonth = daysInMonthArray(selectedDate)
         binding.monthYearTV.text = monthYearFromDate(selectedDate);
@@ -122,11 +126,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
 
         }
 
-        lifecycleScope.launch {
-            delay(1000L)
-            binding.calendarRecyclerView.visibility = View.VISIBLE
-            binding.progressBar.visibility = View.INVISIBLE
-        }
     }
 
     private fun monthYearFromDate(calendar: Calendar): String? {
@@ -136,25 +135,28 @@ class CalenderDialogHomeFragment : DialogFragment() {
 
     private fun daysInMonthArray(calendar: Calendar): ArrayList<String> {
         val daysInMonthArray = ArrayList<String>()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH) + 1 // Calendar months are zero-based
-        val daysInMonth: Int = YearMonth.of(year, month).lengthOfMonth()
-        val firstOfMonth = LocalDate.of(year, month, 1)
-        val dayOfWeek = firstOfMonth.dayOfWeek.value
-
-        for (i in 0 until 35) {
-            val adjustedIndex = (i + dayOfWeek - 1) % 7 // Adjust for Monday start
-            if (i < dayOfWeek - 1 || adjustedIndex >= daysInMonth + dayOfWeek - 1) {
-                daysInMonthArray.add("")
-            } else {
-                val dayOfMonth = i - dayOfWeek + 2
-                if (dayOfMonth in 1..daysInMonth) {
-                    daysInMonthArray.add(dayOfMonth.toString())
-                } else {
-                    daysInMonthArray.add("")
-                }
-            }
+        calendar[Calendar.DAY_OF_MONTH] = 1
+        var preDay = calendar.get(Calendar.DAY_OF_WEEK) - 2
+        if (preDay < 0) preDay = 6
+        for (i in 1..preDay) daysInMonthArray.add("")
+        val numDays = calendar.getActualMaximum(Calendar.DATE)
+        for (i in 1..numDays) {
+            daysInMonthArray.add(i.toString())
         }
+
+//        for (i in 0 until 35) {
+//            val adjustedIndex = (i + dayOfWeek - 1) % 7 // Adjust for Monday start
+//            if (i < dayOfWeek - 1 || adjustedIndex >= daysInMonth + dayOfWeek - 1) {
+//                daysInMonthArray.add("")
+//            } else {
+//                val dayOfMonth = i - dayOfWeek + 2
+//                if (dayOfMonth in 1..daysInMonth) {
+//                    daysInMonthArray.add(dayOfMonth.toString())
+//                } else {
+//                    daysInMonthArray.add("")
+//                }
+//            }
+//        }
         return daysInMonthArray
     }
 

@@ -2,7 +2,6 @@ package com.cscmobi.habittrackingandroid.presentation.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -12,14 +11,13 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseBindingAdapter
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.FragmentDetailCollectionBinding
-import com.cscmobi.habittrackingandroid.presentation.ItemBaseListener
 import com.cscmobi.habittrackingandroid.presentation.ItemDetailCollection
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.NewHabitActivity
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
@@ -27,7 +25,6 @@ import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
-import com.google.android.gms.ads.FullScreenContentCallback
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
@@ -188,7 +185,11 @@ class DetailCollectionFragment :
     }
 
     override fun setEvent() {
-        binding.layoutHeader.ivBack.setOnClickListener {
+//        binding.layoutHeader.ivBack.setOnClickListener {
+//            parentFragmentManager.popBackStack()
+//        }
+
+        binding.ivBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 

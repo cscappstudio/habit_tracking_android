@@ -17,13 +17,14 @@ import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
     NewHabitFragment.INewHabitListener {
     private val collectionViewModel: CollectionViewModel by viewModel()
-    private var isLoadInterAds = false
+//    private var isLoadInterAds = false
     private var isRewardLoad = false
     var taskSize:Int = -1
 
@@ -40,23 +41,27 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
         collectionViewModel.setUp()
         addFragment(R.id.fr_container, collectionFragment, "collectionFragment")
 
-        AdMobUtils.createInterstitialAd(
-            this@NewHabitActivity,
-            getString(R.string.inter_id),
-            object : AdMobUtils.Companion.LoadAdCallback {
-                override fun onLoaded(ad: Any?) {
-                    isLoadInterAds = true
-                }
+        if (!SPF.isProApp(this)) {
+            AdMobUtils.createInterstitialAd(
+                this@NewHabitActivity,
+                getString(R.string.inter_id),
+                object : AdMobUtils.Companion.LoadAdCallback {
+                    override fun onLoaded(ad: Any?) {
+//                        isLoadInterAds = true
+                    }
 
-                override fun onLoadFailed() {
-                    isLoadInterAds = false
-                }
-            })
+                    override fun onLoadFailed() {
+//                        isLoadInterAds = false
+                    }
+                })
+        }
+
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (collectionFragment.isVisible) {
-                    if (isLoadInterAds)
+                    if (AdMobUtils.interstitialAdAlready(this@NewHabitActivity)
+                        && !SPF.isProApp(this@NewHabitActivity))
                         AdMobUtils.showInterstitialAd(this@NewHabitActivity,
                             object : FullScreenContentCallback() {
                                 override fun onAdDismissedFullScreenContent() {
@@ -74,7 +79,7 @@ class NewHabitActivity : BaseActivity<ActivityNewhabitBinding>(),
         lifecycleScope.launch {
             collectionViewModel.taskSize.collect{
                 taskSize = it
-                if (it > 5 && isRewardLoad) {
+                if (it > 5 && !isRewardLoad) {
                     AdMobUtils.createRewardAds(
                         this@NewHabitActivity,
                         getString(R.string.rewardsAdsId),

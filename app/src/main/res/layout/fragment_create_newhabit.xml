@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
 
@@ -12,7 +10,8 @@
         <import type="android.view.View" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -20,35 +19,32 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nest_scroll"
             android:layout_width="match_parent"
+            android:overScrollMode="never"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:fillViewport="true"
-            android:focusable="true"
-            android:paddingBottom="@dimen/_25sdp">
+            android:background="@color/white">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctl_root"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/_15sdp">
+                android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_35sdp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="36dp"
                     android:src="@drawable/ic_round_close"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_35sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_menu_edit"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -56,10 +52,10 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_35sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="24dp"
                     android:src="@drawable/ic_green_delete"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -67,148 +63,150 @@
 
                 <TextView
                     android:id="@+id/txt_new_habit"
+                    style="@style/Text_700_Bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/worksans_bold"
+                    android:layout_marginTop="8dp"
                     android:text="@string/new_habit"
                     android:textColor="@color/bottle_green"
-                    android:textSize="@dimen/_18ssp"
+                    android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="@id/iv_close"
                     app:layout_constraintTop_toBottomOf="@id/iv_close" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_habit"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_width="@dimen/_46sdp"
+                    android:layout_height="@dimen/_46sdp"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/bg_white_corner_12"
                     android:backgroundTint="#33B6D6DD"
                     android:padding="@dimen/_8sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_item_collection2"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_max="80dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txt_new_habit" />
+                    app:layout_constraintTop_toBottomOf="@id/txt_new_habit"
+                    app:layout_constraintWidth_max="80dp" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edt_name"
-                    android:layout_width="wrap_content"
+                    style="@style/Text_500_Med"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginHorizontal="@dimen/_40sdp"
+                    android:layout_marginTop="8dp"
                     android:backgroundTint="@color/light_gray"
-                    android:fontFamily="@font/worksans_medium"
-                    android:gravity="center_horizontal"
-                    android:hint="New Habit"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:ellipsize="start"
+                    android:gravity="center"
+                    android:hint="@string/new_habit"
+                    android:inputType="text|textNoSuggestions|textMultiLine"
                     android:maxLength="50"
-                    android:singleLine="false"
-                    android:paddingHorizontal="@dimen/_20sdp"
+                    android:maxLines="2"
                     android:textColor="@color/shadow_gray"
                     android:textColorHint="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_habit" />
-
-                <!--                <androidx.appcompat.widget.AppCompatImageView-->
-                <!--                    android:id="@+id/appCompatImageView3"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:src="@drawable/edit_pencil"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="@+id/edt_name"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintHorizontal_bias="0.5"-->
-                <!--                    app:layout_constraintStart_toEndOf="@+id/edt_name"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@+id/iv_habit" />-->
+                    app:layout_constraintTop_toBottomOf="@id/iv_habit"
+                    app:layout_constraintWidth_max="240dp"
+                    app:layout_constraintWidth_min="100dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_color"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_18sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="18dp"
                     android:background="@drawable/bg_white_corner_20"
                     android:backgroundTint="@color/silver"
                     android:foregroundGravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_10sdp"
+                    android:overScrollMode="never"
+                    android:paddingHorizontal="@dimen/_12sdp"
+                    android:paddingVertical="@dimen/_9sdp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_max="72dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edt_name" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_note"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_11sdp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="@dimen/_9sdp"
                     android:background="@drawable/bg_white_corner_20"
                     android:backgroundTint="@color/silver"
                     android:orientation="vertical"
-                    android:paddingHorizontal="@dimen/_20sdp"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:paddingBottom="@dimen/_11sdp"
+                    android:paddingHorizontal="24dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="13dp"
                     app:layout_constraintEnd_toEndOf="@id/rcv_color"
                     app:layout_constraintStart_toStartOf="@id/rcv_color"
                     app:layout_constraintTop_toBottomOf="@id/rcv_color">
 
                     <TextView
+                        style="@style/Text_600_SemiB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/worksans_semibold"
                         android:text="@string/note"
                         android:textColor="@color/shadow_gray"
-                        android:textSize="@dimen/_13ssp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/edt_note"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_34sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
                         android:background="@drawable/bg_white_corner_20"
                         android:drawableEnd="@drawable/edit_pencil"
                         android:drawableTint="@color/gray"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:paddingVertical="@dimen/_2sdp"
-                        android:paddingStart="@dimen/_7sdp"
-                        android:paddingEnd="@dimen/_15sdp"
+                        android:ellipsize="start"
+                        android:inputType="text|textMultiLine|textNoSuggestions"
+                        android:maxLines="3"
+                        android:paddingVertical="10dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="14sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ctl_goal"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="@dimen/_9sdp"
                     android:background="@drawable/bg_white_corner_20"
                     android:backgroundTint="@color/silver"
-                    android:paddingStart="@dimen/_20sdp"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingVertical="5dp"
                     app:layout_constraintEnd_toEndOf="@id/rcv_color"
                     app:layout_constraintStart_toStartOf="@id/rcv_color"
                     app:layout_constraintTop_toBottomOf="@id/ll_note">
 
                     <TextView
                         android:id="@+id/textView2"
+                        style="@style/Text_600_SemiB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/worksans_semibold"
+                        android:layout_marginStart="24dp"
                         android:text="@string/goal"
                         android:textColor="@color/shadow_gray"
-                        android:textSize="@dimen/_13ssp"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/sw_goal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@id/sw_goal" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sw_goal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:thumbTint="@drawable/switch_thumb_selector"
@@ -216,142 +214,131 @@
 
                     <EditText
                         android:id="@+id/edt_target_goal"
-                        android:layout_width="@dimen/_72sdp"
-                        android:layout_height="@dimen/_41sdp"
+                        style="@style/Text_600_SemiB"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_39sdp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginBottom="@dimen/_1sdp"
                         android:background="@drawable/bg_edittext"
-                        android:fontFamily="@font/worksans_semibold"
                         android:gravity="center"
-                        android:hint="0"
+                        android:hint="1"
                         android:inputType="numberDecimal"
                         android:maxLength="3"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/_11ssp"
+                        android:textColor="#01100C"
+                        android:textColorHint="@color/gray"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="15sp"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/unit_picker"
+                        app:layout_constraintEnd_toStartOf="@id/frame_unit"
+                        app:layout_constraintHeight_max="56dp"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/unit_picker" />
 
-
-                    <FrameLayout
-                        android:layout_width="@dimen/_72sdp"
-                        android:layout_height="@dimen/_41sdp"
+                    <View
+                        android:id="@+id/frame_unit"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_39sdp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="@dimen/_1sdp"
                         android:background="@drawable/bg_white_corner_12"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
-
                         app:layout_constraintBottom_toBottomOf="@+id/unit_picker"
-                        app:layout_constraintEnd_toEndOf="@+id/unit_picker"
-                        app:layout_constraintStart_toStartOf="@id/unit_picker"
+                        app:layout_constraintEnd_toStartOf="@+id/frame_time"
+                        app:layout_constraintStart_toEndOf="@id/edt_target_goal"
                         app:layout_constraintTop_toTopOf="@+id/unit_picker" />
 
-                    <com.shawnlin.numberpicker.NumberPicker
-                        android:id="@+id/unit_picker"
-                        android:layout_width="@dimen/_72sdp"
-                        android:layout_height="@dimen/_123sdp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintStart_toEndOf="@id/edt_target_goal"
-                        app:layout_constraintTop_toTopOf="parent"
-
-                        app:np_dividerColor="@color/transparent"
-                        app:np_dividerThickness="0dp"
-                        app:np_height="@dimen/_100sdp"
-                        app:np_max="59"
-                        app:np_min="0"
-                        app:np_selectedTextColor="@color/jade_black"
-                        app:np_selectedTextSize="14sp"
-                        app:np_textColor="#8001100C"
-                        app:np_textSize="12sp"
-                        app:np_value="3"
-                        app:np_width="@dimen/_45sdp" />
-
-
-                    <FrameLayout
-                        android:layout_width="@dimen/_72sdp"
-                        android:layout_height="@dimen/_41sdp"
+                    <View
+                        android:id="@+id/frame_time"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_39sdp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="@dimen/_1sdp"
                         android:background="@drawable/bg_white_corner_12"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
-
                         app:layout_constraintBottom_toBottomOf="@+id/time_picker"
-                        app:layout_constraintEnd_toEndOf="@+id/time_picker"
-                        app:layout_constraintStart_toStartOf="@id/time_picker"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/frame_unit"
                         app:layout_constraintTop_toTopOf="@+id/time_picker" />
 
                     <com.shawnlin.numberpicker.NumberPicker
-                        android:id="@+id/time_picker"
-                        android:layout_width="@dimen/_72sdp"
-                        android:layout_height="@dimen/_123sdp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:id="@+id/unit_picker"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintStart_toEndOf="@id/unit_picker"
+                        app:layout_constraintEnd_toEndOf="@id/frame_unit"
+                        app:layout_constraintStart_toStartOf="@id/frame_unit"
                         app:layout_constraintTop_toTopOf="parent"
                         app:np_dividerColor="@color/transparent"
                         app:np_dividerThickness="0dp"
-                        app:np_height="@dimen/_100sdp"
-                        app:np_max="59"
-
-                        app:np_min="0"
+                        app:np_height="@dimen/_110sdp"
                         app:np_selectedTextColor="@color/jade_black"
-                        app:np_selectedTextSize="14sp"
+                        app:np_selectedTextSize="16sp"
                         app:np_textColor="#8001100C"
-                        app:np_textSize="12sp"
-                        app:np_value="3"
-                        app:np_width="@dimen/_45sdp" />
+                        app:np_textSize="13sp"
+                        app:np_value="3" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                    <com.shawnlin.numberpicker.NumberPicker
+                        android:id="@+id/time_picker"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_minus15sdp"
-                        android:fontFamily="@font/worksans_regular"
-                        android:paddingBottom="@dimen/_6sdp"
-                        android:text="*Enter the number of kilometers you want to record"
-                        android:textColor="@color/dark_green"
-                        android:textSize="11sp"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/unit_picker" />
+                        app:layout_constraintEnd_toEndOf="@id/frame_time"
+                        app:layout_constraintStart_toStartOf="@id/frame_time"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:np_dividerColor="@color/transparent"
+                        app:np_dividerThickness="0dp"
+                        app:np_height="@dimen/_110sdp"
+                        app:np_selectedTextColor="@color/jade_black"
+                        app:np_selectedTextSize="16sp"
+                        app:np_textColor="#8001100C"
+                        app:np_textSize="13sp"
+                        app:np_value="3" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
-                    android:id="@+id/layout_repeate"
+                    android:id="@+id/layout_repeat"
                     layout="@layout/layout_repeat"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="@dimen/_9sdp"
                     app:layout_constraintEnd_toEndOf="@id/ctl_goal"
                     app:layout_constraintStart_toStartOf="@id/ctl_goal"
                     app:layout_constraintTop_toBottomOf="@id/ctl_goal" />
 
-                <include
-                    android:id="@+id/layout_end_date"
-                    layout="@layout/layout_end_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_9sdp"
-                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
-                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_repeate" />
+                <!--                <include-->
+                <!--                    android:id="@+id/layout_end_date"-->
+                <!--                    layout="@layout/layout_end_date"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginHorizontal="24dp"-->
+                <!--                    android:layout_marginTop="@dimen/_9sdp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"-->
+                <!--                    app:layout_constraintStart_toStartOf="@id/ctl_goal"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/layout_repeat" />-->
 
                 <include
                     android:id="@+id/layout_reminder"
                     layout="@layout/layout_reminder"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="@dimen/_9sdp"
                     app:layout_constraintEnd_toEndOf="@id/ctl_goal"
                     app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_end_date" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_repeat" />
 
                 <include
                     android:id="@+id/layout_tag"
                     layout="@layout/layout_tag"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="@dimen/_9sdp"
                     app:layout_constraintEnd_toEndOf="@id/ctl_goal"
                     app:layout_constraintStart_toStartOf="@id/ctl_goal"
@@ -360,37 +347,41 @@
                 <include
                     android:id="@+id/layout_checklist"
                     layout="@layout/layout_checklist"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="@dimen/_9sdp"
                     app:layout_constraintEnd_toEndOf="@id/ctl_goal"
                     app:layout_constraintStart_toStartOf="@id/ctl_goal"
                     app:layout_constraintTop_toBottomOf="@id/layout_tag" />
 
-                <include
-                    android:id="@+id/layout_btn_save"
-                    layout="@layout/btn_save"
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_24sdp"
-                    android:layout_marginTop="@dimen/_21sdp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="350dp"
                     app:layout_constraintTop_toBottomOf="@id/layout_checklist" />
 
-                <include
-                    android:id="@+id/layout_add_routine"
-                    layout="@layout/layout_btn_add_routine"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_24sdp"
-                    android:layout_marginTop="@dimen/_21sdp"
-                    android:layout_marginBottom="10dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_checklist" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/layout_btn_save"
+            layout="@layout/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/layout_add_routine"
+            layout="@layout/layout_btn_add_routine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:visibility="gone" />
+
 
         <com.thanhlv.ads.lib.TemplateNativeView
             android:id="@+id/adView"
@@ -398,5 +389,5 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:gnt_template_type="@layout/gnt_small_item_template" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 </layout>

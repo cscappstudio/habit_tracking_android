@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="isRenindEdit"
             type="Boolean" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,39 +17,40 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_corner_20"
         android:backgroundTint="@color/silver"
-        android:paddingTop="@dimen/_5sdp"
-        android:paddingBottom="@dimen/_5sdp">
+        android:paddingVertical="15dp">
+
 
         <TextView
             android:id="@+id/textView2"
+            style="@style/Text_600_SemiB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/worksans_semibold"
+            android:layout_marginStart="24dp"
             android:text="@string/get_reminders"
-            android:layout_marginStart="@dimen/_20sdp"
             android:textColor="@color/shadow_gray"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/sw_remind"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/sw_remind" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sw_remind"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:layout_height="wrap_content"
-            app:thumbTint="@drawable/switch_thumb_selector"
-            app:trackTint="@drawable/switch_track_selector"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:thumbTint="@drawable/switch_thumb_selector"
+            app:trackTint="@drawable/switch_track_selector" />
+
 
         <FrameLayout
             android:id="@+id/fr_hour"
-            android:layout_width="@dimen/_72sdp"
-            android:layout_height="@dimen/_41sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_39sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
             android:background="@drawable/bg_white_corner_12"
             android:visibility="@{isRenindEdit ? View.VISIBLE : View.GONE}"
-
             app:layout_constraintBottom_toBottomOf="@+id/unit_hour"
             app:layout_constraintEnd_toEndOf="@+id/unit_hour"
             app:layout_constraintStart_toStartOf="@id/unit_hour"
@@ -62,7 +65,6 @@
             android:visibility="@{isRenindEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/unit_minute"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,21 +76,21 @@
             app:np_max="12"
             app:np_min="1"
             app:np_selectedTextColor="@color/jade_black"
-            app:np_selectedTextSize="14sp"
+            app:np_selectedTextSize="16sp"
             app:np_textColor="#8001100C"
-            app:np_textSize="12sp"
+            app:np_textSize="13sp"
             app:np_value="10"
             app:np_wheelItemCount="5"
             app:np_width="@dimen/_45sdp" />
 
 
         <FrameLayout
-            android:layout_width="@dimen/_72sdp"
-            android:layout_height="@dimen/_41sdp"
+            android:id="@+id/fr_minute"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_39sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
             android:background="@drawable/bg_white_corner_12"
             android:visibility="@{isRenindEdit ? View.VISIBLE : View.GONE}"
-            android:id="@+id/fr_minute"
-
             app:layout_constraintBottom_toBottomOf="@+id/unit_minute"
             app:layout_constraintEnd_toEndOf="@+id/unit_minute"
             app:layout_constraintStart_toStartOf="@id/unit_minute"
@@ -103,9 +105,7 @@
             android:visibility="@{isRenindEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/unit_hour"
             app:layout_constraintEnd_toStartOf="@+id/unit_day"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/unit_hour"
-
             app:layout_constraintTop_toTopOf="@id/unit_hour"
             app:np_dividerColor="@color/transparent"
             app:np_dividerThickness="0dp"
@@ -115,22 +115,21 @@
             app:np_max="59"
             app:np_min="0"
             app:np_selectedTextColor="@color/jade_black"
-            app:np_selectedTextSize="14sp"
+            app:np_selectedTextSize="16sp"
             app:np_textColor="#8001100C"
-            app:np_textSize="12sp"
-
+            app:np_textSize="13sp"
             app:np_value="2"
             app:np_wheelItemCount="5"
             app:np_width="@dimen/_45sdp" />
 
 
         <FrameLayout
-            android:layout_width="@dimen/_72sdp"
-            android:layout_height="@dimen/_41sdp"
+            android:id="@+id/fr_day"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_39sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
             android:background="@drawable/bg_white_corner_12"
             android:visibility="@{isRenindEdit ? View.VISIBLE : View.GONE}"
-            android:id="@+id/fr_day"
-
             app:layout_constraintBottom_toBottomOf="@+id/unit_day"
             app:layout_constraintEnd_toEndOf="@+id/unit_day"
             app:layout_constraintStart_toStartOf="@id/unit_day"
@@ -145,7 +144,6 @@
             android:visibility="@{isRenindEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/unit_minute"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/unit_minute"
             app:layout_constraintTop_toTopOf="@id/unit_minute"
             app:np_dividerColor="@color/transparent"
@@ -153,9 +151,9 @@
             app:np_height="@dimen/_115sdp"
             app:np_itemSpacing="@dimen/_5sdp"
             app:np_selectedTextColor="@color/jade_black"
-            app:np_selectedTextSize="14sp"
+            app:np_selectedTextSize="16sp"
             app:np_textColor="#8001100C"
-            app:np_textSize="12sp"
+            app:np_textSize="13sp"
             app:np_width="@dimen/_45sdp" />
 
 

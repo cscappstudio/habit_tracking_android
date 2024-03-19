@@ -1,6 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
-import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -15,11 +15,11 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,6 +51,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.thanhlv.ui.DetailChallengeActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.MoodActivity
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
+import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.Constant
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
@@ -69,8 +70,12 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
+import com.ironsource.fa
 import com.thanhlv.ads.lib.AdMobUtils
+import com.thanhlv.fw.helper.DisplayUtils
+import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.spf.SPF
+import gateway.v1.clientInfo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -78,6 +83,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -117,7 +123,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
         homeViewModel.initDateWeek()
-        initWeekApdater()
+        initWeekAdapter()
         binding.txtProgress1.setSpanTextView(R.color.forest_green)
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
 
@@ -160,25 +166,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
                 getDatesofWeek()
-                if (currentDate == Helper.currentDate.toDate()) {
-                    binding.llToday.visibility = View.GONE
-                    binding.txtDate.text = getString(R.string.today)
-                } else {
-                    binding.llToday.visibility = View.VISIBLE
-
-                    val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
-                    binding.txtDate.text = dateFormat
-
-                }
-
-                binding.llToday.visibility =
-                    if (currentDate == Helper.currentDate.toDate()) View.INVISIBLE else View.VISIBLE
-                if (currentDate < Helper.currentDate.toDate()) {
-                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
-
-                } else {
-                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
-                }
+                resolveScrollButtonToday(currentDate)
+//                if (currentDate == Helper.currentDate.toDate()) {
+//                    binding.llToday.visibility = View.GONE
+//                    binding.txtDate.text = getString(R.string.today)
+//                } else {
+//                    binding.llToday.visibility = View.VISIBLE
+//
+//                    val dateFormat = DateFormat.format("MMM dd, yyyy", currentDate)
+//                    binding.txtDate.text = dateFormat
+//
+//                }
+//
+//                binding.llToday.visibility =
+//                    if (currentDate == Helper.currentDate.toDate()) View.INVISIBLE else View.VISIBLE
+//                if (currentDate < Helper.currentDate.toDate()) {
+//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
+//
+//                } else {
+//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
+//                }
                 weekAdapter.notifyDataSetChanged()
 
                 data.indexOfFirst { it.localDate!!.toDate() == currentDate }.let {
@@ -192,9 +199,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
 
                 }
-
-
                 calenderDialogHomeFragment.dismiss()
+                MyUtils.hideNavigationBar(requireActivity())
             }
 
         }
@@ -332,7 +338,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         if (!hasInitChip) {
 
                             val categories = arrayListOf<String>()
-                            categories.add("All")
+                            categories.add("   All   ")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
                             initChips(categories)
                             setUpView(listTask)
@@ -643,40 +649,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             })
 
-//        challengeHomeAdpater.submitList(
-//            listOf(
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "Morning glow",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "Morning glow",
-//                    true,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "BBBBBB",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "CCCCCC",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//                ChallengeHomeItem(
-//                    "Drink water when you wake up",
-//                    "AAAAAA",
-//                    false,
-//                    requireContext().resources.getResourceEntryName(R.drawable.bg_home_challenge)
-//                ),
-//            )
-//        )
         challengeHomeAdpater.setListener(object : ItemChallengeHomeListener<ChallengeHomeItem> {
             override fun onItemClicked(item: ChallengeHomeItem, p: Int) {
                 val intent = Intent(requireContext(), DetailChallengeActivity::class.java)
@@ -719,18 +691,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
                     //         }
-                    if (!it.infoTask.status) {
-                        val intent =
-                            Intent(requireContext(), DetailChallengeActivity::class.java)
-
-                        runBlocking {
-                            val challenge = AppDatabase.getInstance(requireContext()).dao()
-                                .findChallengeByName(item.name)
-                            intent.putExtra("data", Gson().toJson(challenge))
-                            startActivity(intent)
-                        }
-                        return
-                    }
+//                    if (!it.infoTask.status) {
+//                        val intent =
+//                            Intent(requireContext(), DetailChallengeActivity::class.java)
+//
+//                        runBlocking {
+//                            val challenge = AppDatabase.getInstance(requireContext()).dao()
+//                                .findChallengeByName(item.name)
+//                            intent.putExtra("data", Gson().toJson(challenge))
+//                            startActivity(intent)
+//                        }
+//                        return
+//                    }
 
                 }
 
@@ -755,7 +727,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     }
 
-                    delay(500L)
+//                    delay(500L)
                 }
                 // check if current task is finish then show dialog congratulation
                 val currentChallenge = challenges.find { it.name == item.name }
@@ -807,15 +779,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun initTaskAdapter() {
 
-//         val goalTargets = homeViewModel.tasks.map { it.goal?.target }
-//         val goalProgress = homeViewModel.tasks.map { it.goal?.currentProgress }
         listNormalTask = listTask.filter { it.challenge.isNullOrEmpty() }.toMutableList()
         taskAdapter = TaskAdapter(requireActivity(), object : ItemTaskWithEdit<Task> {
             override fun onItemClicked(item: Task, p: Int) {
-//                Intent(requireActivity(), DetailTaskActivity::class.java).apply {
-//                    putExtra(Constant.task_id, item.id)
-//                    startActivity(this)
-//                }
                 Intent(requireActivity(), DetailTaskActivity::class.java).apply {
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
@@ -926,23 +892,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             override fun onItemChange(p: Int, item: Task, isChange: Boolean) {
                 if (isChange) {
                     item.goal?.currentProgress = item.goal?.target!!
-
-                    requireActivity().let { mactivity ->
-                        with(mactivity.getMySharedPreferences()) {
-                            if (!this.getBoolean("isDialogCongraTask${item.id}Shown", false)) {
-                                binding.lottie
-                                    .playAnimation();
-                                this.edit().putBoolean("isDialogCongraTask${item.id}Shown", true)
-                                    .apply()
-                            }
-                        }
-
-                    }
+                    binding.lottie.playAnimation()
                 } else {
                     item.goal?.currentProgress = 0
                 }
 
-                taskAdapter.notifyDataSetChanged()
+                taskAdapter.notifyItemChanged(p)
                 setUpView(listTask)
                 lifecycleScope.launch {
                     currentHistory?.let { currentHistory ->
@@ -1014,13 +969,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 chip.text = it
                 chip.checkedIcon = null
                 chip.tag = it
-                chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_bold);
+                chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_bold)
                 chip.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX,
-                    resources.getDimension(com.intuit.ssp.R.dimen._12ssp)
+                    DisplayUtils.spToPx(14f).toFloat()
+                )
+                chip.layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    DisplayUtils.dpToPx(54f)
                 )
 
-                if (it == "All") {
+                if (it == "   All   ") {
                     chip.isChecked = true
                     changeChipState(true, chip)
 
@@ -1033,7 +992,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 chip.setOnCheckedChangeListener { compoundButton, b ->
 
                     if (chip.isChecked) {
-                        listNormalTask = if (chip.tag.toString() != "All") {
+                        listNormalTask = if (chip.tag.toString() != "   All   ") {
                             listTask.filter { it.challenge.isNullOrEmpty() && it.tag == chip.tag.toString() }
                                 .toMutableList()
                         } else listTask.filter { it.challenge.isNullOrEmpty() }.toMutableList()
@@ -1081,67 +1040,43 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun setEvent() {
-        binding.llToday.setOnClickListener {
-            if (homeViewModel.currentWeekPos == -1) {
-                homeViewModel.initDateWeek()
-                currentDate = Helper.currentDate.toDate()
-                getDatesofWeek()
-
-                weekAdapter.notifyDataSetChanged()
-                if (currentDate == Helper.currentDate.toDate()) {
-                    binding.llToday.visibility = View.GONE
-                    binding.txtDate.text = getString(R.string.today)
-                } else {
-                    binding.llToday.visibility = View.VISIBLE
-
-                    val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
-                    binding.txtDate.text = dateFormat
-                }
-                binding.rcvWeek.postDelayed(Runnable {
-                    scrollToPositionWithCentering(homeViewModel.currentWeekPos)
-                }, 200L)
-                lifecycleScope.launch {
-                    homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
-                }
-                return@setOnClickListener
-            }
-
-
-            binding.llToday.visibility = View.GONE
-            scrollToPositionWithCentering(homeViewModel.currentWeekPos)
-
-            for (i in (homeViewModel.currentWeekPos - 3)..(homeViewModel.currentWeekPos + 3)) {
-                data[i].isSelected = false
-            }
+        binding.btnTodayRight.setOnClickListener { it ->
+            it.visibility = View.GONE
+            if (currentDate.diffDays(Helper.currentDate.toDate()) < 3) {
+                binding.rcvWeek.postDelayed(
+                    { scrollToPositionWithCentering(homeViewModel.currentWeekPos) },
+                    200
+                )
+            } else scrollToPositionWithCentering(homeViewModel.currentWeekPos)
+            data.forEach { day -> day.isSelected = false }
             data[homeViewModel.currentWeekPos].isSelected = true
-            weekAdapter.notifyItemChanged(homeViewModel.currentWeekPos)
-
+            binding.txtDate.text = getString(R.string.today)
+            weekAdapter.notifyDataSetChanged()
             currentDate = Helper.currentDate.toDate()
-            if (currentDate == Helper.currentDate.toDate()) {
-                binding.llToday.visibility = View.GONE
-                binding.txtDate.text = getString(R.string.today)
-            } else {
-                binding.llToday.visibility = View.VISIBLE
-
-                val dateFormat = DateFormat.format("yyyy-MM-dd", currentDate)
-                binding.txtDate.text = dateFormat
-            }
-//            lifecycleScope.launch {
-//
-//
-//            }
-
             lifecycleScope.launch {
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
-
-
             }
-
-
         }
 
-
+        binding.btnTodayLeft.setOnClickListener { it ->
+            it.visibility = View.GONE
+            if (currentDate.diffDays(Helper.currentDate.toDate()) > -3) {
+                binding.rcvWeek.postDelayed(
+                    { scrollToPositionWithCentering(homeViewModel.currentWeekPos) },
+                    200
+                )
+            } else scrollToPositionWithCentering(homeViewModel.currentWeekPos)
+            data.forEach { day -> day.isSelected = false }
+            data[homeViewModel.currentWeekPos].isSelected = true
+            binding.txtDate.text = getString(R.string.today)
+            weekAdapter.notifyDataSetChanged()
+            currentDate = Helper.currentDate.toDate()
+            lifecycleScope.launch {
+                homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+            }
+        }
         binding.btnAddMood.setOnClickListener {
             startActivity(Intent(requireContext(), MoodActivity::class.java))
         }
@@ -1154,13 +1089,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
-    private fun initWeekApdater() {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
-
-
+    private fun initWeekAdapter() {
+        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH)
         addDecoration()
         getDatesofWeek()
         weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onItemClick(position: Int) {
                 data.forEachIndexed { index, item ->
                     item.isSelected = position == index
@@ -1169,29 +1103,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
                 }
-                if (date[position] == c) {
-                    binding.llToday.visibility = View.GONE
-                    binding.txtDate.text = getString(R.string.today)
-                } else {
-                    binding.llToday.visibility = View.VISIBLE
-                    binding.txtDate.text = date[position].format(formatter)
-
-                }
-
-                binding.llToday.visibility =
-                    if (date[position] == c) View.INVISIBLE else View.VISIBLE
-                if (date[position].isBefore(Helper.currentDate)) {
-                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
-
-                } else {
-                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
-                }
+                resolveScrollButtonToday(currentDate)
 
                 weekAdapter.notifyDataSetChanged()
 
                 binding.rcvWeek.postDelayed(Runnable {
                     scrollToPositionWithCentering(position)
-                }, 200L)
+                }, 100L)
             }
 
         })
@@ -1200,15 +1118,44 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         weekAdapter.submitList(data)
         binding.rcvWeek.adapter = weekAdapter
+        binding.rcvWeek.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val lmR = recyclerView.layoutManager
+                val posF = (lmR as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                val countInline =
+                    (lmR as LinearLayoutManager).findLastCompletelyVisibleItemPosition() - posF
+                if (currentDate.diffDays(Helper.currentDate.toDate()) > 0) {
+                    binding.btnTodayLeft.visibility = View.GONE
+                    binding.btnTodayRight.visibility = View.VISIBLE
+                } else if (currentDate.diffDays(Helper.currentDate.toDate()) < 0) {
+                    binding.btnTodayLeft.visibility = View.VISIBLE
+                    binding.btnTodayRight.visibility = View.GONE
+                } else if (posF < homeViewModel.currentWeekPos - countInline) {
+                    binding.btnTodayRight.visibility = View.VISIBLE
+                    binding.btnTodayLeft.visibility = View.GONE
+                } else if (posF > homeViewModel.currentWeekPos) {
+                    binding.btnTodayRight.visibility = View.GONE
+                    binding.btnTodayLeft.visibility = View.VISIBLE
+                } else {
+                    binding.btnTodayRight.visibility = View.GONE
+                    binding.btnTodayLeft.visibility = View.GONE
+                }
+            }
+        })
 
-
-        binding.rcvWeek.postDelayed(Runnable {
-
+        binding.rcvWeek.post {
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
-            // give a delay of one second
-        }, 1_000)
+        }
+    }
 
-
+    @SuppressLint("SimpleDateFormat")
+    private fun resolveScrollButtonToday(time: Long) {
+        if (CalendarUtil.sameDay(time, c.toDate())) {
+            binding.txtDate.text = getString(R.string.today)
+        } else {
+            binding.txtDate.text = SimpleDateFormat("MMM dd, yyyy").format(time)
+        }
     }
 
     fun scrollToPositionWithCentering(position: Int) {
@@ -1229,7 +1176,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             boxEnd: Int,
             snapPreference: Int
         ): Int {
-            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2) + 28
         }
 
         override fun getVerticalSnapPreference(): Int {
@@ -1243,7 +1190,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun addDecoration() {
         if (!hasDecoration(binding.rcvWeek, HorizontalItemDecoration::class.java)) {
-            val spaceWidth = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._3sdp)
+            val spaceWidth = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._15sdp)
             binding.rcvWeek.addItemDecoration(HorizontalItemDecoration(spaceWidth))
         }
     }
@@ -1322,4 +1269,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         var updateChallenge = false
     }
 
+}
+
+private fun Long.diffDays(end: Long): Int {
+    val startDate = Calendar.getInstance()
+    startDate.timeInMillis = this
+    val endDate = Calendar.getInstance()
+    endDate.timeInMillis = end
+    return if (startDate[Calendar.YEAR] == endDate[Calendar.YEAR]) {
+        endDate[Calendar.DAY_OF_YEAR] - startDate[Calendar.DAY_OF_YEAR]
+    } else if (startDate[Calendar.YEAR] < endDate[Calendar.YEAR]) {
+        val daysOfYear = if (startDate[Calendar.YEAR] % 4 == 0) 366 else 365
+        endDate[Calendar.DAY_OF_YEAR] + daysOfYear - startDate[Calendar.DAY_OF_YEAR]
+    } else {
+        val daysOfYear = if (endDate[Calendar.YEAR] % 4 == 0) 366 else 365
+        endDate[Calendar.DAY_OF_YEAR] - daysOfYear - startDate[Calendar.DAY_OF_YEAR]
+    }
 }

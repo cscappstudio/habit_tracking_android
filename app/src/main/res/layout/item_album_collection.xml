@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="item"
             type="com.cscmobi.habittrackingandroid.data.model.AlbumCollection" />
@@ -8,31 +10,36 @@
         <variable
             name="listener"
             type="com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener" />
+
         <variable
             name="position"
             type="Integer" />
 
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_margin="@dimen/_5sdp"
-    android:onClick="@{v -> listener.onItemClicked(position)}"
-    android:background="@drawable/bg_white_corner_20"
-    android:backgroundTint="@{item.selected ? @color/greenish_blue_20_percent : @color/white_smoke}"
-    android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView4"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        android:src="@drawable/album_collection1"
-        app:setResDrawalbe="@{item.resDrawable}"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/bg_white_corner_20"
+        android:backgroundTint="@{item.selected ? @color/greenish_blue_20_percent : @color/white_smoke}"
+        android:onClick="@{v -> listener.onItemClicked(position)}"
+        android:paddingVertical="@dimen/_6sdp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/album_collection1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="W, 195:160"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="180dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setResDrawalbe="@{item.resDrawable}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

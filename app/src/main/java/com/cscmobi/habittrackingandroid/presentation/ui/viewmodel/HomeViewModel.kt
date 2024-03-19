@@ -267,7 +267,7 @@ class HomeViewModel(
             Log.d("fetchTasksByDate", "fetchTasksByDate")
 
             _state.value = try {
-                if (tag == "All") HomeState.Tasks(tasks)
+                if (tag == "   All   ") HomeState.Tasks(tasks)
                 else
                     HomeState.Tasks(tasks.filter { it.tag == tag })
 

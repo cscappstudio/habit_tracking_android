@@ -14,9 +14,11 @@ import com.cscmobi.habittrackingandroid.presentation.OnItemClickPositionListener
 import com.cscmobi.habittrackingandroid.utils.Helper
 import kotlin.random.Random
 
-class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAdapter<WeekCalenderItem, RecyclerView.ViewHolder>(WeekAdapter.DIFF_CALLBACK()){
+class WeekAdapter(private val onItemClickAdapter: OnItemClickPositionListener) :
+    ListAdapter<WeekCalenderItem, RecyclerView.ViewHolder>(WeekAdapter.DIFF_CALLBACK()) {
 
-     class ViewHolderItemSelect constructor(val binding: ItemWeekcalenderSelectedBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolderItemSelect constructor(val binding: ItemWeekcalenderSelectedBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: WeekCalenderItem) {
             binding.txtDate.text = item.date.toString()
@@ -35,22 +37,35 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
         }
     }
 
-    class ViewHolderItemUnSelect constructor(val binding: ItemWeekcalenderBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolderItemUnSelect constructor(val binding: ItemWeekcalenderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: WeekCalenderItem,  onItemClickAdapter: OnItemClickPositionListener) {
+        fun bind(item: WeekCalenderItem, onItemClickAdapter: OnItemClickPositionListener) {
 
             if ((item.localDate ?: Helper.currentDate).isAfter(Helper.currentDate)) {
                 binding.sbWeek.setProgressDisplayAndInvalidate(binding.sbWeek.min)
-                binding.sbWeek.resetBgColorWhenProgressIs0(ContextCompat.getColor(binding.root.context,
-                    R.color.silver),ContextCompat.getColor(binding.root.context,
-                    R.color.hexD4D4D4),true)
+                binding.sbWeek.resetBgColorWhenProgressIs0(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.silver
+                    ), ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.hexD4D4D4
+                    ), true
+                )
 
             } else {
-                binding.sbWeek.resetBgColorWhenProgressIs0(ContextCompat.getColor(binding.root.context,
-                    R.color.silver),ContextCompat.getColor(binding.root.context,
-                    R.color.hexD4D4D4),false)
+                binding.sbWeek.resetBgColorWhenProgressIs0(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.silver
+                    ), ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.hexD4D4D4
+                    ), false
+                )
 
-                    binding.sbWeek.setProgressDisplayAndInvalidate(item.progress)
+                binding.sbWeek.setProgressDisplayAndInvalidate(item.progress)
             }
 
 
@@ -59,7 +74,7 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
 
 
             binding.root.setOnClickListener {
-                    onItemClickAdapter.onItemClick(layoutPosition)
+                onItemClickAdapter.onItemClick(layoutPosition)
             }
         }
 
@@ -74,29 +89,31 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
             }
         }
     }
+
     companion object {
         @JvmStatic
-        fun DIFF_CALLBACK(): DiffUtil.ItemCallback<WeekCalenderItem> = object : DiffUtil.ItemCallback<WeekCalenderItem>() {
+        fun DIFF_CALLBACK(): DiffUtil.ItemCallback<WeekCalenderItem> =
+            object : DiffUtil.ItemCallback<WeekCalenderItem>() {
 
 
-            override fun areItemsTheSame(
-                oldItem: WeekCalenderItem,
-                newItem: WeekCalenderItem
-            ): Boolean {
-                return oldItem.date == newItem.date
+                override fun areItemsTheSame(
+                    oldItem: WeekCalenderItem,
+                    newItem: WeekCalenderItem
+                ): Boolean {
+                    return oldItem.date == newItem.date
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: WeekCalenderItem,
+                    newItem: WeekCalenderItem
+                ): Boolean {
+                    return (oldItem.date == newItem.date) && oldItem.day == newItem.day
+                }
             }
-
-            override fun areContentsTheSame(
-                oldItem: WeekCalenderItem,
-                newItem: WeekCalenderItem
-            ): Boolean {
-                return (oldItem.date == newItem.date) && oldItem.day == newItem.day
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return  when(viewType) {
+        return when (viewType) {
             ViewType.DAYUNSELECT.ordinal -> ViewHolderItemUnSelect.onBind(parent)
             else -> ViewHolderItemSelect.onBind(parent)
         }
@@ -105,14 +122,14 @@ class WeekAdapter( val onItemClickAdapter: OnItemClickPositionListener) : ListAd
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             ViewType.DAYSELECT.ordinal -> (holder as ViewHolderItemSelect).bind(getItem(position))
-            else -> (holder as ViewHolderItemUnSelect).bind(getItem(position),onItemClickAdapter)
+            else -> (holder as ViewHolderItemUnSelect).bind(getItem(position), onItemClickAdapter)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position).isSelected) {
             false -> ViewType.DAYUNSELECT.ordinal
-            else ->  ViewType.DAYSELECT.ordinal
+            else -> ViewType.DAYSELECT.ordinal
         }
     }
 

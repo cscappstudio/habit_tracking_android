@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -12,7 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="@dimen/_28sdp"
         android:background="@drawable/shape_circle_fill"
         android:backgroundTint="#E1ECEC"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,34 +33,26 @@
         style="@style/Text_700_Med"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
         android:text="@string/new_task"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="@id/btn_back_header"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_back_header" />
+        app:layout_constraintTop_toBottomOf="@id/btn_back_header" />
 
-    <View
-        android:id="@+id/btn_change_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/shape_round_12_fill"
-        android:backgroundTint="#33B6D6DD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@id/tv_title_header" />
 
     <ImageView
         android:id="@+id/ic_ava"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_round_12_fill"
+        android:backgroundTint="#33B6D6DD"
         android:src="@drawable/emoji_singer"
-        app:layout_constraintBottom_toBottomOf="@id/btn_change_icon"
-        app:layout_constraintEnd_toEndOf="@id/btn_change_icon"
-        app:layout_constraintStart_toStartOf="@id/btn_change_icon"
-        app:layout_constraintTop_toTopOf="@id/btn_change_icon" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_header"/>
 
 
     <EditText
@@ -68,24 +61,27 @@
         android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="@string/challenge_name"
+        android:backgroundTint="#E1ECEC"
+        android:gravity="center"
+        android:hint="@string/task_name"
         android:inputType="text|textNoSuggestions|textMultiLine"
         android:justificationMode="inter_word"
-        android:maxLength="50"
+        android:maxLength="30"
         android:maxLines="2"
-        android:textColor="#b5b5b5"
+        android:textColor="#09392D"
         android:textColorHint="#B5B5B5"
-        android:textSize="20sp"
+        android:textCursorDrawable="@drawable/color_cursor"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_change_icon"
+        app:layout_constraintTop_toBottomOf="@id/ic_ava"
         app:layout_constraintWidth_max="260dp"
         app:layout_constraintWidth_min="180dp"
         tools:ignore="UnusedAttribute" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/duration"
+        android:id="@+id/color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
@@ -167,12 +163,12 @@
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="64dp"
         android:background="@drawable/shape_round_30_fill"
         android:backgroundTint="#b5b5b5"
         android:elevation="20dp"
         android:enabled="false"
         android:gravity="center"
+        app:layout_constraintVertical_bias="0.3"
         android:maxLines="1"
         android:outlineSpotShadowColor="@color/black_50"
         android:text="@string/create"
@@ -181,6 +177,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/color"
         tools:ignore="UnusedAttribute" />
 
 

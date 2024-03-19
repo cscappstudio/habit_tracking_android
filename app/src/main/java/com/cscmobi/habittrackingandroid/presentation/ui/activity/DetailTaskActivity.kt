@@ -52,7 +52,7 @@ import kotlin.math.roundToInt
 class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val detailTaskViewModel: DetailTaskViewModel by viewModel()
 
-    val childFragment: CustomDetailTaskCalenderFragment = CustomDetailTaskCalenderFragment()
+    private val childFragment: CustomDetailTaskCalenderFragment = CustomDetailTaskCalenderFragment()
     private lateinit var checklistAdapter: BaseBindingAdapter<CheckList>
 
     private var currentTask = Task()
@@ -60,9 +60,9 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     private val bottomSheetPauseFragment = BottomSheetPauseTaskFragment()
     private var currentProgress = 0
     private var currentGoal = 0
-    var currentTaskHistory: History? = null
-    var historyId = -1L
-    var progressStep = 1f
+    private var currentTaskHistory: History? = null
+    private var historyId = -1L
+    private var progressStep = 1f
 
     override fun getLayoutRes(): Int {
         return R.layout.activity_detail_task
@@ -76,7 +76,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         binding.layoutSteak1.txtInfo.text = getString(R.string.finished)
         binding.layoutSteak2.txtInfo.text = getString(R.string.missed)
         binding.layoutSteak3.txtInfo.text = getString(R.string.long_streak)
-        binding.layoutSteak4.txtInfo.text = getString(R.string.rate)
+        binding.layoutSteak4.txtInfo.text = getString(R.string.completion)
 
         binding.layoutSteak1.ivInfo.setImageResource(R.drawable.ic_steak_finish)
         binding.layoutSteak2.ivInfo.setImageResource(R.drawable.ic_steak_miss)
@@ -90,6 +90,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                     initData(task.data as Task)
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.fetchHistoryByTask(task.data as Task))
                 }
+                setupColor()
             }
             historyId = it.getLong(Constant.IDHISTORY, -1L)
 
@@ -119,6 +120,33 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                     }
                 })
         }
+    }
+
+    private fun setupColor() {
+        val colorAlpha = "#33" + currentTask.color.substring(1, 7)
+        binding.layoutSteak1.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+        binding.layoutSteak2.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+        binding.layoutSteak3.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+        binding.layoutSteak4.ivInfo.imageTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+
+        binding.layoutSteak1.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.layoutSteak2.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.layoutSteak3.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.layoutSteak4.rootView.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+
+        binding.bgBoxCurrentStreak.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(currentTask.color))
+
+
+        childFragment.setColor(currentTask.color)
     }
 
     private fun observe() {
@@ -209,7 +237,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
             var rate = ((finishDay.toFloat() / listDataTaskHistory.size.toFloat()) * 100).toInt()
 
-            if (missDay >0) missDay--
+            if (missDay > 0) missDay--
 
             binding.txtStreak.text = "$currentStreak ${getString(R.string.days)}"
             binding.layoutSteak1.txtDay.text = "$finishDay ${getString(R.string.days)}"
@@ -224,22 +252,27 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initData(task: Task) {
 
         currentTask = task
         currentTask.also {
             checkList = it.checklist as MutableList<CheckList>
-            it.ava?.let { it1 -> binding.ivTask.setDrawableString(it1) }
-            binding.ivTask.imageTintList = ColorStateList.valueOf(Color.parseColor(it.color))
-            binding.frIvTask.setBackgroundApla(it.color ?: "#33EBB2BD", 20)
-            Log.d("TESTDATA", it.toString())
+            it.ava?.let { it1 ->
+                binding.ivTask.setDrawableString(it1)
+                binding.ivTask.imageTintList = ColorStateList.valueOf(Color.parseColor(it.color))
+            }
+            val bgColor = "#33" + it.color.substring(1, it.color.length)
+            binding.frIvTask.backgroundTintList = ColorStateList.valueOf(Color.parseColor(bgColor))
             binding.txtRepeat.text = detailTaskViewModel.showRepeatString(it.repeate, this)
             binding.txtRemind.text = detailTaskViewModel.showReminder(it.remind, this)
             binding.txtNameTask.text = it.name
-            binding.txtNoteTask.text = it.note
+            if (it.note.isEmpty()) {
+                binding.txtNoteTask.visibility = View.GONE
+            } else binding.txtNoteTask.text = it.note
 
             if (it.goal != null) {
-                binding.ctlProgressGoal.visibility = if (it.goal.isOn) View.VISIBLE else View.GONE
+                binding.ctlProgressGoal.visibility = if (it.goal!!.isOn) View.VISIBLE else View.GONE
 
                 progressStep = (100 / (it.goal!!.target ?: 1)).toFloat()
 
@@ -276,10 +309,10 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initCheckList() {
-        binding.layoutChecklist.edtAdd.visibility = View.GONE
+        binding.layoutChecklist.showNewSubtask.visibility = View.GONE
         binding.layoutChecklist.ivAdd.visibility = View.GONE
-
         checklistAdapter = BaseBindingAdapter(
             R.layout.item_checklist,
             layoutInflater,
@@ -300,10 +333,15 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
         }
         )
 
+        if (checkList.isEmpty()) {
+            binding.layoutChecklist.root.visibility = View.GONE
+            return
+        }
         checklistAdapter.submitList(checkList)
         checklistAdapter?.notifyDataSetChanged()
 
         binding.layoutChecklist.rcvSubtask.adapter = checklistAdapter
+
 
     }
 
@@ -350,7 +388,7 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                     currentTask.endDate?.isOpen = true
                 }
 
-                Toast.makeText(this, "Delete success", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.delete_success), Toast.LENGTH_SHORT).show()
 
                 lifecycleScope.launch {
                     detailTaskViewModel.userIntent.send(DetailTaskIntent.DeleteTask(currentTask, 0))

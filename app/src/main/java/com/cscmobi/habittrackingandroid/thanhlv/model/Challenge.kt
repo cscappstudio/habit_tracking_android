@@ -29,7 +29,9 @@ data class Challenge(
     @ColumnInfo(name = "tasks")
     var days: List<ChallengeDays> = listOf(),
 
-    @ColumnInfo(name = "isFree")
+    @ColumnInfo(name = "isNewCreate")
+    var isNewCreate: Boolean = false,
+    @ColumnInfo(name = "tryCount")
     var tryCount: Int = 0 // = -1: isFree, >= 0: premium
 ) {
     @PrimaryKey(true)

@@ -11,20 +11,27 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeDays
+import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.TaskInChallenge
 import com.cscmobi.habittrackingandroid.databinding.ActivityCreateChallengeBinding
+import com.cscmobi.habittrackingandroid.presentation.ui.intent.DetailTaskIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomSheetCollectionFragment
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.AddTaskChallengeAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
+import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.google.gson.Gson
 import com.thanhlv.fw.helper.MyUtils
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CreateChallengeActivity : BaseActivity2() {
 
@@ -36,8 +43,7 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     override fun initView() {
-        mImgChallenge = ""
-        binding.bgAddImg.setImageResource(R.drawable.bg_add_icon)
+//        binding.bgAddImg.setImageResource(R.drawable.bg_add_icon)
         listDayView.add(binding.btnMon)
         listDayView.add(binding.btnTue)
         listDayView.add(binding.btnWed)
@@ -46,10 +52,15 @@ class CreateChallengeActivity : BaseActivity2() {
         listDayView.add(binding.btnSat)
         listDayView.add(binding.btnSun)
         recyclerView()
+        setupUIForEditChallenge()
+    }
+
+    private fun setupUIForEditChallenge() {
+
     }
 
     private var listDayText = arrayListOf<String>()
-    private var listDayState = arrayListOf(false, false, false, false, false, false, false, false)
+    private var listDayState = arrayListOf(true, true, true, true, true, true, true, true)
     private var mRepeatData = arrayListOf(2, 3, 4, 5, 6, 7, 1)
     private var listDayView = arrayListOf<TextView>()
 
@@ -59,7 +70,12 @@ class CreateChallengeActivity : BaseActivity2() {
             performCreateChallenge()
         }
         binding.btnBackHeader.setOnClickListener {
-            onBackPressed()
+            MyUtils.hideSoftInput(it)
+            finish()
+        }
+
+        binding.rootView.setOnClickListener {
+            MyUtils.hideSoftInput(it)
         }
         binding.bgAddImg.setOnClickListener {
             val bottomSheetFragment = BottomSheetImageChallenge()
@@ -70,11 +86,7 @@ class CreateChallengeActivity : BaseActivity2() {
                     override fun next(resDrawable: String) {
                         //
                         binding.bgAddImg.setImageBitmap(
-                            BitmapFactory.decodeStream(
-                                assets.open(
-                                    resDrawable
-                                )
-                            )
+                            BitmapFactory.decodeStream(assets.open(resDrawable))
                         )
                         binding.icPlusAva.visibility = View.GONE
                         mImgChallenge = resDrawable
@@ -99,7 +111,7 @@ class CreateChallengeActivity : BaseActivity2() {
 
     private fun performCreateChallenge() {
         if (!validateData()) return
-
+        MyUtils.hideSoftInput(this)
         val listDayTask = arrayListOf<ChallengeDays>()
         for (i in 1..binding.edtCycle.text.toString().toInt()) {
             val challengeDay = ChallengeDays(i)
@@ -119,6 +131,7 @@ class CreateChallengeActivity : BaseActivity2() {
         }
 
         runBlocking {
+
             val challenge = Challenge()
             challenge.name = binding.edtName.text.toString()
             challenge.description = binding.textNote.text.toString()
@@ -128,17 +141,16 @@ class CreateChallengeActivity : BaseActivity2() {
             challenge.repeat = mRepeatData
             challenge.days = listDayTask.toList()
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
-            delay(500)
-            val all = AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
 
-            ChallengeFragment.allChallenges.postValue(all)
+            val all = AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
+            ChallengeFragment.allChallenges.postValue(all.reversed())
             finish()
         }
     }
 
     private fun validateData(): Boolean {
         if (binding.edtName.text.toString().isEmpty()) {
-            Toast.makeText(this, "Name empty!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.name_empty), Toast.LENGTH_SHORT).show()
             binding.edtName.requestFocus()
             return false
         }
@@ -231,13 +243,23 @@ class CreateChallengeActivity : BaseActivity2() {
                 notAllDay++
             }
         }
-        if (notAllDay == 0 || notAllDay == 7) {
+        mRepeatData = arrayListOf()
+        if (notAllDay == 0) {
+            listDayState[day] = true
+            view.backgroundTintList = ColorStateList.valueOf(
+                Color.parseColor("#CC54BA8F")
+            )
+            view.setTextColor(Color.parseColor("#ffffff"))
+            textRepeat = textRepeat + " " + listDayText[day]
+            binding.tvRepeatDay.text = textRepeat
+            if (day == 6) mRepeatData.add(1) else mRepeatData.add(day + 2)
+            return
+        } else if (notAllDay == 7) {
             binding.tvRepeatDay.text = getString(R.string.repeat_every_day)
             mRepeatData = arrayListOf(2, 3, 4, 5, 6, 7, 1)
         } else {
             textRepeat = textRepeat.substring(0, textRepeat.length - 1)
             binding.tvRepeatDay.text = textRepeat
-            mRepeatData = arrayListOf()
             for (i in 0..5) {
                 if (listDayState[i]) {
                     mRepeatData.add(i + 2)
@@ -269,8 +291,10 @@ class CreateChallengeActivity : BaseActivity2() {
         adapter?.setData(mDataTaskCreateChallenge)
     }
 
+    private var mChallenge: Challenge? = null
     override fun loadData() {
-
+        mChallenge = Gson().fromJson(intent.getStringExtra("edit_challenge"), Challenge::class.java)
+//        Toast.makeText(this, "sssssssssss", Toast.LENGTH_SHORT).show()
     }
 
     private var adapter: AddTaskChallengeAdapter? = null
@@ -300,10 +324,15 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     private fun deleteTask(item: CreateTaskChallenge, pos: Int) {
-        if (item.type == 2) mDataTaskCreateChallenge[pos + 1].type -= 1
-        adapter?.notifyItemRemoved(pos)
-        mDataTaskCreateChallenge.remove(item)
-        adapter?.setData(mDataTaskCreateChallenge)
+        if (isFinishing || isDestroyed) return
+        DialogUtils.showDeleteChallenge(this, 1, {
+            if (item.type == 2) mDataTaskCreateChallenge[pos + 1].type -= 1
+            adapter?.notifyItemRemoved(pos)
+            mDataTaskCreateChallenge.remove(item)
+            adapter?.setData(mDataTaskCreateChallenge)
+        }, {
+
+        })
     }
 
     private fun editTask(item: CreateTaskChallenge) {

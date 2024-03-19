@@ -3,21 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="@dimen/_133sdp"
     android:layout_margin="7dp"
     android:background="@drawable/shape_round_30_fill"
     android:backgroundTint="#F1EFF0"
     android:outlineSpotShadowColor="@color/black_30"
+    app:layout_constraintHeight_max="200dp"
     tools:ignore="UnusedAttribute">
 
 
     <ImageView
         android:id="@+id/img_cover"
-        android:layout_width="160dp"
-        android:layout_height="130dp"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_105sdp"
         android:layout_gravity="center"
         android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="W, 195:160"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="150dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -39,8 +42,8 @@
             android:layout_height="16dp"
             android:layout_marginEnd="8dp"
             android:scaleType="fitXY"
-            android:visibility="gone"
             android:src="@drawable/ic_premium"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/tv_title"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +52,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/Text_600_Med"
+            style="@style/Text_600_SemiB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoSizeMaxTextSize="14sp"

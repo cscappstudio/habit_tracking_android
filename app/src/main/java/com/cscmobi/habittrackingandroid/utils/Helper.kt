@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
@@ -49,20 +50,20 @@ object Helper {
         var isValid = true
 
         if (isPauseValidate) {
-                task.pauseDate?.let {
-                    if (task.pause != -1 ) {
-                        var c = Calendar.getInstance()
-                        c.time = Date(it)
-                        c.add(Calendar.DAY_OF_MONTH, task.pause - 1)
+            task.pauseDate?.let {
+                if (task.pause != -1) {
+                    var c = Calendar.getInstance()
+                    c.time = Date(it)
+                    c.add(Calendar.DAY_OF_MONTH, task.pause - 1)
 
-                        if (date in it.toDate()..c.time.time) {
-                            isValid = false
-                        }
-                    } else  isValid = false
+                    if (date in it.toDate()..c.time.time) {
+                        isValid = false
+                    }
+                } else isValid = false
 
 
-                    Log.d("isValid", "1 $isValid")
-                }
+                Log.d("isValid", "1 $isValid")
+            }
         }
 
 
@@ -150,6 +151,7 @@ object Helper {
     }
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun Activity.createBubbleShowCaseBuilder(
         v: View,
         des: String,
@@ -163,24 +165,6 @@ object Helper {
             .backgroundColorResourceId(R.color.jade_black)
             .textColor(Color.WHITE) //Bubble Text color
             .descriptionTextSize(14) //Subtitle text size in SP (default value 14sp)
-//            .listener(object : BubbleShowCaseListener { //Listener for user actions
-//                override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
-//                    //Called when the user clicks the target
-//
-//                }
-//                override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
-//                    //Called when the user clicks the close button
-//
-//                }
-//                override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
-//                    //Called when the user clicks on the bubble
-//
-//                }
-//
-//                override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
-//                    //Called when the user clicks on the background dim
-//                }
-//            })
             .showOnce(id)
     }
 

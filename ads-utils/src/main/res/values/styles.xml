@@ -64,6 +64,11 @@
         <item name="android:textFontWeight" tools:ignore="NewApi">700</item>
     </style>
 
+    <style name="Text_600_SemiB">
+        <item name="android:textColor">@color/text_accent_color</item>
+        <item name="android:fontFamily">@font/worksans_semibold</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">600</item>
+    </style>
 
     <style name="Text_600_Med">
         <item name="android:textColor">@color/text_accent_color</item>
