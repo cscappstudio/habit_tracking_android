@@ -4,24 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.OnApplyWindowInsetsListener
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +31,6 @@ import com.cscmobi.habittrackingandroid.databinding.FragmentCreateNewhabitBindin
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.Day
 import com.cscmobi.habittrackingandroid.presentation.ui.adapter.DayOfMonthCalendarAdapter
-import com.cscmobi.habittrackingandroid.presentation.ui.adapter.FrequencyTextAdapter
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
@@ -49,8 +39,6 @@ import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
-import com.cscmobi.habittrackingandroid.utils.Utils.isSystemKeyboardVisible
-import com.cscmobi.habittrackingandroid.utils.Utils.scrollToView
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.hideKeyboardFrom
 import com.cscmobi.habittrackingandroid.utils.onDone
@@ -138,7 +126,10 @@ class NewHabitFragment :
         })
 
         val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-        transaction.replace(binding.layoutEndDate.childFragmentContainer.id, childFragment).commit()
+        transaction.replace(
+            binding.layoutRepeat.layoutEndDate.childFragmentContainer.id,
+            childFragment
+        ).commit()
 
 
         bottomSheetAvaFragment.actionGetIcon = {
@@ -286,7 +277,7 @@ class NewHabitFragment :
         }
 
         task.endDate?.let {
-            binding.layoutEndDate.isEndDateEdit = it.isOpen
+            binding.layoutRepeat.layoutEndDate.isEndDateEdit = it.isOpen
             it.endDate?.let { it1 -> childFragment.setSelectDate(it1) }
         }
 
@@ -319,7 +310,8 @@ class NewHabitFragment :
 
         binding.swGoal.isChecked = binding.isGoalEdit ?: false
         binding.layoutRepeat.swRepeat.isChecked = binding.layoutRepeat.isRepeatEdit ?: false
-        binding.layoutEndDate.swEndDate.isChecked = binding.layoutEndDate.isEndDateEdit ?: false
+        binding.layoutRepeat.layoutEndDate.swEndDate.isChecked =
+            binding.layoutRepeat.layoutEndDate.isEndDateEdit ?: false
         binding.layoutReminder.swRemind.isChecked = binding.layoutReminder.isRenindEdit ?: false
     }
 
@@ -516,8 +508,7 @@ class NewHabitFragment :
                 subTasks.removeAt(p)
                 if (subTasks.isNotEmpty()) {
                     subTaskAdapter?.notifyItemRemoved(p)
-                }
-                else binding.layoutChecklist.rcvSubtask.visibility = View.GONE
+                } else binding.layoutChecklist.rcvSubtask.visibility = View.GONE
 
             }
 
@@ -607,7 +598,10 @@ class NewHabitFragment :
 
         currentTask.startDate = Calendar.getInstance().time.time
         currentTask.endDate =
-            EndDate(binding.layoutEndDate.isEndDateEdit ?: false, childFragment.getDateSelected())
+            EndDate(
+                binding.layoutRepeat.layoutEndDate.isEndDateEdit ?: false,
+                childFragment.getDateSelected()
+            )
 
         currentTask.remind = RemindTask(
             isOpen = binding.layoutReminder.isRenindEdit ?: false,
@@ -658,9 +652,9 @@ class NewHabitFragment :
                 isChecked
         }
 
-        binding.layoutEndDate.swEndDate.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.layoutRepeat.layoutEndDate.swEndDate.setOnCheckedChangeListener { buttonView, isChecked ->
 
-            binding.layoutEndDate.isEndDateEdit = isChecked
+            binding.layoutRepeat.layoutEndDate.isEndDateEdit = isChecked
         }
 
         binding.layoutRepeat.txtDaily.setOnClickListener {

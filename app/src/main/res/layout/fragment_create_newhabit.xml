@@ -12,7 +12,6 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -311,16 +310,16 @@
                     app:layout_constraintStart_toStartOf="@id/ctl_goal"
                     app:layout_constraintTop_toBottomOf="@id/ctl_goal" />
 
-                <include
-                    android:id="@+id/layout_end_date"
-                    layout="@layout/layout_end_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="@dimen/_9sdp"
-                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"
-                    app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_repeat" />
+                <!--                <include-->
+                <!--                    android:id="@+id/layout_end_date"-->
+                <!--                    layout="@layout/layout_end_date"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginHorizontal="24dp"-->
+                <!--                    android:layout_marginTop="@dimen/_9sdp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="@id/ctl_goal"-->
+                <!--                    app:layout_constraintStart_toStartOf="@id/ctl_goal"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/layout_repeat" />-->
 
                 <include
                     android:id="@+id/layout_reminder"
@@ -331,7 +330,7 @@
                     android:layout_marginTop="@dimen/_9sdp"
                     app:layout_constraintEnd_toEndOf="@id/ctl_goal"
                     app:layout_constraintStart_toStartOf="@id/ctl_goal"
-                    app:layout_constraintTop_toBottomOf="@id/layout_end_date" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_repeat" />
 
                 <include
                     android:id="@+id/layout_tag"

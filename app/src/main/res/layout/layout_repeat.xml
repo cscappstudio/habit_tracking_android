@@ -69,9 +69,9 @@
 
         <TextView
             android:id="@+id/txt_weekly"
+            style="@style/Text_500"
             android:layout_width="0dp"
             android:layout_height="@dimen/_32sdp"
-            style="@style/Text_500"
             android:layout_marginHorizontal="@dimen/_6sdp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_white_corner_20"
@@ -196,7 +196,7 @@
             android:textFontWeight="600"
             android:textSize="16sp"
             android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/layout_end_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fr_content"
             tools:ignore="UnusedAttribute" />
@@ -214,11 +214,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtCategory"
+                style="@style/Text_500_Med"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_7sdp"
                 android:ellipsize="end"
-                style="@style/Text_500_Med"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -242,6 +242,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        <include
+            android:id="@+id/layout_end_date"
+            layout="@layout/layout_end_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
