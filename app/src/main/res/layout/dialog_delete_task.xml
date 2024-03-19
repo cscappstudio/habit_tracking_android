@@ -75,7 +75,6 @@
                             android:textAllCaps="false"
                             android:layout_marginHorizontal="@dimen/_19sdp"
                             android:layout_marginTop="@dimen/_9sdp"
-                            android:layout_marginBottom="@dimen/_4sdp"
                             android:layout_height="wrap_content"/>
 
 
@@ -90,7 +89,7 @@
                             android:fontFamily="@font/worksans_semibold"
                             android:textAllCaps="false"
                             android:layout_marginHorizontal="@dimen/_19sdp"
-                            android:layout_marginTop="@dimen/_9sdp"
+                            android:layout_marginTop="@dimen/_6sdp"
                             android:layout_marginBottom="@dimen/_4sdp"
                             android:layout_height="wrap_content"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>

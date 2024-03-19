@@ -28,7 +28,14 @@
                     android:layout_height="@dimen/_106sdp"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/bg_add_image_collection" />
+                    android:src="@drawable/bg_add_icon" />
+
+                <ImageView
+                    android:id="@+id/ic_plus_ava"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_plus_3" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_select"
@@ -55,12 +62,12 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_album"
-                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="@dimen/_12sdp"
                 android:layout_weight="1"
+                android:overScrollMode="never"
                 android:paddingBottom="@dimen/_20sdp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2" />
