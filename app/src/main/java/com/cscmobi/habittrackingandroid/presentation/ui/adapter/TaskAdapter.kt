@@ -5,37 +5,30 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
-import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.AllChallengeAdapter
+import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.createBubbleShowCaseBuilder
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
-import com.ironsource.fa
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.MyClick
 import java.util.Calendar
 import java.util.Date
-import kotlin.random.Random
 
 
 class TaskAdapter(
@@ -51,11 +44,12 @@ class TaskAdapter(
     override fun getItemCount(): Int {
         return this.currentList.size + 1
     }
+
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
             if (date <= Helper.currentDate.toDate()) {
                 binding.rdCheck.isEnabled = true
-            }else {
+            } else {
                 binding.rdCheck.isEnabled = false
                 binding.rdCheck.isChecked = false
             }
@@ -177,12 +171,19 @@ class TaskAdapter(
 
                     binding.txtGoal.setSpanTextView(R.color.coral_red)
                     binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+
+                    binding.txtGoal.setAlpha(0.5f)
+                    binding.txtUnit.setAlpha(0.5f)
+                    binding.txtNameTask.setAlpha(0.5f)
+
                     binding.txtNameTask.setTextColor(
                         ContextCompat.getColor(
                             binding.root.context,
                             R.color.shadow_gray
                         )
                     )
+
+                    binding.shapeableImageView.setAlpha(0.5f)
 
                     binding.shapeableImageView.backgroundTintList =
                         ColorStateList.valueOf(Color.parseColor(item.color))
@@ -348,7 +349,7 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position<currentList.size) {
+        if (position < currentList.size) {
             binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
             holder.bind(getItem(position), onItemClickAdapter)
         } else {
