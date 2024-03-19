@@ -9,7 +9,12 @@ import android.net.ConnectivityManager
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
-import com.android.billingclient.api.*
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.QueryPurchaseHistoryParams
+import com.android.billingclient.api.QueryPurchasesParams
 import com.cscmobi.habittrackingandroid.MyApplication
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivitySplashBinding
@@ -18,7 +23,6 @@ import com.cscmobi.habittrackingandroid.thanhlv.consent.GoogleMobileAdsConsentMa
 import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.helper.NotificationHelper
-import com.cscmobi.habittrackingandroid.utils.GSMUtil
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.Task
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -54,6 +58,7 @@ class SplashActivity : BaseActivity2() {
     }
 
     override fun loadData() {
+
         if (SPF.getLanguage(this) != null)
             CURRENT_LANG = SPF.getLanguage(this)!!
         RunUtils.runInBackground {
