@@ -98,7 +98,7 @@
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/light_gray"
                     android:ellipsize="start"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:hint="@string/new_habit"
                     android:inputType="text|textNoSuggestions|textMultiLine"
                     android:maxLength="50"
@@ -227,7 +227,7 @@
                         android:textColor="#01100C"
                         android:textColorHint="@color/gray"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:visibility="@{isGoalEdit ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/unit_picker"
                         app:layout_constraintEnd_toStartOf="@id/frame_unit"
@@ -274,9 +274,9 @@
                         app:np_dividerThickness="0dp"
                         app:np_height="@dimen/_110sdp"
                         app:np_selectedTextColor="@color/jade_black"
-                        app:np_selectedTextSize="14sp"
+                        app:np_selectedTextSize="16sp"
                         app:np_textColor="#8001100C"
-                        app:np_textSize="12sp"
+                        app:np_textSize="13sp"
                         app:np_value="3" />
 
 
@@ -292,9 +292,9 @@
                         app:np_dividerThickness="0dp"
                         app:np_height="@dimen/_110sdp"
                         app:np_selectedTextColor="@color/jade_black"
-                        app:np_selectedTextSize="14sp"
+                        app:np_selectedTextSize="16sp"
                         app:np_textColor="#8001100C"
-                        app:np_textSize="12sp"
+                        app:np_textSize="13sp"
                         app:np_value="3" />
 
 

@@ -87,16 +87,20 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_calender"
-            android:layout_width="@dimen/_36sdp"
-            android:layout_height="@dimen/_36sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="24dp"
-            android:elevation="5dp"
+            android:background="@drawable/bg_circle"
+            android:elevation="10dp"
+            android:outlineSpotShadowColor="@color/black_50"
             android:src="@drawable/ic_calender_home"
             app:layout_constraintBottom_toBottomOf="@id/txt_date"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_max="42dp"
+            app:layout_constraintStart_toEndOf="@id/txt_date"
             app:layout_constraintTop_toTopOf="@id/txt_date"
-            app:layout_constraintWidth_max="42dp" />
+            app:layout_constraintWidth_max="42dp"
+            tools:ignore="UnusedAttribute" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_week"
@@ -238,9 +242,11 @@
 
             <com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
                 android:id="@+id/sb_progress"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_width="@dimen/_88sdp"
+                android:layout_height="@dimen/_88sdp"
                 android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
                 android:padding="@dimen/_36sdp"
                 app:csb_arcColor="@color/transparent"
                 app:csb_fontType="1"
@@ -248,12 +254,10 @@
                 app:csb_min="0"
                 app:csb_progress="0"
                 app:csb_progressColor="@color/baby_pink"
-                app:csb_progressWidth="@dimen/_6sdp"
-                app:csb_step="5"
+                app:csb_progressWidth="8dp"
                 app:csb_text="0%"
                 app:csb_textColor="@color/tangerine"
-                app:csb_textSize="@dimen/_18ssp"
-                app:csb_thumbSize="@dimen/_8sdp"
+                app:csb_textSize="21sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -315,23 +319,24 @@
                     android:id="@+id/rcv_tasks"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:overScrollMode="never"
-                    android:paddingBottom="@dimen/_60sdp"
+                    android:paddingBottom="@dimen/_42sdp"
                     android:visibility="@{isTasksEmpty ? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_pencil"
-                    android:layout_width="@dimen/_89sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_86sdp"
+                    android:layout_height="@dimen/_62sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_36sdp"
                     android:adjustViewBounds="true"
+                    android:maxWidth="120dp"
+                    android:maxHeight="90dp"
                     android:src="@drawable/ic_pencil"
-
                     android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}" />
 
                 <TextView
@@ -339,11 +344,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-
                     android:layout_marginHorizontal="@dimen/_25sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/worksans_regular"
-                    android:text="@string/there_are_no_projects_yet_please_add_a_project_now"
+                    android:text="@string/there_are_no_habits_yet"
                     android:textColor="@color/silver_gray"
                     android:textFontWeight="400"
                     android:textSize="12sp"
@@ -363,7 +367,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_add_mood"
-            android:layout_width="@dimen/_72sdp"
+            android:layout_width="@dimen/_70sdp"
             android:layout_height="0dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="@dimen/_50sdp"

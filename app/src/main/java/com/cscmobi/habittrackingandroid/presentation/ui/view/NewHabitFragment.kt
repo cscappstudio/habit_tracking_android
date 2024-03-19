@@ -6,6 +6,8 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
@@ -19,6 +21,7 @@ import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -223,11 +226,11 @@ class NewHabitFragment :
             binding.edtName.setText(task.name)
         } else
 
-        task.color.let {
-            colorSelect = Color.parseColor(it)
-            colorsTask[0].isSelected = false
+            task.color.let {
+                colorSelect = Color.parseColor(it)
+                colorsTask[0].isSelected = false
 
-        }
+            }
         binding.edtNote.setText(task.note)
         task.goal?.let {
             binding.isGoalEdit = it.isOn
@@ -369,8 +372,12 @@ class NewHabitFragment :
 
     private fun resetColorTask() {
 
-        val colorAlpha =  String.format("#33%06X", 0xFFFFFF and colorSelect)
-        binding.layoutTag.txtTag.backgroundTintList = ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        val color = String.format("#%06X", 0xFFFFFF and colorSelect)
+        val colorAlpha = String.format("#33%06X", 0xFFFFFF and colorSelect)
+        binding.layoutTag.txtTag.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.ivHabit.backgroundTintList = ColorStateList.valueOf(Color.parseColor(colorAlpha))
+        binding.ivHabit.imageTintList = ColorStateList.valueOf(Color.parseColor(color))
 
         dayOfMonthCalendarAdapter?.colorSelect = colorSelect
         dayOfMonthCalendarAdapter?.notifyDataSetChanged()
@@ -507,7 +514,10 @@ class NewHabitFragment :
         subTaskAdapter?.setListener(object : ItemBasePosistionListener {
             override fun onItemClicked(p: Int) {
                 subTasks.removeAt(p)
-                subTaskAdapter?.notifyItemRemoved(p)
+                if (subTasks.isNotEmpty()) {
+                    subTaskAdapter?.notifyItemRemoved(p)
+                }
+                else binding.layoutChecklist.rcvSubtask.visibility = View.GONE
 
             }
 
@@ -515,28 +525,46 @@ class NewHabitFragment :
 
 
         binding.layoutChecklist.rcvSubtask.adapter = subTaskAdapter
+        binding.layoutChecklist.edtAdd.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
 
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                if (editable.toString().isEmpty()) {
+                    binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                        ColorStateList.valueOf(Color.parseColor("#80393E3C"))
+                } else binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#5b5b5b"))
+            }
+        }
+        )
         binding.layoutChecklist.edtAdd.onDone {
-            binding.layoutChecklist.edtAdd.visibility = View.GONE
+            binding.layoutChecklist.ivStartAdd.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#80393E3C"))
             if (!binding.layoutChecklist.edtAdd.text.isNullOrEmpty()) {
                 subTasks.add(binding.layoutChecklist.edtAdd.text.toString())
                 subTaskAdapter?.notifyItemInserted(subTasks.size - 1)
             }
+            binding.layoutChecklist.edtAdd.setText("")
             hideKeyboardFrom(requireContext(), binding.layoutChecklist.edtAdd)
         }
 
 
 
         binding.layoutChecklist.ivAdd.setOnClickListener {
-            hasScrool = false
-            binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
-            binding.layoutChecklist.edtAdd.isFocusable = true
-            showKeyboardOnView(binding.layoutChecklist.edtAdd)
+            binding.layoutChecklist.showNewSubtask.visibility = View.VISIBLE
+            binding.layoutChecklist.edtAdd.requestFocus()
+//            showKeyboardOnView(binding.layoutChecklist.edtAdd)
         }
     }
-
-    var hasScrool = false
-
 
     private fun setUpCreateTask() {
 
@@ -550,7 +578,8 @@ class NewHabitFragment :
         currentTask.goal = Goal(
             isOn = binding.isGoalEdit ?: false,
             unit = binding.unitPicker.displayedValues[binding.unitPicker.value - 1],
-            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) binding.edtTargetGoal.hint.toString().toInt() else binding.edtTargetGoal.text.toString()
+            target = if (binding.edtTargetGoal.text.isNullOrEmpty()) binding.edtTargetGoal.hint.toString()
+                .toInt() else binding.edtTargetGoal.text.toString()
                 .toInt(),
             period = binding.timePicker.displayedValues[binding.timePicker.value - 1]
         )

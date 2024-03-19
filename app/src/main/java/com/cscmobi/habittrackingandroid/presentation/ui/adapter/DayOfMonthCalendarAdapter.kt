@@ -11,7 +11,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.cscmobi.habittrackingandroid.R
 
-class DayOfMonthCalendarAdapter(private val context: Context, private val days: List<Day>) : BaseAdapter() {
+class DayOfMonthCalendarAdapter(private val context: Context, private val days: List<Day>) :
+    BaseAdapter() {
 
     var colorSelect: Int = -1
     override fun getCount(): Int {
@@ -36,32 +37,23 @@ class DayOfMonthCalendarAdapter(private val context: Context, private val days: 
         val textView = view.findViewById<TextView>(R.id.txt_day)
 
         textView.text = day.date.toString()
-//        textView.layoutParams = ViewGroup.LayoutParams(
-//            ViewGroup.LayoutParams.WRAP_CONTENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT
-//        )
-//        textView.setPadding(10,5,10,5)
-//        textView.textAlignment = View.TEXT_ALIGNMENT_CENTER
-//        textView.typeface = ResourcesCompat.getFont(context,R.font.worksans_medium)
-//        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(com.intuit.ssp.R.dimen._10ssp))
+        if (day.isSelected) {
+            textView.setTextColor(ContextCompat.getColor(context, R.color.white))
+            frameContainer.setBackgroundResource(R.drawable.bg_circle)
+            frameContainer.backgroundTintList =
+                if (colorSelect != -1) ColorStateList.valueOf(colorSelect) else ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.orange)
+                )
 
-//        textView.setBackgroundResource(android.R.color.transparent)
+        } else {
+            textView.setTextColor(ContextCompat.getColor(context, R.color.bottle_green))
+            frameContainer.background = null
+        }
 
-            if (day.isSelected) {
-                textView.setTextColor(ContextCompat.getColor(context, R.color.white))
-                frameContainer.setBackgroundResource(R.drawable.bg_circle)
-                frameContainer.backgroundTintList = if (colorSelect != -1) ColorStateList.valueOf(colorSelect) else ColorStateList.valueOf(ContextCompat.getColor(context, R.color.orange))
-
-            }
-            else {
-                textView.setTextColor(ContextCompat.getColor(context, R.color.bottle_green))
-                frameContainer.background = null
-            }
-
-            frameContainer.setOnClickListener {
-                day.isSelected = !day.isSelected
-                notifyDataSetChanged()
-            }
+        frameContainer.setOnClickListener {
+            day.isSelected = !day.isSelected
+            notifyDataSetChanged()
+        }
 
 
 

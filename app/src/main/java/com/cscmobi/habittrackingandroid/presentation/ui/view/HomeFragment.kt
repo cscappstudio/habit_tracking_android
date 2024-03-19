@@ -991,7 +991,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     TypedValue.COMPLEX_UNIT_PX,
                     DisplayUtils.spToPx(14f).toFloat()
                 )
-                chip.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,DisplayUtils.dpToPx(54f))
+                chip.layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    DisplayUtils.dpToPx(54f)
+                )
 
                 if (it == "   All   ") {
                     chip.isChecked = true
@@ -1137,18 +1140,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 super.onScrolled(recyclerView, dx, dy)
                 val lmR = recyclerView.layoutManager
                 val posF = (lmR as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                println("thanhlv .........." + clickOther)
-
+                val countInline =
+                    (lmR as LinearLayoutManager).findLastCompletelyVisibleItemPosition() - posF
                 if (currentDate.diffDays(Helper.currentDate.toDate()) > 0) {
                     binding.btnTodayLeft.visibility = View.GONE
                     binding.btnTodayRight.visibility = View.VISIBLE
                 } else if (currentDate.diffDays(Helper.currentDate.toDate()) < 0) {
                     binding.btnTodayLeft.visibility = View.VISIBLE
                     binding.btnTodayRight.visibility = View.GONE
-                } else if (posF < 78) {
+                } else if (posF < homeViewModel.currentWeekPos - countInline) {
                     binding.btnTodayRight.visibility = View.VISIBLE
                     binding.btnTodayLeft.visibility = View.GONE
-                } else if (posF > 84) {
+                } else if (posF > homeViewModel.currentWeekPos) {
                     binding.btnTodayRight.visibility = View.GONE
                     binding.btnTodayLeft.visibility = View.VISIBLE
                 } else {
@@ -1162,8 +1165,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
         }
     }
-
-    private var clickOther = -1
 
     @SuppressLint("SimpleDateFormat")
     private fun resolveScrollButtonToday(time: Long) {

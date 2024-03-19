@@ -21,6 +21,7 @@ import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
+import com.cscmobi.habittrackingandroid.thanhlv.adapter.AllChallengeAdapter
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.createBubbleShowCaseBuilder
@@ -47,6 +48,9 @@ class TaskAdapter(
     var date: Long = Helper.currentDate.toDate()
 
 
+    override fun getItemCount(): Int {
+        return this.currentList.size + 1
+    }
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
             if (date <= Helper.currentDate.toDate()) {
@@ -344,7 +348,11 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
-        holder.bind(getItem(position), onItemClickAdapter)
+        if (position<currentList.size) {
+            binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
+            holder.bind(getItem(position), onItemClickAdapter)
+        } else {
+            holder.binding.root.visibility = View.GONE
+        }
     }
 }
