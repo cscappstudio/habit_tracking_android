@@ -779,15 +779,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun initTaskAdapter() {
 
-//         val goalTargets = homeViewModel.tasks.map { it.goal?.target }
-//         val goalProgress = homeViewModel.tasks.map { it.goal?.currentProgress }
         listNormalTask = listTask.filter { it.challenge.isNullOrEmpty() }.toMutableList()
         taskAdapter = TaskAdapter(requireActivity(), object : ItemTaskWithEdit<Task> {
             override fun onItemClicked(item: Task, p: Int) {
-//                Intent(requireActivity(), DetailTaskActivity::class.java).apply {
-//                    putExtra(Constant.task_id, item.id)
-//                    startActivity(this)
-//                }
                 Intent(requireActivity(), DetailTaskActivity::class.java).apply {
                     val bundle = Bundle()
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
@@ -901,12 +895,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                     requireActivity().let { mactivity ->
                         with(mactivity.getMySharedPreferences()) {
-                            if (!this.getBoolean("isDialogCongraTask${item.id}Shown", false)) {
-                                binding.lottie
-                                    .playAnimation();
-                                this.edit().putBoolean("isDialogCongraTask${item.id}Shown", true)
-                                    .apply()
-                            }
+//                            if (!this.getBoolean("isDialogCongraTask${item.id}Shown", false)) {
+                            binding.lottie.playAnimation()
+//                                this.edit().putBoolean("isDialogCongraTask${item.id}Shown", true).apply()
+//                            }
                         }
 
                     }

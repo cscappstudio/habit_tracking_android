@@ -242,11 +242,11 @@
 
             <com.cscmobi.habittrackingandroid.presentation.ui.custom.CircleSeekBar
                 android:id="@+id/sb_progress"
-                android:layout_width="@dimen/_88sdp"
-                android:layout_height="@dimen/_88sdp"
+                android:layout_width="@dimen/_89sdp"
+                android:layout_height="@dimen/_89sdp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:padding="@dimen/_36sdp"
                 app:csb_arcColor="@color/transparent"
                 app:csb_fontType="1"
@@ -254,7 +254,7 @@
                 app:csb_min="0"
                 app:csb_progress="0"
                 app:csb_progressColor="@color/baby_pink"
-                app:csb_progressWidth="8dp"
+                app:csb_progressWidth="@dimen/_6sdp"
                 app:csb_text="0%"
                 app:csb_textColor="@color/tangerine"
                 app:csb_textSize="21sp"
