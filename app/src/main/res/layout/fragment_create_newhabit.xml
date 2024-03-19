@@ -98,7 +98,7 @@
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/light_gray"
                     android:ellipsize="start"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:hint="@string/new_habit"
                     android:inputType="text|textNoSuggestions|textMultiLine"
                     android:maxLength="50"

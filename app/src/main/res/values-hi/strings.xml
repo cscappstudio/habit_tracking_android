@@ -306,5 +306,6 @@
     <string name="choose_your_collection_s_cover_image">Choose your collection\'s cover image</string>
     <string name="choose_your_challenge_cover_image">Choose your challenge\'s cover image</string>
     <string name="completion">Completion</string>
+    <string name="there_are_no_habits_yet">There are no habits yet</string>
 
 </resources>

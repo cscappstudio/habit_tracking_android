@@ -122,7 +122,7 @@ class CreateNewTaskChallengeActivity : BaseActivity2() {
 
     }
 
-    var mIconTask = "avatask/apple.png"
+    var mIconTask = "avatask/emoji-sing-right-note.png"
 
     private fun createNewTask() {
         validateData()

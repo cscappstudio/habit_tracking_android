@@ -1137,7 +1137,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 super.onScrolled(recyclerView, dx, dy)
                 val lmR = recyclerView.layoutManager
                 val posF = (lmR as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                println("thanhlv .........." + clickOther)
 
                 if (currentDate.diffDays(Helper.currentDate.toDate()) > 0) {
                     binding.btnTodayLeft.visibility = View.GONE
@@ -1162,8 +1161,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             scrollToPositionWithCentering(homeViewModel.currentWeekPos)
         }
     }
-
-    private var clickOther = -1
 
     @SuppressLint("SimpleDateFormat")
     private fun resolveScrollButtonToday(time: Long) {
