@@ -169,7 +169,7 @@
             <GridView
                 android:id="@+id/calendar_gridview"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_165sdp"
+                android:layout_height="210dp"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_white_corner_18"
