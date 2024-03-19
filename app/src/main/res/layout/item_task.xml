@@ -19,7 +19,7 @@
                 android:id="@+id/fr_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:translationX="@dimen/_minus30sdp"
+                android:translationX="@dimen/_minus20sdp"
                 android:visibility="invisible">
 
                 <androidx.appcompat.widget.LinearLayoutCompat

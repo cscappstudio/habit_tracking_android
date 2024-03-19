@@ -1,103 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        android:layout_width="@dimen/_226sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/_32sdp"
+        android:background="@drawable/bg_white_corner_20"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_18sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="320dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView6"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_19sdp"
+            android:src="@drawable/waste_paper_bin"
+            app:layout_constraintDimensionRatio="W, 329 : 123"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="150dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="49dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:src="@drawable/ic_round_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/Text_600_SemiB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/are_you_sure_you_want_to_delete"
+            android:textAlignment="center"
+            android:textColor="@color/shadow_gray"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appCompatImageView6" />
+
+        <TextView
+            android:id="@+id/des"
+            style="@style/Text_400"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="4dp"
+            android:text="@string/delete_all_will_loss_all_of_task_s_history_amp_future"
+            android:textAlignment="center"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete_future"
+            style="@style/Text_600_SemiB"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/bg_white_corner_20"
-            android:paddingBottom="@dimen/_18sdp"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView6"
-                android:layout_width="match_parent"
-                android:layout_height="126dp"
-                android:layout_marginTop="@dimen/_18sdp"
-                android:src="@drawable/waste_paper_bin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_close"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/ic_round_close"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="@dimen/_14sdp"
-                    android:layout_height="wrap_content"/>
+            android:backgroundTint="@color/teal_green"
+            android:text="@string/delete_future_task_only"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/des" />
 
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView6"
-                    android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/worksans_semibold"
-                            android:text="@string/are_you_sure_you_want_to_delete"
-                            android:textColor="@color/shadow_gray"
-                            android:textAlignment="center"
-                            android:textSize="15sp"
-                            />
-
-                        <TextView
-                            android:layout_marginTop="4dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/worksans_regular"
-                            android:text="@string/delete_all_will_loss_all_of_task_s_history_amp_future"
-                            android:textColor="@color/gray"
-                            android:layout_marginHorizontal="23dp"
-                            android:textAlignment="center"
-                            android:textSize="12sp"
-                            />
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_delete_future"
-                            android:layout_width="match_parent"
-                            android:background="@drawable/bg_white_corner_20"
-                            android:backgroundTint="@color/teal_green"
-                            android:text="@string/delete_future_task_only"
-                            android:textSize="13sp"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/worksans_semibold"
-                            android:textAllCaps="false"
-                            android:layout_marginHorizontal="@dimen/_19sdp"
-                            android:layout_marginTop="@dimen/_9sdp"
-                            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete_all"
+            style="@style/Text_600_SemiB"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@drawable/bg_white_corner_20"
+            android:backgroundTint="@color/coral_red"
+            android:text="@string/delete_all"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintHeight_max="48dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_delete_future" />
 
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_delete_all"
-                            android:layout_width="match_parent"
-                            android:background="@drawable/bg_white_corner_20"
-                            android:backgroundTint="@color/coral_red"
-                            android:text="@string/delete_all"
-                            android:textSize="13sp"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/worksans_semibold"
-                            android:textAllCaps="false"
-                            android:layout_marginHorizontal="@dimen/_19sdp"
-                            android:layout_marginTop="@dimen/_6sdp"
-                            android:layout_marginBottom="@dimen/_4sdp"
-                            android:layout_height="wrap_content"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-                
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

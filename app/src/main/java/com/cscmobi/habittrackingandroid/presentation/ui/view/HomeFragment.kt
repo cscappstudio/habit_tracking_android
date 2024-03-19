@@ -719,14 +719,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                             data[currentPosWeek]
                                 .progress = calTaskProgress(tasksFinishNum, tasksNum)
-
                             homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
                             setUpView(listTask)
-
                         }
 
                     }
-
 //                    delay(500L)
                 }
                 // check if current task is finish then show dialog congratulation
@@ -751,18 +748,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                         .apply()
                                 }
                             }
-
                         }
                     }
-//                    it.joinedHistory?.state = if (isChallengeDone) 1 else 2
-//                    homeViewModel.updateChallenge(it)
                 }
             }
         })
         challengeHomeAdpater.submitList(tasksChallenge)
         challengeHomeAdpater.notifyDataSetChanged()
         binding.rcvChallenge.adapter = challengeHomeAdpater
-
     }
 
     private fun setUpProgress1Tasks(challengeFinish: Int, totalChallenge: Int) {
@@ -773,9 +766,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun setUpProgress2Tasks(taskDone: Int, totalTask: Int) {
         binding.txtProgress2.text = "$taskDone/$totalTask"
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
-
     }
-
 
     private fun initTaskAdapter() {
 
@@ -787,10 +778,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
                     currentHistory?.let {
                         bundle.putLong(Constant.IDHISTORY, it.id)
-
                     }
                     this.putExtras(bundle)
-
                     startActivity(this)
                 }
             }
@@ -812,17 +801,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     item.pauseDate = currentDate
                     lifecycleScope.launch {
                         homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
-
                     }
                     Toast.makeText(requireContext(), "Update success", Toast.LENGTH_SHORT).show()
                     taskAdapter.notifyItemChanged(p)
                     freeIAP.isSkip = true
-
                     updateAllTaskPause()
-
                 }
-
-
             }
 
             override fun edit(item: Task, p: Int) {
@@ -839,7 +823,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 DialogUtils.showDeleteTaskDialog(requireContext(), {
                     val c = Calendar.getInstance()
                     c.add(Calendar.DAY_OF_MONTH, -1)
-
                     if (item.endDate == null) item.endDate = EndDate(true, c.time.time)
                     else {
                         item.endDate?.endDate = c.time.time
@@ -855,14 +838,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
 
                     taskAdapter?.notifyDataSetChanged()
-                    Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.delete_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                     lifecycleScope.launch {
                         homeViewModel.userIntent.send(HomeIntent.DeleteTask(item, 0))
                     }
                     homeViewModel.deleteTaskInHistory(currentDate, item.id)
-
-
                 }, {
                     // delete all
                     // listTask.removeAt(p)
@@ -874,7 +859,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         listNormalTask.add(1, Task(id = IDLE, name = "ads"))
                     }
                     taskAdapter?.notifyItemRemoved(p)
-                    Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.delete_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                     lifecycleScope.launch {
                         homeViewModel.userIntent.send(HomeIntent.DeleteTask(item, 1))
@@ -901,24 +890,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 setUpView(listTask)
                 lifecycleScope.launch {
                     currentHistory?.let { currentHistory ->
-
                         currentHistory.taskInDay = getTasksInday(listTask)
                         var tasksFinishNum =
                             currentHistory.taskInDay.filter { it.progress == 100 }.size
                         var tasksNum = currentHistory.taskInDay.size
-
                         data[currentPosWeek]
                             .progress = calTaskProgress(tasksFinishNum, tasksNum)
-
                         weekAdapter.notifyItemChanged(currentPosWeek)
-
                         homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
-
                     }
                     delay(500L)
                 }
-
-
             }
 
             override fun onResume(p: Int, item: Task) {
@@ -929,7 +911,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
                 freeIAP.isSkip = false
                 updateAllTaskPause()
-
             }
 
         })
@@ -944,12 +925,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         } else {
             binding.isTasksEmpty = true
-
             showAds()
         }
-
-
-
 
         taskAdapter.submitList(listNormalTask)
         taskAdapter.notifyDataSetChanged()
@@ -962,8 +939,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         tags.forEach {
             if (it.isNotEmpty()) {
-
-
                 val chip = Chip(requireContext())
                 chip.isCheckable = true
                 chip.text = it

@@ -68,8 +68,6 @@ class TaskAdapter(
                         }
 
                         override fun onLoadFailed() {
-//                        currentList.removeAt(1)
-//                        notifyItemRemoved(1)
                         }
 
                     })
@@ -78,11 +76,6 @@ class TaskAdapter(
                 binding.swipeLayout.visibility = View.VISIBLE
                 binding.adView.visibility = View.GONE
             }
-//            val iconResourceId = binding.root.context.resources.getIdentifier(
-//                item.ava,
-//                "drawable",
-//                binding.root.context.packageName
-//            )
 
             var isPause = false
 
@@ -120,11 +113,21 @@ class TaskAdapter(
                     isPause = true
                 }
 
-
             } else {
                 binding.ivPlay.visibility = View.GONE
                 binding.rdCheck.visibility = View.VISIBLE
                 isPause = false
+            }
+            if (isPause) {
+                binding.txtGoal.alpha = 0.5f
+                binding.txtUnit.alpha = 0.5f
+                binding.txtNameTask.alpha = 0.5f
+                binding.shapeableImageView.alpha = 0.5f
+            } else {
+                binding.txtGoal.alpha = 1f
+                binding.txtUnit.alpha = 1f
+                binding.txtNameTask.alpha = 1f
+                binding.shapeableImageView.alpha = 1f
             }
 
             item.goal?.let {
@@ -133,8 +136,6 @@ class TaskAdapter(
                     binding.txtGoal.visibility = View.VISIBLE
                     binding.txtUnit.text = it.unit
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
-
-
                 } else {
                     binding.txtUnit.visibility = View.GONE
                     binding.txtGoal.visibility = View.GONE
@@ -175,9 +176,6 @@ class TaskAdapter(
                     binding.txtGoal.setSpanTextView(R.color.coral_red)
                     binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
 
-                    binding.txtGoal.setAlpha(0.5f)
-                    binding.txtUnit.setAlpha(0.5f)
-                    binding.txtNameTask.setAlpha(0.5f)
 
                     binding.txtNameTask.setTextColor(
                         ContextCompat.getColor(
@@ -186,7 +184,6 @@ class TaskAdapter(
                         )
                     )
 
-                    binding.shapeableImageView.setAlpha(0.5f)
 
                     binding.shapeableImageView.backgroundTintList =
                         ColorStateList.valueOf(Color.parseColor(item.color))
@@ -297,6 +294,7 @@ class TaskAdapter(
 
 
     }
+
     fun TextView.showStrikeThrough(show: Boolean) {
         paintFlags =
             if (show) paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
