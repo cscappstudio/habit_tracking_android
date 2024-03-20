@@ -116,6 +116,7 @@ class CalenderDialogHomeFragment : DialogFragment() {
                 }
 
             })
+
             binding.calendarRecyclerView.adapter = calenderAdapter
             calenderAdapter?.submitList(daysInMonth)
             calenderAdapter?.notifyDataSetChanged()
