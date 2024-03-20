@@ -681,8 +681,6 @@ class NewHabitFragment :
         }
 
         binding.layoutRepeat.ctlFrequency.setOnClickListener {
-
-
             binding.layoutChecklist.edtAdd.visibility = View.VISIBLE
             bottomSheetFragment.caseType = 1
             bottomSheetFragment.unitSelect = selectRepeatUnit
