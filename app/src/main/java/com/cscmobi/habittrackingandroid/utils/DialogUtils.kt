@@ -7,12 +7,10 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.DialogCongratulationBinding
 import com.cscmobi.habittrackingandroid.databinding.DialogDeleteChallengeBinding
@@ -24,6 +22,31 @@ import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.DisplayUtils
 
 object DialogUtils {
+
+    fun showDeleteCollection(
+        context: Context,
+        deleteAll: () -> Unit
+    ) {
+        val binding = DialogDeleteChallengeBinding.inflate(LayoutInflater.from(context))
+        val alertDialog = AlertDialog.Builder(context)
+            .setView(binding.root)
+            .show()
+        alertDialog.window?.setBackgroundDrawable(null)
+        binding.des.text = context.getString(R.string.delete_this_collection)
+        binding.btnDeleteAll.text = context.getString(R.string.delete_collection)
+
+        binding.btnDeleteFuture.visibility = View.GONE
+
+        binding.ivClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        binding.btnDeleteAll.setOnClickListener {
+            deleteAll.invoke()
+            alertDialog.dismiss()
+        }
+    }
+
     fun showDeleteChallenge(
         context: Context,
         type: Int,
