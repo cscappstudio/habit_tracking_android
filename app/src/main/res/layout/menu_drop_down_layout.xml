@@ -5,17 +5,25 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/shape_round_12_fill"
-        android:elevation="10dp"
-        android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="12dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:outlineSpotShadowColor="@color/black_50"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_min="96dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_min="132dp"
+        tools:ignore="UnusedAttribute">
 
 
         <TextView
@@ -28,10 +36,7 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="4dp"
             android:text="@string/reset"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="15sp"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -39,18 +44,15 @@
             style="@style/Text_700_Med"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:gravity="center"
             android:maxLines="1"
             android:paddingHorizontal="10dp"
             android:paddingVertical="4dp"
             android:text="@string/stop"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_reset"
+            android:textSize="15sp"
             tools:ignore="UnusedAttribute" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
