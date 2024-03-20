@@ -29,9 +29,7 @@ import com.thanhlv.fw.helper.NetworkHelper
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs.Companion.instance
 import com.thanhlv.fw.spf.SPF
 import com.thanhlv.fw.spf.SPF.Companion.isProApp
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
@@ -63,9 +61,12 @@ class DetailChallengeActivity : BaseActivity2() {
                 binding.imgChallenge
                     .setImageBitmap(BitmapFactory.decodeStream(assets.open(mChallenge?.image!!)))
             else binding.imgChallenge.setImageResource(R.drawable.img_target)
-
+            if (mChallenge!!.isNewCreate) {
+                binding.tvJoined.visibility = View.GONE
+            }
             if (mChallenge!!.joinedHistory != null) {
                 binding.btnStartChallenge.visibility = View.GONE
+                binding.tvJoined.text = getString(R.string.in_progress)
                 binding.btnOptionTop.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.VISIBLE
                 if (doneTask == 0) binding.progressBar.progress = 5
@@ -76,6 +77,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     binding.btnStartChallenge.text = getString(R.string.restart_challenge)
                 }
             } else {
+                binding.tvJoined.text = "" + mChallenge!!.joined + (1..500).random()
                 binding.btnStartChallenge.visibility = View.VISIBLE
                 binding.btnOptionTop.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
@@ -96,20 +98,17 @@ class DetailChallengeActivity : BaseActivity2() {
 
         binding.btnStartChallenge.setOnClickListener {
             clickStartChallenge()
-//            finish()
         }
 
         binding.btnOptionTop.setOnClickListener {
 
-            if (mChallenge?.isNewCreate == true) {
+            if (mChallenge?.isNewCreate == true && mChallenge?.joinedHistory == null) {
                 val menuDropDown = MenuDropDown(this@DetailChallengeActivity, 2, hasReset,
                     {
                         editChallenge()
-                        hasReset = false
                     },
                     {
                         deleteChallenge()
-                        finish()
                     }
                 )
                 menuDropDown.showAsDropDown(it)
@@ -140,7 +139,7 @@ class DetailChallengeActivity : BaseActivity2() {
     }
 
     private fun deleteChallenge() {
-        DialogUtils.showDeleteChallenge(this, 2, {
+        DialogUtils.showDeletePopup(this, 2) {
             if (mChallenge != null)
                 runBlocking {
                     AppDatabase.getInstance(applicationContext).dao().deleteChallenge(mChallenge!!)
@@ -150,9 +149,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     ChallengeFragment.allChallenges.postValue(all.reversed())
                     finish()
                 }
-        }, {
-
-        })
+        }
 
     }
 
@@ -279,9 +276,18 @@ class DetailChallengeActivity : BaseActivity2() {
             newMyChallenges.sortByDescending {
                 it.joinedHistory?.date
             }
+            val all =
+                ArrayList(AppDatabase.getInstance(applicationContext).dao().getAllChallenge())
             ChallengeFragment.myChallenges.postValue(newMyChallenges)
+
+            ChallengeFragment.allChallenges.postValue(all.reversed())
             finish()
+            updateAfterStartChallenge()
         }
+    }
+
+    private fun updateAfterStartChallenge() {
+
     }
 
     private suspend fun resolverDataJoinChallenge() {
@@ -291,39 +297,39 @@ class DetailChallengeActivity : BaseActivity2() {
         var startDate = 0
 
         var out = false
-        for (i in 1..mChallenge!!.duration / mChallenge!!.cycle) {
-            for (j in 0 until mChallenge!!.days.size) {
-                for (k in 0 until mChallenge!!.days[j].tasks!!.size) {
-                    if (getDaysBetween(
-                            listDate[0],
-                            listDate[startDate]
-                        ) > (mChallenge!!.duration - 1)
-                    ) {
-                        out = true
-                        break
-                    }
-                    val task = mChallenge!!.days[j].tasks!![k].parserToTask()
-                    task.challenge = mChallenge!!.name
-                    task.startDate = listDate[startDate]
-                    task.imgChallenge = mChallenge!!.image
-                    task.endDate.isOpen = true
-                    task.endDate.endDate = task.startDate!!
-                    val taskId = AppDatabase.getInstance(applicationContext).dao().insertTask(task)
-                    mChallenge!!.days[j].tasks!![k].startDate = task.startDate
-                    mChallenge!!.days[j].tasks!![k].id = taskId
-                }
-                startDate++
-                if (getDaysBetween(
-                        listDate[0],
-                        listDate[startDate]
-                    ) > (mChallenge!!.duration - 1)
-                ) {
-                    out = true
-                    break
-                }
+//        for (i in 1..mChallenge!!.duration / mChallenge!!.cycle) {
+        for (j in 0 until mChallenge!!.days.size) {
+            for (k in 0 until mChallenge!!.days[j].tasks!!.size) {
+//                    if (getDaysBetween(
+//                            listDate[0],
+//                            listDate[startDate]
+//                        ) > (mChallenge!!.duration - 1)
+//                    ) {
+////                        out = true
+//                        break
+//                    }
+                val task = mChallenge!!.days[j].tasks!![k].parserToTask()
+                task.challenge = mChallenge!!.name
+                task.startDate = listDate[startDate]
+                task.imgChallenge = mChallenge!!.image
+                task.endDate.isOpen = true
+                task.endDate.endDate = task.startDate!!
+                val taskId = AppDatabase.getInstance(applicationContext).dao().insertTask(task)
+                mChallenge!!.days[j].tasks!![k].startDate = task.startDate
+                mChallenge!!.days[j].tasks!![k].id = taskId
             }
-            if (out) break
+            startDate++
+            if (getDaysBetween(
+                    listDate[0],
+                    listDate[startDate]
+                ) > (mChallenge!!.duration - 1)
+            ) {
+//                    out = true
+                break
+            }
         }
+//            if (out) break
+//        }
         AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
     }
 
@@ -366,6 +372,8 @@ class DetailChallengeActivity : BaseActivity2() {
     private var doneTask = 0
     private fun getTasks(): MutableList<TaskTimelineModel> {
         if (mChallenge == null) return mutableListOf()
+
+        createListDateForTask()
 
         val temp = mutableListOf<TaskTimelineModel>()
         runBlocking {
@@ -433,6 +441,30 @@ class DetailChallengeActivity : BaseActivity2() {
             } else temp[0].type = 3
         }
         return temp
+    }
+
+    var listDate = mutableListOf<Long>()
+    private fun createListDateForTask() {
+        if (mChallenge == null) return
+        val today = CalendarUtil.startDayMs(System.currentTimeMillis())
+        val todayOfWeek = CalendarUtil.dayOfWeek(today)
+        val thisWeek = mutableListOf<Long>()
+        if (todayOfWeek == 1) {
+            for (i in 0..6) {
+                val day = today - i * 24 * 60 * 60 * 1000
+                if (mChallenge!!.repeat.contains(CalendarUtil.dayOfWeek(day)))
+                    thisWeek.add(day)
+            }
+        } else {
+            val start = 2 - todayOfWeek
+            for (i in start..start + 6) {
+                val day = today + i * 24 * 60 * 60 * 1000
+                if (mChallenge!!.repeat.contains(CalendarUtil.dayOfWeek(day)))
+                    thisWeek.add(day)
+            }
+        }
+
+
     }
 
     private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)

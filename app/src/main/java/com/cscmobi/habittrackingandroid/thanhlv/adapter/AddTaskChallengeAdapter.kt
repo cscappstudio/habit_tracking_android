@@ -73,10 +73,11 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
                 holder.binding.showBtnAdd.visibility = View.VISIBLE
                 holder.binding.showTask.visibility = View.GONE
             }
+
             2 -> {
                 holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(112f)
                 holder.binding.tvDay.visibility = View.VISIBLE
-                holder.binding.tvDay.text = mContext.getString(R.string.day_) + item.day.toString()
+                holder.binding.tvDay.text = mContext.getString(R.string.day_) +" "+ item.day.toString()
                 holder.binding.showBtnAdd.visibility = View.GONE
                 holder.binding.showTask.visibility = View.VISIBLE
                 holder.binding.tvTitle.text = item.name
@@ -91,6 +92,7 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
                 holder.binding.icTask.backgroundTintList =
                     ColorStateList.valueOf(Color.parseColor(item.color))
             }
+
             3 -> {
                 holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(86f)
                 holder.binding.tvDay.visibility = View.GONE
@@ -108,6 +110,7 @@ class AddTaskChallengeAdapter(private var mContext: Context) :
                 holder.binding.icTask.backgroundTintList =
                     ColorStateList.valueOf(Color.parseColor(item.color))
             }
+
             else -> {
                 holder.binding.tvDay.text = mContext.getString(R.string.day_) + item.day.toString()
                 holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(112f)

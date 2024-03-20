@@ -93,7 +93,8 @@
           ]
         }
       ],
-      "tryCount": 0
+      "tryCount": 0,
+      "joined": 7000
     },
     {
       "name": "Workout from Home",
@@ -188,7 +189,8 @@
           ]
         }
       ],
-      "tryCount": 0
+      "tryCount": 0,
+      "joined": 1000
     },
     {
       "name": "Relieve anxiety",
@@ -283,7 +285,8 @@
           ]
         }
       ],
-      "tryCount": 0
+      "tryCount": 0,
+      "joined": 3000
     },
     {
       "name": "Work boost",
@@ -354,7 +357,8 @@
           ]
         }
       ],
-      "tryCount": 0
+      "tryCount": 0,
+      "joined": 5000
     },
     {
       "name": "Relationship",
@@ -437,7 +441,8 @@
           ]
         }
       ],
-      "tryCount": 0
+      "tryCount": 0,
+      "joined": 0
     },
     {
       "name": "Digital Detox",
@@ -532,7 +537,8 @@
           ]
         }
       ],
-      "tryCount": 0
+      "tryCount": 0,
+      "joined": 8000
     },
     {
       "name": "Morning Glow",
@@ -774,7 +780,8 @@
           ]
         }
       ],
-      "tryCount": -1
+      "tryCount": -1,
+      "joined": 3000
     },
     {
       "name": "No-Sugar",
@@ -869,7 +876,8 @@
           ]
         }
       ],
-      "tryCount": -1
+      "tryCount": -1,
+      "joined": 5000
     }
   ]
 }

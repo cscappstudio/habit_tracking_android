@@ -65,7 +65,7 @@ class DetailChallengeAdapter(private var mContext: Context) :
             holder.binding.tvDay.visibility = View.VISIBLE
             if (item.task.startDate == null)
                 holder.binding.tvDay.text =
-                    mContext.getString(R.string.day_) + item.task.dayNo.toString()
+                    mContext.getString(R.string.day_) + " " + item.task.dayNo.toString()
             else holder.binding.tvDay.text = CalendarUtil.getTitleDayMonth(item.task.startDate!!)
             holder.binding.root.layoutParams.height = DisplayUtils.dpToPx(119f)
         } else {
