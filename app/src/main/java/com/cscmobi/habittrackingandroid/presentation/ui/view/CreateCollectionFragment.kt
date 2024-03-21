@@ -298,7 +298,6 @@ class CreateCollectionFragment :
             DialogUtils.showDeletePopup(requireContext(),1) {
                 newTasks.remove(e)
                 taskCollectionAdapter?.notifyItemRemoved(p)
-//                requireActivity().finish()
             }
 
         })
