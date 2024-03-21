@@ -11,15 +11,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.ChallengeDays
-import com.cscmobi.habittrackingandroid.data.model.EndDate
 import com.cscmobi.habittrackingandroid.data.model.TaskInChallenge
 import com.cscmobi.habittrackingandroid.databinding.ActivityCreateChallengeBinding
-import com.cscmobi.habittrackingandroid.presentation.ui.intent.DetailTaskIntent
-import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomSheetCollectionFragment
 import com.cscmobi.habittrackingandroid.thanhlv.adapter.AddTaskChallengeAdapter
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
@@ -27,11 +23,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.CreateTaskChallenge
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.google.gson.Gson
 import com.thanhlv.fw.helper.MyUtils
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CreateChallengeActivity : BaseActivity2() {
 
@@ -139,6 +131,7 @@ class CreateChallengeActivity : BaseActivity2() {
             challenge.duration = binding.edtDuration.text.toString().toInt()
             challenge.cycle = binding.edtCycle.text.toString().toInt()
             challenge.repeat = mRepeatData
+            challenge.isNewCreate = true
             challenge.days = listDayTask.toList()
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
 
@@ -214,7 +207,7 @@ class CreateChallengeActivity : BaseActivity2() {
     private fun spinnerRepeatDay() {
         if (binding.selectRepeatDay.visibility == View.GONE) {
             binding.icSpinRepeat.animate().rotationBy(180f).setDuration(200).start()
-            MyUtils.expandView(binding.selectRepeatDay, 200, 64)
+            MyUtils.expandView(binding.selectRepeatDay, 200, 76)
         } else {
             binding.icSpinRepeat.animate().rotationBy(-180f).setDuration(200).start()
             MyUtils.collapseView(binding.selectRepeatDay, 200, 0)
@@ -325,14 +318,12 @@ class CreateChallengeActivity : BaseActivity2() {
 
     private fun deleteTask(item: CreateTaskChallenge, pos: Int) {
         if (isFinishing || isDestroyed) return
-        DialogUtils.showDeleteChallenge(this, 1, {
+        DialogUtils.showDeletePopup(this, 1) {
             if (item.type == 2) mDataTaskCreateChallenge[pos + 1].type -= 1
             adapter?.notifyItemRemoved(pos)
             mDataTaskCreateChallenge.remove(item)
             adapter?.setData(mDataTaskCreateChallenge)
-        }, {
-
-        })
+        }
     }
 
     private fun editTask(item: CreateTaskChallenge) {

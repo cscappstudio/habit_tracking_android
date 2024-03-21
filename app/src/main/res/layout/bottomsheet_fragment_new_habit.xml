@@ -1,149 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="caseType"
             type="Integer" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="adapter"
             type="com.cscmobi.habittrackingandroid.base.BaseBindingAdapter&lt;com.cscmobi.habittrackingandroid.data.model.Tag>" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/ctl_root"
-    android:layout_width="match_parent"
-    android:background="#99000000"
-    android:layout_height="match_parent">
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:visibility="@{caseType == 1 ? View.VISIBLE : View.GONE}"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        android:background="@drawable/bg_white_cornertop_20"
-        android:paddingHorizontal="@dimen/_20sdp"
-        android:paddingVertical="@dimen/_15sdp">
-
-        <TextView
-            android:id="@+id/txt_title"
-            android:layout_width="match_parent"
-            android:text="@string/enter_how_often_you_want_the_task_to_repeat"
-            android:textColor="@color/dark_green"
-            android:fontFamily="@font/worksans_semibold"
-            android:textSize="15sp"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_width="match_parent"
-            android:background="@drawable/bg_white_corner_20"
-            android:backgroundTint="@color/silver"
-            android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/_20sdp"
-            android:paddingVertical="@dimen/_12sdp"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edt"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:fontFamily="@font/worksans_semibold"
-                android:textColor="@color/shadow_gray"
-                android:hint="1"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:textColorHint="@color/gray"
-                android:textSize="16sp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/txt_unit"
-                android:layout_width="wrap_content"
-                android:text="@string/week"
-                android:textColor="@color/shadow_gray"
-                android:textSize="14sp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:fontFamily="@font/worksans_medium"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <include
-            android:id="@+id/layout_btn_save"
-            layout="@layout/btn_save"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_root"
         android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:background="@drawable/bg_white_cornertop_20"
-        android:paddingHorizontal="@dimen/_20sdp"
-        android:paddingVertical="@dimen/_19sdp"
-        android:visibility="@{caseType == 0 ? View.VISIBLE : View.GONE}"
-        android:maxHeight="500dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="@dimen/_400sdp">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:src="@drawable/ic_back_btn"
-            android:id="@+id/iv_back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:background="#99000000">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/ll_create_tag"
-            android:layout_width="wrap_content"
-            android:maxWidth="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:orientation="horizontal"
-            android:maxHeight="60dp"
-            android:paddingHorizontal="@dimen/_11sdp"
-            android:background="@drawable/bg_white_corner_20"
-            android:backgroundTint="@color/jade_black"
-            android:layout_height="@dimen/_32sdp">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_plus"
-                android:layout_gravity="center_vertical"
-                android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_white_cornertop_20"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_15sdp"
+            android:visibility="@{caseType == 1 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
-                android:textSize="13sp"
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/worksans_semibold"
-                android:text="@string/create_new"
-                android:textColor="@color/white"
-                android:layout_height="wrap_content"/>
+                android:text="@string/enter_how_often_you_want_the_task_to_repeat"
+                android:textColor="@color/dark_green"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_white_corner_20"
+                android:backgroundTint="@color/silver"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/_20sdp"
+                android:paddingVertical="@dimen/_12sdp">
+
+                <EditText
+                    android:id="@+id/edt"
+                    style="@style/Text_600_SemiB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:textColor="@color/shadow_gray"
+                    android:textColorHint="@color/gray"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txt_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/worksans_medium"
+                    android:text="@string/week"
+                    android:textColor="@color/shadow_gray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <include
+                android:id="@+id/layout_btn_save"
+                layout="@layout/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-       <androidx.recyclerview.widget.RecyclerView
-           android:layout_width="match_parent"
-           android:overScrollMode="never"
-           app:layout_constraintTop_toBottomOf="@id/iv_back"
-           android:layout_marginTop="@dimen/_12sdp"
-           app:layout_constraintBottom_toBottomOf="parent"
-           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-           android:orientation="vertical"
-           android:adapter="@{adapter}"
-           android:layout_height="0dp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_400sdp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_white_cornertop_20"
+            android:maxHeight="500dp"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_19sdp"
+            android:visibility="@{caseType == 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_create_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_32sdp"
+                android:background="@drawable/bg_white_corner_20"
+                android:backgroundTint="@color/jade_black"
+                android:maxWidth="200dp"
+                android:maxHeight="60dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/_11sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_plus" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/worksans_semibold"
+                    android:text="@string/create_new"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:adapter="@{adapter}"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_back" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

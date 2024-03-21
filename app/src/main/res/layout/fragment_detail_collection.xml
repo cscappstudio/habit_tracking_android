@@ -27,11 +27,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--            <include-->
-<!--                android:id="@+id/layout_header"-->
-<!--                layout="@layout/layout_header"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
+        <!--            <include-->
+        <!--                android:id="@+id/layout_header"-->
+        <!--                layout="@layout/layout_header"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_back"
@@ -59,6 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/montserratalternates_bold"
+            android:gravity="center_horizontal"
+            android:maxWidth="200dp"
             android:text="Morning Routine"
             android:textColor="@color/bottle_green"
             android:textSize="@dimen/_16ssp"

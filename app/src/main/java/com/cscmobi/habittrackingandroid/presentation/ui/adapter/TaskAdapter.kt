@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -42,9 +43,9 @@ class TaskAdapter(
     var date: Long = Helper.currentDate.toDate()
 
 
-    override fun getItemCount(): Int {
-        return this.currentList.size + 1
-    }
+//    override fun getItemCount(): Int {
+//        return this.currentList.size + 1
+//    }
 
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
@@ -67,8 +68,6 @@ class TaskAdapter(
                         }
 
                         override fun onLoadFailed() {
-//                        currentList.removeAt(1)
-//                        notifyItemRemoved(1)
                         }
 
                     })
@@ -77,11 +76,6 @@ class TaskAdapter(
                 binding.swipeLayout.visibility = View.VISIBLE
                 binding.adView.visibility = View.GONE
             }
-//            val iconResourceId = binding.root.context.resources.getIdentifier(
-//                item.ava,
-//                "drawable",
-//                binding.root.context.packageName
-//            )
 
             var isPause = false
 
@@ -119,11 +113,21 @@ class TaskAdapter(
                     isPause = true
                 }
 
-
             } else {
                 binding.ivPlay.visibility = View.GONE
                 binding.rdCheck.visibility = View.VISIBLE
                 isPause = false
+            }
+            if (isPause) {
+                binding.txtGoal.alpha = 0.5f
+                binding.txtUnit.alpha = 0.5f
+                binding.txtNameTask.alpha = 0.5f
+                binding.shapeableImageView.alpha = 0.5f
+            } else {
+                binding.txtGoal.alpha = 1f
+                binding.txtUnit.alpha = 1f
+                binding.txtNameTask.alpha = 1f
+                binding.shapeableImageView.alpha = 1f
             }
 
             item.goal?.let {
@@ -132,8 +136,6 @@ class TaskAdapter(
                     binding.txtGoal.visibility = View.VISIBLE
                     binding.txtUnit.text = it.unit
                     binding.txtGoal.text = "${it.currentProgress}/${it.target}"
-
-
                 } else {
                     binding.txtUnit.visibility = View.GONE
                     binding.txtGoal.visibility = View.GONE
@@ -174,9 +176,6 @@ class TaskAdapter(
                     binding.txtGoal.setSpanTextView(R.color.coral_red)
                     binding.ctTask.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
 
-                    binding.txtGoal.setAlpha(0.5f)
-                    binding.txtUnit.setAlpha(0.5f)
-                    binding.txtNameTask.setAlpha(0.5f)
 
                     binding.txtNameTask.setTextColor(
                         ContextCompat.getColor(
@@ -185,7 +184,6 @@ class TaskAdapter(
                         )
                     )
 
-                    binding.shapeableImageView.setAlpha(0.5f)
 
                     binding.shapeableImageView.backgroundTintList =
                         ColorStateList.valueOf(Color.parseColor(item.color))
@@ -296,6 +294,7 @@ class TaskAdapter(
 
 
     }
+
     fun TextView.showStrikeThrough(show: Boolean) {
         paintFlags =
             if (show) paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -345,11 +344,11 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position < currentList.size) {
-            binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
-            holder.bind(getItem(position), onItemClickAdapter)
-        } else {
-            holder.binding.root.visibility = View.GONE
-        }
+//        if (position < currentList.size) {
+        binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
+        holder.bind(getItem(position), onItemClickAdapter)
+//        } else {
+//        holder.binding.root.visibility = View.GONE
+//        }
     }
 }

@@ -28,6 +28,7 @@ import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 
 class DetailCollectionFragment :
@@ -35,6 +36,8 @@ class DetailCollectionFragment :
     lateinit var detailCollectionAdapter: BaseBindingAdapter<Task>
     private val collectionViewModel by activityViewModels<CollectionViewModel>()
     private var currentCollection: HabitCollection? = null
+
+    private var currentTask = Task()
 
     @SuppressLint("SetTextI18n")
     override fun initView(view: View) {
@@ -211,11 +214,15 @@ class DetailCollectionFragment :
 
         }, {
             lifecycleScope.launch {
-                currentCollection?.let {
-                    collectionViewModel.userIntent.send(CollectionIntent.DeleteCollection(it))
-                    parentFragmentManager.popBackStack()
+                DialogUtils.showDeleteCollection(requireContext()) {
+                    runBlocking {
+                        currentCollection?.let {
+                            collectionViewModel.userIntent.send(CollectionIntent.DeleteCollection(it))
+                        }
+                    }
+                    Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
+                    requireActivity().finish()
                 }
-
             }
         })
         popup.showAsDropDown(v)

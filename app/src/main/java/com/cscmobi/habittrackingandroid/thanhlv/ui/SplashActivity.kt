@@ -76,7 +76,7 @@ class SplashActivity : BaseActivity2() {
                     ChallengeFragment.allChallenges.postValue(allChallenge.reversed())
                     val myChallenge =
                         AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
-                    ChallengeFragment.myChallenges.postValue(myChallenge)
+                    ChallengeFragment.myChallenges.postValue(myChallenge.reversed())
                 }
 
         }
@@ -186,7 +186,7 @@ class SplashActivity : BaseActivity2() {
 
     private fun createTimer() {
         onActive = true
-        countDownTimer = object : CountDownTimer(3900, 2500) {
+        countDownTimer = object : CountDownTimer(1900, 1500) {
             override fun onTick(millisUntilFinished: Long) {
                 secondsRemaining = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1
             }

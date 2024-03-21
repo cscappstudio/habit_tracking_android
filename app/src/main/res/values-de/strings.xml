@@ -313,6 +313,11 @@
     <string name="completion">Completion</string>
     <string name="there_are_no_habits_yet">There are no habits yet</string>
     <string name="collection_name">Collection name</string>
+    <string name="delete_this_task">Delete this task?</string>
+    <string name="delete_this_challenge">Delete this challenge?</string>
+    <string name="delete_task">Delete task</string>
+    <string name="delete_this_collection">Delete this collection?</string>
+    <string name="delete_collection">Delete collection</string>
 
 
 </resources>

@@ -29,6 +29,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.android.billingclient.api.*
 import com.google.android.gms.ads.MobileAds
@@ -143,6 +144,7 @@ class MyUtils {
                     ?: return
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+
         fun configKeyboardBelowEditText(activity: Activity) {
             val window = activity.window
             window.setFlags(
@@ -425,6 +427,7 @@ class MyUtils {
             }
             SPF.setCountShowAdFull(context, count)
         }
+
         fun parserTimeFromMs(milis: Long): String {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = milis
@@ -447,9 +450,11 @@ class MyUtils {
 
         fun expandView(v: View, durationMs: Int, targetHeightDp: Int) {
             val prevHeight = v.height
-            v.visibility = View.VISIBLE
-            val valueAnimator = ValueAnimator.ofInt(prevHeight, DisplayUtils.dpToPx(targetHeightDp.toFloat()))
+//            v.visibility = View.VISIBLE
+            val valueAnimator =
+                ValueAnimator.ofInt(prevHeight, DisplayUtils.dpToPx(targetHeightDp.toFloat()))
             valueAnimator.addUpdateListener { animation ->
+                if (animation.animatedValue as Int > 0 && !v.isVisible) v.visibility = View.VISIBLE
                 v.layoutParams.height = animation.animatedValue as Int
                 v.requestLayout()
             }
@@ -460,7 +465,8 @@ class MyUtils {
 
         fun collapseView(v: View, durationMs: Int, targetHeightDp: Int) {
             val prevHeight = v.height
-            val valueAnimator = ValueAnimator.ofInt(prevHeight, DisplayUtils.dpToPx(targetHeightDp.toFloat()))
+            val valueAnimator =
+                ValueAnimator.ofInt(prevHeight, DisplayUtils.dpToPx(targetHeightDp.toFloat()))
             valueAnimator.interpolator = DecelerateInterpolator()
             valueAnimator.addUpdateListener { animation ->
                 v.layoutParams.height = animation.animatedValue as Int
@@ -499,7 +505,8 @@ class MyUtils {
                             ) { billingResult11, list1 ->
                                 if (billingResult11.responseCode == BillingClient.BillingResponseCode.OK)
                                     list1.forEach {
-                                        val consumeParams = ConsumeParams.newBuilder().setPurchaseToken(it.purchaseToken).build()
+                                        val consumeParams = ConsumeParams.newBuilder()
+                                            .setPurchaseToken(it.purchaseToken).build()
                                         billingClient.consumeAsync(consumeParams) { billingResult, _ ->
                                             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                                                 println("thanhlv consumePurchase subs --- " + consumeParams.purchaseToken)
@@ -510,7 +517,8 @@ class MyUtils {
                                 billingClient.queryPurchasesAsync(purchasesParamsINAPP) { billingResult111, list2 ->
                                     if (billingResult111.responseCode == BillingClient.BillingResponseCode.OK)
                                         list2.forEach {
-                                            val consumeParams = ConsumeParams.newBuilder().setPurchaseToken(it.purchaseToken).build()
+                                            val consumeParams = ConsumeParams.newBuilder()
+                                                .setPurchaseToken(it.purchaseToken).build()
                                             billingClient.consumeAsync(consumeParams) { billingResult, _ ->
                                                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                                                     println("thanhlv consumePurchase inapp --- " + consumeParams.purchaseToken)
@@ -528,10 +536,10 @@ class MyUtils {
 
         fun checkIntervalTime(): Boolean {
             val cur = System.currentTimeMillis()
-            val interval = RemoteConfigs.instance.getConfigValue(AdsConfigs.KEY_AD_FULL_INTERVAL_TIME).asLong()
+            val interval =
+                RemoteConfigs.instance.getConfigValue(AdsConfigs.KEY_AD_FULL_INTERVAL_TIME).asLong()
             return cur - adFullShowTime >= interval
         }
-
 
 
         open fun shareApp(context: Context) {
@@ -540,15 +548,19 @@ class MyUtils {
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
                 RemoteConfigs.instance.appConfigs.shareText + "\n"
-                        + String.format("https://play.google.com/store/apps/details?id=%s", context.packageName)
+                        + String.format(
+                    "https://play.google.com/store/apps/details?id=%s",
+                    context.packageName
+                )
             )
             sendIntent.type = "text/plain"
             context.startActivity(Intent.createChooser(sendIntent, "Share to"))
         }
+
         fun showMoreApp(context: Context) {
 //        DogApp.ignoreOpenAd = true
             try {
-               context.startActivity(
+                context.startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse(RemoteConfigs.instance.appConfigs.moreAppURL)
@@ -576,7 +588,6 @@ class MyUtils {
             } catch (ignored: java.lang.Exception) {
             }
         }
-
 
 
 //        private fun getValueCurrencyList(): MutableList<ValueCurrencyModel> {

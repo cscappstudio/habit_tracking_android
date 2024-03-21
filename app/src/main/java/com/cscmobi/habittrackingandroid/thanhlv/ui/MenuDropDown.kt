@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.PopupWindow
+import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailChallengeBinding
 import com.cscmobi.habittrackingandroid.databinding.MenuDropDownLayoutBinding
 import com.thanhlv.fw.helper.DisplayUtils
@@ -20,32 +21,25 @@ class MenuDropDown(
         val binding = MenuDropDownLayoutBinding.inflate(LayoutInflater.from(context))
         contentView = binding.root
         setBackgroundDrawable(null)
-        width = DisplayUtils.dpToPx(160f)
-        height = DisplayUtils.dpToPx(100f)
         isFocusable = true
         isOutsideTouchable = true
 
         if (type == 2) {
-            binding.btnReset.text = "Edit"
-            binding.btnCancel.text = "Delete"
+            binding.btnReset.text = context.getString(R.string.edit)
+            binding.btnCancel.text = context.getString(R.string.delete)
+            binding.btnCancel.setTextColor(Color.parseColor("#FB7950"))
         } else {
-            binding.btnReset.text = "Reset"
-            binding.btnCancel.text = "Stop"
-        }
-
-        // Set click listeners for menu items
-        if (reset)
-            binding.btnReset.setOnClickListener {
-                // Handle click for Menu Item 1
+            binding.btnReset.text = context.getString(R.string.reset)
+            binding.btnCancel.text = context.getString(R.string.stop)
+            if (reset) binding.btnReset.setOnClickListener {
                 resetAction.invoke()
-                dismiss() // Dismiss the popup menu
+                dismiss()
             } else {
-            binding.btnReset.isEnabled = false
-            binding.btnReset.setTextColor(Color.parseColor("#b5b5b5"))
+                binding.btnReset.isEnabled = false
+                binding.btnReset.setTextColor(Color.parseColor("#b5b5b5"))
+            }
         }
-
         binding.btnCancel.setOnClickListener {
-            // Handle click for Menu Item 2
             cancelAction.invoke()
             dismiss() // Dismiss the popup menu
         }

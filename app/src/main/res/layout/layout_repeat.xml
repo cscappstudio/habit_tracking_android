@@ -50,6 +50,7 @@
 
         <TextView
             android:id="@+id/txt_daily"
+            style="@style/Text_500"
             android:layout_width="0dp"
             android:layout_height="@dimen/_32sdp"
             android:layout_marginStart="24dp"
@@ -95,6 +96,7 @@
             android:background="@drawable/bg_white_corner_20"
             android:gravity="center"
             android:text="@string/monthly"
+            style="@style/Text_500"
             android:textSize="14sp"
             android:visibility="@{isRepeatEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +171,7 @@
             <GridView
                 android:id="@+id/calendar_gridview"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_165sdp"
+                android:layout_height="210dp"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_white_corner_18"
