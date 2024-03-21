@@ -10,7 +10,10 @@ import com.cscmobi.habittrackingandroid.data.repository.CollectionRepository
 import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
+import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
+import com.thanhlv.fw.helper.MyUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -25,6 +28,8 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONObject
 
 class CollectionViewModel constructor(
     private val repository: CollectionRepository,
@@ -255,24 +260,11 @@ class CollectionViewModel constructor(
 
     }
 
-    fun tag(): MutableList<Tag> {
-        return mutableListOf(
-            Tag("No Tag"),
-            Tag("Workout"),
-            Tag("Clean room"),
-            Tag("Healthy Lifestyle"),
-            Tag("Relationship"),
-            Tag("Sleep better"),
-            Tag("Hit the Gym"),
-            Tag("Morning Routine"),
-            Tag("Nighttime"),
-            Tag("Daily Chores"),
-            Tag("Study Groups"),
-            Tag("Stress Relief"),
-            Tag("Get Fit"),
-            Tag("Finance"),
-            Tag("Self-Improvements")
-        )
+    suspend fun tag(): MutableList<Tag> {
+        val allTags = AppDatabase.getInstance(context).dao().getAllTags().reversed()
+        val result = mutableListOf<Tag>(Tag("No Tag"))
+        allTags.forEach { result.add(Tag(it.name)) }
+        return result
     }
 
 }

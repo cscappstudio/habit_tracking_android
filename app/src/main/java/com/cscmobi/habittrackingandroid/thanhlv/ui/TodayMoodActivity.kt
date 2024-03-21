@@ -43,7 +43,6 @@ class TodayMoodActivity : BaseActivity2() {
     }
 
     override fun loadData() {
-        val moodData = MoodData(this)
     }
 
     override fun initView() {

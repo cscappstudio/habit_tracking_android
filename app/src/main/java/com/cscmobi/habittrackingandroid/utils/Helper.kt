@@ -52,7 +52,7 @@ object Helper {
         if (isPauseValidate) {
             task.pauseDate?.let {
                 if (task.pause != -1) {
-                    var c = Calendar.getInstance()
+                    val c = Calendar.getInstance()
                     c.time = Date(it)
                     c.add(Calendar.DAY_OF_MONTH, task.pause - 1)
 
@@ -67,11 +67,10 @@ object Helper {
         }
 
 
-        task.repeate?.let {
-            if (it.isOn == true) {
+        task.repeate.let {
+            if (it.isOn) {
                 when (it.type) {
                     "daily" -> {
-
                         isValid =
                             abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % it.frequency == 0
 
@@ -103,7 +102,8 @@ object Helper {
                     }
                 }
                 Log.d("isValid", "2 $isValid")
-
+            } else {
+                isValid = CalendarUtil.getToDayMs() == CalendarUtil.startDayMs(date)
             }
 
         }
@@ -115,7 +115,7 @@ object Helper {
                 isValid = false
                 Log.d("isValid", "3 $isValid")
 
-            }
+            } else isValid = true
         }
 
         if (task.endDate.isOpen == true && task.endDate.endDate != null && task.endDate.endDate!! < _date) {
@@ -124,8 +124,6 @@ object Helper {
         }
 
 
-
-        if (isValid == false) Log.d("isvalid", task.name.toString())
         return isValid
     }
 

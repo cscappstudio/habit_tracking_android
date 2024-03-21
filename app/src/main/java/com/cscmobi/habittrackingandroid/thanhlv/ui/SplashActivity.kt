@@ -21,6 +21,7 @@ import com.cscmobi.habittrackingandroid.databinding.ActivitySplashBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
 import com.cscmobi.habittrackingandroid.thanhlv.consent.GoogleMobileAdsConsentManager
 import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData
+import com.cscmobi.habittrackingandroid.thanhlv.data.MoodData
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.helper.NotificationHelper
 import com.google.android.gms.ads.MobileAds
@@ -64,6 +65,7 @@ class SplashActivity : BaseActivity2() {
         RunUtils.runInBackground {
 
             val challengeData = ChallengeData(this)
+            val moodData = MoodData(this)
 
             loadRemoteConfigs()
 //            getPurchaseHistory()

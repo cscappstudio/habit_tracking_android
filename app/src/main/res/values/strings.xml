@@ -11,7 +11,7 @@
     <string name="korean" translatable="false">한국인</string>
     <string name="french" translatable="false">Français</string>
     <string name="spanish" translatable="false">Español</string>
-    <string name="rusian" translatable="false">Русский</string>
+    <string name="russian" translatable="false">Русский</string>
     <string name="filipino" translatable="false">Filipino</string>
     <string name="thailand" translatable="false">Thailand</string>
     <string name="vietnamese" translatable="false">Tiếng Việt</string>
@@ -131,7 +131,6 @@
     <string name="delete">Delete</string>
     <string name="create_collection">CREATE COLLECTION</string>
     <string name="next">NEXT</string>
-    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">Choose one of the avaiable images that best fits your content</string>
     <string name="new_habit">New Habit</string>
     <string name="note">Note</string>
     <string name="goal">Goal</string>

@@ -10,7 +10,9 @@ import android.net.ConnectivityManager
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.R
+import com.cscmobi.habittrackingandroid.data.model.ChallengeDays
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
+import com.cscmobi.habittrackingandroid.data.model.TaskInChallenge
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailChallengeBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
@@ -21,6 +23,7 @@ import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil.Companion.getDaysBetween
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.google.gson.Gson
+import com.google.protobuf.duration
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_BANNER_DETAIL_CHALLENGE
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
@@ -87,6 +90,7 @@ class DetailChallengeActivity : BaseActivity2() {
             }
 
         }
+        loadBanner()
     }
 
     private var hasReset = true
@@ -266,6 +270,8 @@ class DetailChallengeActivity : BaseActivity2() {
             mChallenge!!.joinedHistory = joined
             if (isTryPremium) {
                 mChallenge!!.tryCount += 1
+
+                //pending for release try count
                 SPF.setTryChallengePremium(this@DetailChallengeActivity, 1)
             }
             resolverDataJoinChallenge()
@@ -292,69 +298,20 @@ class DetailChallengeActivity : BaseActivity2() {
 
     private suspend fun resolverDataJoinChallenge() {
         if (mChallenge == null) return
-        if (mChallenge!!.repeat.isEmpty()) mChallenge!!.repeat = listOf(2, 3, 4, 5, 6, 7, 1)
-        val listDate = getListDateFill(mChallenge!!.repeat, mChallenge!!.duration)
-        var startDate = 0
-
-        var out = false
-//        for (i in 1..mChallenge!!.duration / mChallenge!!.cycle) {
-        for (j in 0 until mChallenge!!.days.size) {
-            for (k in 0 until mChallenge!!.days[j].tasks!!.size) {
-//                    if (getDaysBetween(
-//                            listDate[0],
-//                            listDate[startDate]
-//                        ) > (mChallenge!!.duration - 1)
-//                    ) {
-////                        out = true
-//                        break
-//                    }
-                val task = mChallenge!!.days[j].tasks!![k].parserToTask()
+        for (dayNo in 0 until mChallenge!!.days.size) {
+            for (taskNo in 0 until mChallenge!!.days[dayNo].tasks!!.size) {
+                val task = mChallenge!!.days[dayNo].tasks!![taskNo].parserToTask()
                 task.challenge = mChallenge!!.name
-                task.startDate = listDate[startDate]
+                task.startDate = listDate[dayNo]
                 task.imgChallenge = mChallenge!!.image
                 task.endDate.isOpen = true
                 task.endDate.endDate = task.startDate!!
                 val taskId = AppDatabase.getInstance(applicationContext).dao().insertTask(task)
-                mChallenge!!.days[j].tasks!![k].startDate = task.startDate
-                mChallenge!!.days[j].tasks!![k].id = taskId
-            }
-            startDate++
-            if (getDaysBetween(
-                    listDate[0],
-                    listDate[startDate]
-                ) > (mChallenge!!.duration - 1)
-            ) {
-//                    out = true
-                break
+                mChallenge!!.days[dayNo].tasks!![taskNo].startDate = task.startDate
+                mChallenge!!.days[dayNo].tasks!![taskNo].id = taskId
             }
         }
-//            if (out) break
-//        }
         AppDatabase.getInstance(applicationContext).dao().updateChallenge(mChallenge!!)
-    }
-
-    private fun getListDateFill(repeat: List<Int>, duration: Int): List<Long> {
-        val startDate = CalendarUtil.startDayMs(System.currentTimeMillis())
-
-        var nextDay = CalendarUtil.startWeekMs(startDate)
-        var rangeDate = arrayListOf<Long>()
-        rangeDate.add(nextDay)
-        for (i in 0..duration + 7) {
-            nextDay = CalendarUtil.nextDayMs(nextDay)
-            rangeDate.add(nextDay)
-        }
-        val tem = arrayListOf<Long>()
-        rangeDate.forEach {
-            if (repeat.contains(CalendarUtil.dayOfWeek(it))) tem.add(it)
-        }
-
-        rangeDate = arrayListOf<Long>()
-        tem.forEach {
-            if (it >= startDate) {
-                rangeDate.add(it)
-            }
-        }
-        return rangeDate
     }
 
     private var adapter: DetailChallengeAdapter? = null
@@ -374,16 +331,16 @@ class DetailChallengeActivity : BaseActivity2() {
         if (mChallenge == null) return mutableListOf()
 
         createListDateForTask()
-
         val temp = mutableListOf<TaskTimelineModel>()
+
         runBlocking {
             isMissChallenge = false
             isDoneChallenge = true
             totalTask = 0
             doneTask = 0
-            mChallenge?.days?.forEach { _it ->
-                _it.tasks?.forEach {
-                    it.dayNo = _it.dayNo
+            mChallenge?.days?.forEachIndexed { index, challengeDay ->
+                challengeDay.tasks?.forEach {
+                    it.dayNo = challengeDay.dayNo
                     if (mChallenge?.joinedHistory != null && it.startDate != null) {
                         val idTask = it.id
                         val historyByDate =
@@ -418,7 +375,7 @@ class DetailChallengeActivity : BaseActivity2() {
                     val new = TaskTimelineModel(it)
                     new.type = 1
                     new.status = it.state
-
+                    if (mChallenge?.joinedHistory == null) new.task.startDate = listDate[index]
                     temp.add(new)
                     totalTask += 1
                 }
@@ -443,9 +400,11 @@ class DetailChallengeActivity : BaseActivity2() {
         return temp
     }
 
-    var listDate = mutableListOf<Long>()
+    private var listDate = mutableListOf<Long>()
+
     private fun createListDateForTask() {
         if (mChallenge == null) return
+        if (mChallenge!!.repeat.isEmpty()) mChallenge!!.repeat = listOf(2, 3, 4, 5, 6, 7, 1)
         val today = CalendarUtil.startDayMs(System.currentTimeMillis())
         val todayOfWeek = CalendarUtil.dayOfWeek(today)
         val thisWeek = mutableListOf<Long>()
@@ -453,7 +412,7 @@ class DetailChallengeActivity : BaseActivity2() {
             for (i in 0..6) {
                 val day = today - i * 24 * 60 * 60 * 1000
                 if (mChallenge!!.repeat.contains(CalendarUtil.dayOfWeek(day)))
-                    thisWeek.add(day)
+                    thisWeek.add(0, day)
             }
         } else {
             val start = 2 - todayOfWeek
@@ -464,15 +423,27 @@ class DetailChallengeActivity : BaseActivity2() {
             }
         }
 
+        val round = mChallenge!!.duration / thisWeek.size + 2
+        val rangeWeek = mutableListOf<Long>()
+        for (i in 0..round) {
+            thisWeek.forEach {
+                rangeWeek.add(it + i * 7 * 24 * 60 * 60 * 1000)
+            }
+        }
 
-    }
-
-    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            loadBanner()
+        rangeWeek.forEach {
+            if (it >= today) listDate.add(it)
+            if (listDate.size == mChallenge!!.duration)
+                return@forEach
         }
     }
+
+//    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+//    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+//        override fun onReceive(context: Context, intent: Intent) {
+//            loadBanner()
+//        }
+//    }
 
     private fun loadBanner() {
         if (NetworkHelper.isNetworkAvailable(this@DetailChallengeActivity)
@@ -492,14 +463,14 @@ class DetailChallengeActivity : BaseActivity2() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        registerReceiver(mReceiver, mIntentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(mReceiver)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        registerReceiver(mReceiver, mIntentFilter)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        unregisterReceiver(mReceiver)
+//    }
 }
 

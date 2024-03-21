@@ -57,13 +57,19 @@ class CreateChallengeActivity : BaseActivity2() {
     private var listDayView = arrayListOf<TextView>()
 
     private var mImgChallenge = "album_collection1.png"
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (!isFinishing) MyUtils.hideSoftInput(this)
+        finish()
+    }
+
     override fun controllerView() {
         binding.btnStartChallenge.setOnClickListener {
             performCreateChallenge()
         }
         binding.btnBackHeader.setOnClickListener {
-            MyUtils.hideSoftInput(it)
-            finish()
+            onBackPressed()
         }
 
         binding.rootView.setOnClickListener {
@@ -105,12 +111,18 @@ class CreateChallengeActivity : BaseActivity2() {
         if (!validateData()) return
         MyUtils.hideSoftInput(this)
         val listDayTask = arrayListOf<ChallengeDays>()
-        for (i in 1..binding.edtCycle.text.toString().toInt()) {
+        val circle = binding.edtCycle.text.toString().toIntOrNull() ?: 1
+        val duration = binding.edtDuration.text.toString().toIntOrNull() ?: 1
+        for (i in 1..duration) {
             val challengeDay = ChallengeDays(i)
             val taskInDay = arrayListOf<TaskInChallenge>()
             var taskNo = 0
+
+            var dayInCircle = i % circle
+            if (dayInCircle == 0) dayInCircle = circle
+
             mDataTaskCreateChallenge.forEach {
-                if (it.day == i && it.type > 1) {
+                if (it.day == dayInCircle && it.type > 1) {
                     val task = it.parserToTaskInChallenge()
                     task.dayNo = i
                     task.taskNo = taskNo
@@ -205,6 +217,8 @@ class CreateChallengeActivity : BaseActivity2() {
 
 
     private fun spinnerRepeatDay() {
+
+        MyUtils.hideSoftInput(this)
         if (binding.selectRepeatDay.visibility == View.GONE) {
             binding.icSpinRepeat.animate().rotationBy(180f).setDuration(200).start()
             MyUtils.expandView(binding.selectRepeatDay, 200, 76)
@@ -215,6 +229,8 @@ class CreateChallengeActivity : BaseActivity2() {
     }
 
     private fun clickDayView(day: Int, view: TextView) {
+
+        MyUtils.hideSoftInput(this)
         listDayState[day] = !listDayState[day]
         if (listDayState[day]) {
             view.backgroundTintList = ColorStateList.valueOf(

@@ -1,7 +1,9 @@
 package com.cscmobi.habittrackingandroid.thanhlv.data
 
 import android.content.Context
+import com.cscmobi.habittrackingandroid.data.model.Tag
 import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
+import com.thanhlv.fw.helper.MyUtils
 import com.thanhlv.fw.helper.MyUtils.Companion.readJsonAsset
 import org.json.JSONArray
 import org.json.JSONObject
@@ -11,11 +13,15 @@ class MoodData(var mContext: Context) {
 
     companion object {
         var mDescribeList = mutableListOf<FeelingTagModel>()
+        var mTagDefault = mutableListOf<Tag>()
     }
 
     init {
         mDescribeList.clear()
         mDescribeList.addAll(getMoodData())
+
+        mTagDefault.clear()
+        mTagDefault.addAll(getTagDefault())
     }
 
     private fun getMoodData(): List<FeelingTagModel> {
@@ -41,5 +47,16 @@ class MoodData(var mContext: Context) {
         return list
     }
 
+    private fun getTagDefault(): List<Tag> {
+        val list = mutableListOf<Tag>()
+        val str = readJsonAsset(mContext, "mood_default.json")
+        val jsonObject = JSONObject(str)
+
+        val tag: JSONArray = jsonObject.getJSONArray("tag")
+        for (i in 0 until tag.length()) {
+            list.add(Tag(tag[i].toString()))
+        }
+        return list
+    }
 
 }

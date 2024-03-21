@@ -113,14 +113,13 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 
     }
 
-   fun fetchHistoryByTask(task: Task) {
+   private fun fetchHistoryByTask(task: Task) {
        viewModelScope.launch {
            databaseRepository.getHistoryWithDate(task.startDate!!.toDate()).collect{
                var filterHistory = it.toMutableList()
-                println("chaulq_history______________________________$filterHistory")
-               task.repeate?.let {
-                   repeat ->
-                   if (repeat.isOn == true) {
+
+               task.repeate.let { repeat ->
+                   if (repeat.isOn) {
                        filterHistory.clear()
                        repeat.frequency
                        repeat.days
@@ -129,9 +128,10 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
                                filterHistory = it.filter {    abs(Utils.getDayofYear(it.date!!) - Utils.getDayofYear(task.startDate!!)) % repeat.frequency == 0 }
                                    .toMutableList()
                            }
+
                            "weekly" -> {
                                it.forEach {history ->
-                               var checkWeekValid =
+                                   var checkWeekValid =
                                        abs(Utils.getWeek(history.date!!) - Utils.getWeek(task.startDate!!)) % repeat.frequency == 0
                                    if (checkWeekValid) {
                                        var dayValid = repeat.days?.find { it == Utils.getDayofWeek(history.date!!) }
@@ -141,6 +141,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
                                }
 
                            }
+
                            "monthly" -> {
                                it.forEach { history ->
                                    var checkMonthValid =

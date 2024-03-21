@@ -13,12 +13,17 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class DatabaseRepositoryImpl(private val dao: Dao) : DatabaseRepository {
+
+    fun init() {
+        
+    }
     override suspend fun insertTask(task: Task) {
         dao.insertTask(task)
 
     }
 
     override suspend fun getAllTask(): Flow<List<Task>> {
+        init()
         return dao.getAllTask()
     }
 

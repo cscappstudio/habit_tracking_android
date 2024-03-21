@@ -286,7 +286,7 @@ class HomeViewModel(
             databaseRepository.getAllTask().collect {
                 try {
 
-                    var taskFilter = it.filter { validateTask(it, date, false) }
+                    val taskFilter = it.filter { validateTask(it, date, false) }
 
 
                     tasks = taskFilter.toMutableList()

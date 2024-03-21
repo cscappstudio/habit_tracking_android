@@ -2,10 +2,13 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import com.cscmobi.habittrackingandroid.data.model.Tag
 import com.cscmobi.habittrackingandroid.databinding.ActivityQuestionFoBinding
 import com.cscmobi.habittrackingandroid.thanhlv.data.ChallengeData.Companion.mChallengeDefaultList
+import com.cscmobi.habittrackingandroid.thanhlv.data.MoodData.Companion.mTagDefault
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
+import com.cscmobi.habittrackingandroid.thanhlv.model.Tags
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.helper.RunUtils
 import kotlinx.coroutines.runBlocking
@@ -89,6 +92,13 @@ class QuestionFOActivity : BaseActivity2() {
             challenge.tryCount = it.tryCount
             AppDatabase.getInstance(applicationContext).dao().insertChallenge(challenge)
         }
+
+        mTagDefault.forEach {
+            val tag = Tags()
+            tag.name = it.name
+            AppDatabase.getInstance(applicationContext).dao().insertTag(tag)
+        }
+
     }
 
     @SuppressLint("MissingSuperCall")

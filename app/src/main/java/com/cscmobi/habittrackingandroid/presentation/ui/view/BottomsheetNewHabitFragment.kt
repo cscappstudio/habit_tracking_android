@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,8 +21,11 @@ import com.cscmobi.habittrackingandroid.data.model.Tag
 import com.cscmobi.habittrackingandroid.databinding.BottomsheetFragmentNewHabitBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionViewModel
+import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
+import com.cscmobi.habittrackingandroid.thanhlv.model.Tags
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.runBlocking
 
 
 class BottomsheetNewHabitFragment :
@@ -74,23 +78,25 @@ class BottomsheetNewHabitFragment :
                 // input repeat
                 if (!invalidateRepeat()) return@setOnClickListener
                 bottomlistener?.saveUnitNumberRepeat(binding.edt.text.toString().toInt())
+                this.dismiss()
             } else {
                 // input tag
-                bottomlistener?.createTag(binding.edt.text.toString())
+                val newTag = binding.edt.text.toString()
+                if (newTag.isEmpty() && newTag != "No Tag") {
+                    bottomlistener?.createTag(newTag)
+                    runBlocking {
+                        AppDatabase.getInstance(requireContext()).dao()
+                            .insertTag(Tags(newTag))
+                    }
+                }
+                this.dismiss()
             }
-            this.dismiss()
         }
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initTag() {
-            tags = collectionViewModel.tag()
-        if (tagSelect.isEmpty()) {
-            tags[0].isSelected = true
-        } else {
-            val pos = tags.indexOfFirst { it.name == tagSelect }
-            if (pos != -1) tags[pos].isSelected = true
-        }
         taskAdapter = BaseBindingAdapter(
             R.layout.item_tag,
             layoutInflater,
@@ -120,10 +126,21 @@ class BottomsheetNewHabitFragment :
                 taskAdapter?.notifyDataSetChanged()
 
             }
-
         })
 
         binding.adapter = taskAdapter
+
+        runBlocking {
+            tags = collectionViewModel.tag()
+            if (tagSelect.isEmpty()) {
+                tags[0].isSelected = true
+            } else {
+                val pos = tags.indexOfFirst { it.name == tagSelect }
+                if (pos != -1) tags[pos].isSelected = true
+            }
+            taskAdapter?.submitList(tags)
+            taskAdapter?.notifyDataSetChanged()
+        }
     }
 
     private fun invalidateRepeat(): Boolean {
@@ -140,51 +157,6 @@ class BottomsheetNewHabitFragment :
             return false
         }
         return true
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initObserverForSystemKeyboardVisibility()
-    }
-
-    private fun initObserverForSystemKeyboardVisibility() {
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-            // Add your own code here
-            if (!Utils.isSystemKeyboardVisible(requireActivity())) {
-
-                context?.let {
-                    binding.ctlRoot.setPadding(
-                        0,
-                        0,
-                        0,
-                       0
-                    )
-
-                }
-
-
-            } else {
-
-                context?.let {
-                    binding.ctlRoot.setPadding(
-                        0,
-                        0,
-                        0,
-                        resources.getDimension(com.intuit.sdp.R.dimen._120sdp).toInt()
-                    )
-
-                }
-                binding.root.viewTreeObserver.removeOnGlobalLayoutListener(null)
-
-
-            }
-
-
-            //                Log.d(
-            //                    "TEST_CODE",
-            //                    "isSystemKeyboardVisible:" + isSystemKeyboardVisible(requireActivity())
-            //                )
-        }
     }
 
     interface BottomListener {

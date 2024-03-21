@@ -330,7 +330,7 @@
                 android:backgroundTint="#f5f5f5"
                 android:gravity="center_vertical"
                 android:paddingStart="80dp"
-                android:text="@string/rusian"
+                android:text="@string/russian"
                 android:textColor="#393E3C"
                 android:textFontWeight="500"
                 android:textSize="16sp"

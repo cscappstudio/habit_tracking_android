@@ -87,6 +87,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
@@ -167,25 +168,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
                 getDatesofWeek()
                 resolveScrollButtonToday(currentDate)
-//                if (currentDate == Helper.currentDate.toDate()) {
-//                    binding.llToday.visibility = View.GONE
-//                    binding.txtDate.text = getString(R.string.today)
-//                } else {
-//                    binding.llToday.visibility = View.VISIBLE
-//
-//                    val dateFormat = DateFormat.format("MMM dd, yyyy", currentDate)
-//                    binding.txtDate.text = dateFormat
-//
-//                }
-//
-//                binding.llToday.visibility =
-//                    if (currentDate == Helper.currentDate.toDate()) View.INVISIBLE else View.VISIBLE
-//                if (currentDate < Helper.currentDate.toDate()) {
-//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_right)
-//
-//                } else {
-//                    binding.ivArrow.setImageResource(R.drawable.nav_arrow_left)
-//                }
                 weekAdapter.notifyDataSetChanged()
 
                 data.indexOfFirst { it.localDate!!.toDate() == currentDate }.let {
@@ -321,6 +303,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeState() {
         lifecycleScope.launch {
             homeViewModel.state.collect { state ->
@@ -328,6 +311,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                 when (state) {
                     is HomeState.Tasks -> {
+
+
                         binding.rcvChallenge.visibility = View.VISIBLE
 
                         binding.llTask.visibility = View.VISIBLE
@@ -341,14 +326,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             categories.add("   All   ")
                             categories.addAll(state.tasks.map { it.tag }.distinct())
                             initChips(categories)
-                            setUpView(listTask)
+//                            setUpView(listTask)
 
                             hasInitChip = true
                         }
+
+                        setUpView(listTask)
                         initTaskAdapter()
-
                         setUpChallenge()
-
 
                         if (currentDate == Helper.currentDate.toDate() && oldCurrentDate < currentDate) {
                             currentHistory?.let {
@@ -364,7 +349,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                 }
                                 taskAdapter?.notifyDataSetChanged()
                                 tasksChallenge =
-                                    listTask.filter { !it.challenge.isNullOrEmpty() }.map {
+                                    listTask.filter { it.challenge.isNotEmpty() }.map {
                                         ChallengeHomeItem(
                                             idTask = it.id,
                                             note = it.name!!,
@@ -385,9 +370,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
 
                     is HomeState.Empty -> {
+                        listTask = mutableListOf()
                         binding.rcvChallenge.visibility = View.GONE
                         binding.isTasksEmpty = true
-
+                        setUpView(listTask)
 
                     }
 
@@ -402,7 +388,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         lifecycleScope.launch {
             homeViewModel.currentHistory.collect {
-                println("resettttttttttttttttttttttttttttttttttt")
+                println("thanhlv resettttttttttttttttttttttttttttttttttt " + currentDate)
                 listTask = listTask.filter { it.id != IDLE }.toMutableList()
                 if (it.id != IDLE) {
                     if (it.id != -1L) {
@@ -411,14 +397,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                         val dataIndex = data.indexOfFirst { it.localDate!!.toDate() == currentDate }
                         if (dataIndex != -1) {
-                            var tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
-                            var tasksNum = it.taskInDay.size
+                            val tasksFinishNum = it.taskInDay.filter { it.progress == 100 }.size
+                            val tasksNum = it.taskInDay.size
 
                             data[dataIndex].progress = calTaskProgress(tasksFinishNum, tasksNum)
                         }
 
                         it.taskInDay.forEach { taskInDay ->
-                            var index = listTask.indexOfFirst { it.id == taskInDay.taskId }
+                            val index = listTask.indexOfFirst { it.id == taskInDay.taskId }
                             if (index != -1) {
 
                                 listTask[index].goal?.currentProgress = taskInDay.progressGoal
@@ -532,17 +518,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         var taskFinishNumber = 0
-        val taskNotChallenge = task.filter { it.challenge.isNullOrEmpty() }
+        val taskNotChallenge = task.filter { it.challenge.isEmpty() }
         var totalTask = 0
         var taskDone = 0
-        totalTask = taskNotChallenge.size
+//        totalTask = taskNotChallenge.size
         taskNotChallenge.forEach {
-            it.goal?.let { goal ->
-                if (goal.currentProgress >= goal.target) taskFinishNumber++
+            if (!checkTaskPaused(it)) {
+                totalTask++
+                it.goal?.let { goal ->
+                    if (goal.currentProgress >= goal.target) taskFinishNumber++
+                }
             }
         }
         taskDone = taskFinishNumber
-        var taskChallenge = task.filter { !it.challenge.isNullOrEmpty() }.groupBy { it.challenge }
+        var taskChallenge = task.filter { it.challenge.isNotEmpty() }.groupBy { it.challenge }
 
         var totalChallenge = taskChallenge.size
         var challengeFinish = taskChallenge.size
@@ -618,6 +607,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    private fun checkTaskPaused(task: Task): Boolean {
+        if (task.pause == 0 || task.pauseDate == null) return false
+        if (task.pause == -1) return true
+
+        val diff = abs(CalendarUtil.getToDayMs() - CalendarUtil.startDayMs(task.pauseDate!!))
+        return diff < task.pause * 24 * 60 * 60 * 1000
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     fun setUpChallenge() {
         tasksChallenge = listTask.filter { !it.challenge.isNullOrEmpty() }.map {
             ChallengeHomeItem(
@@ -667,42 +665,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
 
                 tasksChallenge[p].stateDone = !item.stateDone
-//                item.stateDone = !item.stateDone
-
                 challengeHomeAdpater.notifyItemChanged(p)
-
                 challengePassHistoryTaskMap[item.name]?.forEachIndexed { index, it ->
-
-                    //                   if (it.infoTask.id == item.idTask) { //                      it.infoTask.status = tasksChallenge[p].stateDone
-//                        isChallengeDone = it.infoTask.status
-//
-//                        if (index - 1 >= 0 && challengePassHistoryTaskMap[item.name]?.get(index - 1)?.infoTask?.status == false) {
-//                            val intent =
-//                                Intent(requireContext(), DetailChallengeActivity::class.java)
-//
-//                            runBlocking {
-//                                val challenge = AppDatabase.getInstance(requireContext()).dao()
-//                                    .findChallengeByName(item.name)
-//                                intent.putExtra("data", Gson().toJson(challenge))
-//                                startActivity(intent)
-//                            }
-//                            return
-//                        }
-
-
-                    //         }
-//                    if (!it.infoTask.status) {
-//                        val intent =
-//                            Intent(requireContext(), DetailChallengeActivity::class.java)
-//
-//                        runBlocking {
-//                            val challenge = AppDatabase.getInstance(requireContext()).dao()
-//                                .findChallengeByName(item.name)
-//                            intent.putExtra("data", Gson().toJson(challenge))
-//                            startActivity(intent)
-//                        }
-//                        return
-//                    }
 
                 }
 
@@ -761,11 +725,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun setUpProgress1Tasks(challengeFinish: Int, totalChallenge: Int) {
         binding.txtProgress1.text = "$challengeFinish/$totalChallenge"
         binding.txtProgress1.setSpanTextView(R.color.forest_green)
+
+        binding.txtContent.text = getString(R.string.you_re_almost_done)
+        binding.txtProgress1.visibility = View.VISIBLE
+        binding.txtProgress2.visibility = View.VISIBLE
+        binding.txtUnit1.visibility = View.VISIBLE
+        binding.txtUnit2.visibility = View.VISIBLE
+        binding.txtDoneTask.visibility = View.INVISIBLE
     }
 
     private fun setUpProgress2Tasks(taskDone: Int, totalTask: Int) {
         binding.txtProgress2.text = "$taskDone/$totalTask"
         binding.txtProgress2.setSpanTextView(R.color.forest_green)
+
+        binding.txtContent.text = getString(R.string.you_re_almost_done)
+        binding.txtProgress1.visibility = View.VISIBLE
+        binding.txtProgress2.visibility = View.VISIBLE
+        binding.txtUnit1.visibility = View.VISIBLE
+        binding.txtUnit2.visibility = View.VISIBLE
+        binding.txtDoneTask.visibility = View.INVISIBLE
     }
 
     private fun initTaskAdapter() {
@@ -886,6 +864,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     item.goal?.currentProgress = 0
                 }
 
+//                runBlocking {
+//                    AppDatabase.getInstance(requireContext()).dao().updateTask(item)
+//                }
+
+
                 taskAdapter.notifyItemChanged(p)
                 setUpView(listTask)
                 lifecycleScope.launch {
@@ -899,7 +882,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         weekAdapter.notifyItemChanged(currentPosWeek)
                         homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
                     }
-                    delay(500L)
+//                    delay(500L)
                 }
             }
 
@@ -1022,7 +1005,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             if (currentDate.diffDays(Helper.currentDate.toDate()) < 3) {
                 binding.rcvWeek.postDelayed(
                     { scrollToPositionWithCentering(homeViewModel.currentWeekPos) },
-                    200
+                    100
                 )
             } else scrollToPositionWithCentering(homeViewModel.currentWeekPos)
             data.forEach { day -> day.isSelected = false }
@@ -1033,6 +1016,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             lifecycleScope.launch {
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
             }
+
+//            setUpView(homeViewModel.tasks)
         }
 
         binding.btnTodayLeft.setOnClickListener { it ->
@@ -1040,7 +1025,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             if (currentDate.diffDays(Helper.currentDate.toDate()) > -3) {
                 binding.rcvWeek.postDelayed(
                     { scrollToPositionWithCentering(homeViewModel.currentWeekPos) },
-                    200
+                    100
                 )
             } else scrollToPositionWithCentering(homeViewModel.currentWeekPos)
             data.forEach { day -> day.isSelected = false }
@@ -1051,6 +1036,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             lifecycleScope.launch {
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
             }
+
+//            setUpView(homeViewModel.tasks)
         }
         binding.btnAddMood.setOnClickListener {
             startActivity(Intent(requireContext(), MoodActivity::class.java))
@@ -1065,7 +1052,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun initWeekAdapter() {
-        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH)
         addDecoration()
         getDatesofWeek()
         weekAdapter = WeekAdapter(object : OnItemClickPositionListener {
@@ -1077,14 +1063,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 currentDate = date[position].toDate()
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+//                    delay(200)
+//                    setUpView(homeViewModel.tasks)
                 }
+
                 resolveScrollButtonToday(currentDate)
 
                 weekAdapter.notifyDataSetChanged()
 
                 binding.rcvWeek.postDelayed(Runnable {
                     scrollToPositionWithCentering(position)
-                }, 100L)
+                }, 50L)
             }
 
         })

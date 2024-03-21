@@ -2,8 +2,6 @@ package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import com.cscmobi.habittrackingandroid.BuildConfig
@@ -11,7 +9,6 @@ import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseFragment
 import com.cscmobi.habittrackingandroid.databinding.FragmentProfileBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.activity.MainActivity
-import com.cscmobi.habittrackingandroid.thanhlv.adapter.*
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.constant.AppConfigs
 import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_PASS_REVIEW_APP
@@ -21,7 +18,6 @@ import com.thanhlv.fw.helper.MyUtils.Companion.gotoStore
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.remoteconfigs.RemoteConfigs
 import com.thanhlv.fw.spf.SPF
-import java.util.*
 
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
@@ -57,7 +53,7 @@ class ProfileFragment :
                 "hi" -> binding.tvLanguage.text = getString(R.string.hindi)
                 "es" -> binding.tvLanguage.text = getString(R.string.spanish)
                 "ko" -> binding.tvLanguage.text = getString(R.string.korean)
-                "ru" -> binding.tvLanguage.text = getString(R.string.rusian)
+                "ru" -> binding.tvLanguage.text = getString(R.string.russian)
                 "pt" -> binding.tvLanguage.text = getString(R.string.portuguese)
             }
         }

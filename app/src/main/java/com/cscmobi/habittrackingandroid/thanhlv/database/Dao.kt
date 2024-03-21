@@ -8,6 +8,7 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Mood
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
+import com.cscmobi.habittrackingandroid.thanhlv.model.Tags
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.flow.Flow
 
@@ -96,7 +97,7 @@ interface Dao {
     @Query("SELECT * FROM history WHERE date=:date")
     fun getHistorybyDate(date: Long): Flow<History?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertHistory(item: History)
 
 
@@ -112,22 +113,6 @@ interface Dao {
 
     @Delete
     suspend fun deleteCollection(item: HabitCollection)
-
-
-//    @Transaction
-//    suspend fun insertHistoryifNotExit(item: History): Boolean {
-//        if (item.date != null) {
-//            val existingEntity = getHistorybyDate(item.date!!)
-//            return if (existingEntity == null) {
-//                insertHistory(item)
-//                true
-//            } else {
-//                updateHistory(item)
-//                false
-//            }
-//        }
-//        return  false
-//    }
 
 
     @Update
@@ -162,5 +147,10 @@ interface Dao {
     suspend fun getHistoryWithDate2(startDate: Long): List<History>
 
 
+    @Query("SELECT * FROM Tags")
+    suspend fun getAllTags(): List<Tags>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertTag(item: Tags)
 
 }

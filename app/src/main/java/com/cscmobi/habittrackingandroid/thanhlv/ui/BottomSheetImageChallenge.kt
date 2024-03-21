@@ -52,7 +52,7 @@ class BottomSheetImageChallenge :
     )
 
     var listener: IBottomCollection? = null
-    var resDrawablesSelect = ""
+    var resDrawablesSelect = "album_collection1.png"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

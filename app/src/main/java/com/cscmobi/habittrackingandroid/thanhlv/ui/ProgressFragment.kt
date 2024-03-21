@@ -746,8 +746,8 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
             if (CalendarUtil.getDaysBetween(task.pauseDate!!, date) <= task.pause) return false
         }
 
-        task.repeate?.let {
-            if (it.isOn == true) {
+        task.repeate.let {
+            if (it.isOn) {
                 when (it.type) {
                     "daily" -> {
                         isValid =

@@ -7,6 +7,18 @@ import kotlin.math.abs
 
 class CalendarUtil {
     companion object {
+
+        fun getToDayMs(): Long {
+            val calendar = Calendar.getInstance()
+
+            calendar[Calendar.HOUR_OF_DAY] = 0
+            calendar[Calendar.MINUTE] = 0
+            calendar[Calendar.SECOND] = 0
+            calendar[Calendar.MILLISECOND] = 0
+            return calendar.timeInMillis
+
+        }
+
         fun dayOfYear(ms: Long): Int {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = ms
