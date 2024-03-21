@@ -64,6 +64,8 @@
             android:fontFamily="@font/worksans_semibold"
             android:gravity="center_horizontal"
             android:hint="Collection name"
+            android:maxLength="30"
+            android:maxWidth="200dp"
             android:textColor="@color/black"
             android:textColorHint="@color/gray"
             android:textCursorDrawable="@drawable/color_cursor"

@@ -3,7 +3,6 @@ package com.cscmobi.habittrackingandroid.presentation.ui.viewmodel
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
 import com.cscmobi.habittrackingandroid.data.model.HabitCollection
 import com.cscmobi.habittrackingandroid.data.model.Tag
@@ -14,7 +13,6 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionStat
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -22,16 +20,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flattenMerge
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 class CollectionViewModel constructor(
     private val repository: CollectionRepository,
@@ -60,7 +53,7 @@ class CollectionViewModel constructor(
     }
 
     private fun getAllTask() = viewModelScope.launch(Dispatchers.IO) {
-        databaseRepository.getAllTask().collect{
+        databaseRepository.getAllTask().collect {
             _taskSize.value = it.filter { it.challenge.isNullOrEmpty() }.size
         }
     }
@@ -189,7 +182,6 @@ class CollectionViewModel constructor(
     }
 
 
-
     fun <T> merge(vararg flows: Flow<T>): Flow<T> = flowOf(*flows).flattenMerge()
 
 
@@ -265,13 +257,21 @@ class CollectionViewModel constructor(
 
     fun tag(): MutableList<Tag> {
         return mutableListOf(
-            Tag("No tag"),
+            Tag("No Tag"),
             Tag("Workout"),
             Tag("Clean room"),
-            Tag("Morning routine"),
-            Tag("Healthy lifestyle"),
+            Tag("Healthy Lifestyle"),
             Tag("Relationship"),
             Tag("Sleep better"),
+            Tag("Hit the Gym"),
+            Tag("Morning Routine"),
+            Tag("Nighttime"),
+            Tag("Daily Chores"),
+            Tag("Study Groups"),
+            Tag("Stress Relief"),
+            Tag("Get Fit"),
+            Tag("Finance"),
+            Tag("Self-Improvements")
         )
     }
 

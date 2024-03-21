@@ -88,6 +88,8 @@ class CalenderDialogHomeFragment : DialogFragment() {
 
 
         if (!isChange) {
+            binding.calendarRecyclerView.itemAnimator = null
+
             val layoutManager: RecyclerView.LayoutManager =
                 GridLayoutManager(requireContext(), 7)
             binding.calendarRecyclerView.layoutManager = layoutManager
@@ -101,7 +103,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
 
                     override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
                         return oldItem == newItem
-
                     }
 
                 })
@@ -116,6 +117,7 @@ class CalenderDialogHomeFragment : DialogFragment() {
                 }
 
             })
+
             binding.calendarRecyclerView.adapter = calenderAdapter
             calenderAdapter?.submitList(daysInMonth)
             calenderAdapter?.notifyDataSetChanged()
@@ -123,7 +125,6 @@ class CalenderDialogHomeFragment : DialogFragment() {
         } else {
             calenderAdapter?.submitList(daysInMonth)
             calenderAdapter?.notifyDataSetChanged()
-
         }
 
     }

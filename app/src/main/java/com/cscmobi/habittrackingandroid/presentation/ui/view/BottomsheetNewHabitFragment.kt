@@ -84,7 +84,7 @@ class BottomsheetNewHabitFragment :
     }
 
     private fun initTag() {
-        tags = collectionViewModel.tag()
+            tags = collectionViewModel.tag()
         if (tagSelect.isEmpty()) {
             tags[0].isSelected = true
         } else {
