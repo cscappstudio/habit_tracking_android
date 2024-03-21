@@ -32,7 +32,10 @@ data class Challenge(
     @ColumnInfo(name = "isNewCreate")
     var isNewCreate: Boolean = false,
     @ColumnInfo(name = "tryCount")
-    var tryCount: Int = 0 // = -1: isFree, >= 0: premium
+    var tryCount: Int = 0,// = -1: isFree, >= 0: premium
+
+    @ColumnInfo(name = "joined")
+    var joined: Int = 0
 ) {
     @PrimaryKey(true)
     var id = 0L

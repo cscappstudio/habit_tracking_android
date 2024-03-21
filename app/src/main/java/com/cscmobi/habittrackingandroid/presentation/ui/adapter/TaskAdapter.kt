@@ -43,9 +43,9 @@ class TaskAdapter(
     var date: Long = Helper.currentDate.toDate()
 
 
-    override fun getItemCount(): Int {
-        return this.currentList.size + 1
-    }
+//    override fun getItemCount(): Int {
+//        return this.currentList.size + 1
+//    }
 
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
@@ -344,11 +344,11 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position < currentList.size) {
-            binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
-            holder.bind(getItem(position), onItemClickAdapter)
-        } else {
-            holder.binding.root.visibility = View.GONE
-        }
+//        if (position < currentList.size) {
+        binderHelper.bind(holder.binding.swipeLayout, getItem(position).name)
+        holder.bind(getItem(position), onItemClickAdapter)
+//        } else {
+//        holder.binding.root.visibility = View.GONE
+//        }
     }
 }

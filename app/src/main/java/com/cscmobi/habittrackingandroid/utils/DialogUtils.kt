@@ -22,36 +22,10 @@ import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.DisplayUtils
 
 object DialogUtils {
-
-    fun showDeleteCollection(
-        context: Context,
-        deleteAll: () -> Unit
-    ) {
-        val binding = DialogDeleteChallengeBinding.inflate(LayoutInflater.from(context))
-        val alertDialog = AlertDialog.Builder(context)
-            .setView(binding.root)
-            .show()
-        alertDialog.window?.setBackgroundDrawable(null)
-        binding.des.text = context.getString(R.string.delete_this_collection)
-        binding.btnDeleteAll.text = context.getString(R.string.delete_collection)
-
-        binding.btnDeleteFuture.visibility = View.GONE
-
-        binding.ivClose.setOnClickListener {
-            alertDialog.dismiss()
-        }
-
-        binding.btnDeleteAll.setOnClickListener {
-            deleteAll.invoke()
-            alertDialog.dismiss()
-        }
-    }
-
-    fun showDeleteChallenge(
+    fun showDeletePopup(
         context: Context,
         type: Int,
-        deleteFuture: () -> Unit,
-        deleteAll: () -> Unit
+        deleteAction: () -> Unit
     ) {
         val binding = DialogDeleteChallengeBinding.inflate(LayoutInflater.from(context))
         val alertDialog = AlertDialog.Builder(context)
@@ -61,23 +35,18 @@ object DialogUtils {
 
         if (type == 1) {
             binding.des.text = context.getString(R.string.delete_this_task)
-            binding.btnDeleteFuture.text = context.getString(R.string.delete_task)
+            binding.btnDelete.text = context.getString(R.string.delete_task)
         }
         if (type == 2) {
             binding.des.text = context.getString(R.string.delete_this_challenge)
-            binding.btnDeleteAll.text = context.getString(R.string.delete_challenge)
+            binding.btnDelete.text = context.getString(R.string.delete_challenge)
         }
         binding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
 
-        binding.btnDeleteFuture.setOnClickListener {
-            deleteFuture.invoke()
-            alertDialog.dismiss()
-        }
-
-        binding.btnDeleteAll.setOnClickListener {
-            deleteAll.invoke()
+        binding.btnDelete.setOnClickListener {
+            deleteAction.invoke()
             alertDialog.dismiss()
         }
     }
