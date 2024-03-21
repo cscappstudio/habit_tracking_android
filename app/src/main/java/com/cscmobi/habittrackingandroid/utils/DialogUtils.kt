@@ -7,12 +7,9 @@ import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.databinding.DialogCongratulationBinding
 import com.cscmobi.habittrackingandroid.databinding.DialogDeleteChallengeBinding
@@ -42,6 +39,10 @@ object DialogUtils {
         if (type == 2) {
             binding.des.text = context.getString(R.string.delete_this_challenge)
             binding.btnDelete.text = context.getString(R.string.delete_challenge)
+        }
+        if (type == 3) {
+            binding.des.text = context.getString(R.string.delete_this_collection)
+            binding.btnDelete.text = context.getString(R.string.delete_collection)
         }
         binding.ivClose.setOnClickListener {
             alertDialog.dismiss()

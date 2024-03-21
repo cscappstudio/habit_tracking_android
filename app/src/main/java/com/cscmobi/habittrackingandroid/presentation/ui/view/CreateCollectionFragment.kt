@@ -28,12 +28,14 @@ import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.CollectionView
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.ui.SubscriptionsActivity
 import com.cscmobi.habittrackingandroid.utils.CustomEditMenu
+import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.spf.SPF
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class CreateCollectionFragment :
     BaseFragment<FragmentCreateCollectionBinding>(FragmentCreateCollectionBinding::inflate) {
@@ -293,10 +295,15 @@ class CreateCollectionFragment :
             }
 
         },{
-            newTasks.remove(e)
-            taskCollectionAdapter?.notifyItemRemoved(p)
+            DialogUtils.showDeletePopup(requireContext(),1) {
+                newTasks.remove(e)
+                taskCollectionAdapter?.notifyItemRemoved(p)
+//                requireActivity().finish()
+            }
+
         })
         popup.showAsDropDown(v)
+
     }
 
     fun editTask(task: Task) {

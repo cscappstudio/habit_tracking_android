@@ -182,7 +182,8 @@ class DetailCollectionFragment :
                 )
             )
 
-            Toast.makeText(requireContext(), "Create task success", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(),
+                getString(R.string.create_task_success), Toast.LENGTH_SHORT)
                 .show()
         }
     }
@@ -201,7 +202,7 @@ class DetailCollectionFragment :
         }
     }
 
-    fun setPopUpWindow(v: View) {
+    private fun setPopUpWindow(v: View) {
         val popup = CustomEditMenu(requireContext(), {
             currentCollection?.let { it ->
                 collectionViewModel.setStateUpdateCollection(it.copy())
@@ -214,13 +215,13 @@ class DetailCollectionFragment :
 
         }, {
             lifecycleScope.launch {
-                DialogUtils.showDeleteCollection(requireContext()) {
+                DialogUtils.showDeletePopup(requireContext(),3) {
                     runBlocking {
                         currentCollection?.let {
                             collectionViewModel.userIntent.send(CollectionIntent.DeleteCollection(it))
                         }
                     }
-                    Toast.makeText(requireContext(), "Delete success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.delete_success), Toast.LENGTH_SHORT).show()
                     requireActivity().finish()
                 }
             }
