@@ -11,9 +11,7 @@ import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.CollectionState
 import com.cscmobi.habittrackingandroid.thanhlv.database.AppDatabase
-import com.cscmobi.habittrackingandroid.thanhlv.model.FeelingTagModel
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
-import com.thanhlv.fw.helper.MyUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -28,8 +26,6 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 
 class CollectionViewModel constructor(
     private val repository: CollectionRepository,
@@ -213,9 +209,9 @@ class CollectionViewModel constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 databaseRepository.getHistoryWithDate(date).collect {
                     it.forEach { history ->
-                        val index = history.taskInDay.indexOfFirst { it.taskId == taskId }
+                        val index = history.tasksInDay.indexOfFirst { it.taskId == taskId }
                         if (index != -1) {
-                            val newTaskInDay = history.taskInDay.toMutableList()
+                            val newTaskInDay = history.tasksInDay.toMutableList()
                             newTaskInDay.removeAt(index)
                             databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
                         }

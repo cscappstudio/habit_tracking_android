@@ -128,7 +128,7 @@ object NotifiTask {
             var date = Utils.getCurrentCalenderWithoutHour().time.time
             var history = History()
             history.date = date
-            history.taskInDay = tasks.map { TaskInDay(it.id) }
+            history.tasksInDay = tasks.map { TaskInDay(it.id) }
             history.allTaskPause = isAllTaskPause
             db?.dao()?.getHistorybyDate(date)?.collect {
                 if (it == null) {

@@ -1,18 +1,12 @@
 package com.cscmobi.habittrackingandroid.thanhlv.ui
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.BitmapFactory
-import android.net.ConnectivityManager
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cscmobi.habittrackingandroid.R
-import com.cscmobi.habittrackingandroid.data.model.ChallengeDays
 import com.cscmobi.habittrackingandroid.data.model.ChallengeJoinedHistory
-import com.cscmobi.habittrackingandroid.data.model.TaskInChallenge
 import com.cscmobi.habittrackingandroid.data.model.TaskTimelineModel
 import com.cscmobi.habittrackingandroid.databinding.ActivityDetailChallengeBinding
 import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment
@@ -23,7 +17,6 @@ import com.cscmobi.habittrackingandroid.utils.CalendarUtil
 import com.cscmobi.habittrackingandroid.utils.CalendarUtil.Companion.getDaysBetween
 import com.cscmobi.habittrackingandroid.utils.DialogUtils
 import com.google.gson.Gson
-import com.google.protobuf.duration
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.constant.AppConfigs.Companion.KEY_AD_BANNER_DETAIL_CHALLENGE
 import com.thanhlv.fw.helper.MyUtils.Companion.configKeyboardBelowEditText
@@ -170,19 +163,19 @@ class DetailChallengeActivity : BaseActivity2() {
                             val task = AppDatabase.getInstance(this@DetailChallengeActivity).dao()
                                 .getTaskById(it.tasks!![i].id!!)
                             if (history != null) {
-                                for (j in history.taskInDay.indices)
-                                    if (history.taskInDay[j].taskId == it.tasks!![i].id) {
-                                        val newList = history.taskInDay.toMutableList()
-                                        newList.remove(history.taskInDay[j])
-                                        history.taskInDay = newList.toList()
+                                for (j in history.tasksInDay.indices)
+                                    if (history.tasksInDay[j].taskId == it.tasks!![i].id) {
+                                        val newList = history.tasksInDay.toMutableList()
+                                        newList.remove(history.tasksInDay[j])
+                                        history.tasksInDay = newList.toList()
                                         break
                                     }
                                 var taskDoneSize = 0
-                                history.taskInDay.forEach {
+                                history.tasksInDay.forEach {
                                     if (it.progress == 100) taskDoneSize++
                                 }
-                                history.progressDay = if (history.taskInDay.isEmpty()) 0 else
-                                    (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
+                                history.progressDay = if (history.tasksInDay.isEmpty()) 0 else
+                                    (taskDoneSize.toFloat() * 100f / history.tasksInDay.size.toFloat()).roundToInt()
 
 //                                if (history.taskInDay.isEmpty()) {
 ////                                    val history2 =
@@ -199,11 +192,11 @@ class DetailChallengeActivity : BaseActivity2() {
                                 AppDatabase.getInstance(this@DetailChallengeActivity).dao()
                                     .updateHistory2(
                                         history.id,
-                                        history.taskInDay,
+                                        history.tasksInDay,
                                         history.progressDay
                                     )
 
-                                println("thanhlv upppppppppppppp 1 -------------  " + history.taskInDay.size)
+                                println("thanhlv upppppppppppppp 1 -------------  " + history.tasksInDay.size)
                                 HomeFragment.updateChallenge = true
                             }
 
@@ -346,10 +339,10 @@ class DetailChallengeActivity : BaseActivity2() {
                         val historyByDate =
                             AppDatabase.getInstance(applicationContext).dao()
                                 .getHistoryByDate2(CalendarUtil.startDayMs(it.startDate!!))
-                        if (historyByDate != null && historyByDate.taskInDay.isNotEmpty()) {
+                        if (historyByDate != null && historyByDate.tasksInDay.isNotEmpty()) {
 
                             var progressTask = -1
-                            historyByDate.taskInDay.forEach { task_ ->
+                            historyByDate.tasksInDay.forEach { task_ ->
                                 if (task_.taskId == idTask) {
                                     progressTask = task_.progress
                                     return@forEach
@@ -437,13 +430,6 @@ class DetailChallengeActivity : BaseActivity2() {
                 return@forEach
         }
     }
-
-//    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-//    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context, intent: Intent) {
-//            loadBanner()
-//        }
-//    }
 
     private fun loadBanner() {
         if (NetworkHelper.isNetworkAvailable(this@DetailChallengeActivity)

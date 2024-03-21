@@ -7,14 +7,12 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.cscmobi.habittrackingandroid.R
 import com.cscmobi.habittrackingandroid.data.model.FreeIAP
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.elconfidencial.bubbleshowcase.BubbleShowCase
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import org.threeten.bp.LocalDate
 import java.util.Calendar
 import java.util.Date
@@ -73,8 +71,6 @@ object Helper {
                     "daily" -> {
                         isValid =
                             abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % it.frequency == 0
-
-
                     }
 
                     "monthly" -> {
@@ -140,7 +136,7 @@ object Helper {
     }
 
 
-    fun calTaskProgress(goal: Int, target: Int): Int {
+    fun calculateDayProgress(goal: Int, target: Int): Int {
         if (goal == 0 && target == 0) return 0
         var progressGoal = if (goal > target)
             target else goal

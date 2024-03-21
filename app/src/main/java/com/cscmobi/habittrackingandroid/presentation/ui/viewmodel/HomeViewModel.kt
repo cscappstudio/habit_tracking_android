@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.cscmobi.habittrackingandroid.base.BaseViewModel
 import com.cscmobi.habittrackingandroid.data.model.ChallengeTask
 import com.cscmobi.habittrackingandroid.data.model.InfoTask
-import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.data.repository.HomeRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
@@ -15,24 +14,20 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
+import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.validateTask
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
-import java.time.temporal.TemporalField
 import java.util.Calendar
 import java.util.Date
 import kotlin.math.roundToInt
@@ -79,7 +74,7 @@ class HomeViewModel(
     }
 
     fun insertTaskHistory(history: History, date: Long? = null) {
-        if (history.taskInDay.isEmpty()) return
+        if (history.tasksInDay.isEmpty()) return
 
         Log.d("LOGINSERTHISTORY", history.toString())
         viewModelScope.launch(Dispatchers.IO) {
@@ -98,21 +93,23 @@ class HomeViewModel(
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
 
-        if (history.taskInDay.isEmpty()) {
+        if (history.tasksInDay.isEmpty()) {
             databaseRepository.deleteHistory(history)
         } else {
-            var taskDoneSize = 0
-            history.taskInDay.forEach {
-                if (it.progress == 100) taskDoneSize++
+            var doneNum = 0
+            var taskNum = 0
+            history.tasksInDay.forEach {
+                if (it.progress == 100 && !it.isPaused) doneNum++
+                if (!it.isPaused) taskNum++
             }
 
             history.progressDay =
-                (taskDoneSize.toFloat() * 100f / history.taskInDay.size.toFloat()).roundToInt()
+                (doneNum * 100f / taskNum).roundToInt()
             databaseRepository.updateHistory(history)
         }
     }
 
-    fun getMyChallenge() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getMyChallenge() = viewModelScope.launch(Dispatchers.IO) {
         databaseRepository.getMyChallenge().collect {
             _challenges.value = it.toMutableList()
         }
@@ -125,43 +122,34 @@ class HomeViewModel(
     }
 
 
-    fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getAllHistory() = viewModelScope.launch(Dispatchers.IO) {
 
         databaseRepository.getAllHistory().collect {
             if (it.isEmpty()) return@collect
 
-            var histories = it.toMutableList()
-            println("chaulqalo___$histories")
+            val histories = it.toMutableList()
 
             databaseRepository.getAllTask().collect { tasks ->
-                var challengeTaskMap = tasks.filter { !it.challenge.isNullOrEmpty() }
-                    .map { ChallengeTask(it.challenge!!, InfoTask(it.id, it.goal!!.target)) }
+                var challengeTaskMap = tasks.filter { it.challenge.isNotEmpty() }
+                    .map { ChallengeTask(it.challenge, InfoTask(it.id, it.goal!!.target)) }
                     .groupBy { it.challengeName }
 
-//                histories.forEach { history ->
-//                    challengeTaskMap.forEach { t, u ->
-//                        u.forEach {  challengeTask ->
-//                            val validIndex = history.taskInDay.indexOfFirst { it.taskId ==  challengeTask.infoTask.id}
-//                            if (validIndex != -1)  challengeTask.infoTask.status = history.taskInDay[validIndex].progress >= challengeTask.infoTask.target
-//                        }
-//                    }
-//                }
-                if (histories.size > 2)
+                /*if (histories.size > 2)
                     challengeTaskMap.forEach { t, u ->
                         u.forEach { challengeTask ->
                             val validIndex =
-                                histories[histories.size - 2].taskInDay.indexOfFirst { it.taskId == challengeTask.infoTask.id }
+                                histories[histories.size - 2].tasksInDay.indexOfFirst { it.taskId == challengeTask.infoTask.id }
                             if (validIndex != -1) challengeTask.infoTask.status =
-                                histories[histories.size - 2].taskInDay[validIndex].progress >= challengeTask.infoTask.target
+                                histories[histories.size - 2].tasksInDay[validIndex].progress >= challengeTask.infoTask.target
                         }
                     }
-                else challengeTaskMap = mapOf()
+                else*/ challengeTaskMap = mapOf()
 
                 var currentDayStreak = 0
                 for (i in histories.size - 1 downTo 0) {
                     var taskFinish = true
 
-                    histories[i].taskInDay.forEach { taskInDay ->
+                    histories[i].tasksInDay.forEach { taskInDay ->
                         tasks.find { it.id == taskInDay.taskId }?.let {
                             if (it.goal!!.target != taskInDay.progressGoal) {
                                 taskFinish = false
@@ -224,13 +212,13 @@ class HomeViewModel(
             viewModelScope.launch(Dispatchers.IO) {
                 databaseRepository.getHistoryWithDate(date).collect {
                     it.forEach { history ->
-                        val index = history.taskInDay.indexOfFirst { it.taskId == taskId }
+                        val index = history.tasksInDay.indexOfFirst { it.taskId == taskId }
                         if (index != -1) {
 
-                            val newTaskInDay = history.taskInDay.toMutableList()
+                            val newTaskInDay = history.tasksInDay.toMutableList()
                             newTaskInDay.removeAt(index)
                             // databaseRepository.deleteTaskInHistory(history.id, newTaskInDay)
-                            history.taskInDay = newTaskInDay
+                            history.tasksInDay = newTaskInDay
                             updateHistory(history)
                         }
                     }
@@ -283,21 +271,25 @@ class HomeViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             tasks.clear()
 
-            databaseRepository.getAllTask().collect {
+            databaseRepository.getAllTask().collect { tasks ->
                 try {
 
-                    val taskFilter = it.filter { validateTask(it, date, false) }
+                    val taskFilter = tasks.filter { validateTask(it, date, false) }
 
 
-                    tasks = taskFilter.toMutableList()
+                    this@HomeViewModel.tasks = taskFilter.toMutableList()
 
-                    if (tasks.isEmpty())
+                    if (date > Helper.currentDate.toDate()) {
+                        this@HomeViewModel.tasks.forEach {
+                            it.goal?.currentProgress = 0
+                        }
+                    }
+
+                    if (this@HomeViewModel.tasks.isEmpty())
                         _state.value = HomeState.Empty
                     else
-                        _state.value = HomeState.Tasks(tasks)
+                        _state.value = HomeState.Tasks(this@HomeViewModel.tasks)
 
-
-                    Log.d("fetchTasksByDate", tasks.size.toString())
 
                 } catch (e: Exception) {
                     _state.value = HomeState.Tasks(arrayListOf())

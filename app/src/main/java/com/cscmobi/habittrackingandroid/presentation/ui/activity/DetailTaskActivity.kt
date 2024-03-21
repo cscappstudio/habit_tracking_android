@@ -21,13 +21,10 @@ import com.cscmobi.habittrackingandroid.databinding.ActivityDetailTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemBasePosistionListener
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.CircularSeekBar
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.OnCircularSeekBarChangeListener
-import com.cscmobi.habittrackingandroid.presentation.ui.intent.CollectionIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.DetailTaskIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.view.BottomSheetPauseTaskFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.view.CustomDetailTaskCalenderFragment
-import com.cscmobi.habittrackingandroid.presentation.ui.view.NewHabitFragment
 import com.cscmobi.habittrackingandroid.presentation.ui.viewmodel.DetailTaskViewModel
-import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant
@@ -37,7 +34,6 @@ import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.Utils
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
-import com.cscmobi.habittrackingandroid.utils.setBackgroundApla
 import com.cscmobi.habittrackingandroid.utils.setDrawableString
 import com.thanhlv.ads.lib.AdMobUtils
 import kotlinx.coroutines.Dispatchers
@@ -165,11 +161,11 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
     private fun updateTaskHistory(task: Task, currentProgress: Int) {
         currentTaskHistory?.let {
-            val index = it.taskInDay.indexOfFirst { it.taskId == task.id }
+            val index = it.tasksInDay.indexOfFirst { it.taskId == task.id }
             if (index != -1) {
-                it.taskInDay[index].progressGoal = currentProgress
-                it.taskInDay[index].progress =
-                    Helper.calTaskProgress(currentProgress, task.goal!!.target)
+                it.tasksInDay[index].progressGoal = currentProgress
+                it.tasksInDay[index].progress =
+                    Helper.calculateDayProgress(currentProgress, task.goal!!.target)
 
                 detailTaskViewModel.updateHistory(it)
             }

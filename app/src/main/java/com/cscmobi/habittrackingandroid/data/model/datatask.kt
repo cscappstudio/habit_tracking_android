@@ -58,7 +58,8 @@ data class ColorTask(val resId: Int, var isSelected: Boolean = false)
 data class TaskInDay(
     var taskId: Long = 0,
     var progress: Int = 0, //% hoàn thành
-    var progressGoal: Int = 0  //thực hiện
+    var progressGoal: Int = 0,  //thực hiện
+    var isPaused: Boolean = false  //thực hiện
 )
 
 

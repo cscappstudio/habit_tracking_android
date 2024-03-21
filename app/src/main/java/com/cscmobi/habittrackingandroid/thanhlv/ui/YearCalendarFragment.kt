@@ -51,6 +51,7 @@ class YearCalendarFragment :
     }
 
     private fun recyclerView() {
+        if (isDetached || !isAdded) return
         adapter = YearCalendarAdapter(requireContext())
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 31)
         binding.recyclerView.adapter = adapter

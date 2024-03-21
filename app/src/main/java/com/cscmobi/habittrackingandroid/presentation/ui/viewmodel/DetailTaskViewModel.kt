@@ -11,7 +11,6 @@ import com.cscmobi.habittrackingandroid.data.model.TaskInDay
 import com.cscmobi.habittrackingandroid.data.model.TaskRepeat
 import com.cscmobi.habittrackingandroid.data.repository.DatabaseRepository
 import com.cscmobi.habittrackingandroid.presentation.ui.intent.DetailTaskIntent
-import com.cscmobi.habittrackingandroid.presentation.ui.intent.HomeIntent
 import com.cscmobi.habittrackingandroid.presentation.ui.viewstate.DetailTaskState
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
@@ -28,7 +27,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import java.util.Date
 import kotlin.math.abs
 
 class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): BaseViewModel() {
@@ -97,9 +95,9 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
             viewModelScope.launch(Dispatchers.IO) {
                 databaseRepository.getHistoryWithDate(date).collect{
                     it.forEach { history ->
-                        val index =  history.taskInDay.indexOfFirst { it.taskId == taskId }
+                        val index =  history.tasksInDay.indexOfFirst { it.taskId == taskId }
                         if (index != -1)  {
-                            val newTaskInDay = history.taskInDay.toMutableList()
+                            val newTaskInDay = history.tasksInDay.toMutableList()
                             newTaskInDay.removeAt(index)
                             databaseRepository.deleteTaskInHistory(history.id,newTaskInDay)
                         }
@@ -170,7 +168,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
     fun getDetailHistory(history: List<History>, taskId: Long): MutableList<DataTaskHistory> {
         listDataTasHistory.clear()
         history.forEach {
-          it.taskInDay?.forEach { taskInfo ->
+          it.tasksInDay?.forEach { taskInfo ->
               if (taskInfo.taskId == taskId) {
                   listDataTasHistory.add(DataTaskHistory(taskInfo,it.date ?: 0))
               }
