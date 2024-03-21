@@ -318,5 +318,6 @@
     <string name="delete_task">Delete task</string>
     <string name="delete_this_collection">Delete this collection?</string>
     <string name="delete_collection">Delete collection</string>
+    <string name="create_task_success">Create task success</string>
 
 </resources>

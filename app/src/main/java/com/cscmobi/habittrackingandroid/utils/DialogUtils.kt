@@ -41,6 +41,10 @@ object DialogUtils {
             binding.des.text = context.getString(R.string.delete_this_challenge)
             binding.btnDelete.text = context.getString(R.string.delete_challenge)
         }
+        if (type == 3) {
+            binding.des.text = context.getString(R.string.delete_this_collection)
+            binding.btnDelete.text = context.getString(R.string.delete_collection)
+        }
         binding.ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
