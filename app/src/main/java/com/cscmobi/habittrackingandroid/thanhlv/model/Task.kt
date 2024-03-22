@@ -41,6 +41,8 @@ data class Task(
     var notBelongDefaultCollection: Boolean = true,
     @Ignore
     var index: Int = 0,
+    @Ignore
+    var makeDiffRan: Int = 0,
 
     @ColumnInfo (name = "img_challenge") var imgChallenge: String = ""
 ) {

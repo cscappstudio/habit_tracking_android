@@ -94,7 +94,7 @@ class HomeViewModel(
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
 
         if (history.tasksInDay.isEmpty()) {
-            databaseRepository.deleteHistory(history)
+//            databaseRepository.deleteHistory(history)
         } else {
             var doneNum = 0
             var taskNum = 0
@@ -102,9 +102,8 @@ class HomeViewModel(
                 if (it.progress == 100 && !it.isPaused) doneNum++
                 if (!it.isPaused) taskNum++
             }
-
-            history.progressDay =
-                (doneNum * 100f / taskNum).roundToInt()
+            if (taskNum == 0) history.progressDay = 0
+            else history.progressDay = (doneNum * 100f / taskNum).roundToInt()
             databaseRepository.updateHistory(history)
         }
     }
@@ -134,7 +133,7 @@ class HomeViewModel(
                     .map { ChallengeTask(it.challenge, InfoTask(it.id, it.goal!!.target)) }
                     .groupBy { it.challengeName }
 
-                /*if (histories.size > 2)
+                if (histories.size > 2)
                     challengeTaskMap.forEach { t, u ->
                         u.forEach { challengeTask ->
                             val validIndex =
@@ -143,7 +142,7 @@ class HomeViewModel(
                                 histories[histories.size - 2].tasksInDay[validIndex].progress >= challengeTask.infoTask.target
                         }
                     }
-                else*/ challengeTaskMap = mapOf()
+                else challengeTaskMap = mapOf()
 
                 var currentDayStreak = 0
                 for (i in histories.size - 1 downTo 0) {
@@ -274,21 +273,24 @@ class HomeViewModel(
             databaseRepository.getAllTask().collect { tasks ->
                 try {
 
-                    val taskFilter = tasks.filter { validateTask(it, date, false) }
+                    val taskFilter = tasks.filter { validateTask(it, date) }
 
+                    println("thanhlv fetchTasksByDate ---- " + date + " /// " + taskFilter)
 
                     this@HomeViewModel.tasks = taskFilter.toMutableList()
 
-                    if (date > Helper.currentDate.toDate()) {
-                        this@HomeViewModel.tasks.forEach {
-                            it.goal?.currentProgress = 0
-                        }
-                    }
+//                    if (date > Helper.currentDate.toDate()) {
+//                        this@HomeViewModel.tasks.forEach {
+//                            it.goal?.currentProgress = 0
+//                        }
+//                    }
 
                     if (this@HomeViewModel.tasks.isEmpty())
                         _state.value = HomeState.Empty
-                    else
+                    else {
+                        this@HomeViewModel.tasks[0].makeDiffRan = (0..10000).random()
                         _state.value = HomeState.Tasks(this@HomeViewModel.tasks)
+                    }
 
 
                 } catch (e: Exception) {

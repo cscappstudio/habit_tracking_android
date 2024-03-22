@@ -19,6 +19,7 @@ import com.cscmobi.habittrackingandroid.databinding.ItemTaskBinding
 import com.cscmobi.habittrackingandroid.presentation.ItemTaskWithEdit
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.SwipeRevealLayout
 import com.cscmobi.habittrackingandroid.presentation.ui.custom.ViewBinderHelper
+import com.cscmobi.habittrackingandroid.presentation.ui.view.HomeFragment.Companion.currentDate
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
 import com.cscmobi.habittrackingandroid.utils.Helper
@@ -40,7 +41,7 @@ class TaskAdapter(
     ListAdapter<Task, TaskAdapter.ViewHolder>(DIFF_CALLBACK()) {
     private val binderHelper = ViewBinderHelper()
 
-    var date: Long = Helper.currentDate.toDate()
+//    var date: Long = Helper.currentDate.toDate()
 
 
 //    override fun getItemCount(): Int {
@@ -49,11 +50,16 @@ class TaskAdapter(
 
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
-            if (date <= Helper.currentDate.toDate()) {
+            if (currentDate < Helper.currentDate.toDate()) {
                 binding.rdCheck.isEnabled = true
+                binding.ivSkip.visibility = View.GONE
+            } else if (currentDate == Helper.currentDate.toDate()) {
+                binding.rdCheck.isEnabled = true
+                binding.ivSkip.visibility = View.VISIBLE
             } else {
                 binding.rdCheck.isEnabled = false
                 binding.rdCheck.isChecked = false
+                binding.ivSkip.visibility = View.VISIBLE
             }
             if (item.id == IDLE && layoutPosition == 1) {
                 binding.swipeLayout.visibility = View.GONE
@@ -92,13 +98,12 @@ class TaskAdapter(
 
             if (item.pauseDate != null || item.pause != 0) {
 
-
                 if (item.pause != -1) {
-                    var c = Calendar.getInstance()
+                    val c = Calendar.getInstance()
                     c.time = Date(item.pauseDate!!)
                     c.add(Calendar.DAY_OF_MONTH, item.pause - 1)
 
-                    if (date in item.pauseDate!!.toDate()..c.time.time) {
+                    if (currentDate in item.pauseDate!!.toDate()..c.time.time) {
                         binding.ivPlay.visibility = View.VISIBLE
                         binding.rdCheck.visibility = View.GONE
                         isPause = true
@@ -195,9 +200,10 @@ class TaskAdapter(
                 binding.rdCheck.setOnClickListener(
                     object : MyClick(500) {
                         override fun onMyClick(v: View, count: Long) {
-                            if (date <= Helper.currentDate.toDate())
+                            if (currentDate <= Helper.currentDate.toDate())
                                 onItemClickAdapter.onItemChange(
                                     layoutPosition,
+
                                     item,
                                     binding.rdCheck.isChecked
                                 )
@@ -285,7 +291,6 @@ class TaskAdapter(
                 onItemClickAdapter.onResume(layoutPosition, item)
                 binding.ivPlay.visibility = View.GONE
                 binding.rdCheck.visibility = View.VISIBLE
-
                 notifyItemChanged(layoutPosition)
             }
 
