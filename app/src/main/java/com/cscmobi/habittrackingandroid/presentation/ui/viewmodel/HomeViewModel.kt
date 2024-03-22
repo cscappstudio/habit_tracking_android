@@ -14,7 +14,6 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
 import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 import com.cscmobi.habittrackingandroid.utils.Constant.IDLE
-import com.cscmobi.habittrackingandroid.utils.Helper
 import com.cscmobi.habittrackingandroid.utils.Helper.validateTask
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import kotlinx.coroutines.Dispatchers
@@ -175,8 +174,8 @@ class HomeViewModel(
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
                 when (it) {
-                    is HomeIntent.FetchTasksbyDate -> fetchTasksByDate(it.date)
-                    is HomeIntent.FetchTasksbyCategory -> {
+                    is HomeIntent.FetchTasksByDate -> fetchTasksByDate(it.date)
+                    is HomeIntent.FetchTasksByCategory -> {
                         fetchTasksbyCategory(it.tag)
                     }
 
@@ -288,7 +287,7 @@ class HomeViewModel(
                     if (this@HomeViewModel.tasks.isEmpty())
                         _state.value = HomeState.Empty
                     else {
-                        this@HomeViewModel.tasks[0].makeDiffRan = (0..10000).random()
+                        this@HomeViewModel.tasks[0].makeDiffRan = (0..1000).random()
                         _state.value = HomeState.Tasks(this@HomeViewModel.tasks)
                     }
 

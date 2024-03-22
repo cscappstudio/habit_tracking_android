@@ -17,7 +17,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
@@ -73,10 +72,8 @@ import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.DisplayUtils
 import com.thanhlv.fw.helper.MyUtils
-import com.thanhlv.fw.helper.MyUtils.Companion.ringEffect
 import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.spf.SPF
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -86,7 +83,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
@@ -119,7 +115,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun initView(view: View) {
 
-        observeState()
+//        observeState()
         binding.isTasksEmpty = true
         homeViewModel.initDateWeek()
         initWeekAdapter()
@@ -129,7 +125,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         currentDate = Helper.currentDate.toDate()
 
         lifecycleScope.launch {
-            homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+            homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
 
             homeViewModel.histories.collect {
                 if (it.isNullOrEmpty()) return@collect
@@ -163,7 +159,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             lifecycleScope.launch {
                 homeViewModel.initDateWeek(currentDate)
 
-                homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+                homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
                 getDatesofWeek()
                 resolveScrollButtonToday(currentDate)
                 weekAdapter.notifyDataSetChanged()
@@ -191,6 +187,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onResume() {
         super.onResume()
+        observeState()
         println("thanhlv onresum home frag")
         with(requireActivity().getMySharedPreferences()) {
 
@@ -338,8 +335,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         setUpChallenge()
 
                         if (currentDate == Helper.currentDate.toDate() && oldCurrentDate < currentDate) {
-                            currentHistory?.let {
-                                it.tasksInDay.forEach { taskInDay ->
+                            currentHistory?.let { history ->
+                                if (isListChanged(
+                                        history.tasksInDay.map { it.taskId },
+                                        listTask.map { it.id })
+                                ) {
+                                    currentHistory!!.tasksInDay = getTasksInDay(listTask)
+                                    if (!updateChallenge) {
+                                        homeViewModel.userIntent.send(
+                                            HomeIntent.UpdateHistory(
+                                                currentHistory!!
+                                            )
+                                        )
+                                    } else {
+                                        updateChallenge = false
+                                    }
+                                }
+                                history.tasksInDay.forEach { taskInDay ->
                                     val index = listTask.indexOfFirst { it.id == taskInDay.taskId }
                                     if (index != -1) {
 
@@ -804,7 +816,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 //                        }
 //
 //                        delay(200)
-//                        homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+//                        homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
 
                     }
                     Toast.makeText(
@@ -987,7 +999,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         listHabitTask.add(1, Task(id = IDLE, name = "ads"))
                         taskAdapter.submitList(listHabitTask)
                         //lifecycleScope.launch {
-                        // homeViewModel.userIntent.send(HomeIntent.FetchTasksbyCategory(chip.tag.toString()))
+                        // homeViewModel.userIntent.send(HomeIntent.FetchTasksByCategory(chip.tag.toString()))
                         // }
                         changeChipState(true, chip)
 
@@ -1044,7 +1056,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             weekAdapter.notifyDataSetChanged()
             currentDate = Helper.currentDate.toDate()
             lifecycleScope.launch {
-                homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+                homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
             }
 
 //            setUpView(homeViewModel.tasks)
@@ -1064,7 +1076,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             weekAdapter.notifyDataSetChanged()
             currentDate = Helper.currentDate.toDate()
             lifecycleScope.launch {
-                homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+                homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
             }
 
 //            setUpView(homeViewModel.tasks)
@@ -1092,7 +1104,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
                 currentDate = date[position].toDate()
                 lifecycleScope.launch {
-                    homeViewModel.userIntent.send(HomeIntent.FetchTasksbyDate(currentDate))
+                    homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
 //                    delay(200)
 //                    setUpView(homeViewModel.tasks)
                 }

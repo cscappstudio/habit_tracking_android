@@ -4,8 +4,8 @@ import com.cscmobi.habittrackingandroid.thanhlv.model.History
 import com.cscmobi.habittrackingandroid.thanhlv.model.Task
 
 sealed class HomeIntent {
-    data class FetchTasksbyDate(val date: Long): HomeIntent()
-    data class FetchTasksbyCategory(val tag: String): HomeIntent()
+    data class FetchTasksByDate(val date: Long): HomeIntent()
+    data class FetchTasksByCategory(val tag: String): HomeIntent()
 
     data class UpdateTask(val task: Task): HomeIntent()
 

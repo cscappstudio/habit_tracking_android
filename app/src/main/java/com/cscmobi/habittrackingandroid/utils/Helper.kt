@@ -65,41 +65,40 @@ object Helper {
         }
 
 
-        task.repeate.let {
-            if (it.isOn) {
-                when (it.type) {
+        task.repeate.let { taskRepeat ->
+            if (taskRepeat.isOn) {
+                when (taskRepeat.type) {
                     "daily" -> {
                         isValid =
-                            abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % it.frequency == 0
+                            abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % taskRepeat.frequency == 0
                     }
 
                     "monthly" -> {
-                        var checkMonthValid =
-                            abs(Utils.getMonth(date) - Utils.getMonth(task.startDate!!)) % it.frequency == 0
-                        if (checkMonthValid) {
-
-                            val dayValid = it.days?.find { Utils.getDayofMonth(date) == it }
-                            isValid = (dayValid != null && dayValid != -1)
-                        } else isValid = false
+                        val checkMonthValid =
+                            abs(Utils.getMonth(date) - Utils.getMonth(task.startDate!!)) % taskRepeat.frequency == 0
+                        isValid = if (checkMonthValid) {
+                            val dayValid = taskRepeat.days?.find { Utils.getDayofMonth(date) == it }
+                            (dayValid != null && dayValid != -1)
+                        } else false
 
                     }
 
                     "weekly" -> {
-                        var checkWeekValid =
-                            abs(Utils.getWeek(date) - Utils.getWeek(task.startDate!!)) % it.frequency == 0
-                        if (checkWeekValid) {
-                            var dayValid = it.days?.find { it == Utils.getDayofWeek(date) }
-                            isValid = dayValid != null && dayValid != -1
+                        val checkWeekValid =
+                            abs(Utils.getWeek(date) - Utils.getWeek(task.startDate!!)) % taskRepeat.frequency == 0
+                        isValid = if (checkWeekValid) {
+                            val dayValid = taskRepeat.days?.find { it == Utils.getDayofWeek(date) }
+                            dayValid != null && dayValid != -1
 
 
-                        } else isValid = false
+                        } else false
 
 
                     }
                 }
                 Log.d("isValid", "2 $isValid")
             } else {
-                isValid = CalendarUtil.getToDayMs() == CalendarUtil.startDayMs(date)
+                return CalendarUtil.getToDayMs() == CalendarUtil.startDayMs(date)
             }
 
         }
@@ -111,10 +110,10 @@ object Helper {
                 isValid = false
                 Log.d("isValid", "3 $isValid")
 
-            } else isValid = true
+            }
         }
 
-        if (task.endDate.isOpen == true && task.endDate.endDate != null && task.endDate.endDate!! < _date) {
+        if (task.endDate.isOpen && task.endDate.endDate != null && task.endDate.endDate!! < _date) {
             isValid = false
             Log.d("isValid", "3 $isValid")
         }

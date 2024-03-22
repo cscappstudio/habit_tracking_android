@@ -52,14 +52,17 @@ class TaskAdapter(
         fun bind(item: Task, onItemClickAdapter: ItemTaskWithEdit<Task>) {
             if (currentDate < Helper.currentDate.toDate()) {
                 binding.rdCheck.isEnabled = true
+                binding.ivPlay.isEnabled = false //BA k muốn bỏ pause trong quá khứ
                 binding.ivSkip.visibility = View.GONE
             } else if (currentDate == Helper.currentDate.toDate()) {
                 binding.rdCheck.isEnabled = true
+                binding.ivPlay.isEnabled = true
                 binding.ivSkip.visibility = View.VISIBLE
             } else {
+                binding.ivPlay.isEnabled = false
                 binding.rdCheck.isEnabled = false
                 binding.rdCheck.isChecked = false
-                binding.ivSkip.visibility = View.VISIBLE
+                binding.ivSkip.visibility = View.GONE
             }
             if (item.id == IDLE && layoutPosition == 1) {
                 binding.swipeLayout.visibility = View.GONE
@@ -128,11 +131,13 @@ class TaskAdapter(
                 binding.txtUnit.alpha = 0.5f
                 binding.txtNameTask.alpha = 0.5f
                 binding.shapeableImageView.alpha = 0.5f
+                binding.ivSkip.setImageResource(R.drawable.ic_play_button)
             } else {
                 binding.txtGoal.alpha = 1f
                 binding.txtUnit.alpha = 1f
                 binding.txtNameTask.alpha = 1f
                 binding.shapeableImageView.alpha = 1f
+                binding.ivSkip.setImageResource(R.drawable.ic_skip)
             }
 
             item.goal?.let {
