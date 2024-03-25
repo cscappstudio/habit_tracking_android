@@ -108,7 +108,6 @@
     <string name="delete">Supprimer</string>
     <string name="create_collection">CRÉER UNE COLLECTION</string>
     <string name="next">SUIVANT</string>
-    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">Choisissez l\'une des images disponibles qui correspond le mieux à votre contenu</string>
     <string name="new_habit">Nouvelle habitude</string>
     <string name="note">Note</string>
     <string name="goal">Objectif</string>
@@ -262,7 +261,7 @@
     <string name="no_ads">Pas de publicités</string>
     <string name="zero_distractions">Zéro distractions, 100% de concentration ! Profitez d\'une expérience sans publicité avec Premium.</string>
 
-        <string name="in_progress">En cours</string>
+    <string name="in_progress">En cours</string>
     <string name="many_challenges_waiting_for_you_ahead">De nombreux défis vous attendent</string>
     <string name="become_a_premium_member_to_conquer_all_challenges">Devenez membre premium pour conquérir tous les défis.</string>
     <string name="try_premium_now">Essayez Premium Maintenant</string>
@@ -284,36 +283,37 @@
     <string name="name_empty">Nom vide !</string>
     <string name="task_name">Nom de la tâche</string>
     <string name="delete_success">Suppression réussie</string>
-    <string name="enter_the_number_of_kilometers_you_want_to_record">*Enter the number of kilometers you want to record</string>
-    <string name="daily">Daily</string>
-    <string name="weekly">Weekly</string>
-    <string name="subtask">Subtask</string>
-    <string name="time">time</string>
+
+    <string name="daily">Quotidien</string>
+    <string name="weekly">Hebdomadaire</string>
+    <string name="subtask">Sous-tâche</string>
+    <string name="time">temps</string>
     <string name="minute">minute</string>
-    <string name="glass">glass</string>
+    <string name="glass">verre</string>
     <string name="page">page</string>
-    <string name="hour">hour</string>
-    <string name="per_day">per day</string>
-    <string name="per_week">per week</string>
-    <string name="per_month">per month</string>
-    <string name="no_tag">No tag</string>
-    <string name="every_">Every %1$s %2$s</string>
-    <string name="day">Day</string>
-    <string name="reset">Reset</string>
-    <string name="stop">Stop</string>
-    <string name="delete_challenge">Delete challenge</string>
-    <string name="cancel">Cancel</string>
-    <string name="choose_your_collection_s_cover_image">Choose your collection\'s cover image</string>
-    <string name="choose_your_challenge_cover_image">Choose your challenge\'s cover image</string>
-    <string name="completion">Completion</string>
-    <string name="there_are_no_habits_yet">There are no habits yet</string>
-    <string name="collection_name">Collection name</string>
-    <string name="delete_this_task">Delete this task?</string>
-    <string name="delete_this_challenge">Delete this challenge?</string>
-    <string name="delete_task">Delete task</string>
-    <string name="delete_this_collection">Delete this collection?</string>
-    <string name="delete_collection">Delete collection?</string>
-    <string name="create_task_success">Create task success</string>
-    <string name="update_success">Update success</string>
+    <string name="hour">heure</string>
+    <string name="per_day">par jour</string>
+    <string name="per_week">par semaine</string>
+    <string name="per_month">par mois</string>
+    <string name="no_tag">Aucune balise</string>
+    <string name="every_">Tous les %1$s %2$s</string>
+    <string name="day">Jour</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="stop">Arrêter</string>
+    <string name="delete_challenge">Supprimer le défi</string>
+    <string name="cancel">Annuler</string>
+    <string name="choose_your_collection_s_cover_image">Choisissez l'image de couverture de votre collection</string>
+    <string name="choose_your_challenge_cover_image">Choisissez l'image de couverture de votre défi</string>
+    <string name="completion">Achèvement</string>
+    <string name="there_are_no_habits_yet">Il n'y a pas encore de habitudes</string>
+    <string name="collection_name">Nom de la collection</string>
+    <string name="delete_this_task">Supprimer cette tâche ?</string>
+    <string name="delete_this_challenge">Supprimer ce défi ?</string>
+    <string name="delete_task">Supprimer la tâche</string>
+    <string name="delete_this_collection">Supprimer cette collection ?</string>
+    <string name="delete_collection">Supprimer la collection ?</string>
+    <string name="create_task_success">Créer une tâche réussie</string>
+    <string name="update_success">Mise à jour réussie</string>
+
 
 </resources>

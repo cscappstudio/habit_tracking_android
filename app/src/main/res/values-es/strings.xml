@@ -109,7 +109,6 @@
     <string name="delete">Eliminar</string>
     <string name="create_collection">CREAR COLECCIÓN</string>
     <string name="next">SIGUIENTE</string>
-    <string name="choose_one_of_the_avaiable_images_that_best_fits_your_content">Elige una de las imágenes disponibles que mejor se adapte a tu contenido</string>
     <string name="new_habit">Nuevo hábito</string>
     <string name="note">Nota</string>
     <string name="goal">Meta</string>
@@ -289,37 +288,38 @@
     <string name="name_empty">¡Nombre vacío!</string>
     <string name="task_name">Nombre de la Tarea</string>
     <string name="delete_success">Eliminación Exitosa</string>
-    <string name="enter_the_number_of_kilometers_you_want_to_record">*Enter the number of kilometers you want to record</string>
-    <string name="daily">Daily</string>
-    <string name="weekly">Weekly</string>
-    <string name="subtask">Subtask</string>
-    <string name="time">time</string>
-    <string name="minute">minute</string>
-    <string name="glass">glass</string>
-    <string name="page">page</string>
-    <string name="hour">hour</string>
-    <string name="per_day">per day</string>
-    <string name="per_week">per week</string>
-    <string name="per_month">per month</string>
-    <string name="no_tag">No tag</string>
-    <string name="every_">Every %1$s %2$s</string>
-    <string name="day">Day</string>
-    <string name="reset">Reset</string>
-    <string name="stop">Stop</string>
-    <string name="delete_challenge">Delete challenge</string>
-    <string name="cancel">Cancel</string>
-    <string name="choose_your_collection_s_cover_image">Choose your collection\'s cover image</string>
-    <string name="choose_your_challenge_cover_image">Choose your challenge\'s cover image</string>
-    <string name="completion">Completion</string>
-    <string name="there_are_no_habits_yet">There are no habits yet</string>
-    <string name="collection_name">Collection name</string>
-    <string name="delete_this_task">Delete this task?</string>
-    <string name="delete_this_challenge">Delete this challenge</string>
-    <string name="delete_task">Delete task</string>
-    <string name="delete_this_collection">Delete this collection?</string>
-    <string name="delete_collection">Delete collection</string>
-    <string name="create_task_success">Create task success</string>
-    <string name="update_success">Update success</string>
+
+    <string name="daily">Diario</string>
+    <string name="weekly">Semanal</string>
+    <string name="subtask">Subtarea</string>
+    <string name="time">tiempo</string>
+    <string name="minute">minuto</string>
+    <string name="glass">vaso</string>
+    <string name="page">página</string>
+    <string name="hour">hora</string>
+    <string name="per_day">por día</string>
+    <string name="per_week">por semana</string>
+    <string name="per_month">por mes</string>
+    <string name="no_tag">Sin etiqueta</string>
+    <string name="every_">Cada %1$s %2$s</string>
+    <string name="day">Día</string>
+    <string name="reset">Reiniciar</string>
+    <string name="stop">Detener</string>
+    <string name="delete_challenge">Eliminar reto</string>
+    <string name="cancel">Cancelar</string>
+    <string name="choose_your_collection_s_cover_image">Elige la imagen de portada de tu colección</string>
+    <string name="choose_your_challenge_cover_image">Elige la imagen de portada de tu reto</string>
+    <string name="completion">Completado</string>
+    <string name="there_are_no_habits_yet">Todavía no hay hábitos</string>
+    <string name="collection_name">Nombre de la colección</string>
+    <string name="delete_this_task">¿Eliminar esta tarea?</string>
+    <string name="delete_this_challenge">¿Eliminar este reto?</string>
+    <string name="delete_task">Eliminar tarea</string>
+    <string name="delete_this_collection">¿Eliminar esta colección?</string>
+    <string name="delete_collection">Eliminar colección</string>
+    <string name="create_task_success">Crear tarea con éxito</string>
+    <string name="update_success">Actualización exitosa</string>
+
 
 
 </resources>

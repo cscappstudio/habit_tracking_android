@@ -56,6 +56,7 @@ class MoodActivity : BaseActivity2() {
     }
 
     override fun initView() {
+        loadBanner()
     }
 
     override fun controllerView() {
@@ -128,11 +129,6 @@ class MoodActivity : BaseActivity2() {
             moodRecordAdapter = MoodRecordAdapter(this)
             moodRecordAdapter?.setCallBack(object : MoodRecordAdapter.MoodRecordCallback {
                 override fun onClickItem(mood: Mood) {
-//                    val intent = Intent(this@MoodActivity, DetailMoodActivity::class.java)
-//                    intent.putExtra("data_mood", Gson().toJson(mood))
-//                    startActivity(intent)
-//                    val popupMoodDetail = PopupDetailMood.newInstance(mood)
-//                    popupMoodDetail.show(supportFragmentManager, "")
                     showDetailMood(mood)
                 }
 
@@ -206,13 +202,6 @@ class MoodActivity : BaseActivity2() {
         return list
     }
 
-    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            loadBanner()
-        }
-    }
-
     private fun loadBanner() {
         if (NetworkHelper.isNetworkAvailable(this@MoodActivity)
             && !SPF.isProApp(this@MoodActivity)
@@ -231,14 +220,5 @@ class MoodActivity : BaseActivity2() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        registerReceiver(mReceiver, mIntentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(mReceiver)
-    }
 
 }

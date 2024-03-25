@@ -130,7 +130,7 @@ object NotifiTask {
             history.date = date
             history.tasksInDay = tasks.map { TaskInDay(it.id) }
             history.allTaskPause = isAllTaskPause
-            db?.dao()?.getHistorybyDate(date)?.collect {
+            db?.dao()?.getHistoryByDate(date)?.collect {
                 if (it == null) {
                     db?.dao()?.insertHistory(
                         history.copy()

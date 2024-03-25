@@ -86,8 +86,10 @@ class ChallengeFragment :
     private fun updatePremium() {
         if (!SPF.isProApp(requireContext())) {
             binding.imgPremiumCreateChallenge.visibility = View.VISIBLE
+            binding.bgBannerPro.root.visibility = View.VISIBLE
         } else {
             binding.imgPremiumCreateChallenge.visibility = View.GONE
+            binding.bgBannerPro.root.visibility = View.GONE
         }
     }
 

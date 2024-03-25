@@ -113,22 +113,22 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 
    private fun fetchHistoryByTask(task: Task) {
        viewModelScope.launch {
-           databaseRepository.getHistoryWithDate(task.startDate!!.toDate()).collect{
-               var filterHistory = it.toMutableList()
+           databaseRepository.getHistoryWithDate(task.startDate!!.toDate()).collect{ historyList ->
+               var filterHistory = historyList.toMutableList()
 
                task.repeate.let { repeat ->
                    if (repeat.isOn) {
                        filterHistory.clear()
                        repeat.frequency
                        repeat.days
-                       when(repeat.type) {
+                       when(val typeRepeat = repeat.type?.trim()?.toLowerCase()) {
                            "daily" -> {
-                               filterHistory = it.filter {    abs(Utils.getDayofYear(it.date!!) - Utils.getDayofYear(task.startDate!!)) % repeat.frequency == 0 }
+                               filterHistory = historyList.filter {    abs(Utils.getDayofYear(it.date!!) - Utils.getDayofYear(task.startDate!!)) % repeat.frequency == 0 }
                                    .toMutableList()
                            }
 
                            "weekly" -> {
-                               it.forEach {history ->
+                               historyList.forEach {history ->
                                    var checkWeekValid =
                                        abs(Utils.getWeek(history.date!!) - Utils.getWeek(task.startDate!!)) % repeat.frequency == 0
                                    if (checkWeekValid) {
@@ -141,7 +141,7 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
                            }
 
                            "monthly" -> {
-                               it.forEach { history ->
+                               historyList.forEach { history ->
                                    var checkMonthValid =
                                        abs(getMonth(history.date!!) - getMonth(task.startDate!!)) % repeat.frequency == 0
 
@@ -153,6 +153,10 @@ class DetailTaskViewModel(private val databaseRepository: DatabaseRepository): B
 
                                    }
                                }
+                           }
+
+                           else -> {
+                               println("thanhlv fffffffffffff repeat type = " +typeRepeat)
                            }
                        }
 

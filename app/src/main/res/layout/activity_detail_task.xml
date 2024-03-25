@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".presentation.ui.activity.DetailTaskActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -54,10 +55,9 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_18sdp"
             android:fillViewport="true"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_back"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="-49dp">
+            app:layout_constraintTop_toBottomOf="@id/iv_back">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -176,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="@dimen/_minus24sdp">
+                    android:layout_marginTop="@dimen/_minus12sdp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_minus"
@@ -196,8 +196,8 @@
                         android:layout_height="0dp"
                         android:layout_marginHorizontal="@dimen/_12sdp"
                         app:cs_arcRadius="90dp"
-                        app:cs_arcWidth="9dp"
-                        app:cs_progressWidth="9dp"
+                        app:cs_arcWidth="8dp"
+                        app:cs_progressWidth="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toStartOf="@id/iv_plus"
@@ -231,6 +231,16 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:text="Goal: 2 glasses"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/txt_goal_period"
+                            style="@style/Text_600_SemiB"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Per week"
                             android:textColor="@color/gray"
                             android:textSize="14sp" />
 

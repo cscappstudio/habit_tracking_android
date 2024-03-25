@@ -60,7 +60,6 @@ import com.cscmobi.habittrackingandroid.utils.Helper.freeIAP
 import com.cscmobi.habittrackingandroid.utils.Helper.getMySharedPreferences
 import com.cscmobi.habittrackingandroid.utils.ObjectWrapperForBinder
 import com.cscmobi.habittrackingandroid.utils.Utils
-import com.cscmobi.habittrackingandroid.utils.Utils.isListChanged
 import com.cscmobi.habittrackingandroid.utils.Utils.isShowAds
 import com.cscmobi.habittrackingandroid.utils.Utils.toDate
 import com.cscmobi.habittrackingandroid.utils.setSpanTextView
@@ -72,8 +71,8 @@ import com.google.gson.Gson
 import com.thanhlv.ads.lib.AdMobUtils
 import com.thanhlv.fw.helper.DisplayUtils
 import com.thanhlv.fw.helper.MyUtils
-import com.thanhlv.fw.helper.MyUtils.Companion.rippleEffect
 import com.thanhlv.fw.spf.SPF
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -188,6 +187,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     override fun onResume() {
         super.onResume()
         observeState()
+        updatePremium()
         println("thanhlv onresum home frag")
         with(requireActivity().getMySharedPreferences()) {
 
@@ -269,6 +269,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     }
 
+    private fun updatePremium() {
+        if (SPF.isProApp(requireContext())) {
+            binding.btnPremiumTop.visibility = View.GONE
+        } else {
+            binding.btnPremiumTop.visibility = View.VISIBLE
+        }
+    }
+
     fun getDatesofWeek() {
         date.clear()
         data.clear()
@@ -312,8 +320,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
                         binding.llTask.visibility = View.VISIBLE
                         binding.adView.visibility = View.GONE
-//                        listTask.clear()
-//                        listTask.addAll(state.tasks.toMutableList())
+                        listTask.clear()
                         listTask = state.tasks.toMutableList()
                         if (!hasInitChip) {
 
@@ -326,41 +333,45 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                             hasInitChip = true
                         }
 
+                        println("thanhlv hiss 1111 " + currentHistory)
                         lifecycleScope.launch {
-                            homeViewModel.getHistorybyDate(currentDate)
+                            homeViewModel.getHistoryByDate(currentDate)
                         }
 
                         setUpView(listTask)
                         initTaskAdapter()
-                        setUpChallenge()
 
+                        setUpChallenge()
                         if (currentDate == Helper.currentDate.toDate() && oldCurrentDate < currentDate) {
+
+                            println("thanhlv hiss 3333 " + currentHistory)
                             currentHistory?.let { history ->
-                                if (isListChanged(
-                                        history.tasksInDay.map { it.taskId },
-                                        listTask.map { it.id })
-                                ) {
-                                    currentHistory!!.tasksInDay = getTasksInDay(listTask)
-                                    if (!updateChallenge) {
-                                        homeViewModel.userIntent.send(
-                                            HomeIntent.UpdateHistory(
-                                                currentHistory!!
-                                            )
-                                        )
-                                    } else {
-                                        updateChallenge = false
-                                    }
-                                }
                                 history.tasksInDay.forEach { taskInDay ->
                                     val index = listTask.indexOfFirst { it.id == taskInDay.taskId }
                                     if (index != -1) {
-
                                         listTask[index].goal?.currentProgress =
                                             taskInDay.progressGoal
                                         println("thanhlv done aaaaaaaaaaaaaaaaaaaa ${taskInDay.progressGoal}")
-                                    }
 
+                                    }
                                 }
+
+//                                if (isListChanged(
+//                                        history.tasksInDay.map { it.taskId },
+//                                        listTask.map { it.id })
+//                                ) {
+//                                currentHistory!!.tasksInDay = getTasksInDay(listTask)
+//                                if (!updateChallenge) {
+//                                    homeViewModel.userIntent.send(
+//                                        HomeIntent.UpdateHistory(
+//                                            currentHistory!!
+//                                        )
+//                                    )
+//                                } else {
+//                                    updateChallenge = false
+//                                }
+//                                }
+
                                 taskAdapter.notifyDataSetChanged()
                                 tasksChallenge =
                                     listTask.filter { it.challenge.isNotEmpty() }.map {
@@ -376,8 +387,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                 challengeHomeAdapter.submitList(tasksChallenge)
                             }
                         }
-
-
                     }
 
                     is HomeState.Empty -> {
@@ -416,41 +425,46 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                 calculateDayProgress(tasksFinishNum, tasksNum)
                         }
 
-                        history.tasksInDay.forEach { taskInDay ->
-                            val index = listTask.indexOfFirst { it.id == taskInDay.taskId }
-                            if (index != -1) {
-                                listTask[index].goal?.currentProgress = taskInDay.progressGoal
+//                        updateAllTaskInDayPause()
+                        if (currentDate == Helper.currentDate.toDate()) {
+                            history.tasksInDay.forEach { taskInDay ->
+                                val index = listTask.indexOfFirst { it.id == taskInDay.taskId }
+                                if (index != -1) {
+                                    listTask[index].goal?.currentProgress = taskInDay.progressGoal
+                                }
                             }
-                        }
 
-                        taskAdapter.notifyDataSetChanged()
-                        tasksChallenge = listTask.filter { it.challenge.isNotEmpty() }.map {
-                            ChallengeHomeItem(
-                                idTask = it.id,
-                                note = it.name,
-                                name = it.challenge,
-                                stateDone = (it.goal?.currentProgress
-                                    ?: 0) >= (it.goal?.target ?: 1),
-                                it.imgChallenge
-                            )
-                        }.toMutableList()
-                        challengeHomeAdapter.submitList(tasksChallenge)
-
-                        if (isListChanged(
-                                history.tasksInDay.map { it.taskId },
-                                listTask.map { it.id })
-                        ) {
-                            currentHistory!!.tasksInDay = getTasksInDay(listTask)
-                            if (!updateChallenge) {
-                                homeViewModel.userIntent.send(
-                                    HomeIntent.UpdateHistory(
-                                        currentHistory!!
-                                    )
+                            taskAdapter.notifyDataSetChanged()
+                            tasksChallenge = listTask.filter { it.challenge.isNotEmpty() }.map {
+                                ChallengeHomeItem(
+                                    idTask = it.id,
+                                    note = it.name,
+                                    name = it.challenge,
+                                    stateDone = (it.goal?.currentProgress
+                                        ?: 0) >= (it.goal?.target ?: 1),
+                                    it.imgChallenge
                                 )
-                            } else {
-                                updateChallenge = false
-                            }
+                            }.toMutableList()
+                            challengeHomeAdapter.submitList(tasksChallenge)
+                            challengeHomeAdapter.notifyDataSetChanged()
                         }
+
+
+//                        if (isListChanged(
+//                                history.tasksInDay.map { it.taskId },
+//                                listTask.map { it.id })
+//                        ) {
+                        currentHistory!!.tasksInDay = getTasksInDay(listTask)
+                        if (!updateChallenge) {
+                            homeViewModel.userIntent.send(
+                                HomeIntent.UpdateHistory(
+                                    currentHistory!!
+                                )
+                            )
+                        } else {
+                            updateChallenge = false
+                        }
+//                        }
                     } else {
                         if (currentDate <= Helper.currentDate.toDate()) {
                             val newHistory =
@@ -505,7 +519,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         tasks.forEach {
             if (it.id != IDLE) {
                 val isPaused = checkTaskPaused(it, true)
-                println("thanhlv checkTaskPaused " + it.name + isPaused)
+                println("thanhlv checkTaskPaused " + it.goal)
                 tasksInDay.add(
                     TaskInDay(
                         it.id,
@@ -772,13 +786,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         taskAdapter = TaskAdapter(requireActivity(), object : ItemTaskWithEdit<Task> {
             override fun onItemClicked(item: Task, p: Int) {
                 Intent(requireActivity(), DetailTaskActivity::class.java).apply {
-                    val bundle = Bundle()
-                    bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
                     currentHistory?.let {
+                        val bundle = Bundle()
+                        bundle.putBinder(Constant.EditTask, ObjectWrapperForBinder(item))
                         bundle.putLong(Constant.IDHISTORY, it.id)
+                        this.putExtras(bundle)
+                        startActivity(this)
                     }
-                    this.putExtras(bundle)
-                    startActivity(this)
                 }
             }
 
@@ -799,34 +813,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     item.pauseDate = currentDate
                     lifecycleScope.launch {
                         homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
-//                        currentHistory?.let { currentHistory ->
-//                            currentHistory.tasksInDay = getTasksInDay(listTask)
-//                            var tasksFinishNum = 0
-//                            var tasksNum = 0
-//                            currentHistory.tasksInDay.forEach { taskInDay ->
-//                                if (!taskInDay.isPaused) {
-//                                    tasksNum++
-//                                    if (taskInDay.progress == 100) tasksFinishNum++
-//                                }
-//                            }
-//                            data[currentPosWeek]
-//                                .progress = calculateDayProgress(tasksFinishNum, tasksNum)
-//                            weekAdapter.notifyItemChanged(currentPosWeek)
-//                            homeViewModel.userIntent.send(HomeIntent.UpdateHistory(currentHistory))
-//                        }
-//
-//                        delay(200)
-//                        homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
-
+                        setUpView(listTask)
+                        delay(200)
+                        taskAdapter.notifyDataSetChanged()
+                        freeIAP.isSkip = true
+                        updateAllTaskInDayPause()
                     }
                     Toast.makeText(
                         requireContext(),
                         getString(R.string.update_success), Toast.LENGTH_SHORT
                     ).show()
 
-                    taskAdapter.notifyDataSetChanged()
-                    freeIAP.isSkip = true
-                    updateAllTaskInDayPause()
                 }
             }
 
@@ -917,7 +914,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         currentHistory.tasksInDay.forEach { taskInDay ->
                             if (!taskInDay.isPaused) {
                                 tasksNum++
-                                if (taskInDay.progress == 100) tasksFinishNum++
+                                if (taskInDay.progress >= 100) tasksFinishNum++
                             }
                         }
                         data[currentPosWeek]
@@ -933,19 +930,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 item.pauseDate = null
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.UpdateTask(item))
+                    freeIAP.isSkip = false
+                    setUpView(listTask)
+                    delay(200)
+                    updateAllTaskInDayPause()
                 }
-                freeIAP.isSkip = false
-                updateAllTaskInDayPause()
             }
 
         })
-//        taskAdapter.date = currentDate
 
         binding.rcvTasks.adapter = taskAdapter
 
-        if (listHabitTask.isNotEmpty()) {
+        val lisHabit = updateProgressForGoal(listHabitTask)
+
+        if (lisHabit.isNotEmpty()) {
             if (Utils.isShowAds(requireContext()))
-                listHabitTask.add(1, Task(id = IDLE, name = "ads"))
+                lisHabit.add(1, Task(id = IDLE, name = "ads"))
             binding.isTasksEmpty = false
 
         } else {
@@ -953,9 +953,48 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             showAds()
         }
 
-        taskAdapter.submitList(listHabitTask)
+        taskAdapter.submitList(lisHabit)
         taskAdapter.notifyDataSetChanged()
 
+    }
+
+    private fun updateProgressForGoal(listHabitTask: MutableList<Task>): MutableList<Task> {
+        val result = listHabitTask.toMutableList()
+        result.forEach { task ->
+            if (task.goal != null && task.goal?.isOn!!) {
+                if (task.goal?.period == getString(R.string.per_week)) {
+                    runBlocking {
+                        val startWeek = CalendarUtil.startWeekMs(currentDate)
+                        val historyThisWeek = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startWeek, currentDate).reversed()
+                        historyThisWeek.forEach { history ->
+                            val index = history.tasksInDay.indexOfFirst { task.id == it.taskId }
+                            if (index != -1) {
+                                task.goal?.currentProgress = history.tasksInDay[index].progressGoal
+                                return@forEach
+                            }
+                        }
+                    }
+                }
+
+                if (task.goal?.period == getString(R.string.per_month)) {
+                    runBlocking {
+                        val startWeek = CalendarUtil.startMonthMs(currentDate)
+                        val historyThisMonth = AppDatabase.getInstance(requireContext()).dao()
+                            .getHistoryFromAUntilB(startWeek, currentDate).reversed()
+                        historyThisMonth.forEach { history ->
+                            val index = history.tasksInDay.indexOfFirst { task.id == it.taskId }
+                            if (index != -1) {
+                                task.goal?.currentProgress = history.tasksInDay[index].progressGoal
+                                return@forEach
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        return result
     }
 
 
@@ -1018,25 +1057,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun changeChipState(isChanged: Boolean, chip: Chip) {
         chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_regular)
-        chip.rippleEffect()
         if (isChanged) {
             chip.chipBackgroundColor =
                 ColorStateList.valueOf(resources.getColor(R.color.tangerine, null))
             chip.setTextColor(ColorStateList.valueOf(Color.WHITE))
             chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_semibold)
-            chip.elevation = 15f
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 chip.outlineSpotShadowColor = resources.getColor(R.color.tangerine, null)
             }
-
 
         } else {
             chip.chipBackgroundColor =
                 ColorStateList.valueOf(resources.getColor(R.color.white_smoke, null))
             chip.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.gray, null)))
             chip.typeface = ResourcesCompat.getFont(requireContext(), R.font.worksans_regular)
-            chip.elevation = 0f
-
         }
     }
 
@@ -1058,8 +1092,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             lifecycleScope.launch {
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
             }
-
-//            setUpView(homeViewModel.tasks)
         }
 
         binding.btnTodayLeft.setOnClickListener { it ->
@@ -1078,8 +1110,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             lifecycleScope.launch {
                 homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
             }
-
-//            setUpView(homeViewModel.tasks)
         }
         binding.btnAddMood.setOnClickListener {
             startActivity(Intent(requireContext(), MoodActivity::class.java))
@@ -1090,6 +1120,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 childFragmentManager.beginTransaction().remove(calenderDialogHomeFragment),
                 CalenderDialogHomeFragment.TAG
             )
+        }
+        binding.btnPremiumTop.setOnClickListener {
+            startActivity(Intent(requireContext(), SubscriptionsActivity::class.java))
         }
     }
 
@@ -1105,8 +1138,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 currentDate = date[position].toDate()
                 lifecycleScope.launch {
                     homeViewModel.userIntent.send(HomeIntent.FetchTasksByDate(currentDate))
-//                    delay(200)
-//                    setUpView(homeViewModel.tasks)
                 }
 
                 resolveScrollButtonToday(currentDate)
@@ -1245,10 +1276,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun updateAllTaskInDayPause() {
         if (listTask.isNotEmpty())
-            currentHistory?.let {
+            currentHistory?.let { history ->
                 var isAllTaskPause = true
                 listTask.forEach { task ->
-
                     val isPaused = checkTaskPaused(task, true)
                     println("thanhlv checkTaskPaused " + task.name + isPaused)
                     if (!isPaused) {
@@ -1257,8 +1287,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
                 }
 
-                it.allTaskPause = isAllTaskPause
-                homeViewModel.updateHistory(it)
+                history.allTaskPause = isAllTaskPause
+
+//                if (isListChanged(
+//                        history.tasksInDay.map { it.taskId },
+//                        listTask.map { it.id })
+//                ) {
+                history.tasksInDay = getTasksInDay(listTask)
+//                }
+
+                homeViewModel.updateHistory(history)
 
             }
     }

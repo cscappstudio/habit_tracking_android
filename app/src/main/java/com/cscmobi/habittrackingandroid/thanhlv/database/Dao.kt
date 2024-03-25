@@ -1,6 +1,5 @@
 package com.cscmobi.habittrackingandroid.thanhlv.database
 
-import android.accessibilityservice.AccessibilityService.TakeScreenshotCallback
 import androidx.room.*
 import androidx.room.Dao
 import com.cscmobi.habittrackingandroid.thanhlv.model.Challenge
@@ -95,7 +94,7 @@ interface Dao {
     fun getAllHistory(): Flow<List<History>>
 
     @Query("SELECT * FROM history WHERE date=:date")
-    fun getHistorybyDate(date: Long): Flow<History?>
+    fun getHistoryByDate(date: Long): Flow<History?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertHistory(item: History)

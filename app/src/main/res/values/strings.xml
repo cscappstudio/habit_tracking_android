@@ -311,7 +311,6 @@
     <string name="name_empty">Name empty!</string>
     <string name="task_name">Task name</string>
     <string name="delete_success">Delete success</string>
-    <string name="enter_the_number_of_kilometers_you_want_to_record">*Enter the number of kilometers you want to record</string>
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
     <string name="subtask">Subtask</string>

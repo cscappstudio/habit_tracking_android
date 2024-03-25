@@ -81,9 +81,9 @@ class HomeViewModel(
         }
     }
 
-    fun getHistorybyDate(date: Long) {
+    fun getHistoryByDate(date: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.getHistorybyDate(date).collect {
+            databaseRepository.getHistoryByDate(date).collect {
                 _currentHistory.value = it ?: History(id = -1)
             }
 
@@ -98,7 +98,7 @@ class HomeViewModel(
             var doneNum = 0
             var taskNum = 0
             history.tasksInDay.forEach {
-                if (it.progress == 100 && !it.isPaused) doneNum++
+                if (it.progress >= 100 && !it.isPaused) doneNum++
                 if (!it.isPaused) taskNum++
             }
             if (taskNum == 0) history.progressDay = 0

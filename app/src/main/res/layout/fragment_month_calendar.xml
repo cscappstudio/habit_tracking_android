@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -98,11 +99,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:overScrollMode="never"
         android:paddingTop="@dimen/_3sdp"
         android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintTop_toBottomOf="@id/title_day_of_week" />

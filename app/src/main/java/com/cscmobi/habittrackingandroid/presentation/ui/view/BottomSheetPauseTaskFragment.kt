@@ -1,5 +1,6 @@
 package com.cscmobi.habittrackingandroid.presentation.ui.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +22,7 @@ class BottomSheetPauseTaskFragment: BottomSheetDialogFragment() {
     var currentPos = 0
 
     private var pauseValue = listOf<Int>(1,3,7,-1)
-    var oldPostionTag = 0
+    var oldPositionTag = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +32,7 @@ class BottomSheetPauseTaskFragment: BottomSheetDialogFragment() {
         val binding = BottomsheetPauseTaskBinding.inflate(inflater, container, false)
 
         pauseInfos = mutableListOf<Tag>(
-            Tag(getString(R.string.for_1_day)),
+            Tag(getString(R.string.for_1_day), true),
             Tag(getString(R.string.for_3_days)),
             Tag(getString(R.string.for_7_days)),
             Tag(getString(R.string.until_i_change_it))
@@ -50,13 +51,13 @@ class BottomSheetPauseTaskFragment: BottomSheetDialogFragment() {
             })
         adapter.submitList(pauseInfos)
         adapter.setListener(object : ItemBasePosistionListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onItemClicked(p: Int) {
-                if (oldPostionTag != -1 && oldPostionTag != p) {
-                    pauseInfos[oldPostionTag].isSelected = false
-                    oldPostionTag = p
-
+                if (oldPositionTag != -1 && oldPositionTag != p) {
+                    pauseInfos[oldPositionTag].isSelected = false
+                    oldPositionTag = p
                 } else {
-                    oldPostionTag = p
+                    oldPositionTag = p
                 }
 
                 pauseInfos[p].isSelected = true

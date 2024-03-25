@@ -277,7 +277,13 @@ class TaskAdapter(
             })
 
             binding.ivSkip.setOnClickListener {
-                onItemClickAdapter.skip(item, layoutPosition)
+                if (isPause) {
+                    onItemClickAdapter.onResume(layoutPosition, item)
+                    binding.ivPlay.visibility = View.GONE
+                    binding.rdCheck.visibility = View.VISIBLE
+                    notifyItemChanged(layoutPosition)
+                } else
+                    onItemClickAdapter.skip(item, layoutPosition)
             }
 
             binding.ivEdit.setOnClickListener {

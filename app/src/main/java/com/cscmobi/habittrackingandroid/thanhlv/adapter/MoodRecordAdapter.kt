@@ -2,6 +2,8 @@ package com.cscmobi.habittrackingandroid.thanhlv.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,27 +53,52 @@ class MoodRecordAdapter(private var mContext: Context) :
         when (itemMood.state) {
             1 -> {
                 holder.binding.icMood.setImageResource(R.drawable.ic_mood_great)
-                holder.binding.tvTitle.text = "Great"
+                holder.binding.tvTitle.text = mContext.getString(R.string.great)
+                holder.binding.tvDes.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#66EC9B96"))
+                holder.binding.tvBecause.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#66EC9B96"))
             }
+
             2 -> {
                 holder.binding.icMood.setImageResource(R.drawable.ic_mood_good)
-                holder.binding.tvTitle.text = "Good"
+                holder.binding.tvTitle.text = mContext.getString(R.string.good)
+                holder.binding.tvDes.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#66E59045"))
+                holder.binding.tvBecause.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#66E59045"))
             }
+
             3 -> {
                 holder.binding.icMood.setImageResource(R.drawable.ic_mood_neutral)
-                holder.binding.tvTitle.text = "Neutral"
+                holder.binding.tvTitle.text = mContext.getString(R.string.neutral)
+                holder.binding.tvDes.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#668ED0AE"))
+                holder.binding.tvBecause.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#668ED0AE"))
             }
+
             4 -> {
                 holder.binding.icMood.setImageResource(R.drawable.ic_mood_not_great)
-                holder.binding.tvTitle.text = "Not great"
+                holder.binding.tvTitle.text = mContext.getString(R.string.not_great)
+                holder.binding.tvDes.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#6692BFD2"))
+                holder.binding.tvBecause.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#6692BFD2"))
             }
+
             5 -> {
                 holder.binding.icMood.setImageResource(R.drawable.ic_mood_bad)
-                holder.binding.tvTitle.text = "Bab"
+                holder.binding.tvTitle.text = mContext.getString(R.string.bad)
+                holder.binding.tvDes.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#668F67B8"))
+                holder.binding.tvBecause.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor("#668F67B8"))
             }
         }
         holder.binding.tvDes.text = if (itemMood.describe.isEmpty()) "" else itemMood.describe[0]
-        holder.binding.tvBecause.text = if (itemMood.becauseOf.isEmpty()) "" else itemMood.becauseOf[0]
+        holder.binding.tvBecause.text =
+            if (itemMood.becauseOf.isEmpty()) "" else itemMood.becauseOf[0]
 
         val day = Calendar.getInstance()
         day.timeInMillis = itemMood.date

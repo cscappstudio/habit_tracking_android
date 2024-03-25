@@ -282,6 +282,15 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
 
 
                 binding.txtProgress.text = (it.goal!!.currentProgress ?: 0).toString()
+                val periodGoal = it.goal!!.period == getString(R.string.per_day)
+//                binding.txtGoalPeriod.text = it.goal!!.period
+                binding.txtGoalPeriod.text = if (periodGoal) {
+                    binding.txtGoalPeriod.visibility = View.GONE
+                    ""
+                } else {
+                    binding.txtGoalPeriod.visibility = View.VISIBLE
+                    it.goal!!.period
+                }
                 binding.txtGoalTarget.text =
                     "${getString(R.string.goal)}: ${(it.goal!!.target ?: 1)} ${it.goal!!.unit}"
             }
@@ -478,7 +487,6 @@ class DetailTaskActivity : BaseActivity<ActivityDetailTaskBinding>() {
                 detailTaskViewModel.userIntent.send(DetailTaskIntent.UpdateTask(currentTask))
 
             }
-            delay(1000L)
         }
     }
 
