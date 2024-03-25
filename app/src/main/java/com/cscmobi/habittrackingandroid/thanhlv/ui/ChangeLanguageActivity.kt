@@ -25,6 +25,7 @@ class ChangeLanguageActivity : BaseActivity2() {
     override fun setupScreen() {
         binding = ActivityLanguageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        loadBanner()
     }
 
     @SuppressLint("MissingSuperCall")
@@ -157,12 +158,12 @@ class ChangeLanguageActivity : BaseActivity2() {
     }
 
 
-    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            loadBanner()
-        }
-    }
+//    private val mIntentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+//    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+//        override fun onReceive(context: Context, intent: Intent) {
+//            loadBanner()
+//        }
+//    }
 
     private fun loadBanner() {
         if (NetworkHelper.isNetworkAvailable(this@ChangeLanguageActivity)
@@ -182,14 +183,14 @@ class ChangeLanguageActivity : BaseActivity2() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        registerReceiver(mReceiver, mIntentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(mReceiver)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        registerReceiver(mReceiver, mIntentFilter)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        unregisterReceiver(mReceiver)
+//    }
 
 }
