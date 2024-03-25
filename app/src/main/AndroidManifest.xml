@@ -12,16 +12,27 @@
 
     <application
         android:name=".MyApplication"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
+        android:fullBackupContent="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenTheme"
+        android:usesCleartextTraffic="false"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:hardwareAccelerated, android:fullBackupContent"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
+            android:value="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
+            android:value="true" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -54,9 +65,9 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"
-            android:value="false" />
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"-->
+<!--            android:value="false" />-->
 
         <receiver android:name=".AlarmReceiver" />
 

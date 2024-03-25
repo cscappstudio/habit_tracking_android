@@ -51,9 +51,6 @@ class MyApplication : ApplicationLocale(), Application.ActivityLifecycleCallback
         }
         context = this
         AndroidThreeTen.init(this)
-
-//        val dao: Dao = get()
-
     }
 
     companion object {
@@ -64,7 +61,6 @@ class MyApplication : ApplicationLocale(), Application.ActivityLifecycleCallback
     private var appOpenAdManager: AppOpenAdManager? = null
     private var currentActivity: Activity? = null
     private fun configs() {
-//        FirebaseApp.initializeApp(this)
         val config = FirebaseRemoteConfig.getInstance()
         val settings = FirebaseRemoteConfigSettings.Builder() //3600
             .setMinimumFetchIntervalInSeconds(0)

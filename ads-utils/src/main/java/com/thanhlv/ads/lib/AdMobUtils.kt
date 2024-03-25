@@ -132,7 +132,7 @@ class AdMobUtils {
                     override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                         super.onAdFailedToLoad(loadAdError)
                         if (finalShimmer != null) finalShimmer.visibility = View.GONE
-                       loadBannerCallback?.onLoadFailed()
+                        loadBannerCallback?.onLoadFailed()
                         println("thanhlv onAdFailedToLoad ----------------- banner " + loadAdError.responseInfo)
                     }
                 }
@@ -149,7 +149,10 @@ class AdMobUtils {
                 val adRequest: AdRequest =
                     if (type == BANNER_COLLAPSIBLE_BOTTOM || type == BANNER_COLLAPSIBLE_TOP) {
                         val extras = Bundle()
-                        extras.putString("collapsible", if (type == BANNER_COLLAPSIBLE_BOTTOM) "bottom" else "top")
+                        extras.putString(
+                            "collapsible",
+                            if (type == BANNER_COLLAPSIBLE_BOTTOM) "bottom" else "top"
+                        )
                         AdRequest.Builder()
                             .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
                             .build()
@@ -163,6 +166,7 @@ class AdMobUtils {
             fun onLoaded(ad: Any?)
             fun onLoadFailed()
         }
+
         private fun getAdSize(context: Context, type: Int): AdSize {
             return if (context is Activity) {
                 val display = context.windowManager.defaultDisplay
@@ -210,7 +214,7 @@ class AdMobUtils {
                         mInterAd = null
                         callback?.onLoadFailed()
 
-                        println("thanhlv createInterstitialAd faillllllll" )
+                        println("thanhlv createInterstitialAd faillllllll")
                     }
                 })
         }
@@ -298,7 +302,7 @@ class AdMobUtils {
                 })
         }
 
-            fun showRewardAds(
+        fun showRewardAds(
             mActivity: Activity?,
             fullScreenContentCallback: FullScreenContentCallback?
         ) {

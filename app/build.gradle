@@ -21,6 +21,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
+
+        resConfigs "en", "de", "fr", "hi", "es"
         def formattedDate = new Date().format('MM.dd.yyyy')
         setProperty "archivesBaseName", "HabitGoals_v${versionName}_(${versionCode})_${formattedDate}"
 
@@ -43,9 +45,9 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            multiDexEnabled true
-            shrinkResources true
+            minifyEnabled false
+//            multiDexEnabled true
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_id", "ca-app-pub-3940256099942544~3347511713"
             resValue "string", "native_id", "ca-app-pub-3940256099942544/2247696110"
@@ -61,8 +63,8 @@ android {
 
         debug {
             signingConfig signingConfigs.debug
-            debuggable true
-            multiDexEnabled true
+//            debuggable true
+//            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_id", "ca-app-pub-3940256099942544~3347511713"
             resValue "string", "native_id", "ca-app-pub-3940256099942544/2247696110"
@@ -121,15 +123,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 
-    implementation("com.google.firebase:firebase-messaging-ktx:23.4.1")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation("com.google.firebase:firebase-analytics")
     // Firebase Remote Config (Kotlin)
     implementation("com.google.firebase:firebase-config-ktx")
     // Firebase Analytics (Kotlin)
-    implementation("com.google.firebase:firebase-analytics-ktx")
+//    implementation("com.google.firebase:firebase-analytics-ktx")
     // Firebase Crashlytics (Kotlin)
     implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation 'com.google.firebase:firebase-core:21.1.1'
 
     // required to avoid crash on Android 12 API 31
     //implementation("androidx.work:work-runtime-ktx:2.8.1")
@@ -229,15 +232,21 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:latest.release'
     //mediation Admob
     implementation 'com.google.ads.mediation:adcolony:4.8.0.2'
-    implementation 'com.google.ads.mediation:applovin:12.3.0.0'
-    implementation 'com.google.ads.mediation:inmobi:10.6.7.0'
-    implementation 'com.google.ads.mediation:ironsource:7.9.0.0'
+    implementation 'com.google.ads.mediation:applovin:12.1.0.0'
+    implementation 'com.google.ads.mediation:inmobi:10.6.2.0'
+    implementation 'com.google.ads.mediation:ironsource:7.7.0.0'
     implementation 'com.google.ads.mediation:facebook:6.16.0.0'
-    implementation 'com.google.ads.mediation:mintegral:16.6.51.0'
-    implementation 'com.google.ads.mediation:pangle:5.8.0.9.0'
+    implementation 'com.google.ads.mediation:mintegral:16.5.91.0'
+    implementation 'com.google.ads.mediation:pangle:5.7.0.1.0'
     implementation 'com.unity3d.ads:unity-ads:4.9.2'
-    implementation 'com.google.ads.mediation:unity:4.9.3.0'
+    implementation 'com.google.ads.mediation:unity:4.9.2.0'
     implementation 'com.google.ads.mediation:vungle:7.1.0.0'
-    implementation 'com.google.ads.mediation:fyber:8.2.6.0'
+    implementation 'com.google.ads.mediation:fyber:8.2.5.0'
 
+
+}
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        languageVersion = "1.9"
+    }
 }

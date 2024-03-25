@@ -25,7 +25,6 @@ class ChangeLanguageActivity : BaseActivity2() {
     override fun setupScreen() {
         binding = ActivityLanguageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadBanner()
     }
 
     @SuppressLint("MissingSuperCall")
@@ -63,6 +62,9 @@ class ChangeLanguageActivity : BaseActivity2() {
 
         if (SPF.getLanguage(this) != null) currentLanguage = SPF.getLanguage(this)!!
         toggleItemLanguage()
+
+
+        loadBanner()
     }
 
     override fun loadData() {
