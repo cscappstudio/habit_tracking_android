@@ -302,10 +302,10 @@
     <string name="stop">Arrêter</string>
     <string name="delete_challenge">Supprimer le défi</string>
     <string name="cancel">Annuler</string>
-    <string name="choose_your_collection_s_cover_image">Choisissez l'image de couverture de votre collection</string>
-    <string name="choose_your_challenge_cover_image">Choisissez l'image de couverture de votre défi</string>
+    <string name="choose_your_collection_s_cover_image">Choisissez l\'image de couverture de votre collection</string>
+    <string name="choose_your_challenge_cover_image">Choisissez l\'image de couverture de votre défi</string>
     <string name="completion">Achèvement</string>
-    <string name="there_are_no_habits_yet">Il n'y a pas encore de habitudes</string>
+    <string name="there_are_no_habits_yet">Il n\'y a pas encore de habitudes</string>
     <string name="collection_name">Nom de la collection</string>
     <string name="delete_this_task">Supprimer cette tâche ?</string>
     <string name="delete_this_challenge">Supprimer ce défi ?</string>

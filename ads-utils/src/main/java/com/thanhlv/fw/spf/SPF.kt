@@ -135,7 +135,7 @@ class SPF {
         }
 
         fun isProApp(context: Context): Boolean {
-            return getSharedPreferences(context).getBoolean(SETTINGS_IS_PRO, true)
+            return getSharedPreferences(context).getBoolean(SETTINGS_IS_PRO, false)
         }
 
         fun setFirstOpenApp(context: Context, value: Boolean) {

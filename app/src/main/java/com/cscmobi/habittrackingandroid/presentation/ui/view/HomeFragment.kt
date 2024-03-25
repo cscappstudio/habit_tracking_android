@@ -180,7 +180,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         }
 
-
+        showAds()
     }
 
 
@@ -484,31 +484,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun showAds() {
         if (isShowAds(requireContext())) {
-//            binding.llTask.visibility = View.GONE
-            binding.adView.visibility = View.VISIBLE
             AdMobUtils.createNativeAd(
                 binding.root.context,
                 binding.root.context.getString(R.string.native_id),
                 binding.adView,
                 object : AdMobUtils.Companion.LoadAdCallback {
                     override fun onLoaded(ad: Any?) {
-                        binding.ivPencil.visibility = View.INVISIBLE
-                        binding.txtNotask.visibility = View.INVISIBLE
+                        binding.adView.visibility = View.VISIBLE
                     }
 
                     override fun onLoadFailed() {
-                        //  binding.llTask.visibility = View.VISIBLE
                         binding.adView.visibility = View.GONE
-                        binding.ivPencil.visibility = View.VISIBLE
-                        binding.txtNotask.visibility = View.VISIBLE
-
                     }
                 })
         } else {
-            if (listHabitTask.isEmpty()) {
-                binding.ivPencil.visibility = View.VISIBLE
-                binding.txtNotask.visibility = View.VISIBLE
-            }
+            binding.adView.visibility = View.GONE
         }
     }
 

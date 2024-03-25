@@ -589,23 +589,6 @@ class MyUtils {
             }
         }
 
-
-//        private fun getValueCurrencyList(): MutableList<ValueCurrencyModel> {
-//            val list = mutableListOf<ValueCurrencyModel>()
-//            val str = readJsonAsset("currency.json")
-//            val jsonObject = JSONObject(str)
-//            val data = JSONObject(jsonObject.get("data").toString())
-//            for (key in data.keys()) {
-//                list.add(
-//                    Gson().fromJson(
-//                        JSONObject(data[key].toString()).toString(),
-//                        ValueCurrencyModel::class.java
-//                    )
-//                )
-//            }
-//            return list
-//        }
-
         fun readJsonAsset(context: Context, fileName: String): String {
             val inputStream = context.assets.open(fileName)
             val size = inputStream.available()

@@ -105,35 +105,25 @@ class TemplateNativeView : FrameLayout {
         var body = nativeAd.body
         val cta = nativeAd.callToAction
         val icon = nativeAd.icon
-        if (headline != null && !TextUtils.isEmpty(headline) && headline?.length!! > 25) {
-            var sub = headline?.substring(0, 25)
-            val endSpace = sub?.lastIndexOf(" ")
-            if (endSpace!! > 22) {
-                headline = sub?.substring(0, endSpace)
-                val end = headline?.lastIndexOf(" ")
-                if (end != null && end >= 0)
-                    sub = headline?.substring(0, headline.lastIndexOf(" "))
-                headline = "$sub..."
-            } else if (endSpace > -1) {
-                headline = sub?.substring(0, endSpace)
-                headline = "$headline..."
-            } else {
-                headline = sub?.substring(0, 23) + "..."
-            }
-        }
-        if (body != null && !TextUtils.isEmpty(body) && body.length > 90) {
-            var sub = body.substring(0, 90)
+
+        if (headline != null && !TextUtils.isEmpty(headline) && headline.length > 26) {
+            var sub = headline.substring(0, 26)
             val endSpace = sub.lastIndexOf(" ")
-            if (endSpace > 87) {
-                body = sub.substring(0, endSpace)
-                sub = body.substring(0, body.lastIndexOf(" "))
-                body = "$sub..."
-            } else if (endSpace > -1) {
-                body = sub.substring(0, endSpace)
-                body = "$body..."
-            } else {
-                body = sub.substring(0, 88) + "..."
+            if (endSpace > 24) {
+                headline = sub.substring(0, endSpace)
+                if (headline.lastIndexOf(" ") > 0) sub =
+                    headline.substring(0, headline.lastIndexOf(" "))
             }
+            headline = "$sub..."
+        }
+        if (body != null && !TextUtils.isEmpty(body) && body.length > 91) {
+            var sub = body.substring(0, 91)
+            val endSpace = sub.lastIndexOf(" ")
+            if (endSpace > 89) {
+                body = sub.substring(0, endSpace)
+                if (body.lastIndexOf(" ") > 0) sub = body.substring(0, body.lastIndexOf(" "))
+            }
+            body = "$sub..."
         }
         nativeAdView!!.callToActionView = callToActionView
         nativeAdView!!.adChoicesView = adChoicesView

@@ -28,6 +28,7 @@ class ChallengeData(var mContext: Context) {
     init {
         mChallengeDefaultList.clear()
         mChallengeDefaultList.addAll(getDefaultData())
+//        println("thanhlv ggggggggggggg " + mChallengeDefaultList[0])
     }
 
 

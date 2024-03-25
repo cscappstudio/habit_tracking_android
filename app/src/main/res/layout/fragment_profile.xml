@@ -97,6 +97,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/adView" />
 
+
+            <TextView
+                android:id="@+id/tv_subs_registered"
+                style="@style/Text_500"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginEnd="50dp"
+                android:gravity="center_vertical"
+                android:text="Weekly"
+                android:textColor="#b5b5b5"
+                android:textSize="13sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/btn_subscription"
+                app:layout_constraintEnd_toEndOf="@id/btn_subscription"
+                app:layout_constraintHeight_max="62dp"
+                app:layout_constraintTop_toTopOf="@id/btn_subscription" />
+
             <ImageView
                 android:id="@+id/ic_noti"
                 android:layout_width="44dp"

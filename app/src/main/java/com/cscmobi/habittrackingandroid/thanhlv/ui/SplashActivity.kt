@@ -54,8 +54,6 @@ class SplashActivity : BaseActivity2() {
     override fun setupScreen() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        SPF.setProApp(this, true)
-
     }
 
     override fun loadData() {
@@ -64,11 +62,10 @@ class SplashActivity : BaseActivity2() {
             CURRENT_LANG = SPF.getLanguage(this)!!
         RunUtils.runInBackground {
 
-            val challengeData = ChallengeData(this)
+            val challengeData = ChallengeData(applicationContext)
             val moodData = MoodData(this)
 
-            loadRemoteConfigs()
-//            getPurchaseHistory()
+            println("thanhlv ffffffffff gggg 1111111 " + !SPF.isFirstOpenApp(applicationContext))
 //            GSMUtil.retryLoginGSM = 0
 //            GSMUtil.login(this, null)
             if (!SPF.isFirstOpenApp(applicationContext))
@@ -79,8 +76,12 @@ class SplashActivity : BaseActivity2() {
                     val myChallenge =
                         AppDatabase.getInstance(applicationContext).dao().getMyChallenge()
                     ChallengeFragment.myChallenges.postValue(myChallenge.reversed())
+
+                    println("thanhlv ffffffffff gggg 2222222 " + allChallenge[0])
                 }
 
+            loadRemoteConfigs()
+            getPurchaseHistory()
         }
 
         if (SPF.isFirstOpenApp(applicationContext)) SPF.setStartOpenTime(

@@ -15,11 +15,12 @@ android {
         applicationId "com.cscmobi.habittracker.habitplanner"
         minSdk 24
         targetSdk 34
-        versionCode 2
-        versionName "0.0.2"
+        versionCode 3
+        versionName "0.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        vectorDrawables.useSupportLibrary = true
         def formattedDate = new Date().format('MM.dd.yyyy')
         setProperty "archivesBaseName", "HabitGoals_v${versionName}_(${versionCode})_${formattedDate}"
 
@@ -121,7 +122,7 @@ dependencies {
 
 
     implementation("com.google.firebase:firebase-messaging-ktx:23.4.1")
-    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-analytics")
     // Firebase Remote Config (Kotlin)
     implementation("com.google.firebase:firebase-config-ktx")
@@ -134,7 +135,7 @@ dependencies {
     //implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     // Admob ads
-    implementation("com.google.android.gms:play-services-ads:22.6.0")
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
 
     //adjust sdk
     implementation("com.adjust.sdk:adjust-android:4.33.5")
@@ -173,7 +174,7 @@ dependencies {
     //language
 
     implementation("com.ninenox.kotlinlocalemanager:kotlin-locale-manager:1.0.0") // inapp
-    def billing_version = "6.1.0"
+    def billing_version = "6.2.0"
     implementation("com.android.billingclient:billing:$billing_version")
 
     // GDPR
@@ -227,12 +228,12 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:latest.release'
     //mediation Admob
     implementation 'com.google.ads.mediation:adcolony:4.8.0.2'
-    implementation 'com.google.ads.mediation:applovin:12.2.0.0'
-    implementation 'com.google.ads.mediation:inmobi:10.6.6.0'
-    implementation 'com.google.ads.mediation:ironsource:7.8.1.1'
+    implementation 'com.google.ads.mediation:applovin:12.3.0.0'
+    implementation 'com.google.ads.mediation:inmobi:10.6.7.0'
+    implementation 'com.google.ads.mediation:ironsource:7.9.0.0'
     implementation 'com.google.ads.mediation:facebook:6.16.0.0'
-    implementation 'com.google.ads.mediation:mintegral:16.6.41.0'
-    implementation 'com.google.ads.mediation:pangle:5.8.0.6.0'
+    implementation 'com.google.ads.mediation:mintegral:16.6.51.0'
+    implementation 'com.google.ads.mediation:pangle:5.8.0.9.0'
     implementation 'com.unity3d.ads:unity-ads:4.9.2'
     implementation 'com.google.ads.mediation:unity:4.9.3.0'
     implementation 'com.google.ads.mediation:vungle:7.1.0.0'

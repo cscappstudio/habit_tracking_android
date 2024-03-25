@@ -58,12 +58,7 @@ class QuestionFOActivity : BaseActivity2() {
     override fun loadData() {
         RunUtils.runInBackground {
             runBlocking {
-
-                if (AppDatabase.getInstance(applicationContext).dao().getAllChallenge()
-                        .isEmpty()
-                ) {
-                    generationDataDefault()
-                }
+                generationDataDefault()
                 runBlocking {
                     val allChallenge =
                         AppDatabase.getInstance(applicationContext).dao().getAllChallenge()

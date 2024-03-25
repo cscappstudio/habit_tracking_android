@@ -34,6 +34,10 @@ class ProfileFragment :
     override fun initView(view: View) {
         lastVer = RemoteConfigs.instance.appConfigs.lastVersion
         latest = (lastVer == BuildConfig.VERSION_NAME)
+        if (SPF.isProApp(requireContext())) {
+            binding.tvSubsRegistered.visibility = View.VISIBLE
+            binding.tvSubsRegistered.text = SPF.getCurrentSub(requireContext())
+        } else binding.tvSubsRegistered.visibility = View.GONE
         binding.btnLanguage.rippleEffect("#f5f5f5")
         binding.btnNotification.rippleEffect("#f5f5f5")
         binding.btnAbout.rippleEffect("#f5f5f5")
