@@ -748,7 +748,7 @@ class ProgressFragment : BaseFragment<FragmentProgressBinding>(FragmentProgressB
 
         task.repeate.let {
             if (it.isOn) {
-                when (it.type) {
+                when (val typeRepeat = it.type?.trim()?.toLowerCase()) {
                     "daily" -> {
                         isValid =
                             abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % it.frequency == 0

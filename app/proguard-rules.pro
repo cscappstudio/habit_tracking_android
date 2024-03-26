@@ -129,3 +129,4 @@
 -keepclassmembers,allowobfuscation,allowoptimization class <1> {
   <init>();
 }
+-keep class com.google.gson.** { *; }

@@ -60,14 +60,14 @@ object Helper {
                 } else isValid = false
 
 
-                Log.d("isValid", "1 $isValid")
+                Log.d("thanhlv isValid", "1 $isValid")
             }
         }
 
 
         task.repeate.let { taskRepeat ->
             if (taskRepeat.isOn) {
-                when (taskRepeat.type) {
+                when (val typeRepeat = taskRepeat.type?.trim()?.toLowerCase()) {
                     "daily" -> {
                         isValid =
                             abs(Utils.getDayofYear(date) - Utils.getDayofYear(task.startDate!!)) % taskRepeat.frequency == 0
@@ -96,9 +96,10 @@ object Helper {
 
                     }
                 }
-                Log.d("isValid", "2 $isValid")
+                Log.d("thanhlv isValid", "2 $isValid")
             } else {
-                return CalendarUtil.getToDayMs() == CalendarUtil.startDayMs(date)
+                if (task.challenge.isEmpty()) return CalendarUtil.getToDayMs() == CalendarUtil.startDayMs(date)
+                else return CalendarUtil.startDayMs(task.startDate!!) == CalendarUtil.startDayMs(date)
             }
 
         }
@@ -108,14 +109,14 @@ object Helper {
         if (task.startDate != null) {
             if (getDateWithoutHour(task.startDate!!) > _date) {
                 isValid = false
-                Log.d("isValid", "3 $isValid")
+                Log.d("thanhlv isValid", "3 $isValid")
 
             }
         }
 
         if (task.endDate.isOpen && task.endDate.endDate != null && task.endDate.endDate!! < _date) {
             isValid = false
-            Log.d("isValid", "3 $isValid")
+            Log.d("thanhlv isValid", "3 $isValid")
         }
 
 
@@ -125,13 +126,13 @@ object Helper {
     fun getDateWithoutHour(date: Long): Long {
         if (date == -1L) return -1
         val calendar = Calendar.getInstance()
-        calendar.time = Date(date)
+        calendar.timeInMillis = date
         // Set hour, minute, second, and millisecond to zero
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time.time
+        return calendar.timeInMillis
     }
 
 

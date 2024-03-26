@@ -203,7 +203,7 @@ class SubscriptionsActivity : BaseActivity2() {
         val eventPurchaseModel =
             LogEventPurchaseModel(SELECTED_SUBS, "default", (price / 1000000).toDouble())
         FirebaseHelper.getInstance(this).logEventPurchaseToFirebase(eventPurchaseModel)
-        SPF.setCurrentSub(this, purchase.products[0] + "--" + ss)
+        SPF.setCurrentSub(this, purchase.products[0] /*+ "--" + ss*/)
         //tracking GSM
         val params = JsonObject()
         params.addProperty("packageName", packageName)

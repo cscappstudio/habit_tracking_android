@@ -164,7 +164,7 @@ class TaskAdapter(
                     binding.shapeableImageView.imageTintList = ColorStateList.valueOf(Color.WHITE)
                     binding.txtNameTask.showStrikeThrough(true)
                     binding.txtUnit.setTextColor(Color.WHITE)
-                    binding.rdCheck.isChecked = true
+                    binding.rdCheck.isChecked =  currentDate <= Helper.currentDate.toDate()
 
                 } else {
                     binding.txtNameTask.showStrikeThrough(false)

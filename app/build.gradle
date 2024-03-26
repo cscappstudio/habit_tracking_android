@@ -22,7 +22,6 @@ android {
 
         vectorDrawables.useSupportLibrary = true
 
-        resConfigs "en", "de", "fr", "hi", "es"
         def formattedDate = new Date().format('MM.dd.yyyy')
         setProperty "archivesBaseName", "HabitGoals_v${versionName}_(${versionCode})_${formattedDate}"
 
@@ -45,8 +44,8 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-//            multiDexEnabled true
+            minifyEnabled false
+            multiDexEnabled true
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_id", "ca-app-pub-3940256099942544~3347511713"

@@ -104,15 +104,19 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:layout_marginEnd="50dp"
+                android:autoSizeMaxTextSize="13sp"
+                android:autoSizeMinTextSize="11sp"
+                android:autoSizeTextType="uniform"
                 android:gravity="center_vertical"
-                android:text="Weekly"
                 android:textColor="#b5b5b5"
                 android:textSize="13sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/btn_subscription"
                 app:layout_constraintEnd_toEndOf="@id/btn_subscription"
                 app:layout_constraintHeight_max="62dp"
-                app:layout_constraintTop_toTopOf="@id/btn_subscription" />
+                app:layout_constraintTop_toTopOf="@id/btn_subscription"
+                app:layout_constraintWidth_max="150dp"
+                tools:ignore="UnusedAttribute" />
 
             <ImageView
                 android:id="@+id/ic_noti"

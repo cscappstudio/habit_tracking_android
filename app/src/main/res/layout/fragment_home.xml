@@ -345,7 +345,7 @@
                             android:layout_marginHorizontal="24dp"
                             android:layout_weight="1"
                             android:layout_marginTop="@dimen/_8sdp"
-                            android:visibility="@{isTasksEmpty ? View.VISIBLE : View.GONE}"
+                            android:visibility="gone"
                             app:gnt_template_type="@layout/gnt_medium_video_inline_view"
                             app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -92,9 +92,9 @@ class HomeViewModel(
 
     fun updateHistory(history: History) = viewModelScope.launch(Dispatchers.IO) {
 
-        if (history.tasksInDay.isEmpty()) {
+//        if (history.tasksInDay.isEmpty()) {
 //            databaseRepository.deleteHistory(history)
-        } else {
+//        } else {
             var doneNum = 0
             var taskNum = 0
             history.tasksInDay.forEach {
@@ -103,8 +103,9 @@ class HomeViewModel(
             }
             if (taskNum == 0) history.progressDay = 0
             else history.progressDay = (doneNum * 100f / taskNum).roundToInt()
+        println("thanhlv updateHistory ---- " + history)
             databaseRepository.updateHistory(history)
-        }
+//        }
     }
 
     private fun getMyChallenge() = viewModelScope.launch(Dispatchers.IO) {
