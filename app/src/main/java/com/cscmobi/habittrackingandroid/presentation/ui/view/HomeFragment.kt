@@ -745,7 +745,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun initTaskAdapter() {
 
         listHabitTask = listTask.filter { it.challenge.isEmpty() }.toMutableList()
-        if (taskAdapter == null)
+//        if (taskAdapter == null)
             taskAdapter = TaskAdapter(requireActivity(), object : ItemTaskWithEdit<Task> {
                 override fun onItemClicked(item: Task, p: Int) {
                     Intent(requireActivity(), DetailTaskActivity::class.java).apply {
